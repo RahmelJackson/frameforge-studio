@@ -1,0 +1,22 @@
+{
+  "name": "frameforge-local",
+  "version": "0.1.0",
+  "private": true,
+  "license": "MIT",
+  "description": "An open-source creative studio inspired by Higgsfield, built around ComfyUI workflows.",
+  "repository": {"type":"git","url":"https://github.com/RahmelJackson/frameforge-studio.git"},
+  "type": "module",
+  "scripts": {
+    "start": "node server.mjs",
+    "package:source": "node scripts/package-source.mjs",
+    "mcp": "node scripts/studio-mcp.mjs",
+    "assistant:start": "node scripts/start-assistant.mjs",
+    "setup:media": "node scripts/setup-media.mjs",
+    "test": "node --test tests/*.test.mjs",
+    "verify": "node scripts/verify-loop.mjs",
+    "verify:images": "node scripts/verify-images.mjs",
+    "verify:video": "node scripts/verify-video-workflows.mjs",
+    "verify:continuity": "node scripts/verify-continuity.mjs"
+  },
+  "engines": { "node": ">=22" }
+}

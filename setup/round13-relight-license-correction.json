@@ -1,0 +1,8 @@
+{
+  "scope": "upstream source code license only",
+  "manifest": "setup/round13-relight.lock.json",
+  "incorrectSavedField": "upstream.license = MIT",
+  "correctLicense": "Apache-2.0",
+  "basis": "The exact pinned upstream-LICENSE starts Apache License Version2.0 and its saved SHA-256 matches the manifest. Model weight license fields are separate CreativeML Open RAIL-M. The original manifest remains unchanged to preserve its recorded run hash.",
+  "upstreamLicenseSha256": "c71d239df91726fc519c6eb72d318ec65820627232b2f796219e87dcf35d0ab4"
+}

@@ -1,0 +1,20 @@
+import{historyError}from'../lib/comfy.mjs';
+import test from 'node:test';import assert from 'node:assert/strict';import {randomUUID}from'node:crypto';import{spawnSync}from'node:child_process';import path from'node:path';
+import{normalizePose}from'../lib/pose.mjs';import{POSES}from'../public/body-pose.js';import{normalizeImage,buildImageWorkflow}from'../lib/images.mjs';import{normalizeRequest,buildWorkflow}from'../lib/workflow.mjs';import{normalizeVideoTool,buildVideoToolWorkflow}from'../lib/video-tools.mjs';
+const image=randomUUID()+'.png',sourceJob=randomUUID();
+test('Explicit pose retains authored joints, rejects invalid anatomy controls and uses its separate model',()=>{
+ const pose=normalizePose({points:POSES.raised,aspect:'portrait'});assert.deepEqual(pose.points,POSES.raised);assert.notEqual(pose.points,POSES.raised);
+ for(const input of [{points:[],aspect:'portrait'},{points:POSES.raised,aspect:'unsafe'},{points:POSES.raised.map((p,i)=>i===1?[Infinity,0]:p),aspect:'portrait'}])assert.throws(()=>normalizePose(input));
+ const request=normalizeImage({tool:'identity-pose',asset:image,reference:randomUUID()+'.png',prompt:'A woman with one arm raised',poseGuide:'skeleton',seed:17});const graph=buildImageWorkflow(request,{asset:'id.png',reference:'pose.png'},'test');assert.equal(graph['5'].inputs.text,'photograph of a person photomaker');assert.equal(graph['16'].inputs.text,request.prompt);assert.deepEqual(graph['12'].inputs.positive,['17',0]);assert.equal(graph['9'],undefined);assert.equal(graph['11'].inputs.control_net_name,'sdxl_openpose_xinsir_1.0.safetensors');assert.deepEqual(graph['12'].inputs.image,['8',0]);assert.equal(graph['8'].inputs.upscale_method,'nearest-exact');assert.equal(graph['4'].inputs.image,'id.png');assert.throws(()=>normalizeImage({...request,poseGuide:'unknown'}));
+});
+test('Mirrored camera swaps only horizontal conditioning and restores output orientation',()=>{
+ const base={engine:'camera',asset:image,preset:'locked',aspect:'landscape',length:'preview',prompt:'Stable scene',seed:17,cameraPose:'Pan Right',cameraMirror:true};const request=normalizeRequest(base),graph=buildWorkflow(request,'id.png','test');assert.equal(graph['11'].inputs.camera_pose,'Pan Left');assert.deepEqual(graph['10'].inputs.start_image,['21',0]);assert.deepEqual(graph['22'].inputs.image,['16',0]);assert.deepEqual(graph['17'].inputs.images,['22',0]);for(const changes of[{cameraPose:'Zoom In'},{engine:'wan5b'},{cameraMirror:'yes'}])assert.throws(()=>normalizeRequest({...base,...changes}));assert.equal(buildWorkflow(normalizeRequest({...base,cameraMirror:false}),'id.png','test')['11'].inputs.camera_pose,'Pan Right');
+});
+test('Tracked borders require a selected still and prepared pose controls remain explicit',()=>{
+ const request={tool:'outpaint',sourceJob,prompt:'Same scene',outpaintMode:'track-still'};assert.throws(()=>normalizeVideoTool(request),/guide/);const normalized=normalizeVideoTool({...request,outpaintGuide:true,reference:image});assert.throws(()=>buildVideoToolWorkflow(normalized,{},'test'),/locally/);assert.throws(()=>normalizeVideoTool({...request,outpaintMode:'magic'}));assert.equal(normalizeVideoTool({tool:'motion',sourceJob,prompt:'Raise arm',reference:image,motionGuide:'prepared-pose'}).motionGuide,'prepared-pose');
+});
+test('Tracked still reconstruction follows a known translation, keeps the original and refuses unsuitable scenes',()=>{
+ const result=spawnSync(path.join(process.cwd(),'runtime/engine-env/Scripts/python.exe'),['tests/round11_check.py'],{encoding:'utf8',timeout:30000,windowsHide:true});assert.equal(result.status,0,result.stdout+result.stderr);
+});
+
+test('Engine failure summaries retain the actual exception instead of trailing tensor dumps',()=>{const value=historyError([['execution_error',{node_id:'5',node_type:'PhotoMakerEncode',exception_type:'IndexError',exception_message:'mask shape mismatch',current_inputs:{huge:'tensor dump'}}]]);assert.match(value,/PhotoMakerEncode.*IndexError.*mask shape mismatch/);assert.doesNotMatch(value,/tensor dump/);});

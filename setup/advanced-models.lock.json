@@ -1,0 +1,90 @@
+[
+  {
+    "group": "clothing",
+    "repository": "mattmdjaga/segformer_b2_clothes",
+    "revision": "584abc1e1d260e23c0fc627c5217a09b2b461046",
+    "filename": "config.json",
+    "path": "runtime/selection-models/clothing/config.json",
+    "url": "https://huggingface.co/mattmdjaga/segformer_b2_clothes/resolve/584abc1e1d260e23c0fc627c5217a09b2b461046/config.json",
+    "bytes": 1727,
+    "sha256": "4b5127ca00fe61187b6cc6c232c9e19326ed228683f8f5c221790be9cc196a6e",
+    "license": "other"
+  },
+  {
+    "group": "clothing",
+    "repository": "mattmdjaga/segformer_b2_clothes",
+    "revision": "584abc1e1d260e23c0fc627c5217a09b2b461046",
+    "filename": "preprocessor_config.json",
+    "path": "runtime/selection-models/clothing/preprocessor_config.json",
+    "url": "https://huggingface.co/mattmdjaga/segformer_b2_clothes/resolve/584abc1e1d260e23c0fc627c5217a09b2b461046/preprocessor_config.json",
+    "bytes": 271,
+    "sha256": "a608e3a47dcfba8dc052a766babb4b6c963285ab4f176bc6c1eb2b257fd3ad93",
+    "license": "other"
+  },
+  {
+    "group": "clothing",
+    "repository": "mattmdjaga/segformer_b2_clothes",
+    "revision": "584abc1e1d260e23c0fc627c5217a09b2b461046",
+    "filename": "model.safetensors",
+    "path": "runtime/selection-models/clothing/model.safetensors",
+    "url": "https://huggingface.co/mattmdjaga/segformer_b2_clothes/resolve/584abc1e1d260e23c0fc627c5217a09b2b461046/model.safetensors",
+    "bytes": 109493236,
+    "sha256": "8f86fd90c567afd4370b3cc3a7e81ed767a632b2832a738331af660acc0c4c68",
+    "license": "other"
+  },
+  {
+    "group": "vace14",
+    "repository": "Comfy-Org/Wan_2.1_ComfyUI_repackaged",
+    "revision": "123acf1cc74bccbb9bfff8ac1ee72edc08c2341d",
+    "filename": "split_files/diffusion_models/wan2.1_vace_14B_fp16.safetensors",
+    "path": "D:/FrameforgeModels/storybuilder/diffusion_models/wan2.1_vace_14B_fp16.safetensors",
+    "url": "https://huggingface.co/Comfy-Org/Wan_2.1_ComfyUI_repackaged/resolve/123acf1cc74bccbb9bfff8ac1ee72edc08c2341d/split_files/diffusion_models/wan2.1_vace_14B_fp16.safetensors",
+    "bytes": 34675323640,
+    "sha256": "f202a5c59b8a91ada1862c46a038214f1f7f216c61ec8350d25f69b919da4307",
+    "license": "apache-2.0"
+  },
+  {
+    "group": "rife",
+    "repository": "Comfy-Org/frame_interpolation",
+    "revision": "219da3c9d8c357ceaf457fc1d5932c6e861b8dee",
+    "filename": "frame_interpolation/rife_v4.26.safetensors",
+    "path": "runtime/models/frame_interpolation/rife_v4.26.safetensors",
+    "url": "https://huggingface.co/Comfy-Org/frame_interpolation/resolve/219da3c9d8c357ceaf457fc1d5932c6e861b8dee/frame_interpolation/rife_v4.26.safetensors",
+    "bytes": 22674688,
+    "sha256": "151874592c877740e5db11522f4514df569eeafb0a0fcb2696f16e9e8d317c94",
+    "license": "other"
+  },
+  {
+    "group": "photomaker",
+    "repository": "TencentARC/PhotoMaker",
+    "revision": "f68f8e6309bf213d28d68230abff0ccc92de9f30",
+    "filename": "photomaker-v1.bin",
+    "path": "D:/FrameforgeModels/storybuilder/photomaker/photomaker-v1.bin",
+    "url": "https://huggingface.co/TencentARC/PhotoMaker/resolve/f68f8e6309bf213d28d68230abff0ccc92de9f30/photomaker-v1.bin",
+    "bytes": 934103417,
+    "sha256": "529d503fa378bfb3a74e3384ab2064d7269d59f0638324555d22067c31e275bc",
+    "license": "apache-2.0"
+  },
+  {
+    "group": "sdxl",
+    "repository": "stabilityai/stable-diffusion-xl-base-1.0",
+    "revision": "462165984030d82259a11f4367a4eed129e94a7b",
+    "filename": "sd_xl_base_1.0.safetensors",
+    "path": "D:/FrameforgeModels/storybuilder/checkpoints/sd_xl_base_1.0.safetensors",
+    "url": "https://huggingface.co/stabilityai/stable-diffusion-xl-base-1.0/resolve/462165984030d82259a11f4367a4eed129e94a7b/sd_xl_base_1.0.safetensors",
+    "bytes": 6938078334,
+    "sha256": "31e35c80fc4829d14f90153f4c74cd59c90b779f6afe05a74cd6120b893f7e5b",
+    "license": "openrail++"
+  },
+  {
+    "group": "canny",
+    "repository": "diffusers/controlnet-canny-sdxl-1.0",
+    "revision": "eb115a19a10d14909256db740ed109532ab1483c",
+    "filename": "diffusion_pytorch_model.fp16.safetensors",
+    "path": "D:/FrameforgeModels/storybuilder/controlnet/sdxl_canny_1.0.safetensors",
+    "url": "https://huggingface.co/diffusers/controlnet-canny-sdxl-1.0/resolve/eb115a19a10d14909256db740ed109532ab1483c/diffusion_pytorch_model.fp16.safetensors",
+    "bytes": 2502139136,
+    "sha256": "b2e7d3921058a442cc80430d1ec8847f42599c705e2451c95e77cf4dcf8d6c25",
+    "license": "openrail++"
+  }
+]

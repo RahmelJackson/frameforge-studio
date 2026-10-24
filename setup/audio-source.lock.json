@@ -1,0 +1,6 @@
+{
+  "repo": "TMElyralab/MuseTalk",
+  "revision": "0a89dec45a0192b824e3cf4daf96c239440c5ed8",
+  "inference": "Frameforge adapted MuseTalk 1.5 with MediaPipe crops and mouth-mask-v2",
+  "torchRuntime": "2.10.0+cu130, read-only fallback from existing engine environment"
+}

@@ -1,0 +1,60 @@
+{
+  "repository": "Comfy-Org/Wan_2.2_ComfyUI_Repackaged",
+  "revision": "ee6f4a40737a995bf5818954cfce6d59443b0f04",
+  "files": [
+    {
+      "directory": "diffusion_models",
+      "name": "wan2.2_ti2v_5B_fp16.safetensors",
+      "sha256": "456f901338bd9eadbded3828b819109a9b68e8a525ca5cf8d0049a69fcfeca1e",
+      "bytes": 9999658848
+    },
+    {
+      "directory": "text_encoders",
+      "name": "umt5_xxl_fp8_e4m3fn_scaled.safetensors",
+      "sha256": "c3355d30191f1f066b26d93fba017ae9809dce6c627dda5f6a66eaa651204f68",
+      "bytes": 6735906897
+    },
+    {
+      "directory": "vae",
+      "name": "wan2.2_vae.safetensors",
+      "sha256": "e40321bd36b9709991dae2530eb4ac303dd168276980d3e9bc4b6e2b75fed156",
+      "bytes": 1409400960
+    },
+    {
+      "directory": "diffusion_models",
+      "name": "wan2.2_fun_camera_high_noise_14B_fp8_scaled.safetensors",
+      "sha256": "89a99cb5ab29e388f2e24fddac48eab4d88ca339d236c7a8d96aabacd0f525ae",
+      "bytes": 15301408048
+    },
+    {
+      "directory": "diffusion_models",
+      "name": "wan2.2_fun_camera_low_noise_14B_fp8_scaled.safetensors",
+      "sha256": "a2b7b361e3fad907958aa6ad662a3673bad5ffdce14706cffde4baabb98f9020",
+      "bytes": 15301408048
+    },
+    {
+      "directory": "loras",
+      "name": "wan2.2_i2v_lightx2v_4steps_lora_v1_high_noise.safetensors",
+      "sha256": "d176c808d6fc461999b68e321efcb7501b20b8c3797523ed0df14f7d1deff11e",
+      "bytes": 1226977424
+    },
+    {
+      "directory": "loras",
+      "name": "wan2.2_i2v_lightx2v_4steps_lora_v1_low_noise.safetensors",
+      "sha256": "024f21de095bc8fad9809ded3e9e49a2e170dcf27075da8145ba7d60d8aab7f9",
+      "bytes": 1226977424
+    },
+    {
+      "directory": "vae",
+      "name": "wan_2.1_vae.safetensors",
+      "sha256": "2fc39d31359a4b0a64f55876d8ff7fa8d780956ae2cb13463b0223e15148976b",
+      "bytes": 253815318
+    },
+    {
+      "directory": "diffusion_models",
+      "name": "wan2.2_fun_inpaint_5B_bf16.safetensors",
+      "bytes": 10000937656,
+      "sha256": "680a45b769e2e6ed0ef3710a32ad824baa85d546e534b6f49adcd2b32d42d29a"
+    }
+  ]
+}

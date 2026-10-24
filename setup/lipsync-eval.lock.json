@@ -1,0 +1,14 @@
+{
+  "sourceRevision": "a229c3948406bc2cf6eaf4873e662e70c6a04746",
+  "sourceFiles": {
+    "syncnet.py": "4269390a4c6b72f110c31a216b73266a58cd1a62ff06b39f1f7d7c2241c2cb0c"
+  },
+  "model": {
+    "repo": "ByteDance/LatentSync-1.6",
+    "revision": "c42c7e6c8e9c213626389fa7d9a3c444b8536353",
+    "file": "auxiliary/syncnet_v2.model",
+    "path": "lipsync-eval-models/syncnet_v2.model",
+    "bytes": 54573114,
+    "sha256": "961e8696f888fce4f3f3a6c3d5b3267cf5b343100b238e79b2659bff2c605442"
+  }
+}

@@ -1,0 +1,3162 @@
+{
+  "CFGNorm": {
+    "input": {
+      "required": {
+        "model": [
+          "MODEL",
+          {}
+        ],
+        "strength": [
+          "FLOAT",
+          {
+            "default": 1.0,
+            "min": 0.0,
+            "max": 100.0,
+            "step": 0.01
+          }
+        ]
+      }
+    },
+    "input_order": {
+      "required": [
+        "model",
+        "strength"
+      ]
+    },
+    "output": [
+      "MODEL"
+    ],
+    "output_name": [
+      "patched_model"
+    ],
+    "display_name": null
+  },
+  "CLIPLoader": {
+    "input": {
+      "required": {
+        "clip_name": [
+          [
+            "gemma4_e4b_it_bf16.safetensors",
+            "qwen_2.5_vl_7b_fp8_scaled.safetensors",
+            "qwen_3_4b.safetensors",
+            "qwen_3_8b.safetensors",
+            "umt5_xxl_fp8_e4m3fn_scaled.safetensors"
+          ]
+        ],
+        "type": [
+          [
+            "stable_diffusion",
+            "stable_cascade",
+            "sd3",
+            "stable_audio",
+            "mochi",
+            "ltxv",
+            "pixart",
+            "cosmos",
+            "lumina2",
+            "wan",
+            "hidream",
+            "chroma",
+            "ace",
+            "omnigen2",
+            "qwen_image",
+            "hunyuan_image",
+            "flux2",
+            "ovis",
+            "longcat_image",
+            "cogvideox"
+          ]
+        ]
+      },
+      "optional": {
+        "device": [
+          [
+            "default",
+            "cpu"
+          ],
+          {
+            "advanced": true
+          }
+        ]
+      }
+    },
+    "input_order": {
+      "required": [
+        "clip_name",
+        "type"
+      ],
+      "optional": [
+        "device"
+      ]
+    },
+    "is_input_list": false,
+    "output": [
+      "CLIP"
+    ],
+    "output_is_list": [
+      false
+    ],
+    "output_name": [
+      "CLIP"
+    ],
+    "name": "CLIPLoader",
+    "display_name": "Load CLIP",
+    "description": "[Recipes]\n\nstable_diffusion: clip-l\nstable_cascade: clip-g\nsd3: t5 xxl/ clip-g / clip-l\nstable_audio: t5 base\nmochi: t5 xxl\ncogvideox: t5 xxl (226-token padding)\ncosmos: old t5 xxl\nlumina2: gemma 2 2B\nwan: umt5 xxl\n hidream: llama-3.1 (Recommend) or t5\nomnigen2: qwen vl 2.5 3B",
+    "python_module": "nodes",
+    "category": "advanced/loaders",
+    "output_node": false,
+    "has_intermediate_output": false,
+    "search_aliases": []
+  },
+  "CLIPTextEncode": {
+    "input": {
+      "required": {
+        "text": [
+          "STRING",
+          {
+            "multiline": true,
+            "dynamicPrompts": true,
+            "tooltip": "The text to be encoded."
+          }
+        ],
+        "clip": [
+          "CLIP",
+          {
+            "tooltip": "The CLIP model used for encoding the text."
+          }
+        ]
+      }
+    },
+    "input_order": {
+      "required": [
+        "text",
+        "clip"
+      ]
+    },
+    "is_input_list": false,
+    "output": [
+      "CONDITIONING"
+    ],
+    "output_is_list": [
+      false
+    ],
+    "output_name": [
+      "CONDITIONING"
+    ],
+    "name": "CLIPTextEncode",
+    "display_name": "CLIP Text Encode (Prompt)",
+    "description": "Encodes a text prompt using a CLIP model into an embedding that can be used to guide the diffusion model towards generating specific images.",
+    "python_module": "nodes",
+    "category": "conditioning",
+    "output_node": false,
+    "has_intermediate_output": false,
+    "output_tooltips": [
+      "A conditioning containing the embedded text used to guide the diffusion model."
+    ],
+    "search_aliases": [
+      "text",
+      "prompt",
+      "text prompt",
+      "positive prompt",
+      "negative prompt",
+      "encode text",
+      "text encoder",
+      "encode prompt"
+    ]
+  },
+  "Canny": {
+    "input": {
+      "required": {
+        "image": [
+          "IMAGE",
+          {}
+        ],
+        "low_threshold": [
+          "FLOAT",
+          {
+            "default": 0.4,
+            "min": 0.01,
+            "max": 0.99,
+            "step": 0.01
+          }
+        ],
+        "high_threshold": [
+          "FLOAT",
+          {
+            "default": 0.8,
+            "min": 0.01,
+            "max": 0.99,
+            "step": 0.01
+          }
+        ]
+      }
+    },
+    "input_order": {
+      "required": [
+        "image",
+        "low_threshold",
+        "high_threshold"
+      ]
+    },
+    "output": [
+      "IMAGE"
+    ],
+    "output_name": [
+      "IMAGE"
+    ],
+    "display_name": "Detect Edges (Canny)"
+  },
+  "CheckpointLoaderSimple": {
+    "input": {
+      "required": {
+        "ckpt_name": [
+          [
+            "sam3.1_multiplex_fp16.safetensors",
+            "sd_xl_base_1.0.safetensors"
+          ],
+          {
+            "tooltip": "The name of the checkpoint (model) to load."
+          }
+        ]
+      }
+    },
+    "input_order": {
+      "required": [
+        "ckpt_name"
+      ]
+    },
+    "output": [
+      "MODEL",
+      "CLIP",
+      "VAE"
+    ],
+    "output_name": [
+      "MODEL",
+      "CLIP",
+      "VAE"
+    ],
+    "display_name": "Load Checkpoint"
+  },
+  "ConditioningCombine": {
+    "input": {
+      "required": {
+        "conditioning_1": [
+          "CONDITIONING"
+        ],
+        "conditioning_2": [
+          "CONDITIONING"
+        ]
+      }
+    },
+    "input_order": {
+      "required": [
+        "conditioning_1",
+        "conditioning_2"
+      ]
+    },
+    "output": [
+      "CONDITIONING"
+    ],
+    "output_name": [
+      "CONDITIONING"
+    ],
+    "display_name": "Conditioning (Combine)"
+  },
+  "ConditioningZeroOut": {
+    "input": {
+      "required": {
+        "conditioning": [
+          "CONDITIONING"
+        ]
+      }
+    },
+    "input_order": {
+      "required": [
+        "conditioning"
+      ]
+    },
+    "output": [
+      "CONDITIONING"
+    ],
+    "output_name": [
+      "CONDITIONING"
+    ],
+    "display_name": "ConditioningZeroOut"
+  },
+  "ControlNetApplyAdvanced": {
+    "input": {
+      "required": {
+        "positive": [
+          "CONDITIONING"
+        ],
+        "negative": [
+          "CONDITIONING"
+        ],
+        "control_net": [
+          "CONTROL_NET"
+        ],
+        "image": [
+          "IMAGE"
+        ],
+        "strength": [
+          "FLOAT",
+          {
+            "default": 1.0,
+            "min": 0.0,
+            "max": 10.0,
+            "step": 0.01
+          }
+        ],
+        "start_percent": [
+          "FLOAT",
+          {
+            "default": 0.0,
+            "min": 0.0,
+            "max": 1.0,
+            "step": 0.001
+          }
+        ],
+        "end_percent": [
+          "FLOAT",
+          {
+            "default": 1.0,
+            "min": 0.0,
+            "max": 1.0,
+            "step": 0.001
+          }
+        ]
+      },
+      "optional": {
+        "vae": [
+          "VAE"
+        ]
+      }
+    },
+    "input_order": {
+      "required": [
+        "positive",
+        "negative",
+        "control_net",
+        "image",
+        "strength",
+        "start_percent",
+        "end_percent"
+      ],
+      "optional": [
+        "vae"
+      ]
+    },
+    "output": [
+      "CONDITIONING",
+      "CONDITIONING"
+    ],
+    "output_name": [
+      "positive",
+      "negative"
+    ],
+    "display_name": "Apply ControlNet"
+  },
+  "ControlNetLoader": {
+    "input": {
+      "required": {
+        "control_net_name": [
+          [
+            "sdxl_canny_1.0.safetensors",
+            "sdxl_openpose_xinsir_1.0.safetensors"
+          ]
+        ]
+      }
+    },
+    "input_order": {
+      "required": [
+        "control_net_name"
+      ]
+    },
+    "output": [
+      "CONTROL_NET"
+    ],
+    "output_name": [
+      "CONTROL_NET"
+    ],
+    "display_name": "Load ControlNet Model"
+  },
+  "CreateVideo": {
+    "input": {
+      "required": {
+        "images": [
+          "IMAGE",
+          {
+            "tooltip": "The images to create a video from."
+          }
+        ],
+        "fps": [
+          "FLOAT",
+          {
+            "default": 30.0,
+            "min": 1.0,
+            "max": 120.0,
+            "step": 1.0
+          }
+        ]
+      },
+      "optional": {
+        "audio": [
+          "AUDIO",
+          {
+            "tooltip": "The audio to add to the video."
+          }
+        ]
+      }
+    },
+    "input_order": {
+      "required": [
+        "images",
+        "fps"
+      ],
+      "optional": [
+        "audio"
+      ]
+    },
+    "is_input_list": false,
+    "output": [
+      "VIDEO"
+    ],
+    "output_is_list": [
+      false
+    ],
+    "output_name": [
+      "VIDEO"
+    ],
+    "output_tooltips": [
+      null
+    ],
+    "output_matchtypes": null,
+    "name": "CreateVideo",
+    "display_name": "Create Video",
+    "description": "Create a video from images.",
+    "python_module": "comfy_extras.nodes_video",
+    "category": "video",
+    "output_node": false,
+    "deprecated": false,
+    "experimental": false,
+    "dev_only": false,
+    "api_node": false,
+    "price_badge": null,
+    "search_aliases": [
+      "images to video"
+    ],
+    "essentials_category": "Video Tools",
+    "has_intermediate_output": false
+  },
+  "EmptyLatentImage": {
+    "input": {
+      "required": {
+        "width": [
+          "INT",
+          {
+            "default": 512,
+            "min": 16,
+            "max": 16384,
+            "step": 8,
+            "tooltip": "The width of the latent images in pixels."
+          }
+        ],
+        "height": [
+          "INT",
+          {
+            "default": 512,
+            "min": 16,
+            "max": 16384,
+            "step": 8,
+            "tooltip": "The height of the latent images in pixels."
+          }
+        ],
+        "batch_size": [
+          "INT",
+          {
+            "default": 1,
+            "min": 1,
+            "max": 4096,
+            "tooltip": "The number of latent images in the batch."
+          }
+        ]
+      }
+    },
+    "input_order": {
+      "required": [
+        "width",
+        "height",
+        "batch_size"
+      ]
+    },
+    "output": [
+      "LATENT"
+    ],
+    "output_name": [
+      "LATENT"
+    ],
+    "display_name": "Empty Latent Image"
+  },
+  "EmptySD3LatentImage": {
+    "input": {
+      "required": {
+        "width": [
+          "INT",
+          {
+            "default": 1024,
+            "min": 16,
+            "max": 16384,
+            "step": 16
+          }
+        ],
+        "height": [
+          "INT",
+          {
+            "default": 1024,
+            "min": 16,
+            "max": 16384,
+            "step": 16
+          }
+        ],
+        "batch_size": [
+          "INT",
+          {
+            "default": 1,
+            "min": 1,
+            "max": 4096
+          }
+        ]
+      }
+    },
+    "input_order": {
+      "required": [
+        "width",
+        "height",
+        "batch_size"
+      ]
+    },
+    "output": [
+      "LATENT"
+    ],
+    "output_name": [
+      "LATENT"
+    ],
+    "display_name": null
+  },
+  "ImageCompositeMasked": {
+    "input": {
+      "required": {
+        "destination": [
+          "IMAGE",
+          {}
+        ],
+        "source": [
+          "IMAGE",
+          {}
+        ],
+        "x": [
+          "INT",
+          {
+            "default": 0,
+            "min": 0,
+            "max": 16384,
+            "step": 1
+          }
+        ],
+        "y": [
+          "INT",
+          {
+            "default": 0,
+            "min": 0,
+            "max": 16384,
+            "step": 1
+          }
+        ],
+        "resize_source": [
+          "BOOLEAN",
+          {
+            "default": false
+          }
+        ]
+      },
+      "optional": {
+        "mask": [
+          "MASK",
+          {}
+        ]
+      }
+    },
+    "input_order": {
+      "required": [
+        "destination",
+        "source",
+        "x",
+        "y",
+        "resize_source"
+      ],
+      "optional": [
+        "mask"
+      ]
+    },
+    "is_input_list": false,
+    "output": [
+      "IMAGE"
+    ],
+    "output_is_list": [
+      false
+    ],
+    "output_name": [
+      "IMAGE"
+    ],
+    "output_tooltips": [
+      null
+    ],
+    "output_matchtypes": null,
+    "name": "ImageCompositeMasked",
+    "display_name": "Image Composite Masked",
+    "description": "",
+    "python_module": "comfy_extras.nodes_mask",
+    "category": "image/compositing",
+    "output_node": false,
+    "deprecated": false,
+    "experimental": false,
+    "dev_only": false,
+    "api_node": false,
+    "price_badge": null,
+    "search_aliases": [
+      "overlay",
+      "layer",
+      "paste image",
+      "images composition"
+    ],
+    "essentials_category": null,
+    "has_intermediate_output": false
+  },
+  "ImageFlip": {
+    "input": {
+      "required": {
+        "image": [
+          "IMAGE",
+          {}
+        ],
+        "flip_method": [
+          "COMBO",
+          {
+            "multiselect": false,
+            "options": [
+              "x-axis: vertically",
+              "y-axis: horizontally"
+            ]
+          }
+        ]
+      }
+    },
+    "input_order": {
+      "required": [
+        "image",
+        "flip_method"
+      ]
+    },
+    "output": [
+      "IMAGE"
+    ],
+    "output_name": [
+      "IMAGE"
+    ],
+    "display_name": "Flip Image"
+  },
+  "ImageScale": {
+    "input": {
+      "required": {
+        "image": [
+          "IMAGE"
+        ],
+        "upscale_method": [
+          [
+            "nearest-exact",
+            "bilinear",
+            "area",
+            "bicubic",
+            "lanczos"
+          ]
+        ],
+        "width": [
+          "INT",
+          {
+            "default": 512,
+            "min": 0,
+            "max": 16384,
+            "step": 1
+          }
+        ],
+        "height": [
+          "INT",
+          {
+            "default": 512,
+            "min": 0,
+            "max": 16384,
+            "step": 1
+          }
+        ],
+        "crop": [
+          [
+            "disabled",
+            "center"
+          ]
+        ]
+      }
+    },
+    "input_order": {
+      "required": [
+        "image",
+        "upscale_method",
+        "width",
+        "height",
+        "crop"
+      ]
+    },
+    "output": [
+      "IMAGE"
+    ],
+    "output_name": [
+      "IMAGE"
+    ],
+    "display_name": "Upscale Image"
+  },
+  "ImageScaleBy": {
+    "input": {
+      "required": {
+        "image": [
+          "IMAGE"
+        ],
+        "upscale_method": [
+          [
+            "nearest-exact",
+            "bilinear",
+            "area",
+            "bicubic",
+            "lanczos"
+          ]
+        ],
+        "scale_by": [
+          "FLOAT",
+          {
+            "default": 1.0,
+            "min": 0.01,
+            "max": 8.0,
+            "step": 0.01
+          }
+        ]
+      }
+    },
+    "input_order": {
+      "required": [
+        "image",
+        "upscale_method",
+        "scale_by"
+      ]
+    },
+    "is_input_list": false,
+    "output": [
+      "IMAGE"
+    ],
+    "output_is_list": [
+      false
+    ],
+    "output_name": [
+      "IMAGE"
+    ],
+    "name": "ImageScaleBy",
+    "display_name": "Upscale Image By",
+    "description": "",
+    "python_module": "nodes",
+    "category": "image/upscaling",
+    "output_node": false,
+    "has_intermediate_output": false,
+    "search_aliases": [],
+    "essentials_category": "Image Tools"
+  },
+  "ImageUpscaleWithModel": {
+    "input": {
+      "required": {
+        "upscale_model": [
+          "UPSCALE_MODEL",
+          {}
+        ],
+        "image": [
+          "IMAGE",
+          {}
+        ]
+      }
+    },
+    "input_order": {
+      "required": [
+        "upscale_model",
+        "image"
+      ]
+    },
+    "is_input_list": false,
+    "output": [
+      "IMAGE"
+    ],
+    "output_is_list": [
+      false
+    ],
+    "output_name": [
+      "IMAGE"
+    ],
+    "output_tooltips": [
+      null
+    ],
+    "output_matchtypes": null,
+    "name": "ImageUpscaleWithModel",
+    "display_name": "Upscale Image (using Model)",
+    "description": "",
+    "python_module": "comfy_extras.nodes_upscale_model",
+    "category": "image/upscaling",
+    "output_node": false,
+    "deprecated": false,
+    "experimental": false,
+    "dev_only": false,
+    "api_node": false,
+    "price_badge": null,
+    "search_aliases": [
+      "upscale",
+      "upscaler",
+      "upsc",
+      "enlarge image",
+      "super resolution",
+      "hires",
+      "superres",
+      "increase resolution"
+    ],
+    "essentials_category": null,
+    "has_intermediate_output": false
+  },
+  "KSampler": {
+    "input": {
+      "required": {
+        "model": [
+          "MODEL",
+          {
+            "tooltip": "The model used for denoising the input latent."
+          }
+        ],
+        "seed": [
+          "INT",
+          {
+            "default": 0,
+            "min": 0,
+            "max": 18446744073709551615,
+            "control_after_generate": true,
+            "tooltip": "The random seed used for creating the noise."
+          }
+        ],
+        "steps": [
+          "INT",
+          {
+            "default": 20,
+            "min": 1,
+            "max": 10000,
+            "tooltip": "The number of steps used in the denoising process."
+          }
+        ],
+        "cfg": [
+          "FLOAT",
+          {
+            "default": 8.0,
+            "min": 0.0,
+            "max": 100.0,
+            "step": 0.1,
+            "round": 0.01,
+            "tooltip": "The Classifier-Free Guidance scale balances creativity and adherence to the prompt. Higher values result in images more closely matching the prompt however too high values will negatively impact quality."
+          }
+        ],
+        "sampler_name": [
+          [
+            "euler",
+            "euler_cfg_pp",
+            "euler_ancestral",
+            "euler_ancestral_cfg_pp",
+            "heun",
+            "heunpp2",
+            "exp_heun_2_x0",
+            "exp_heun_2_x0_sde",
+            "dpm_2",
+            "dpm_2_ancestral",
+            "lms",
+            "dpm_fast",
+            "dpm_adaptive",
+            "dpmpp_2s_ancestral",
+            "dpmpp_2s_ancestral_cfg_pp",
+            "dpmpp_sde",
+            "dpmpp_sde_gpu",
+            "dpmpp_2m",
+            "dpmpp_2m_cfg_pp",
+            "dpmpp_2m_sde",
+            "dpmpp_2m_sde_gpu",
+            "dpmpp_2m_sde_heun",
+            "dpmpp_2m_sde_heun_gpu",
+            "dpmpp_3m_sde",
+            "dpmpp_3m_sde_gpu",
+            "ddpm",
+            "lcm",
+            "ipndm",
+            "ipndm_v",
+            "deis",
+            "res_multistep",
+            "res_multistep_cfg_pp",
+            "res_multistep_ancestral",
+            "res_multistep_ancestral_cfg_pp",
+            "gradient_estimation",
+            "gradient_estimation_cfg_pp",
+            "er_sde",
+            "seeds_2",
+            "seeds_3",
+            "sa_solver",
+            "sa_solver_pece",
+            "ddim",
+            "uni_pc",
+            "uni_pc_bh2"
+          ],
+          {
+            "tooltip": "The algorithm used when sampling, this can affect the quality, speed, and style of the generated output."
+          }
+        ],
+        "scheduler": [
+          [
+            "simple",
+            "sgm_uniform",
+            "karras",
+            "exponential",
+            "ddim_uniform",
+            "beta",
+            "normal",
+            "linear_quadratic",
+            "kl_optimal"
+          ],
+          {
+            "tooltip": "The scheduler controls how noise is gradually removed to form the image."
+          }
+        ],
+        "positive": [
+          "CONDITIONING",
+          {
+            "tooltip": "The conditioning describing the attributes you want to include in the image."
+          }
+        ],
+        "negative": [
+          "CONDITIONING",
+          {
+            "tooltip": "The conditioning describing the attributes you want to exclude from the image."
+          }
+        ],
+        "latent_image": [
+          "LATENT",
+          {
+            "tooltip": "The latent image to denoise."
+          }
+        ],
+        "denoise": [
+          "FLOAT",
+          {
+            "default": 1.0,
+            "min": 0.0,
+            "max": 1.0,
+            "step": 0.01,
+            "tooltip": "The amount of denoising applied, lower values will maintain the structure of the initial image allowing for image to image sampling."
+          }
+        ]
+      }
+    },
+    "input_order": {
+      "required": [
+        "model",
+        "seed",
+        "steps",
+        "cfg",
+        "sampler_name",
+        "scheduler",
+        "positive",
+        "negative",
+        "latent_image",
+        "denoise"
+      ]
+    },
+    "is_input_list": false,
+    "output": [
+      "LATENT"
+    ],
+    "output_is_list": [
+      false
+    ],
+    "output_name": [
+      "LATENT"
+    ],
+    "name": "KSampler",
+    "display_name": "KSampler",
+    "description": "Uses the provided model, positive and negative conditioning to denoise the latent image.",
+    "python_module": "nodes",
+    "category": "sampling",
+    "output_node": false,
+    "has_intermediate_output": false,
+    "output_tooltips": [
+      "The denoised latent."
+    ],
+    "search_aliases": [
+      "sampler",
+      "sample",
+      "generate",
+      "denoise",
+      "diffuse",
+      "txt2img",
+      "img2img"
+    ]
+  },
+  "KSamplerAdvanced": {
+    "input": {
+      "required": {
+        "model": [
+          "MODEL"
+        ],
+        "add_noise": [
+          [
+            "enable",
+            "disable"
+          ],
+          {
+            "advanced": true
+          }
+        ],
+        "noise_seed": [
+          "INT",
+          {
+            "default": 0,
+            "min": 0,
+            "max": 18446744073709551615,
+            "control_after_generate": true
+          }
+        ],
+        "steps": [
+          "INT",
+          {
+            "default": 20,
+            "min": 1,
+            "max": 10000
+          }
+        ],
+        "cfg": [
+          "FLOAT",
+          {
+            "default": 8.0,
+            "min": 0.0,
+            "max": 100.0,
+            "step": 0.1,
+            "round": 0.01
+          }
+        ],
+        "sampler_name": [
+          [
+            "euler",
+            "euler_cfg_pp",
+            "euler_ancestral",
+            "euler_ancestral_cfg_pp",
+            "heun",
+            "heunpp2",
+            "exp_heun_2_x0",
+            "exp_heun_2_x0_sde",
+            "dpm_2",
+            "dpm_2_ancestral",
+            "lms",
+            "dpm_fast",
+            "dpm_adaptive",
+            "dpmpp_2s_ancestral",
+            "dpmpp_2s_ancestral_cfg_pp",
+            "dpmpp_sde",
+            "dpmpp_sde_gpu",
+            "dpmpp_2m",
+            "dpmpp_2m_cfg_pp",
+            "dpmpp_2m_sde",
+            "dpmpp_2m_sde_gpu",
+            "dpmpp_2m_sde_heun",
+            "dpmpp_2m_sde_heun_gpu",
+            "dpmpp_3m_sde",
+            "dpmpp_3m_sde_gpu",
+            "ddpm",
+            "lcm",
+            "ipndm",
+            "ipndm_v",
+            "deis",
+            "res_multistep",
+            "res_multistep_cfg_pp",
+            "res_multistep_ancestral",
+            "res_multistep_ancestral_cfg_pp",
+            "gradient_estimation",
+            "gradient_estimation_cfg_pp",
+            "er_sde",
+            "seeds_2",
+            "seeds_3",
+            "sa_solver",
+            "sa_solver_pece",
+            "ddim",
+            "uni_pc",
+            "uni_pc_bh2"
+          ]
+        ],
+        "scheduler": [
+          [
+            "simple",
+            "sgm_uniform",
+            "karras",
+            "exponential",
+            "ddim_uniform",
+            "beta",
+            "normal",
+            "linear_quadratic",
+            "kl_optimal"
+          ]
+        ],
+        "positive": [
+          "CONDITIONING"
+        ],
+        "negative": [
+          "CONDITIONING"
+        ],
+        "latent_image": [
+          "LATENT"
+        ],
+        "start_at_step": [
+          "INT",
+          {
+            "default": 0,
+            "min": 0,
+            "max": 10000,
+            "advanced": true
+          }
+        ],
+        "end_at_step": [
+          "INT",
+          {
+            "default": 10000,
+            "min": 0,
+            "max": 10000,
+            "advanced": true
+          }
+        ],
+        "return_with_leftover_noise": [
+          [
+            "disable",
+            "enable"
+          ],
+          {
+            "advanced": true
+          }
+        ]
+      }
+    },
+    "input_order": {
+      "required": [
+        "model",
+        "add_noise",
+        "noise_seed",
+        "steps",
+        "cfg",
+        "sampler_name",
+        "scheduler",
+        "positive",
+        "negative",
+        "latent_image",
+        "start_at_step",
+        "end_at_step",
+        "return_with_leftover_noise"
+      ]
+    },
+    "output": [
+      "LATENT"
+    ],
+    "output_name": [
+      "LATENT"
+    ],
+    "display_name": "KSampler (Advanced)"
+  },
+  "LoadImage": {
+    "input": {
+      "required": {
+        "image": [
+          [
+            "choose-your-source.png"
+          ],
+          {
+            "image_upload": true
+          }
+        ]
+      }
+    },
+    "input_order": {
+      "required": [
+        "image"
+      ]
+    },
+    "is_input_list": false,
+    "output": [
+      "IMAGE",
+      "MASK"
+    ],
+    "output_is_list": [
+      false,
+      false
+    ],
+    "output_name": [
+      "IMAGE",
+      "MASK"
+    ],
+    "name": "LoadImage",
+    "display_name": "Load Image",
+    "description": "",
+    "python_module": "nodes",
+    "category": "image",
+    "output_node": false,
+    "has_intermediate_output": false,
+    "search_aliases": [
+      "load image",
+      "open image",
+      "import image",
+      "image input",
+      "upload image",
+      "read image",
+      "image loader"
+    ],
+    "essentials_category": "Basics"
+  },
+  "LoadImageMask": {
+    "input": {
+      "required": {
+        "image": [
+          [
+            "choose-your-source.png"
+          ],
+          {
+            "image_upload": true
+          }
+        ],
+        "channel": [
+          [
+            "alpha",
+            "red",
+            "green",
+            "blue"
+          ]
+        ]
+      }
+    },
+    "input_order": {
+      "required": [
+        "image",
+        "channel"
+      ]
+    },
+    "output": [
+      "MASK"
+    ],
+    "output_name": [
+      "MASK"
+    ],
+    "display_name": "Load Image (as Mask)"
+  },
+  "LoraLoader": {
+    "input": {
+      "required": {
+        "model": [
+          "MODEL",
+          {
+            "tooltip": "The diffusion model the LoRA will be applied to."
+          }
+        ],
+        "clip": [
+          "CLIP",
+          {
+            "tooltip": "The CLIP model the LoRA will be applied to."
+          }
+        ],
+        "lora_name": [
+          [
+            "Qwen-Image-Edit-2511-Lightning-4steps-V1.0-bf16.safetensors",
+            "photomaker-v1-lora.safetensors",
+            "qwen-image-edit-2511-multiple-angles-lora.safetensors",
+            "wan2.2_i2v_lightx2v_4steps_lora_v1_high_noise.safetensors",
+            "wan2.2_i2v_lightx2v_4steps_lora_v1_low_noise.safetensors"
+          ],
+          {
+            "tooltip": "The name of the LoRA."
+          }
+        ],
+        "strength_model": [
+          "FLOAT",
+          {
+            "default": 1.0,
+            "min": -100.0,
+            "max": 100.0,
+            "step": 0.01,
+            "tooltip": "How strongly to modify the diffusion model. This value can be negative."
+          }
+        ],
+        "strength_clip": [
+          "FLOAT",
+          {
+            "default": 1.0,
+            "min": -100.0,
+            "max": 100.0,
+            "step": 0.01,
+            "tooltip": "How strongly to modify the CLIP model. This value can be negative."
+          }
+        ]
+      }
+    },
+    "input_order": {
+      "required": [
+        "model",
+        "clip",
+        "lora_name",
+        "strength_model",
+        "strength_clip"
+      ]
+    },
+    "output": [
+      "MODEL",
+      "CLIP"
+    ],
+    "output_name": [
+      "MODEL",
+      "CLIP"
+    ],
+    "display_name": "Load LoRA (Model and CLIP)"
+  },
+  "LoraLoaderModelOnly": {
+    "input": {
+      "required": {
+        "model": [
+          "MODEL"
+        ],
+        "lora_name": [
+          [
+            "Qwen-Image-Edit-2511-Lightning-4steps-V1.0-bf16.safetensors",
+            "photomaker-v1-lora.safetensors",
+            "qwen-image-edit-2511-multiple-angles-lora.safetensors",
+            "wan2.2_i2v_lightx2v_4steps_lora_v1_high_noise.safetensors",
+            "wan2.2_i2v_lightx2v_4steps_lora_v1_low_noise.safetensors"
+          ]
+        ],
+        "strength_model": [
+          "FLOAT",
+          {
+            "default": 1.0,
+            "min": -100.0,
+            "max": 100.0,
+            "step": 0.01
+          }
+        ]
+      }
+    },
+    "input_order": {
+      "required": [
+        "model",
+        "lora_name",
+        "strength_model"
+      ]
+    },
+    "output": [
+      "MODEL"
+    ],
+    "output_name": [
+      "MODEL"
+    ],
+    "display_name": "Load LoRA"
+  },
+  "ModelSamplingAuraFlow": {
+    "input": {
+      "required": {
+        "model": [
+          "MODEL"
+        ],
+        "shift": [
+          "FLOAT",
+          {
+            "default": 1.73,
+            "min": 0.0,
+            "max": 100.0,
+            "step": 0.01
+          }
+        ]
+      }
+    },
+    "input_order": {
+      "required": [
+        "model",
+        "shift"
+      ]
+    },
+    "output": [
+      "MODEL"
+    ],
+    "output_name": [
+      "MODEL"
+    ],
+    "display_name": "ModelSamplingAuraFlow"
+  },
+  "ModelSamplingSD3": {
+    "input": {
+      "required": {
+        "model": [
+          "MODEL"
+        ],
+        "shift": [
+          "FLOAT",
+          {
+            "default": 3.0,
+            "min": 0.0,
+            "max": 100.0,
+            "step": 0.01
+          }
+        ]
+      }
+    },
+    "input_order": {
+      "required": [
+        "model",
+        "shift"
+      ]
+    },
+    "is_input_list": false,
+    "output": [
+      "MODEL"
+    ],
+    "output_is_list": [
+      false
+    ],
+    "output_name": [
+      "MODEL"
+    ],
+    "name": "ModelSamplingSD3",
+    "display_name": "ModelSamplingSD3",
+    "description": "",
+    "python_module": "comfy_extras.nodes_model_advanced",
+    "category": "advanced/model",
+    "output_node": false,
+    "has_intermediate_output": false,
+    "search_aliases": []
+  },
+  "PhotoMakerEncode": {
+    "input": {
+      "required": {
+        "photomaker": [
+          "PHOTOMAKER",
+          {}
+        ],
+        "image": [
+          "IMAGE",
+          {}
+        ],
+        "clip": [
+          "CLIP",
+          {}
+        ],
+        "text": [
+          "STRING",
+          {
+            "default": "photograph of photomaker",
+            "multiline": true,
+            "dynamicPrompts": true
+          }
+        ]
+      }
+    },
+    "input_order": {
+      "required": [
+        "photomaker",
+        "image",
+        "clip",
+        "text"
+      ]
+    },
+    "output": [
+      "CONDITIONING"
+    ],
+    "output_name": [
+      "CONDITIONING"
+    ],
+    "display_name": null
+  },
+  "PhotoMakerLoader": {
+    "input": {
+      "required": {
+        "photomaker_model_name": [
+          "COMBO",
+          {
+            "multiselect": false,
+            "options": [
+              "photomaker-v1.bin"
+            ]
+          }
+        ]
+      }
+    },
+    "input_order": {
+      "required": [
+        "photomaker_model_name"
+      ]
+    },
+    "output": [
+      "PHOTOMAKER"
+    ],
+    "output_name": [
+      "PHOTOMAKER"
+    ],
+    "display_name": null
+  },
+  "SaveImage": {
+    "input": {
+      "required": {
+        "images": [
+          "IMAGE",
+          {
+            "tooltip": "The images to save."
+          }
+        ],
+        "filename_prefix": [
+          "STRING",
+          {
+            "default": "ComfyUI",
+            "tooltip": "The prefix for the file to save. This may include formatting information such as %date:yyyy-MM-dd% or %Empty Latent Image.width% to include values from nodes."
+          }
+        ]
+      },
+      "hidden": {
+        "prompt": "PROMPT",
+        "extra_pnginfo": "EXTRA_PNGINFO"
+      }
+    },
+    "input_order": {
+      "required": [
+        "images",
+        "filename_prefix"
+      ],
+      "hidden": [
+        "prompt",
+        "extra_pnginfo"
+      ]
+    },
+    "output": [],
+    "output_name": [],
+    "display_name": "Save Image"
+  },
+  "SaveVideo": {
+    "input": {
+      "required": {
+        "video": [
+          "VIDEO",
+          {
+            "tooltip": "The video to save."
+          }
+        ],
+        "filename_prefix": [
+          "STRING",
+          {
+            "tooltip": "The prefix for the file to save. This may include formatting information such as %date:yyyy-MM-dd% or %Empty Latent Image.width% to include values from nodes.",
+            "default": "video/ComfyUI",
+            "multiline": false
+          }
+        ],
+        "format": [
+          "COMBO",
+          {
+            "tooltip": "The format to save the video as.",
+            "default": "auto",
+            "multiselect": false,
+            "options": [
+              "auto",
+              "mp4"
+            ]
+          }
+        ],
+        "codec": [
+          "COMBO",
+          {
+            "tooltip": "The codec to use for the video.",
+            "default": "auto",
+            "multiselect": false,
+            "options": [
+              "auto",
+              "h264"
+            ]
+          }
+        ]
+      },
+      "hidden": {
+        "prompt": [
+          "PROMPT"
+        ],
+        "extra_pnginfo": [
+          "EXTRA_PNGINFO"
+        ]
+      }
+    },
+    "input_order": {
+      "required": [
+        "video",
+        "filename_prefix",
+        "format",
+        "codec"
+      ],
+      "hidden": [
+        "prompt",
+        "extra_pnginfo"
+      ]
+    },
+    "is_input_list": false,
+    "output": [],
+    "output_is_list": [],
+    "output_name": [],
+    "output_tooltips": [],
+    "output_matchtypes": null,
+    "name": "SaveVideo",
+    "display_name": "Save Video",
+    "description": "Saves the input images to your ComfyUI output directory.",
+    "python_module": "comfy_extras.nodes_video",
+    "category": "video",
+    "output_node": true,
+    "deprecated": false,
+    "experimental": false,
+    "dev_only": false,
+    "api_node": false,
+    "price_badge": null,
+    "search_aliases": [
+      "export video"
+    ],
+    "essentials_category": "Basics",
+    "has_intermediate_output": false
+  },
+  "SetLatentNoiseMask": {
+    "input": {
+      "required": {
+        "samples": [
+          "LATENT"
+        ],
+        "mask": [
+          "MASK"
+        ]
+      }
+    },
+    "input_order": {
+      "required": [
+        "samples",
+        "mask"
+      ]
+    },
+    "output": [
+      "LATENT"
+    ],
+    "output_name": [
+      "LATENT"
+    ],
+    "display_name": "Set Latent Noise Mask"
+  },
+  "TextEncodeQwenImageEditPlus": {
+    "input": {
+      "required": {
+        "clip": [
+          "CLIP",
+          {}
+        ],
+        "prompt": [
+          "STRING",
+          {
+            "multiline": true,
+            "dynamicPrompts": true
+          }
+        ]
+      },
+      "optional": {
+        "vae": [
+          "VAE",
+          {}
+        ],
+        "image1": [
+          "IMAGE",
+          {}
+        ],
+        "image2": [
+          "IMAGE",
+          {}
+        ],
+        "image3": [
+          "IMAGE",
+          {}
+        ]
+      }
+    },
+    "input_order": {
+      "required": [
+        "clip",
+        "prompt"
+      ],
+      "optional": [
+        "vae",
+        "image1",
+        "image2",
+        "image3"
+      ]
+    },
+    "output": [
+      "CONDITIONING"
+    ],
+    "output_name": [
+      "CONDITIONING"
+    ],
+    "display_name": null
+  },
+  "UNETLoader": {
+    "input": {
+      "required": {
+        "unet_name": [
+          [
+            "flux-2-klein-9b.safetensors",
+            "flux-2-klein-base-9b.safetensors",
+            "qwen_image_edit_2511_fp8mixed.safetensors",
+            "wan2.1_vace_1.3B_fp16.safetensors",
+            "wan2.1_vace_14B_fp16.safetensors",
+            "wan2.2_fun_camera_high_noise_14B_fp8_scaled.safetensors",
+            "wan2.2_fun_camera_low_noise_14B_fp8_scaled.safetensors",
+            "wan2.2_fun_inpaint_5B_bf16.safetensors",
+            "wan2.2_ti2v_5B_fp16.safetensors",
+            "z_image_turbo_bf16.safetensors"
+          ]
+        ],
+        "weight_dtype": [
+          [
+            "default",
+            "fp8_e4m3fn",
+            "fp8_e4m3fn_fast",
+            "fp8_e5m2"
+          ],
+          {
+            "advanced": true
+          }
+        ]
+      }
+    },
+    "input_order": {
+      "required": [
+        "unet_name",
+        "weight_dtype"
+      ]
+    },
+    "is_input_list": false,
+    "output": [
+      "MODEL"
+    ],
+    "output_is_list": [
+      false
+    ],
+    "output_name": [
+      "MODEL"
+    ],
+    "name": "UNETLoader",
+    "display_name": "Load Diffusion Model",
+    "description": "",
+    "python_module": "nodes",
+    "category": "advanced/loaders",
+    "output_node": false,
+    "has_intermediate_output": false,
+    "search_aliases": []
+  },
+  "UpscaleModelLoader": {
+    "input": {
+      "required": {
+        "model_name": [
+          "COMBO",
+          {
+            "multiselect": false,
+            "options": [
+              "4x-AnimeSharp.pth",
+              "4x-UltraSharp.pth",
+              "4x_foolhardy_Remacri.pth",
+              "RealESRGAN_x4plus.safetensors"
+            ]
+          }
+        ]
+      }
+    },
+    "input_order": {
+      "required": [
+        "model_name"
+      ]
+    },
+    "is_input_list": false,
+    "output": [
+      "UPSCALE_MODEL"
+    ],
+    "output_is_list": [
+      false
+    ],
+    "output_name": [
+      "UPSCALE_MODEL"
+    ],
+    "output_tooltips": [
+      null
+    ],
+    "output_matchtypes": null,
+    "name": "UpscaleModelLoader",
+    "display_name": "Load Upscale Model",
+    "description": "",
+    "python_module": "comfy_extras.nodes_upscale_model",
+    "category": "loaders",
+    "output_node": false,
+    "deprecated": false,
+    "experimental": false,
+    "dev_only": false,
+    "api_node": false,
+    "price_badge": null,
+    "search_aliases": null,
+    "essentials_category": null,
+    "has_intermediate_output": false
+  },
+  "VAEDecode": {
+    "input": {
+      "required": {
+        "samples": [
+          "LATENT",
+          {
+            "tooltip": "The latent to be decoded."
+          }
+        ],
+        "vae": [
+          "VAE",
+          {
+            "tooltip": "The VAE model used for decoding the latent."
+          }
+        ]
+      }
+    },
+    "input_order": {
+      "required": [
+        "samples",
+        "vae"
+      ]
+    },
+    "is_input_list": false,
+    "output": [
+      "IMAGE"
+    ],
+    "output_is_list": [
+      false
+    ],
+    "output_name": [
+      "IMAGE"
+    ],
+    "name": "VAEDecode",
+    "display_name": "VAE Decode",
+    "description": "Decodes latent images back into pixel space images.",
+    "python_module": "nodes",
+    "category": "latent",
+    "output_node": false,
+    "has_intermediate_output": false,
+    "output_tooltips": [
+      "The decoded image."
+    ],
+    "search_aliases": [
+      "decode",
+      "decode latent",
+      "latent to image",
+      "render latent"
+    ]
+  },
+  "VAEEncode": {
+    "input": {
+      "required": {
+        "pixels": [
+          "IMAGE"
+        ],
+        "vae": [
+          "VAE"
+        ]
+      }
+    },
+    "input_order": {
+      "required": [
+        "pixels",
+        "vae"
+      ]
+    },
+    "output": [
+      "LATENT"
+    ],
+    "output_name": [
+      "LATENT"
+    ],
+    "display_name": "VAE Encode"
+  },
+  "VAELoader": {
+    "input": {
+      "required": {
+        "vae_name": [
+          [
+            "ae.safetensors",
+            "qwen_image_vae.safetensors",
+            "wan2.2_vae.safetensors",
+            "wan_2.1_vae.safetensors",
+            "pixel_space"
+          ]
+        ]
+      }
+    },
+    "input_order": {
+      "required": [
+        "vae_name"
+      ]
+    },
+    "is_input_list": false,
+    "output": [
+      "VAE"
+    ],
+    "output_is_list": [
+      false
+    ],
+    "output_name": [
+      "VAE"
+    ],
+    "name": "VAELoader",
+    "display_name": "Load VAE",
+    "description": "",
+    "python_module": "nodes",
+    "category": "loaders",
+    "output_node": false,
+    "has_intermediate_output": false,
+    "search_aliases": []
+  },
+  "Wan22ImageToVideoLatent": {
+    "input": {
+      "required": {
+        "vae": [
+          "VAE",
+          {}
+        ],
+        "width": [
+          "INT",
+          {
+            "default": 1280,
+            "min": 32,
+            "max": 16384,
+            "step": 32
+          }
+        ],
+        "height": [
+          "INT",
+          {
+            "default": 704,
+            "min": 32,
+            "max": 16384,
+            "step": 32
+          }
+        ],
+        "length": [
+          "INT",
+          {
+            "default": 49,
+            "min": 1,
+            "max": 16384,
+            "step": 4
+          }
+        ],
+        "batch_size": [
+          "INT",
+          {
+            "default": 1,
+            "min": 1,
+            "max": 4096
+          }
+        ]
+      },
+      "optional": {
+        "start_image": [
+          "IMAGE",
+          {}
+        ]
+      }
+    },
+    "input_order": {
+      "required": [
+        "vae",
+        "width",
+        "height",
+        "length",
+        "batch_size"
+      ],
+      "optional": [
+        "start_image"
+      ]
+    },
+    "output": [
+      "LATENT"
+    ],
+    "output_name": [
+      "LATENT"
+    ],
+    "display_name": null
+  },
+  "WanCameraEmbedding": {
+    "input": {
+      "required": {
+        "camera_pose": [
+          "COMBO",
+          {
+            "default": "Static",
+            "multiselect": false,
+            "options": [
+              "Static",
+              "Pan Up",
+              "Pan Down",
+              "Pan Left",
+              "Pan Right",
+              "Zoom In",
+              "Zoom Out",
+              "Anti Clockwise (ACW)",
+              "ClockWise (CW)"
+            ]
+          }
+        ],
+        "width": [
+          "INT",
+          {
+            "default": 832,
+            "min": 16,
+            "max": 16384,
+            "step": 16
+          }
+        ],
+        "height": [
+          "INT",
+          {
+            "default": 480,
+            "min": 16,
+            "max": 16384,
+            "step": 16
+          }
+        ],
+        "length": [
+          "INT",
+          {
+            "default": 81,
+            "min": 1,
+            "max": 16384,
+            "step": 4
+          }
+        ]
+      },
+      "optional": {
+        "speed": [
+          "FLOAT",
+          {
+            "default": 1.0,
+            "min": 0,
+            "max": 10.0,
+            "step": 0.1
+          }
+        ],
+        "fx": [
+          "FLOAT",
+          {
+            "advanced": true,
+            "default": 0.5,
+            "min": 0,
+            "max": 1,
+            "step": 1e-09
+          }
+        ],
+        "fy": [
+          "FLOAT",
+          {
+            "advanced": true,
+            "default": 0.5,
+            "min": 0,
+            "max": 1,
+            "step": 1e-09
+          }
+        ],
+        "cx": [
+          "FLOAT",
+          {
+            "advanced": true,
+            "default": 0.5,
+            "min": 0,
+            "max": 1,
+            "step": 0.01
+          }
+        ],
+        "cy": [
+          "FLOAT",
+          {
+            "advanced": true,
+            "default": 0.5,
+            "min": 0,
+            "max": 1,
+            "step": 0.01
+          }
+        ]
+      }
+    },
+    "input_order": {
+      "required": [
+        "camera_pose",
+        "width",
+        "height",
+        "length"
+      ],
+      "optional": [
+        "speed",
+        "fx",
+        "fy",
+        "cx",
+        "cy"
+      ]
+    },
+    "output": [
+      "WAN_CAMERA_EMBEDDING",
+      "INT",
+      "INT",
+      "INT"
+    ],
+    "output_name": [
+      "camera_embedding",
+      "width",
+      "height",
+      "length"
+    ],
+    "display_name": null
+  },
+  "WanCameraImageToVideo": {
+    "input": {
+      "required": {
+        "positive": [
+          "CONDITIONING",
+          {}
+        ],
+        "negative": [
+          "CONDITIONING",
+          {}
+        ],
+        "vae": [
+          "VAE",
+          {}
+        ],
+        "width": [
+          "INT",
+          {
+            "default": 832,
+            "min": 16,
+            "max": 16384,
+            "step": 16
+          }
+        ],
+        "height": [
+          "INT",
+          {
+            "default": 480,
+            "min": 16,
+            "max": 16384,
+            "step": 16
+          }
+        ],
+        "length": [
+          "INT",
+          {
+            "default": 81,
+            "min": 1,
+            "max": 16384,
+            "step": 4
+          }
+        ],
+        "batch_size": [
+          "INT",
+          {
+            "default": 1,
+            "min": 1,
+            "max": 4096
+          }
+        ]
+      },
+      "optional": {
+        "clip_vision_output": [
+          "CLIP_VISION_OUTPUT",
+          {}
+        ],
+        "start_image": [
+          "IMAGE",
+          {}
+        ],
+        "camera_conditions": [
+          "WAN_CAMERA_EMBEDDING",
+          {}
+        ]
+      }
+    },
+    "input_order": {
+      "required": [
+        "positive",
+        "negative",
+        "vae",
+        "width",
+        "height",
+        "length",
+        "batch_size"
+      ],
+      "optional": [
+        "clip_vision_output",
+        "start_image",
+        "camera_conditions"
+      ]
+    },
+    "output": [
+      "CONDITIONING",
+      "CONDITIONING",
+      "LATENT"
+    ],
+    "output_name": [
+      "positive",
+      "negative",
+      "latent"
+    ],
+    "display_name": null
+  },
+  "WanFunInpaintToVideo": {
+    "input": {
+      "required": {
+        "positive": [
+          "CONDITIONING",
+          {}
+        ],
+        "negative": [
+          "CONDITIONING",
+          {}
+        ],
+        "vae": [
+          "VAE",
+          {}
+        ],
+        "width": [
+          "INT",
+          {
+            "default": 832,
+            "min": 16,
+            "max": 16384,
+            "step": 16
+          }
+        ],
+        "height": [
+          "INT",
+          {
+            "default": 480,
+            "min": 16,
+            "max": 16384,
+            "step": 16
+          }
+        ],
+        "length": [
+          "INT",
+          {
+            "default": 81,
+            "min": 1,
+            "max": 16384,
+            "step": 4
+          }
+        ],
+        "batch_size": [
+          "INT",
+          {
+            "default": 1,
+            "min": 1,
+            "max": 4096
+          }
+        ]
+      },
+      "optional": {
+        "clip_vision_output": [
+          "CLIP_VISION_OUTPUT",
+          {}
+        ],
+        "start_image": [
+          "IMAGE",
+          {}
+        ],
+        "end_image": [
+          "IMAGE",
+          {}
+        ]
+      }
+    },
+    "input_order": {
+      "required": [
+        "positive",
+        "negative",
+        "vae",
+        "width",
+        "height",
+        "length",
+        "batch_size"
+      ],
+      "optional": [
+        "clip_vision_output",
+        "start_image",
+        "end_image"
+      ]
+    },
+    "output": [
+      "CONDITIONING",
+      "CONDITIONING",
+      "LATENT"
+    ],
+    "output_name": [
+      "positive",
+      "negative",
+      "latent"
+    ],
+    "display_name": null
+  },
+  "LoadVideo": {
+    "input": {
+      "required": {
+        "file": [
+          "COMBO",
+          {
+            "multiselect": false,
+            "options": [
+              "0273b847-582c-44a4-95a2-e7322939f626.mp4",
+              "0c8c177e-7d36-40f3-8b79-24566ccd1c84.mp4",
+              "0f49e415-aa0f-49b9-aad2-8701d93ed90a.mp4",
+              "10fe5732-1d8c-40a7-8ad9-eac3db739868.mp4",
+              "1e2d8afa-5704-463e-bcc6-6ed3a8286ef6-mask.mp4",
+              "1e2d8afa-5704-463e-bcc6-6ed3a8286ef6.mp4",
+              "203467c3-8269-4a55-bb16-4f15d21ee1a6.mp4",
+              "2b8683a2-efe5-42a9-bbe2-ce8a54629414.mp4",
+              "2d7580f6-49c0-4833-9d9e-6fb126e5d69f.mp4",
+              "31919a54-8c24-41eb-b2e8-77d071cec052-mask.mp4",
+              "31919a54-8c24-41eb-b2e8-77d071cec052.mp4",
+              "320c49a9-4648-4210-866f-71ccb5b407a8.mp4",
+              "347c5033-924a-47e0-8ce0-8cd80bf341d8.mp4",
+              "3720fa6a-ef4b-4ba1-93fc-cc8f34916550-mask.mp4",
+              "3720fa6a-ef4b-4ba1-93fc-cc8f34916550.mp4",
+              "372f79c7-ec55-475b-8b03-55bffce109af-mask.mp4",
+              "372f79c7-ec55-475b-8b03-55bffce109af.mp4",
+              "3c32a4e2-5508-4981-98cd-ba4417ddf126-mask.mp4",
+              "3c32a4e2-5508-4981-98cd-ba4417ddf126.mp4",
+              "469498bb-da0e-4bdd-82ef-48ddf68c0588.mp4",
+              "485fd8db-0131-44ec-b73d-4e043bd54158.mp4",
+              "5494b516-5c29-4cab-89ee-f43cde314fa9.mp4",
+              "67b43dbd-d3a1-40f1-9205-b4227e172852.mp4",
+              "6ecb96d0-b504-400a-9048-a206426bcfa3-mask.mp4",
+              "6ecb96d0-b504-400a-9048-a206426bcfa3.mp4",
+              "8144cbf1-6b3d-4a49-9659-979a17c6a9b6.mp4",
+              "8a7079e3-e5ba-4a85-b856-9af2d2506a82.mp4",
+              "8e7cf106-9191-4c79-8bb2-c5acefaf02dc.mp4",
+              "8f75380f-c92d-40c4-b3d0-7cc40cee8239.mp4",
+              "91d1c3a9-cb10-432c-9b64-7b939df60a6a.mp4",
+              "b167f8c0-9d06-421c-967e-55494d8d1a86.mp4",
+              "b938c3fb-6ba3-446d-95db-8d6a56a5dc88.mp4",
+              "bcb2e6fe-7744-43b0-81d2-0458c0ee4779.mp4",
+              "bfd79a21-6fb1-4b3f-b3ee-269ecc2e99da-mask.mp4",
+              "bfd79a21-6fb1-4b3f-b3ee-269ecc2e99da.mp4",
+              "c498ad9f-a610-44b1-b877-42b2f3dcc422-mask.mp4",
+              "c498ad9f-a610-44b1-b877-42b2f3dcc422.mp4",
+              "cab837ef-8e9c-4c57-aaa1-f3024e5c772d.mp4",
+              "cbc97052-cb49-4e81-8def-c48747f6f6a1.mp4",
+              "ce6d9f2a-bbf9-4ac5-b974-47425c4dd117-mask.mp4",
+              "ce6d9f2a-bbf9-4ac5-b974-47425c4dd117.mp4",
+              "cf9aa006-4a4a-4000-9751-e6faa775968f.mp4",
+              "d1a4f325-81d7-4100-ad8d-e24850329611-mask.mp4",
+              "d1a4f325-81d7-4100-ad8d-e24850329611.mp4",
+              "d8a6c370-22f4-48e0-a124-e4e441556d5c.mp4",
+              "dbd106b0-e360-4468-bd67-cdbdd878ea7c-mask.mp4",
+              "dbd106b0-e360-4468-bd67-cdbdd878ea7c.mp4",
+              "e122e4ae-f53d-4507-9a8d-61435a40ea8f.mp4",
+              "e7bf8089-6aae-4a80-8af2-51ffc74b5df6-mask.mp4",
+              "e7bf8089-6aae-4a80-8af2-51ffc74b5df6.mp4",
+              "ed22f53c-fb98-486f-9347-18e0f5133510-mask.mp4",
+              "ed22f53c-fb98-486f-9347-18e0f5133510.mp4",
+              "f067d4ed-35b1-4d08-836b-3f543c1da490-mask.mp4",
+              "f067d4ed-35b1-4d08-836b-3f543c1da490.mp4",
+              "f616c637-6062-4d70-980f-300435d0c322.mp4",
+              "fc21b3e4-63a5-414c-96cc-0c12b8e03d69.mp4"
+            ],
+            "video_upload": true
+          }
+        ]
+      }
+    },
+    "input_order": {
+      "required": [
+        "file"
+      ]
+    },
+    "is_input_list": false,
+    "output": [
+      "VIDEO"
+    ],
+    "output_is_list": [
+      false
+    ],
+    "output_name": [
+      "VIDEO"
+    ],
+    "output_tooltips": [
+      null
+    ],
+    "output_matchtypes": null,
+    "name": "LoadVideo",
+    "display_name": "Load Video",
+    "description": "",
+    "python_module": "comfy_extras.nodes_video",
+    "category": "video",
+    "output_node": false,
+    "deprecated": false,
+    "experimental": false,
+    "dev_only": false,
+    "api_node": false,
+    "price_badge": null,
+    "search_aliases": [
+      "import video",
+      "open video",
+      "video file"
+    ],
+    "essentials_category": "Basics",
+    "has_intermediate_output": false
+  },
+  "GetVideoComponents": {
+    "input": {
+      "required": {
+        "video": [
+          "VIDEO",
+          {
+            "tooltip": "The video to extract components from."
+          }
+        ]
+      }
+    },
+    "input_order": {
+      "required": [
+        "video"
+      ]
+    },
+    "is_input_list": false,
+    "output": [
+      "IMAGE",
+      "AUDIO",
+      "FLOAT"
+    ],
+    "output_is_list": [
+      false,
+      false,
+      false
+    ],
+    "output_name": [
+      "images",
+      "audio",
+      "fps"
+    ],
+    "output_tooltips": [
+      null,
+      null,
+      null
+    ],
+    "output_matchtypes": null,
+    "name": "GetVideoComponents",
+    "display_name": "Get Video Components",
+    "description": "Extracts all components from a video: frames, audio, and framerate.",
+    "python_module": "comfy_extras.nodes_video",
+    "category": "video",
+    "output_node": false,
+    "deprecated": false,
+    "experimental": false,
+    "dev_only": false,
+    "api_node": false,
+    "price_badge": null,
+    "search_aliases": [
+      "extract frames",
+      "split video",
+      "video to images",
+      "demux"
+    ],
+    "essentials_category": null,
+    "has_intermediate_output": false
+  },
+  "FrameInterpolationModelLoader": {
+    "input": {
+      "required": {
+        "model_name": [
+          "COMBO",
+          {
+            "tooltip": "Select a frame interpolation model to load. Models must be placed in the 'frame_interpolation' folder.",
+            "multiselect": false,
+            "options": [
+              "film_net_fp16.safetensors",
+              "rife_v4.26.safetensors"
+            ]
+          }
+        ]
+      }
+    },
+    "input_order": {
+      "required": [
+        "model_name"
+      ]
+    },
+    "is_input_list": false,
+    "output": [
+      "INTERP_MODEL"
+    ],
+    "output_is_list": [
+      false
+    ],
+    "output_name": [
+      "INTERP_MODEL"
+    ],
+    "output_tooltips": [
+      null
+    ],
+    "output_matchtypes": null,
+    "name": "FrameInterpolationModelLoader",
+    "display_name": "Load Frame Interpolation Model",
+    "description": "",
+    "python_module": "comfy_extras.nodes_frame_interpolation",
+    "category": "loaders",
+    "output_node": false,
+    "deprecated": false,
+    "experimental": false,
+    "dev_only": false,
+    "api_node": false,
+    "price_badge": null,
+    "search_aliases": null,
+    "essentials_category": null,
+    "has_intermediate_output": false
+  },
+  "FrameInterpolate": {
+    "input": {
+      "required": {
+        "interp_model": [
+          "INTERP_MODEL",
+          {}
+        ],
+        "images": [
+          "IMAGE",
+          {}
+        ],
+        "multiplier": [
+          "INT",
+          {
+            "default": 2,
+            "min": 2,
+            "max": 16
+          }
+        ]
+      }
+    },
+    "input_order": {
+      "required": [
+        "interp_model",
+        "images",
+        "multiplier"
+      ]
+    },
+    "is_input_list": false,
+    "output": [
+      "IMAGE"
+    ],
+    "output_is_list": [
+      false
+    ],
+    "output_name": [
+      "IMAGE"
+    ],
+    "output_tooltips": [
+      null
+    ],
+    "output_matchtypes": null,
+    "name": "FrameInterpolate",
+    "display_name": "Frame Interpolate",
+    "description": "",
+    "python_module": "comfy_extras.nodes_frame_interpolation",
+    "category": "video",
+    "output_node": false,
+    "deprecated": false,
+    "experimental": false,
+    "dev_only": false,
+    "api_node": false,
+    "price_badge": null,
+    "search_aliases": [
+      "rife",
+      "film",
+      "frame interpolation",
+      "slow motion",
+      "interpolate frames",
+      "vfi"
+    ],
+    "essentials_category": null,
+    "has_intermediate_output": false
+  },
+  "WanVaceToVideo": {
+    "input": {
+      "required": {
+        "positive": [
+          "CONDITIONING",
+          {}
+        ],
+        "negative": [
+          "CONDITIONING",
+          {}
+        ],
+        "vae": [
+          "VAE",
+          {}
+        ],
+        "width": [
+          "INT",
+          {
+            "default": 832,
+            "min": 16,
+            "max": 16384,
+            "step": 16
+          }
+        ],
+        "height": [
+          "INT",
+          {
+            "default": 480,
+            "min": 16,
+            "max": 16384,
+            "step": 16
+          }
+        ],
+        "length": [
+          "INT",
+          {
+            "default": 81,
+            "min": 1,
+            "max": 16384,
+            "step": 4
+          }
+        ],
+        "batch_size": [
+          "INT",
+          {
+            "default": 1,
+            "min": 1,
+            "max": 4096
+          }
+        ],
+        "strength": [
+          "FLOAT",
+          {
+            "default": 1.0,
+            "min": 0.0,
+            "max": 1000.0,
+            "step": 0.01
+          }
+        ]
+      },
+      "optional": {
+        "control_video": [
+          "IMAGE",
+          {}
+        ],
+        "control_masks": [
+          "MASK",
+          {}
+        ],
+        "reference_image": [
+          "IMAGE",
+          {}
+        ]
+      }
+    },
+    "input_order": {
+      "required": [
+        "positive",
+        "negative",
+        "vae",
+        "width",
+        "height",
+        "length",
+        "batch_size",
+        "strength"
+      ],
+      "optional": [
+        "control_video",
+        "control_masks",
+        "reference_image"
+      ]
+    },
+    "is_input_list": false,
+    "output": [
+      "CONDITIONING",
+      "CONDITIONING",
+      "LATENT",
+      "INT"
+    ],
+    "output_is_list": [
+      false,
+      false,
+      false,
+      false
+    ],
+    "output_name": [
+      "positive",
+      "negative",
+      "latent",
+      "trim_latent"
+    ],
+    "output_tooltips": [
+      null,
+      null,
+      null,
+      null
+    ],
+    "output_matchtypes": null,
+    "name": "WanVaceToVideo",
+    "display_name": null,
+    "description": "",
+    "python_module": "comfy_extras.nodes_wan",
+    "category": "conditioning/video_models",
+    "output_node": false,
+    "deprecated": false,
+    "experimental": false,
+    "dev_only": false,
+    "api_node": false,
+    "price_badge": null,
+    "search_aliases": [
+      "video conditioning",
+      "video control"
+    ],
+    "essentials_category": null,
+    "has_intermediate_output": false
+  },
+  "TrimVideoLatent": {
+    "input": {
+      "required": {
+        "samples": [
+          "LATENT",
+          {}
+        ],
+        "trim_amount": [
+          "INT",
+          {
+            "default": 0,
+            "min": 0,
+            "max": 99999
+          }
+        ]
+      }
+    },
+    "input_order": {
+      "required": [
+        "samples",
+        "trim_amount"
+      ]
+    },
+    "is_input_list": false,
+    "output": [
+      "LATENT"
+    ],
+    "output_is_list": [
+      false
+    ],
+    "output_name": [
+      "LATENT"
+    ],
+    "output_tooltips": [
+      null
+    ],
+    "output_matchtypes": null,
+    "name": "TrimVideoLatent",
+    "display_name": null,
+    "description": "",
+    "python_module": "comfy_extras.nodes_wan",
+    "category": "latent/video",
+    "output_node": false,
+    "deprecated": false,
+    "experimental": false,
+    "dev_only": false,
+    "api_node": false,
+    "price_badge": null,
+    "search_aliases": null,
+    "essentials_category": null,
+    "has_intermediate_output": false
+  },
+  "SolidMask": {
+    "input": {
+      "required": {
+        "value": [
+          "FLOAT",
+          {
+            "default": 1.0,
+            "min": 0.0,
+            "max": 1.0,
+            "step": 0.01
+          }
+        ],
+        "width": [
+          "INT",
+          {
+            "default": 512,
+            "min": 1,
+            "max": 16384,
+            "step": 1
+          }
+        ],
+        "height": [
+          "INT",
+          {
+            "default": 512,
+            "min": 1,
+            "max": 16384,
+            "step": 1
+          }
+        ]
+      }
+    },
+    "input_order": {
+      "required": [
+        "value",
+        "width",
+        "height"
+      ]
+    },
+    "is_input_list": false,
+    "output": [
+      "MASK"
+    ],
+    "output_is_list": [
+      false
+    ],
+    "output_name": [
+      "MASK"
+    ],
+    "output_tooltips": [
+      null
+    ],
+    "output_matchtypes": null,
+    "name": "SolidMask",
+    "display_name": "Create Solid Mask",
+    "description": "",
+    "python_module": "comfy_extras.nodes_mask",
+    "category": "image/mask",
+    "output_node": false,
+    "deprecated": false,
+    "experimental": false,
+    "dev_only": false,
+    "api_node": false,
+    "price_badge": null,
+    "search_aliases": null,
+    "essentials_category": null,
+    "has_intermediate_output": false
+  },
+  "MaskComposite": {
+    "input": {
+      "required": {
+        "destination": [
+          "MASK",
+          {}
+        ],
+        "source": [
+          "MASK",
+          {}
+        ],
+        "x": [
+          "INT",
+          {
+            "default": 0,
+            "min": 0,
+            "max": 16384,
+            "step": 1
+          }
+        ],
+        "y": [
+          "INT",
+          {
+            "default": 0,
+            "min": 0,
+            "max": 16384,
+            "step": 1
+          }
+        ],
+        "operation": [
+          "COMBO",
+          {
+            "multiselect": false,
+            "options": [
+              "multiply",
+              "add",
+              "subtract",
+              "and",
+              "or",
+              "xor"
+            ]
+          }
+        ]
+      }
+    },
+    "input_order": {
+      "required": [
+        "destination",
+        "source",
+        "x",
+        "y",
+        "operation"
+      ]
+    },
+    "is_input_list": false,
+    "output": [
+      "MASK"
+    ],
+    "output_is_list": [
+      false
+    ],
+    "output_name": [
+      "MASK"
+    ],
+    "output_tooltips": [
+      null
+    ],
+    "output_matchtypes": null,
+    "name": "MaskComposite",
+    "display_name": "Combine Masks",
+    "description": "",
+    "python_module": "comfy_extras.nodes_mask",
+    "category": "image/mask",
+    "output_node": false,
+    "deprecated": false,
+    "experimental": false,
+    "dev_only": false,
+    "api_node": false,
+    "price_badge": null,
+    "search_aliases": [
+      "combine masks",
+      "blend masks",
+      "layer masks",
+      "masks composition"
+    ],
+    "essentials_category": null,
+    "has_intermediate_output": false
+  },
+  "MaskToImage": {
+    "input": {
+      "required": {
+        "mask": [
+          "MASK",
+          {}
+        ]
+      }
+    },
+    "input_order": {
+      "required": [
+        "mask"
+      ]
+    },
+    "is_input_list": false,
+    "output": [
+      "IMAGE"
+    ],
+    "output_is_list": [
+      false
+    ],
+    "output_name": [
+      "IMAGE"
+    ],
+    "output_tooltips": [
+      null
+    ],
+    "output_matchtypes": null,
+    "name": "MaskToImage",
+    "display_name": "Convert Mask to Image",
+    "description": "",
+    "python_module": "comfy_extras.nodes_mask",
+    "category": "image/mask",
+    "output_node": false,
+    "deprecated": false,
+    "experimental": false,
+    "dev_only": false,
+    "api_node": false,
+    "price_badge": null,
+    "search_aliases": [
+      "convert mask"
+    ],
+    "essentials_category": null,
+    "has_intermediate_output": false
+  },
+  "RepeatImageBatch": {
+    "input": {
+      "required": {
+        "image": [
+          "IMAGE",
+          {}
+        ],
+        "amount": [
+          "INT",
+          {
+            "default": 1,
+            "min": 1,
+            "max": 4096
+          }
+        ]
+      }
+    },
+    "input_order": {
+      "required": [
+        "image",
+        "amount"
+      ]
+    },
+    "is_input_list": false,
+    "output": [
+      "IMAGE"
+    ],
+    "output_is_list": [
+      false
+    ],
+    "output_name": [
+      "IMAGE"
+    ],
+    "output_tooltips": [
+      null
+    ],
+    "output_matchtypes": null,
+    "name": "RepeatImageBatch",
+    "display_name": "Repeat Image Batch",
+    "description": "",
+    "python_module": "comfy_extras.nodes_images",
+    "category": "image/batch",
+    "output_node": false,
+    "deprecated": false,
+    "experimental": false,
+    "dev_only": false,
+    "api_node": false,
+    "price_badge": null,
+    "search_aliases": [
+      "duplicate image",
+      "clone image"
+    ],
+    "essentials_category": null,
+    "has_intermediate_output": false
+  },
+  "ImageToMask": {
+    "input": {
+      "required": {
+        "image": [
+          "IMAGE",
+          {}
+        ],
+        "channel": [
+          "COMBO",
+          {
+            "multiselect": false,
+            "options": [
+              "red",
+              "green",
+              "blue",
+              "alpha"
+            ]
+          }
+        ]
+      }
+    },
+    "input_order": {
+      "required": [
+        "image",
+        "channel"
+      ]
+    },
+    "is_input_list": false,
+    "output": [
+      "MASK"
+    ],
+    "output_is_list": [
+      false
+    ],
+    "output_name": [
+      "MASK"
+    ],
+    "output_tooltips": [
+      null
+    ],
+    "output_matchtypes": null,
+    "name": "ImageToMask",
+    "display_name": "Convert Image to Mask",
+    "description": "",
+    "python_module": "comfy_extras.nodes_mask",
+    "category": "image/mask",
+    "output_node": false,
+    "deprecated": false,
+    "experimental": false,
+    "dev_only": false,
+    "api_node": false,
+    "price_badge": null,
+    "search_aliases": [
+      "extract channel",
+      "channel to mask"
+    ],
+    "essentials_category": null,
+    "has_intermediate_output": false
+  },
+  "ThresholdMask": {
+    "input": {
+      "required": {
+        "mask": [
+          "MASK",
+          {}
+        ],
+        "value": [
+          "FLOAT",
+          {
+            "default": 0.5,
+            "min": 0.0,
+            "max": 1.0,
+            "step": 0.01
+          }
+        ]
+      }
+    },
+    "input_order": {
+      "required": [
+        "mask",
+        "value"
+      ]
+    },
+    "is_input_list": false,
+    "output": [
+      "MASK"
+    ],
+    "output_is_list": [
+      false
+    ],
+    "output_name": [
+      "MASK"
+    ],
+    "output_tooltips": [
+      null
+    ],
+    "output_matchtypes": null,
+    "name": "ThresholdMask",
+    "display_name": "Threshold Mask",
+    "description": "",
+    "python_module": "comfy_extras.nodes_mask",
+    "category": "image/mask",
+    "output_node": false,
+    "deprecated": false,
+    "experimental": false,
+    "dev_only": false,
+    "api_node": false,
+    "price_badge": null,
+    "search_aliases": [
+      "binary mask"
+    ],
+    "essentials_category": null,
+    "has_intermediate_output": false
+  }
+}

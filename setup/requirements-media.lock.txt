@@ -1,0 +1,4 @@
+# Same versions as the tested engine's CPU media helpers; no Torch or weights.
+av==19.0.1
+numpy==2.4.4
+pillow==12.1.0

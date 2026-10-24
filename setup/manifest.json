@@ -1,0 +1,17 @@
+{
+  "engineVersion": "0.22.3",
+  "sourceArchive": "comfy-engine-source.zip",
+  "sha256": "cc57e6f47d9e300cf6784a88c4774c74e850b0da28b47e2b47a5130edb3c2642",
+  "python": "3.12",
+  "platform": "Windows x64",
+  "torch": "2.10.0+cu130",
+  "dependencies": 83,
+  "sourceOrigin": "Installed ComfyUI source snapshot; upstream GPL license retained in archive",
+  "omitted": [
+    "models",
+    "input/output/user data",
+    "third-party custom nodes",
+    "tests",
+    "caches"
+  ]
+}

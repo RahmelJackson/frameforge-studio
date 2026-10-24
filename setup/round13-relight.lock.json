@@ -1,0 +1,142 @@
+{
+  "schema": 1,
+  "modelRoot": "D:/FrameforgeModels/storybuilder/relight",
+  "maximumBytes": 5000000000,
+  "files": [
+    {
+      "repo": "lllyasviel/ic-light",
+      "revision": "9cad1878695f546a7fb9eaca14e2a89131ba5ffe",
+      "path": "iclight_sd15_fc.safetensors",
+      "local": "iclight_sd15_fc.safetensors",
+      "bytes": 1719148312,
+      "sha256": "a033fbaaa2f3f7859fa6a4477ee63ebbf9c116bf3569d5811856d2807f3468cd",
+      "url": "https://huggingface.co/lllyasviel/ic-light/resolve/9cad1878695f546a7fb9eaca14e2a89131ba5ffe/iclight_sd15_fc.safetensors",
+      "license": "CreativeML Open RAIL-M"
+    },
+    {
+      "repo": "stablediffusionapi/realistic-vision-v51",
+      "revision": "19e3643d7d963c156d01537188ec08f0b79a514a",
+      "path": "text_encoder/config.json",
+      "local": "realistic-vision-v51/text_encoder/config.json",
+      "bytes": 560,
+      "sha256": "5f0da673a5ddb4dcd74f304aa76da744c8b3d9dbada5bc5adfa711e7b4d80ddb",
+      "url": "https://huggingface.co/stablediffusionapi/realistic-vision-v51/resolve/19e3643d7d963c156d01537188ec08f0b79a514a/text_encoder/config.json",
+      "license": "CreativeML Open RAIL-M"
+    },
+    {
+      "repo": "stablediffusionapi/realistic-vision-v51",
+      "revision": "19e3643d7d963c156d01537188ec08f0b79a514a",
+      "path": "text_encoder/model.safetensors",
+      "local": "realistic-vision-v51/text_encoder/model.safetensors",
+      "bytes": 246144152,
+      "sha256": "9706025d0e3053a3cdcc7e6cfa495c5ad951267a29ad08644aadb684ae217e7e",
+      "url": "https://huggingface.co/stablediffusionapi/realistic-vision-v51/resolve/19e3643d7d963c156d01537188ec08f0b79a514a/text_encoder/model.safetensors",
+      "license": "CreativeML Open RAIL-M"
+    },
+    {
+      "repo": "stablediffusionapi/realistic-vision-v51",
+      "revision": "19e3643d7d963c156d01537188ec08f0b79a514a",
+      "path": "tokenizer/merges.txt",
+      "local": "realistic-vision-v51/tokenizer/merges.txt",
+      "bytes": 524619,
+      "sha256": "9fd691f7c8039210e0fced15865466c65820d09b63988b0174bfe25de299051a",
+      "url": "https://huggingface.co/stablediffusionapi/realistic-vision-v51/resolve/19e3643d7d963c156d01537188ec08f0b79a514a/tokenizer/merges.txt",
+      "license": "CreativeML Open RAIL-M"
+    },
+    {
+      "repo": "stablediffusionapi/realistic-vision-v51",
+      "revision": "19e3643d7d963c156d01537188ec08f0b79a514a",
+      "path": "tokenizer/special_tokens_map.json",
+      "local": "realistic-vision-v51/tokenizer/special_tokens_map.json",
+      "bytes": 586,
+      "sha256": "6a757fc443f84ad1def3b893aac3858178f2a1513e3cf97b35ff131b5d88edd5",
+      "url": "https://huggingface.co/stablediffusionapi/realistic-vision-v51/resolve/19e3643d7d963c156d01537188ec08f0b79a514a/tokenizer/special_tokens_map.json",
+      "license": "CreativeML Open RAIL-M"
+    },
+    {
+      "repo": "stablediffusionapi/realistic-vision-v51",
+      "revision": "19e3643d7d963c156d01537188ec08f0b79a514a",
+      "path": "tokenizer/tokenizer_config.json",
+      "local": "realistic-vision-v51/tokenizer/tokenizer_config.json",
+      "bytes": 704,
+      "sha256": "7eb36a76a02551ce8583dbee08d062e672997a5fe1db82ebc642d88c7e79cc96",
+      "url": "https://huggingface.co/stablediffusionapi/realistic-vision-v51/resolve/19e3643d7d963c156d01537188ec08f0b79a514a/tokenizer/tokenizer_config.json",
+      "license": "CreativeML Open RAIL-M"
+    },
+    {
+      "repo": "stablediffusionapi/realistic-vision-v51",
+      "revision": "19e3643d7d963c156d01537188ec08f0b79a514a",
+      "path": "tokenizer/vocab.json",
+      "local": "realistic-vision-v51/tokenizer/vocab.json",
+      "bytes": 1059962,
+      "sha256": "e089ad92ba36837a0d31433e555c8f45fe601ab5c221d4f607ded32d9f7a4349",
+      "url": "https://huggingface.co/stablediffusionapi/realistic-vision-v51/resolve/19e3643d7d963c156d01537188ec08f0b79a514a/tokenizer/vocab.json",
+      "license": "CreativeML Open RAIL-M"
+    },
+    {
+      "repo": "stablediffusionapi/realistic-vision-v51",
+      "revision": "19e3643d7d963c156d01537188ec08f0b79a514a",
+      "path": "unet/config.json",
+      "local": "realistic-vision-v51/unet/config.json",
+      "bytes": 1784,
+      "sha256": "e25cdfe978891263164028c81c0ea9ab97e44182af6ba444f0d0cd2248e8e151",
+      "url": "https://huggingface.co/stablediffusionapi/realistic-vision-v51/resolve/19e3643d7d963c156d01537188ec08f0b79a514a/unet/config.json",
+      "license": "CreativeML Open RAIL-M"
+    },
+    {
+      "repo": "stablediffusionapi/realistic-vision-v51",
+      "revision": "19e3643d7d963c156d01537188ec08f0b79a514a",
+      "path": "unet/diffusion_pytorch_model.safetensors",
+      "local": "realistic-vision-v51/unet/diffusion_pytorch_model.safetensors",
+      "bytes": 1719125304,
+      "sha256": "c150f632d0c2338a50224504fa238f716cf50fb680897b0330563d2ff7bbf0e7",
+      "url": "https://huggingface.co/stablediffusionapi/realistic-vision-v51/resolve/19e3643d7d963c156d01537188ec08f0b79a514a/unet/diffusion_pytorch_model.safetensors",
+      "license": "CreativeML Open RAIL-M"
+    },
+    {
+      "repo": "stablediffusionapi/realistic-vision-v51",
+      "revision": "19e3643d7d963c156d01537188ec08f0b79a514a",
+      "path": "vae/config.json",
+      "local": "realistic-vision-v51/vae/config.json",
+      "bytes": 606,
+      "sha256": "21b149c56cc3fd87620e9b97449ac0199af0001294afe563beb09ada7b6bf72b",
+      "url": "https://huggingface.co/stablediffusionapi/realistic-vision-v51/resolve/19e3643d7d963c156d01537188ec08f0b79a514a/vae/config.json",
+      "license": "CreativeML Open RAIL-M"
+    },
+    {
+      "repo": "stablediffusionapi/realistic-vision-v51",
+      "revision": "19e3643d7d963c156d01537188ec08f0b79a514a",
+      "path": "vae/diffusion_pytorch_model.safetensors",
+      "local": "realistic-vision-v51/vae/diffusion_pytorch_model.safetensors",
+      "bytes": 167335342,
+      "sha256": "3e4c08995484ee61270175e9e7a072b66a6e4eeb5f0c266667fe1f45b90daf9a",
+      "url": "https://huggingface.co/stablediffusionapi/realistic-vision-v51/resolve/19e3643d7d963c156d01537188ec08f0b79a514a/vae/diffusion_pytorch_model.safetensors",
+      "license": "CreativeML Open RAIL-M"
+    }
+  ],
+  "upstream": {
+    "repo": "https://github.com/lllyasviel/IC-Light",
+    "revision": "bcf3f29ca85be8a4686215f477b546f5030be8b7",
+    "license": "MIT",
+    "files": [
+      {
+        "name": "gradio_demo.py",
+        "url": "https://raw.githubusercontent.com/lllyasviel/IC-Light/bcf3f29ca85be8a4686215f477b546f5030be8b7/gradio_demo.py",
+        "sha256": "4f3cd0c6c6b1c72fe5be2bb403e331d8bcb46d712b182fb0ec94fdcf163018f4",
+        "bytes": 16591
+      },
+      {
+        "name": "LICENSE",
+        "url": "https://raw.githubusercontent.com/lllyasviel/IC-Light/bcf3f29ca85be8a4686215f477b546f5030be8b7/LICENSE",
+        "sha256": "c71d239df91726fc519c6eb72d318ec65820627232b2f796219e87dcf35d0ab4",
+        "bytes": 11357
+      },
+      {
+        "name": "README.md",
+        "url": "https://raw.githubusercontent.com/lllyasviel/IC-Light/bcf3f29ca85be8a4686215f477b546f5030be8b7/README.md",
+        "sha256": "a567fb7158fb8a132cde9f959ff9bed5c2947afc618dbc33e056365831a34cb4",
+        "bytes": 9682
+      }
+    ]
+  }
+}

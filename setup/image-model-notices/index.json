@@ -1,0 +1,38 @@
+[
+  {
+    "repository": "Comfy-Org/z_image_turbo",
+    "revision": "6fc90a3b1b653e935a0d175e260736de25b84df5",
+    "modelCard": "https://huggingface.co/Comfy-Org/z_image_turbo/resolve/6fc90a3b1b653e935a0d175e260736de25b84df5/README.md",
+    "saved": "Comfy-Org--z_image_turbo.md"
+  },
+  {
+    "repository": "Comfy-Org/Qwen-Image-Edit_ComfyUI",
+    "revision": "f68ace85e60b4a02a323e394253731947657b7d2",
+    "modelCard": "https://huggingface.co/Comfy-Org/Qwen-Image-Edit_ComfyUI/resolve/f68ace85e60b4a02a323e394253731947657b7d2/README.md",
+    "saved": "Comfy-Org--Qwen-Image-Edit_ComfyUI.md"
+  },
+  {
+    "repository": "Comfy-Org/HunyuanVideo_1.5_repackaged",
+    "revision": "1405a2b738c29b890cf6d03fc038d8d3e92eeed7",
+    "modelCard": "https://huggingface.co/Comfy-Org/HunyuanVideo_1.5_repackaged/resolve/1405a2b738c29b890cf6d03fc038d8d3e92eeed7/README.md",
+    "saved": "Comfy-Org--HunyuanVideo_1.5_repackaged.md"
+  },
+  {
+    "repository": "Comfy-Org/Qwen-Image_ComfyUI",
+    "revision": "1f12b17be14c89b026c51a91d67c32f84bb047bc",
+    "modelCard": "https://huggingface.co/Comfy-Org/Qwen-Image_ComfyUI/resolve/1f12b17be14c89b026c51a91d67c32f84bb047bc/README.md",
+    "saved": "Comfy-Org--Qwen-Image_ComfyUI.md"
+  },
+  {
+    "repository": "lightx2v/Qwen-Image-Edit-2511-Lightning",
+    "revision": "107d238d68b8387e32843d0b4a2e24ceb0d3ad86",
+    "modelCard": "https://huggingface.co/lightx2v/Qwen-Image-Edit-2511-Lightning/resolve/107d238d68b8387e32843d0b4a2e24ceb0d3ad86/README.md",
+    "saved": "lightx2v--Qwen-Image-Edit-2511-Lightning.md"
+  },
+  {
+    "repository": "Comfy-Org/Real-ESRGAN_repackaged",
+    "revision": "5fd49b7b278836f48af63ecd314d0f98ab336105",
+    "modelCard": "https://huggingface.co/Comfy-Org/Real-ESRGAN_repackaged/resolve/5fd49b7b278836f48af63ecd314d0f98ab336105/README.md",
+    "saved": "Comfy-Org--Real-ESRGAN_repackaged.md"
+  }
+]

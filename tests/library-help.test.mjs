@@ -1,0 +1,18 @@
+import test from 'node:test';import assert from 'node:assert/strict';
+import {libraryItems,filterLibrary,reviewState} from '../public/saved-library.js';
+import {WORKFLOWS} from '../lib/workflow-catalog.mjs';
+import {explainPlan} from '../lib/workflow-explanations.mjs';
+import {explanationHTML,nodeMeaning} from '../public/workflow-help.js';
+test('Library routes saved work by actual media type and keeps technical checks separate from approval',()=>{
+ const visual={id:'image-1',request:{kind:'image',prompt:'Compass in morning light'},image:'output.png',report:{technicalPass:true},createdAt:'2026-01-01'};
+ const items=libraryItems({visuals:[visual,{id:'video-1',request:{kind:'video-tool',tool:'interpolate'},video:'output.mp4',report:{technicalPass:true},promptId:'actual-prompt',review:{verdict:'rejected'}},{id:'failed',request:{},status:'failed'}],audio:[{id:'transcript',request:{tool:'transcribe'},report:{technicalPass:true,files:{'subtitles.srt':'hash'}}},{id:'speech',request:{tool:'speech',text:'Hello'},report:{technicalPass:true,files:{'output.wav':'hash'}},review:{verdict:'approved'}}],projects:[{id:'film',name:'Film',story:{},shots:[{jobId:'video-1'}]}],footage:[{id:'source',name:'Camera clip',filename:'source.mp4',duration:3}]});
+ assert.equal(items.length,7);assert.equal(items.find(i=>i.id==='image-1').checked,true);assert.equal(items.find(i=>i.id==='failed').checked,false);assert.equal(items.find(i=>i.id==='image-1').open,'/images?job=image-1');assert.equal(items.find(i=>i.id==='video-1').graph,'/library?collection=workflows&job=video-1');assert.equal(items.find(i=>i.id==='failed').graph,null);assert.equal(items.find(i=>i.id==='transcript').type,'transcript');assert.match(items.find(i=>i.id==='transcript').download,/subtitles.srt/);assert.equal(items.find(i=>i.id==='film').open,'/short-film?project=film');assert.match(items.find(i=>i.id==='source').video,/source.mp4/);
+ assert.equal(filterLibrary(items,{query:'morning compass'}).length,1);assert.equal(filterLibrary(items,{review:'pending'}).length,2);assert.deepEqual(filterLibrary(items,{type:'audio',review:'approved'}).map(i=>i.id),['speech']);assert.equal(filterLibrary(items,{query:'no match'}).length,0);
+ assert.equal(reviewState({...visual,report:{technicalPass:false},review:{verdict:'approved'}}).key,'needs-work');assert.equal(reviewState(visual).key,'pending');
+});
+test('Every starter explains its purpose, inputs, output, steps, example and limits; paid paths stay explicit',()=>{
+ for(const w of WORKFLOWS){const h=w.explanation;assert.ok(h,w.id);for(const key of ['title','summary','output','bestFor','limits','example'])assert.ok(h[key]?.length>8,w.id+' '+key);assert.ok(h.inputs.length);assert.ok(h.steps.length>=3);assert.match(explanationHTML(h),/You provide/);if(w.execution==='partner')assert.match(h.limits,/credit|paid|account/i);}
+ assert.match(explanationHTML({summary:'<script>',inputs:['<img>'],output:'x',steps:['<b>'],bestFor:'x',example:'x',limits:'x'}),/&lt;script&gt;/);assert.match(nodeMeaning('VAEDecode'),/visible image frames/);
+ const stage=explainPlan({context:'video-tools',request:{tool:'interpolate'},graphScope:'stage'});assert.match(stage.steps.join(' '),/double the frame rate/);assert.match(stage.limits,/outside that graph/);
+ assert.match(explainPlan({context:'create',request:{mode:'text'}}).inputs[0],/prompt/);assert.match(explainPlan({context:'audio',provider:'cloud',task:'seed-audio',request:{tool:'speech'}}).summary,/hosted Seed Audio/);assert.match(explainPlan({context:'audio',request:{tool:'separate'}}).limits,/Spanish.*failed/);
+});

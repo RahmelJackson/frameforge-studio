@@ -1,0 +1,16 @@
+{
+  "package": "chatterbox-tts",
+  "version": "0.1.7",
+  "python": "3.12",
+  "cudaRuntime": "Read-only installed Torch 2.10.0+cu130 / torchaudio fallback; engine unchanged",
+  "watermarkFiles": {
+    "perth/perth_net/pretrained/implicit/hparams.yaml": "c66e8f8ce5b09d100e719843a064d37a97c5aec13510824343bf4e096b3184db",
+    "perth/perth_net/pretrained/implicit/id.txt": "f4129d0cce1fcd76a01c778dd46aeecc84130e38d83c98402abf2e1b9c49770d",
+    "perth/perth_net/pretrained/implicit/perth_net_250000.pth.tar": "a15bce457ebc53ce5e6c9c3f11df78cf7ee2bf9cdab0a798902135b4c4027670"
+  },
+  "fallbacks": [
+    "runtime/audio-env/Lib/site-packages",
+    "runtime/engine-env/Lib/site-packages"
+  ],
+  "scope": "English Chatterbox TTS and speech-to-speech only. Multilingual weights are not installed."
+}

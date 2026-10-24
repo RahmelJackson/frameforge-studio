@@ -1,0 +1,13 @@
+{
+  "url": "https://download.pytorch.org/torchaudio/models/conv_tasnet_base_libri2mix.pt",
+  "path": "separation/conv_tasnet_base_libri2mix.pt",
+  "sha256": "ddf97d8341f616c6d8d1a4b20dd51042760392c6543e9eaac276c9f96eba0f0e",
+  "bytes": 20049107,
+  "architecture": "torchaudio.models.conv_tasnet_base(num_sources=2)",
+  "sampleRate": 8000,
+  "sources": 2,
+  "runtime": "Existing TorchAudio 2.10.0+cu130, no extra packages",
+  "documentation": "https://docs.pytorch.org/audio/2.10.0/generated/torchaudio.pipelines.CONVTASNET_BASE_LIBRI2MIX.html",
+  "source": "https://github.com/pytorch/audio/tree/v2.10.0/examples/source_separation",
+  "hashProvenance": "First download over HTTPS from official PyTorch asset host; hash pinned locally. Future restore refuses any changed bytes."
+}

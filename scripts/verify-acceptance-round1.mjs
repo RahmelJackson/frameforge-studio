@@ -1,0 +1,25 @@
+import {readFile,writeFile,mkdir} from 'node:fs/promises';import path from 'node:path';import {fileURLToPath} from 'node:url';import {createHash} from 'node:crypto';import {spawnSync} from 'node:child_process';
+const root=path.dirname(path.dirname(fileURLToPath(import.meta.url))),directory=path.join(root,'evidence/acceptance-round1'),base=process.env.STUDIO_URL??'http://127.0.0.1:4317',config=JSON.parse(await readFile(path.join(root,'config.local.json'),'utf8'));
+const cases=[['masked','6ecb96d0-b504-400a-9048-a206426bcfa3'],['relight','203467c3-8269-4a55-bb16-4f15d21ee1a6'],['relight-heldout','10fe5732-1d8c-40a7-8ad9-eac3db739868'],['zero-control','ba59b0ab-9949-4087-830d-4da821874fdf'],['sound-clip','77e4c373-128f-44a5-9d18-519e6fd76281'],['lower-strength','4cd2b5ed-6967-4ee4-b40a-5f767ac749f0']];
+const projectId='fa62b1fc-6ad0-4eba-b7c1-f6565e8a8767',exportId='ed812989-6fea-4383-b0fa-edb4b39247b4',report={at:new Date().toISOString(),cases:[],sounds:[],creativeApproval:'separate; no automatic approval'};
+const hash=bytes=>createHash('sha256').update(bytes).digest('hex');
+async function get(route){const response=await fetch(base+route,{signal:AbortSignal.timeout(60000)});if(!response.ok)throw new Error('Local studio request failed: '+route);return response;}
+async function checkFile(route,checksum){const actual=hash(Buffer.from(await(await get(route)).arrayBuffer()));if(actual!==checksum)throw new Error('Saved artifact checksum mismatch: '+route);return actual;}
+function reverify(dir,file){const result=spawnSync(config.python,['scripts/verify-video-tool.py',dir,...(file?['--file',file]:[])],{cwd:root,encoding:'utf8',windowsHide:true,timeout:60000});if(result.status!==0)throw new Error('Independent media verification failed: '+result.stderr.slice(-1200));const value=JSON.parse(result.stdout);if(!value.technicalPass)throw new Error('A media gate failed: '+dir);return value;}
+await mkdir(directory,{recursive:true});
+try{
+ const jobs=await(await get('/api/jobs')).json();let gpu=0;
+ for(const [name,id] of cases){const job=jobs.find(j=>j.id===id);if(!job?.report?.technicalPass||!job.video)throw new Error('Saved case is unavailable: '+id);const dir=path.join(root,'data/jobs',id),fresh=reverify(dir);await checkFile(`/outputs/${id}/${job.video}`,job.report.sha256);if(fresh.sha256!==job.report.sha256)throw new Error('Fresh verification disagrees with the saved output.');
+  const manifest=JSON.parse(await readFile(path.join(dir,'manifest.json'),'utf8'));if(hash(await readFile(manifest.source.path))!==manifest.source.sha256)throw new Error('An original source changed.');
+  if(job.report.relighting){const lighting=job.report.relighting;await checkFile(`/outputs/${id}/raw.mp4`,lighting.candidateSha256);await checkFile(`/outputs/${id}/preserved.mkv`,lighting.masterSha256);if(hash(await readFile(path.join(dir,'relight-fields.npz')))!==lighting.fieldsSha256)throw new Error('A correction field changed.');}
+  if(name==='masked'&&(job.review?.verdict!=='rejected'||fresh.preservation.outsideMaxRgb!==0))throw new Error('Lost the failed semantic baseline or preservation result.');
+  if(name==='zero-control'&&(job.promptId||fresh.relighting.observedMaximumEV!==0||job.request.lightingProposal!==cases[2][1]))throw new Error('Zero control did not reuse its exact proposal.');
+  if(job.promptId)gpu++;report.cases.push({name,jobId:id,sha256:fresh.sha256,frames:fresh.frames,technicalPass:fresh.technicalPass,review:job.review,relighting:fresh.relighting??null});
+ }
+ if(gpu!==3)throw new Error('Unexpected GPU preview count.');report.gpuPreviews=gpu;
+ const sounds=await(await get('/api/sounds')).json();for(const item of sounds){await checkFile(item.url,item.sha256);report.sounds.push({id:item.id,name:item.name,category:item.category,duration:item.duration,sha256:item.sha256});}if(!['music','ambience','effect'].every(category=>sounds.some(s=>s.category===category)))throw new Error('Missing a sound-library category.');
+ const projects=await(await get('/api/projects')).json(),film=projects.find(p=>p.id===projectId);if(film?.lastExport?.id!==exportId||film.film.tracks.length!==2)throw new Error('Acceptance film changed; retain its original export before updating the test.');
+ const freshFilm=reverify(path.join(root,'data/films',projectId,exportId),'movie.mp4');await checkFile(film.lastExport.url,film.lastExport.report.sha256);if(!freshFilm.audio||freshFilm.frames!==81||!film.film.tracks.every(t=>sounds.some(s=>s.audio===t.audio)))throw new Error('Sound-library film handoff is incomplete.');
+ report.film={projectId,exportId,sha256:freshFilm.sha256,frames:freshFilm.frames,duration:freshFilm.duration,audio:freshFilm.audio};report.status='technical-pass';
+}catch(error){report.status='needs-attention';report.error=error.message;process.exitCode=1;}
+await writeFile(path.join(directory,'latest-verification.json'),JSON.stringify(report,null,2));console.log(JSON.stringify({status:report.status,cases:report.cases.length,sounds:report.sounds.length,gpuPreviews:report.gpuPreviews,film:report.film,error:report.error},null,2));

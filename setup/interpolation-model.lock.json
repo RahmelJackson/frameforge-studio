@@ -1,0 +1,9 @@
+{
+  "url": "https://huggingface.co/Comfy-Org/frame_interpolation/resolve/219da3c9d8c357ceaf457fc1d5932c6e861b8dee/frame_interpolation/film_net_fp16.safetensors",
+  "path": "runtime/models/frame_interpolation/film_net_fp16.safetensors",
+  "sha256": "f226e51375dc839d4b40e5c3d63da560dd1ea1c962364ec78f5adf2d05db05c0",
+  "bytes": 68882302,
+  "name": "film_net_fp16.safetensors",
+  "revision": "219da3c9d8c357ceaf457fc1d5932c6e861b8dee",
+  "repository": "Comfy-Org/frame_interpolation"
+}

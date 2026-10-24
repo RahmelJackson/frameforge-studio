@@ -1,0 +1,128 @@
+{
+  "sources": [
+    {
+      "repo": "ResembleAI/chatterbox",
+      "revision": "5bb1f6ee58e50c3b8d408bc82a6d3740c2db6e18",
+      "folder": "chatterbox"
+    },
+    {
+      "repo": "Helsinki-NLP/opus-mt-es-en",
+      "revision": "c96e2c5399ebfae4fc43d9669556b9afa74bb69d",
+      "folder": "translation-es-en"
+    }
+  ],
+  "files": [
+    {
+      "repo": "ResembleAI/chatterbox",
+      "revision": "5bb1f6ee58e50c3b8d408bc82a6d3740c2db6e18",
+      "path": "chatterbox/s3gen.safetensors",
+      "file": "s3gen.safetensors",
+      "bytes": 1056484620,
+      "sha256": "2b78103c654207393955e4900aac14a12de8ef25f4b09424f1ef91941f161d4e"
+    },
+    {
+      "repo": "ResembleAI/chatterbox",
+      "revision": "5bb1f6ee58e50c3b8d408bc82a6d3740c2db6e18",
+      "path": "chatterbox/t3_cfg.safetensors",
+      "file": "t3_cfg.safetensors",
+      "bytes": 2129653744,
+      "sha256": "914cb1696f47527fe8852ca8f1fe1fa63cb34f76f9c715e84e067b744dd0da81"
+    },
+    {
+      "repo": "ResembleAI/chatterbox",
+      "revision": "5bb1f6ee58e50c3b8d408bc82a6d3740c2db6e18",
+      "path": "chatterbox/ve.safetensors",
+      "file": "ve.safetensors",
+      "bytes": 5695784,
+      "sha256": "f0921cab452fa278bc25cd23ffd59d36f816d7dc5181dd1bef9751a7fb61f63c"
+    },
+    {
+      "repo": "ResembleAI/chatterbox",
+      "revision": "5bb1f6ee58e50c3b8d408bc82a6d3740c2db6e18",
+      "path": "chatterbox/tokenizer.json",
+      "file": "tokenizer.json",
+      "bytes": 25470,
+      "sha256": "d71e3a44eabb1784df9a68e9f95b251ecbf1a7af6a9f50835856b2ca9d8c14a5"
+    },
+    {
+      "repo": "ResembleAI/chatterbox",
+      "revision": "5bb1f6ee58e50c3b8d408bc82a6d3740c2db6e18",
+      "path": "chatterbox/conds.pt",
+      "file": "conds.pt",
+      "bytes": 107374,
+      "sha256": "6552d70568833628ba019c6b03459e77fe71ca197d5c560cef9411bee9d87f4e"
+    },
+    {
+      "repo": "ResembleAI/chatterbox",
+      "revision": "5bb1f6ee58e50c3b8d408bc82a6d3740c2db6e18",
+      "path": "chatterbox/README.md",
+      "file": "README.md",
+      "bytes": 10081,
+      "sha256": "6ac86d5ec7e85a9cf6566a34c6aae60ac1d50a6fceccade4c2aa57cfa6f590b4"
+    },
+    {
+      "repo": "Helsinki-NLP/opus-mt-es-en",
+      "revision": "c96e2c5399ebfae4fc43d9669556b9afa74bb69d",
+      "path": "translation-es-en/config.json",
+      "file": "config.json",
+      "bytes": 1438,
+      "sha256": "374443eacf8986c21386503e2fcd52eae6952ac09c87fd36695f5c12259a4cd1"
+    },
+    {
+      "repo": "Helsinki-NLP/opus-mt-es-en",
+      "revision": "c96e2c5399ebfae4fc43d9669556b9afa74bb69d",
+      "path": "translation-es-en/generation_config.json",
+      "file": "generation_config.json",
+      "bytes": 293,
+      "sha256": "837839ed0534a27084f9b980fc33f47729052dd89cb26cca7ac830765ed30e49"
+    },
+    {
+      "repo": "Helsinki-NLP/opus-mt-es-en",
+      "revision": "c96e2c5399ebfae4fc43d9669556b9afa74bb69d",
+      "path": "translation-es-en/pytorch_model.bin",
+      "file": "pytorch_model.bin",
+      "bytes": 312087523,
+      "sha256": "586a4e69e0804459ac7c176a5dc76852652100d9af1ee0db796de719899a5deb"
+    },
+    {
+      "repo": "Helsinki-NLP/opus-mt-es-en",
+      "revision": "c96e2c5399ebfae4fc43d9669556b9afa74bb69d",
+      "path": "translation-es-en/source.spm",
+      "file": "source.spm",
+      "bytes": 825924,
+      "sha256": "e236ee6d866b635c0142114f8647f39831f9d92534aa2aad75c942f6a78ad0e3"
+    },
+    {
+      "repo": "Helsinki-NLP/opus-mt-es-en",
+      "revision": "c96e2c5399ebfae4fc43d9669556b9afa74bb69d",
+      "path": "translation-es-en/target.spm",
+      "file": "target.spm",
+      "bytes": 801636,
+      "sha256": "4dd547c24816a335e7b0b2e63376a8f1b3cbfc671eda5ab808dd44fdadaa8791"
+    },
+    {
+      "repo": "Helsinki-NLP/opus-mt-es-en",
+      "revision": "c96e2c5399ebfae4fc43d9669556b9afa74bb69d",
+      "path": "translation-es-en/vocab.json",
+      "file": "vocab.json",
+      "bytes": 1590040,
+      "sha256": "257f346d7a6b2ecceafcca8ba05648ce2fd68dfaf105fb0e913dca7198f3f6d5"
+    },
+    {
+      "repo": "Helsinki-NLP/opus-mt-es-en",
+      "revision": "c96e2c5399ebfae4fc43d9669556b9afa74bb69d",
+      "path": "translation-es-en/tokenizer_config.json",
+      "file": "tokenizer_config.json",
+      "bytes": 44,
+      "sha256": "dd009536f1cd954180a3004be20e9963eaf3d68b485d062ea1b90d3b9ded2bc5"
+    },
+    {
+      "repo": "Helsinki-NLP/opus-mt-es-en",
+      "revision": "c96e2c5399ebfae4fc43d9669556b9afa74bb69d",
+      "path": "translation-es-en/README.md",
+      "file": "README.md",
+      "bytes": 2427,
+      "sha256": "d67ee971854b4c166da1cc281b58fbdc8596e0412441ef71fb0d422263230e0a"
+    }
+  ]
+}
