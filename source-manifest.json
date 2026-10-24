@@ -1,6 +1,6 @@
 {
   "version": 1,
-  "created": "2026-10-24T22:13:42.569Z",
+  "created": "2026-10-24T22:17:55.676Z",
   "files": [
     {
       "name": ".gitattributes",
@@ -24,8 +24,8 @@
     },
     {
       "name": "GITHUB-SETUP.md",
-      "bytes": 8857,
-      "sha256": "68fe4a6bc23b5d537f4162b3638198a56ac4f201ba72dbf4d52270531387789a"
+      "bytes": 8983,
+      "sha256": "7f70806b9e6d4f70449cc93a08ec60dc0d622639a5e9fe332ca92482388a3bb9"
     },
     {
       "name": "lib/audio.mjs",
@@ -639,8 +639,8 @@
     },
     {
       "name": "REMAINING-CHECKLIST.md",
-      "bytes": 39275,
-      "sha256": "ab8f9d075776b275e337fde063447d625a887109f56a98e836e530fdb9ddefe6"
+      "bytes": 39859,
+      "sha256": "8540b1cc2493fb4ae5b5207c245933c22f07136dc3fef053de7a1326af0b5995"
     },
     {
       "name": "scripts/acceptance-keyframes.mjs",

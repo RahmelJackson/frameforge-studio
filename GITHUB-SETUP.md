@@ -56,7 +56,7 @@ Tools: `studio_workflows`, `comfy_status`, `workflow_requirements`. All are read
 
 Run `npm test`, then `npm run package:source`. The latter writes `dist/frameforge-source-<timestamp>.zip` and a SHA-256 inventory. It selects source roots explicitly, refuses symlinks/junctions and unreviewed public media, checks source sizes and credential patterns, and excludes private data, models, environments, logs, evidence, backups, local configuration and Git history. This pattern scan is a practical check, not a complete secret audit.
 
-The archive is the easiest clean starting point: extract it into a new folder, review the manifest and initialize a new Git repository there. Do not publish the original working directory or its old Git history blindly. No GitHub remote is configured in this checkout.
+The archive is the easiest clean starting point: extract it into a new folder, review the manifest and initialize a new Git repository there. Do not publish the original working directory or its old Git history blindly. Keep the development checkout separate from the clean publishing checkout. The source release preserves file bytes across Git clones so its manifest hashes remain meaningful.
 
 Public repository: **[RahmelJackson/frameforge-studio](https://github.com/RahmelJackson/frameforge-studio)**. The owner explicitly selected public visibility for the open-source Higgsfield-inspired submission. Upload a clean source snapshot from the archive rather than the original working checkout or its history. Keep model weights, local settings, generated media and credentials outside the repository.
 

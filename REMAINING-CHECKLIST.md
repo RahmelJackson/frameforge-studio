@@ -21,7 +21,7 @@ The Civitai route is an external prompt handoff, not an in-studio API runner. Cl
 - [x] Clean source-package builder and fresh-install instructions; no bundled weights or personal media.
 - [x] Choose GitHub destination RahmelJackson/frameforge-studio and MIT for original code; include the license and preserve third-party notices in the source package. The owner subsequently selected public visibility for the open-source submission.
 - [x] Create the public GitHub repository with a purpose-led description.
-- [ ] Upload the reviewed source snapshot and verify the published README, files, license and clean-clone startup.
+- [x] Upload the reviewed source snapshot and verify the public README, files, MIT license and clean-clone startup. A fresh clone matches all 426 source hashes, repackages successfully and prepares a Cloud image graph with its local engine deliberately offline.
 
 Suggested chains still require manual generation, review and media selection. The 15 creative quality research goals below retain their existing status.
 
@@ -139,6 +139,8 @@ Research status: Parked
 - [x] Explicit reference-subject removal with a matching local image/text encoder, separate strength and no-subtraction control. The matched paint teapot loses borrowed stars while keeping brushwork. Ten previews and 106 tests pass technical checks; muted palette, weak soft styles and exact subject details remain open. Models and evidence are on D:.
 
 ## Latest completed work
+
+- [x] Public source release: https://github.com/RahmelJackson/frameforge-studio, with a Higgsfield-inspired project description, feature/setup tables, architecture overview, installation commands, honest limits and MIT/third-party notices. 147 tests and live readiness pass; fresh-clone startup and installation-free Cloud preparation pass. No models, personal media, local settings or previous development Git history were uploaded.
 
 - [x] Four setup paths on Home and Setup: existing ComfyUI, new local installation, Comfy Cloud only and Civitai images; local engine discovery checks ports 8188 and 8000 without changing the saved connection.
 - [x] Installation-free Cloud preparation: image, video and speech text-only graphs prepare without local ComfyUI, weights or Python. Browser download retains the typed prompt; reference-based and native recipes remain starter/import handoffs.
