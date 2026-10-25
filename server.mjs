@@ -734,6 +734,8 @@ const server = http.createServer(async (req, res) => {
     Object.assign(publicFiles,{'/workflow-panel.js':'workflow-panel.js','/workflow-panel.css':'workflow-panel.css'});
     for(const name of ['compass','moon','character','knight','robot','bicycle'])publicFiles['/explore-art/'+name+'.svg']='explore-art/'+name+'.svg';
     for(const name of ['observatory-concept','portrait-concept','product-concept'])publicFiles['/explore-art/'+name+'.png']='explore-art/'+name+'.png';
+    for(const name of ['mcp-observatory','mcp-portrait','mcp-product'])publicFiles['/explore-art/'+name+'.png']='explore-art/'+name+'.png';
+    publicFiles['/explore-art/observatory-motion.mp4']='explore-art/observatory-motion.mp4';
     if(route==='/mcp-app'&&req.method==='GET')return await serveFile(req,res,path.join(ROOT,'public','mcp-app.html'));
     if(publicFiles[route] && req.method==='GET') {
       const legacyImage=route==='/'&&url.searchParams.has('image'),mergedWorkflows=route==='/library'&&url.searchParams.get('collection')==='workflows',file=legacyImage?'index.html':mergedWorkflows?'workflows.html':publicFiles[route];

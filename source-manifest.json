@@ -1,6 +1,6 @@
 {
   "version": 1,
-  "created": "2026-10-25T11:16:33.528Z",
+  "created": "2026-10-25T11:37:29.418Z",
   "files": [
     {
       "name": ".agents/plugins/marketplace.json",
@@ -21,6 +21,16 @@
       "name": "assets/frameforge.svg",
       "bytes": 408,
       "sha256": "fa2907d195059cb657b51a0e4019c596d347e37d3cee60f21fe024f5f110941d"
+    },
+    {
+      "name": "assets/studio-cover.png",
+      "bytes": 76928,
+      "sha256": "5a908b464b6dacfd9105888daaca16a8faa0646a625366d8e82459b6dffc5b5f"
+    },
+    {
+      "name": "assets/studio-workflows.png",
+      "bytes": 100271,
+      "sha256": "7eb11e9087faaf5850836b8936744b27e63a8962a21b448eb28adfea5ab5edd7"
     },
     {
       "name": "ASSISTANT-CONNECTIONS.md",
@@ -144,8 +154,8 @@
     },
     {
       "name": "lib/mcp-ui.mjs",
-      "bytes": 1276,
-      "sha256": "83c3aaadf7137e461f6f67481f883dfe29c9c714114836fc253994da60e70f56"
+      "bytes": 1638,
+      "sha256": "9669ee14d3b70de7c91a1c880eedd8c598084fc56477243efa5f43d0cc345139"
     },
     {
       "name": "lib/pose.mjs",
@@ -259,8 +269,8 @@
     },
     {
       "name": "MCP-GUIDE.md",
-      "bytes": 8850,
-      "sha256": "bacc978d43459f4a589f79f4509a0e3cbead2ed7b2d4a94c899cebcac3f6bf28"
+      "bytes": 9471,
+      "sha256": "eba0159d49867e04686290123bd6474f682572da0f63ea7c6497c77df478289b"
     },
     {
       "name": "mcp.json",
@@ -279,18 +289,18 @@
     },
     {
       "name": "PLUGIN-ACCEPTANCE.md",
-      "bytes": 2602,
-      "sha256": "09a66b5cf24446b8d4c4037965e86db0e2ea8299eb7995eb9ae7be9486d3caab"
+      "bytes": 5335,
+      "sha256": "053f4e156dd5f4b6efe969a5776029caa501ba9f640bbf04236558ca48a5bdc9"
     },
     {
       "name": "PLUGIN-GUIDE.md",
-      "bytes": 4353,
-      "sha256": "1ce96eefda2bca3ef534cb4c2a0a0dd77572075365270c30d0072b37ec0ca4e0"
+      "bytes": 4909,
+      "sha256": "a710017071aed7a547f649332c8d41c93150fdd9df3b68a2f3fba1d43e32e059"
     },
     {
       "name": "plugin.json",
-      "bytes": 2508,
-      "sha256": "c11b4a60ddaf0ca30325092a67efbf003d263a3f8964db12384af6f17e415753"
+      "bytes": 2595,
+      "sha256": "0a47f236d87dde7b185d51a1a5710107c37b7d8f62f0ef7331fe4013901cb22a"
     },
     {
       "name": "public/app.js",
@@ -448,6 +458,16 @@
       "sha256": "9a7d371bf50d244e2ee63be83a455db4005efe12564fbaa61ae7785aae8f76cb"
     },
     {
+      "name": "public/explore-art/observatory-motion.json",
+      "bytes": 1512,
+      "sha256": "cdc21496be01611341b5b7511f7f9e666e8e841ff0ce8b292f9807f66308215a"
+    },
+    {
+      "name": "public/explore-art/observatory-motion.mp4",
+      "bytes": 366773,
+      "sha256": "9ecb474525e6430a13a6ef1df610f711b6abc5752494526481bcb98c6b748f9f"
+    },
+    {
       "name": "public/explore-art/portrait-concept.png",
       "bytes": 2593474,
       "sha256": "677567d89749535daa3915e1d55e9cb117475874ad563e6ede731c6c39e22846"
@@ -544,18 +564,18 @@
     },
     {
       "name": "public/mcp-app.css",
-      "bytes": 6401,
-      "sha256": "d1689df7c53b868e524c048f9eb13fc82f673f26393a7eadb980ec5acafb9d91"
+      "bytes": 12453,
+      "sha256": "37ae187dd85bb47f8bc646ffec1e6c05d5d87590967e3c0bbe7c4d78e1e025f2"
     },
     {
       "name": "public/mcp-app.html",
-      "bytes": 3541,
-      "sha256": "3a338024a89c7015bd3084777505d377677588be6e15aa9b9e30b009131b7f97"
+      "bytes": 4870,
+      "sha256": "2ede9492363907b50adc1500ee24dae2740c88a2803ff703bde086102f2039d5"
     },
     {
       "name": "public/mcp-app.js",
-      "bytes": 15331,
-      "sha256": "2389b38cf120c46307946f2d72d024e85179acc1a475e5b41dccbe4b8a548dfb"
+      "bytes": 17946,
+      "sha256": "ee5aabef8064d26c2e23f52293bf39b3e27445787bd20ad13192791d81666010"
     },
     {
       "name": "public/online-handoff.js",
@@ -1059,8 +1079,8 @@
     },
     {
       "name": "scripts/package-source.mjs",
-      "bytes": 5184,
-      "sha256": "2f0d5bebc502665c4c97d7443b0e420943c19287060065aa9e52675a09cd3c3d"
+      "bytes": 5335,
+      "sha256": "ceca491ef76d7cd4da3730fd3403fe052770c1d320172977d186494e7cb46330"
     },
     {
       "name": "scripts/pose_retarget.py",
@@ -1094,8 +1114,8 @@
     },
     {
       "name": "scripts/preview-mcp-ui.mjs",
-      "bytes": 3967,
-      "sha256": "95c0439a5021ce09f7fe2225fb4330cf742bd9cf5e6e7717b7cc0d7849b65cd2"
+      "bytes": 4001,
+      "sha256": "230ac3d39b78cd65a9bec0d35b2df9df6d91eb4d871e1af25bd956806fc222c7"
     },
     {
       "name": "scripts/probe-lip-visibility.py",
@@ -1514,8 +1534,8 @@
     },
     {
       "name": "server.mjs",
-      "bytes": 96248,
-      "sha256": "fdf9157c77df8707fce875bdb2aa4984d58b303f9c330a87f4d8fe20a64f2e62"
+      "bytes": 96483,
+      "sha256": "4f49c9d7c1d5f680577307de0c0e67e4a93e86f0ed70511a50e05e362c3a7bb6"
     },
     {
       "name": "setup/advanced-models.lock.json",
@@ -2019,13 +2039,13 @@
     },
     {
       "name": "tests/plugin-release.test.mjs",
-      "bytes": 3411,
-      "sha256": "6e83ca2d433e3d2f07f612331af9c031ed5fcd3ba92a38902001031e429c81d5"
+      "bytes": 3567,
+      "sha256": "ef037754a9b5418c82d8e1031f30383de28b22359969b9ef45199b1afdce65f3"
     },
     {
       "name": "tests/portable-workspace.test.mjs",
-      "bytes": 4811,
-      "sha256": "2620dcd738adfea1baf52fce8f5173725b711017bd704eaaa6decb6e008944aa"
+      "bytes": 5458,
+      "sha256": "00b8e140e48b5726158406e6b69978bd065fa1afa9c2e8f3d9099a8c73aaeebf"
     },
     {
       "name": "tests/pose_retarget_check.py",

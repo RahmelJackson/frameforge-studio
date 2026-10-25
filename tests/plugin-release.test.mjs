@@ -39,6 +39,6 @@ test('The plugin can launch from a relocated clean source release with its skill
   const [code]=await exited;clearTimeout(timer);assert.equal(code,0,stderr);
   const messages=stdout.trim().split('\n').map(JSON.parse);assert.equal(messages.length,3);
   assert.ok(messages.every(m=>m.result&&!m.error));assert.equal(messages[1].result.tools.length,17);
-  const ui=messages[2].result.contents[0];assert.equal(ui.mimeType,'text/html;profile=mcp-app');assert.ok(ui.text.includes('data:image/png;base64,'));
+  const ui=messages[2].result.contents[0];assert.equal(ui.mimeType,'text/html;profile=mcp-app');assert.ok(ui.text.includes('data:image/png;base64,'));assert.ok(ui.text.includes('data:video/mp4;base64,'));assert.ok(!ui.text.includes('poster="/explore-art/'));assert.ok(Buffer.byteLength(ui.text)<2*1024**2);
  }finally{assert.ok(path.resolve(destination).startsWith(path.resolve(tmpdir())+path.sep));await rm(destination,{recursive:true,force:true});}
 });

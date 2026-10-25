@@ -1,7 +1,7 @@
 {
   "$schema": "https://agent-plugins.org/schemas/1.0.0/plugin.schema.json",
   "name": "frameforge-studio",
-  "version": "0.3.0",
+  "version": "0.4.0",
   "description": "Discover, understand and run ComfyUI creative workflows through a visual studio in your assistant. Connect your own local engine, inspect editable graphs, find required model downloads, and continue into images, video, speech and films.",
   "author": { "name": "Rahmel Jackson", "url": "https://github.com/RahmelJackson" },
   "homepage": "https://github.com/RahmelJackson/frameforge-studio",
@@ -27,7 +27,8 @@
         ],
         "brandColor": "#D7FF34",
         "composerIcon": "./assets/frameforge.svg",
-        "logo": "./assets/frameforge.svg"
+        "logo": "./assets/frameforge.svg",
+        "screenshots": ["./assets/studio-cover.png", "./assets/studio-workflows.png"]
       }
     }
   }

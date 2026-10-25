@@ -1,0 +1,35 @@
+{
+  "title": "The Observatory",
+  "purpose": "Original public Frameforge plugin/website cover. No private library footage or third-party site media.",
+  "input": "observatory-concept.png",
+  "inputSha256": "9a7d371bf50d244e2ee63be83a455db4005efe12564fbaa61ae7785aae8f76cb",
+  "workflow": "wan-i2v",
+  "model": "Wan 2.2 TI2V 5B",
+  "prompt": "A cinematic establishing shot of a monumental black stone observatory floating above a sea of clouds. Locked tripod camera. Very gentle clouds drift around the island, a few fine stars shimmer subtly, and warm light glows steadily from the doorway. The tiny explorer remains stationary. Preserve the architecture, composition and all fine details. Restrained atmospheric movement, no cuts, no camera shake.",
+  "preset": "locked",
+  "seed": 20261025,
+  "steps": 12,
+  "source": {
+    "size": [
+      768,
+      432
+    ],
+    "fps": 24,
+    "frames": 49,
+    "duration": 2.0416666666666665,
+    "sha256": "940d7319c48b05d32b50f97fa3e2ec2d37aaec2586cfcf3b17025b4d2a29cfb2"
+  },
+  "published": {
+    "file": "observatory-motion.mp4",
+    "size": [
+      768,
+      432
+    ],
+    "fps": 24,
+    "frames": 49,
+    "codec": "H.264",
+    "audio": false,
+    "sha256": "9ecb474525e6430a13a6ef1df610f711b6abc5752494526481bcb98c6b748f9f"
+  },
+  "presentation": "Original two-second local render, H.264 re-encoded for a silent looping cover. No frame interpolation or external footage. A narrow showcase, not acceptance of broader quality goals. Creative review remains human."
+}

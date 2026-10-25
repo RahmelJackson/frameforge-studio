@@ -10,6 +10,8 @@ Calling `studio_workflows` also advertises `ui://frameforge/studio-v1.html`, an 
 
 The panel now embeds the same original concept imagery as the website, uses picture recipe cards, and provides a Saved results workspace that requests actual image/video-poster previews through MCP. Concept artwork is explicitly labeled and never presented as a graph result. Embedded art needs no external image domains.
 
+The current cover includes an original two-second Wan 2.2 local render, H.264 encoded from the project's public observatory artwork. The large cover opens its actual image-to-video recipe, and the library below uses picture cards with model/location labels. This self-contained motion study is separate from saved private job previews and from broader model-quality acceptance. Pause, reduced-motion preference, page visibility and cover visibility control playback. Host media restrictions can leave the poster instead of video; new native Codex/Claude video acceptance remains separate from the browser bridge test.
+
 MCP Apps rendering depends on the client. The ordinary tools and local website links work without it. Claude Desktop 3.6556.2 has now rendered the actual local STDIO panel and returned the native image preview. Recipe search and detail interaction were exercised in the client. Codex visual rendering and other Claude versions remain separate acceptance checks. See [the client acceptance record](MCP-CLIENT-ACCEPTANCE.md). `node scripts/preview-mcp-ui.mjs` runs a read-only local test host on port 4390. Add `--allow-writes` only when testing local creation. `/mcp-app` on the website is a labeled, read-only browser preview, not a live assistant session.
 
 ## Install once

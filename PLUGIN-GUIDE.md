@@ -2,6 +2,8 @@
 
 The plugin packages the same Frameforge MCP server with a branded plugin entry, three starter prompts, a setup skill and creative workflow guidance. Its visual MCP panel already includes original artwork, explained recipe cards, editable-graph inspection and saved-result previews. The website remains independently usable.
 
+Version 0.4.0 adds a full-width cinematic cover with an original local Wan video, large picture workflow cards immediately below it, expanded visual recipe details and two actual browser-preview screenshots for the plugin's gallery. The cover video and artwork are bundled into the MCP resource; no third-party media server is needed. A client that blocks video keeps the original poster. The host controls the directory/landing-page layout and whether it displays those screenshots; the live interactive layout appears when opening the visual MCP panel.
+
 ## Install from GitHub
 
 Install Node.js 22+ first. In a supported local Codex installation:
