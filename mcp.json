@@ -1,0 +1,15 @@
+{
+  "$schema": "https://agent-plugins.org/schemas/1.0.0/mcp.schema.json",
+  "mcpServers": {
+    "frameforge": {
+      "type": "stdio",
+      "command": "node",
+      "args": ["${PLUGIN_ROOT}/scripts/frameforge-mcp.mjs", "--start-studio", "--allow-writes"],
+      "cwd": "${PLUGIN_ROOT}",
+      "env": {
+        "STUDIO_URL": "http://127.0.0.1:4317",
+        "FRAMEFORGE_IMPORT_ROOT": "${PLUGIN_ROOT}/public/explore-art"
+      }
+    }
+  }
+}

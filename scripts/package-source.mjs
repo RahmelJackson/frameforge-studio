@@ -4,8 +4,8 @@ import {fileURLToPath,pathToFileURL} from 'node:url';
 import path from 'node:path';
 import {writeZip} from '../lib/workflow-exports.mjs';
 const root=fileURLToPath(new URL('../',import.meta.url));
-const roots=['lib','public','scripts','setup','workflows','tests'];
-const top=['server.mjs','package.json','LICENSE','.gitignore','.gitattributes','config.example.json','DISTRIBUTION-README.md','GITHUB-SETUP.md','THIRD-PARTY-NOTICES.md','BUILD-LOOP.md','REMAINING-CHECKLIST.md','MCP-GUIDE.md','OPEN-WEIGHTS.md','CHALLENGE-CHECKLIST.md','COMFY-HUB-COMPARISON.md','DEMO-SCRIPT.md','MCP-CLIENT-ACCEPTANCE.md','ASSISTANT-CONNECTIONS.md'];
+const roots=['lib','public','scripts','setup','workflows','tests','skills','assets'];
+const top=['server.mjs','package.json','plugin.json','mcp.json','.agents/plugins/marketplace.json','LICENSE','.gitignore','.gitattributes','config.example.json','DISTRIBUTION-README.md','GITHUB-SETUP.md','THIRD-PARTY-NOTICES.md','BUILD-LOOP.md','REMAINING-CHECKLIST.md','MCP-GUIDE.md','OPEN-WEIGHTS.md','CHALLENGE-CHECKLIST.md','COMFY-HUB-COMPARISON.md','DEMO-SCRIPT.md','MCP-CLIENT-ACCEPTANCE.md','ASSISTANT-CONNECTIONS.md','PLUGIN-GUIDE.md','PLUGIN-ACCEPTANCE.md'];
 const allowedArt=new Set(['observatory-concept.png','portrait-concept.png','product-concept.png','compass.svg','moon.svg','character.svg','knight.svg','robot.svg','bicycle.svg','mcp-observatory.png','mcp-portrait.png','mcp-product.png']);
 export async function sourceInventory(directory=root){
  const files=[];
@@ -15,7 +15,7 @@ export async function sourceInventory(directory=root){
   if(!/\.(mjs|js|json|html|css|svg|png|py|ps1|md|txt)$/.test(relative)&&!['.gitignore','.gitattributes','LICENSE','setup/latentsync-notices/LICENSE','workflows/upstream/LICENSE'].includes(relative)&&!/^tests\/fixtures\/(reference\.(jpg|webp))$/.test(relative))throw Error('Unexpected source file type: '+relative);
   if(/(?:^|\/)(?:node_modules|__pycache__|\.git|data|runtime|evidence|backups|models|dist)(?:\/|$)/i.test(relative))throw Error('Private/runtime directory inside source roots: '+relative);
   if(relative.startsWith('public/explore-art/')&&!allowedArt.has(path.basename(relative)))throw Error('Unreviewed public artwork: '+relative);
-  if(/\.(png|svg)$/.test(relative)&&!relative.startsWith('public/explore-art/')&&!/^tests\/fixtures\/(reference|wide|broken)\.png$/.test(relative)&&relative!=='public/text-frame.svg')throw Error('Review media before packaging: '+relative);
+  if(/\.(png|svg)$/.test(relative)&&!relative.startsWith('public/explore-art/')&&!/^tests\/fixtures\/(reference|wide|broken)\.png$/.test(relative)&&!['public/text-frame.svg','assets/frameforge.svg'].includes(relative))throw Error('Review media before packaging: '+relative);
   if(info.size>20*1024**2)throw Error('Large binary in source: '+relative);
   const data=await readFile(full);if(!/\.(png|svg)$/.test(relative)&&/(?:-----BEGIN (?:RSA |OPENSSH |EC )?PRIVATE KEY-----|gh[pousr]_[A-Za-z0-9]{30,}|sk-[A-Za-z0-9_-]{30,}|(?:api[_-]?key|token|password)\s*[=:]\s*["'][A-Za-z0-9_-]{24,}["'])/i.test(data.toString()))throw Error('Possible credential in '+relative+'; review it before sharing.');
   files.push({name:relative.replaceAll('\\','/'),file:full,bytes:info.size,sha256:createHash('sha256').update(data).digest('hex')});

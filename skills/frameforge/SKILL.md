@@ -1,0 +1,18 @@
+---
+name: frameforge
+description: Open Frameforge's visual ComfyUI studio, find and explain creative workflows, inspect graphs and model requirements, or make images, videos, speech and films with the user's connected local engine. Use for Frameforge workflow and production requests; ordinary coding tasks do not need this skill.
+---
+
+# Frameforge Studio
+
+For "open Frameforge", "show the studio", or a workflow-library request, call the connected Frameforge `studio_workflows` tool immediately. It returns both the live catalog and the picture-rich MCP Apps resource. Let the host display that resource; do not substitute a screenshot or the read-only browser preview for a working MCP panel. If the client cannot render it, explain that limit and offer the returned `studioUrl` as a normal website link.
+
+Use the returned catalog rather than inventing recipe IDs or asserting model parity with a hosted service. Explain the chosen workflow's input, output, main stages and dependencies in plain language. Use `workflow_requirements` and `comfy_status` to distinguish a ready local recipe from a missing installation. `studio_graph` returns the actual graph and model download information. Model files and ComfyUI are separate installations, not part of this plugin.
+
+For authorized local creation, prepare and inspect a graph before `studio_run_workflow`. Use `studio_generate` or `studio_audio` for documented multi-stage processors. Import only media the user has authorized; `studio_import_asset` is restricted to the configured import folder. The plugin defaults that folder to its bundled original concept artwork. For personal files outside it, use the website's upload controls or help configure a deliberately chosen media folder.
+
+Give each new creation an explicit UUID `requestId`. If a submission times out or its result is ambiguous, reuse that ID and inspect saved jobs/engine history before retrying. Do not create a new ID merely because a response was lost. Poll `studio_job` and use `studio_preview` for actual generated images, audio and video posters/contact sheets. Original concept artwork is inspiration, not evidence of a successful render. Watch the actual video to judge motion; listen to speech to judge delivery. Keep technical checks separate from human creative approval.
+
+`studio_policy` changes the shared studio's Open weights only profile; use it when requested. Local-only execution and open model weights are different properties. Do not disable an active profile to bypass a failed workflow. Cloud preparation/export is an external graph/input handoff; Civitai receives a prompt/model brief. The plugin cannot submit paid jobs, install models, execute a shell, delete assets or approve creative results.
+
+For a film, use saved source IDs and current revision/signature values from project/Director tools. Reuse the same saved production work across the website and assistant. Do not claim every website editor is embedded in the panel: Films and Audio also link to the full local editors. The returned local URLs are for this computer, not public share links.

@@ -1,7 +1,12 @@
 {
   "version": 1,
-  "created": "2026-10-25T09:45:50.102Z",
+  "created": "2026-10-25T11:16:33.528Z",
   "files": [
+    {
+      "name": ".agents/plugins/marketplace.json",
+      "bytes": 324,
+      "sha256": "c42314b75d532ad4bfc4b04b64611dd158cc1f49ff7ab79a8cb527d9b1e9cad8"
+    },
     {
       "name": ".gitattributes",
       "bytes": 88,
@@ -11,6 +16,11 @@
       "name": ".gitignore",
       "bytes": 239,
       "sha256": "b8768a1f7ac377248b8bbe1c1bd4e90b720d45c3ace994321924e7ad5a50c58e"
+    },
+    {
+      "name": "assets/frameforge.svg",
+      "bytes": 408,
+      "sha256": "fa2907d195059cb657b51a0e4019c596d347e37d3cee60f21fe024f5f110941d"
     },
     {
       "name": "ASSISTANT-CONNECTIONS.md",
@@ -249,8 +259,13 @@
     },
     {
       "name": "MCP-GUIDE.md",
-      "bytes": 8543,
-      "sha256": "7d01d4fb4f07fbf60edc1b955a905177a7c853d625318c2196ac426ff259987d"
+      "bytes": 8850,
+      "sha256": "bacc978d43459f4a589f79f4509a0e3cbead2ed7b2d4a94c899cebcac3f6bf28"
+    },
+    {
+      "name": "mcp.json",
+      "bytes": 440,
+      "sha256": "cb6cc205d8f8cfb34c437e8b60d23fe3ee5f7cac966c9f93c07f4cc9a8448dd4"
     },
     {
       "name": "OPEN-WEIGHTS.md",
@@ -261,6 +276,21 @@
       "name": "package.json",
       "bytes": 933,
       "sha256": "2406a5290e782836e108b3d3542ea08b5cd2c6b81f8f32570e1508bd04ae94ba"
+    },
+    {
+      "name": "PLUGIN-ACCEPTANCE.md",
+      "bytes": 2602,
+      "sha256": "09a66b5cf24446b8d4c4037965e86db0e2ea8299eb7995eb9ae7be9486d3caab"
+    },
+    {
+      "name": "PLUGIN-GUIDE.md",
+      "bytes": 4353,
+      "sha256": "1ce96eefda2bca3ef534cb4c2a0a0dd77572075365270c30d0072b37ec0ca4e0"
+    },
+    {
+      "name": "plugin.json",
+      "bytes": 2508,
+      "sha256": "c11b4a60ddaf0ca30325092a67efbf003d263a3f8964db12384af6f17e415753"
     },
     {
       "name": "public/app.js",
@@ -734,8 +764,8 @@
     },
     {
       "name": "README.md",
-      "bytes": 9106,
-      "sha256": "0d6451bc19c789907733f94ef61dfd246abbb74e8318aede531654b76b0e3521"
+      "bytes": 9501,
+      "sha256": "a97049cbf86728962f990473af3bc6cbb9d7b1948557d653474b1938af68bfbe"
     },
     {
       "name": "REMAINING-CHECKLIST.md",
@@ -1029,8 +1059,8 @@
     },
     {
       "name": "scripts/package-source.mjs",
-      "bytes": 5030,
-      "sha256": "fd5e951e24641019b230902d554d8c079ffae047833e970560674970e3f127ce"
+      "bytes": 5184,
+      "sha256": "2f0d5bebc502665c4c97d7443b0e420943c19287060065aa9e52675a09cd3c3d"
     },
     {
       "name": "scripts/pose_retarget.py",
@@ -1753,6 +1783,16 @@
       "sha256": "340061a5b7ff448983b11ea956e8b18944bc8c3ef3c09fba710b194e48602db9"
     },
     {
+      "name": "skills/frameforge/SKILL.md",
+      "bytes": 3100,
+      "sha256": "803bb78c307647d1c5744b7709f4aac176acfe8a490d14556d88b1c249ef1481"
+    },
+    {
+      "name": "skills/setup/SKILL.md",
+      "bytes": 1942,
+      "sha256": "7c6a131a207cfca0cb3fd28b699588151cf93efd9a889a35967beecec954da5a"
+    },
+    {
       "name": "tests/advanced-workflows.test.mjs",
       "bytes": 3137,
       "sha256": "5a95d3fcb23de41ed5df55893bf29ca8e55239c37408f505916d15454450d43c"
@@ -1976,6 +2016,11 @@
       "name": "tests/online-generation.test.mjs",
       "bytes": 4662,
       "sha256": "298927de6d69762bb1d0bbae21fd90143c554edc36ba87d1e34a3a50a21872d8"
+    },
+    {
+      "name": "tests/plugin-release.test.mjs",
+      "bytes": 3411,
+      "sha256": "6e83ca2d433e3d2f07f612331af9c031ed5fcd3ba92a38902001031e429c81d5"
     },
     {
       "name": "tests/portable-workspace.test.mjs",
