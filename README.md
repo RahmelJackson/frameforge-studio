@@ -106,3 +106,6 @@ The server binds to localhost and is intended for personal local use. Public rep
 Original project code is [MIT licensed](LICENSE). ComfyUI, custom nodes, optional tools, model weights, hosted services and third-party templates keep their own terms. Preserve the included [third-party notices](THIRD-PARTY-NOTICES.md).
 
 Built around the work of [ComfyUI](https://github.com/Comfy-Org/ComfyUI) and its workflow ecosystem, with optional [Ollama](https://ollama.com/) integration and [Civitai](https://civitai.com/) discovery links. Higgsfield is a product inspiration, not a project dependency or affiliation.
+
+
+**Bring your own AI:** Ollama is optional. Studio guide connects to LM Studio, Ollama, llama.cpp, vLLM and custom local compatible servers. Setup includes server presets, discovery and copy/download configuration for Antigravity, Hermes Agent, LM Studio and Claude MCP clients. [Connection guide and tested scope](ASSISTANT-CONNECTIONS.md).

@@ -92,3 +92,7 @@ Four MCP resources contain this guide, the profile specification, the submission
 Protocol: newline-delimited JSON-RPC over STDIO; diagnostics use stderr. Local HTTP origins only. MCP protocol/tool behavior is tested automatically; client screenshots are not evidence of a live Codex/Claude session unless explicitly recorded.
 
 References: [Codex MCP configuration](https://learn.chatgpt.com/docs/extend/mcp), [Claude Code MCP](https://code.claude.com/docs/en/mcp), [MCP tool specification](https://modelcontextprotocol.io/specification/2025-06-18/server/tools).
+
+## More agent and model choices
+
+Ollama is optional. Setup and Studio guide now have local model-server presets and copy/download configuration for Antigravity, Hermes Agent, LM Studio and Claude Desktop. [Bring your own AI](ASSISTANT-CONNECTIONS.md) separates website-chat providers from MCP agent clients and records the tested scope.

@@ -5,7 +5,7 @@ import path from 'node:path';
 import {writeZip} from '../lib/workflow-exports.mjs';
 const root=fileURLToPath(new URL('../',import.meta.url));
 const roots=['lib','public','scripts','setup','workflows','tests'];
-const top=['server.mjs','package.json','LICENSE','.gitignore','.gitattributes','config.example.json','DISTRIBUTION-README.md','GITHUB-SETUP.md','THIRD-PARTY-NOTICES.md','BUILD-LOOP.md','REMAINING-CHECKLIST.md','MCP-GUIDE.md','OPEN-WEIGHTS.md','CHALLENGE-CHECKLIST.md','COMFY-HUB-COMPARISON.md','DEMO-SCRIPT.md','MCP-CLIENT-ACCEPTANCE.md'];
+const top=['server.mjs','package.json','LICENSE','.gitignore','.gitattributes','config.example.json','DISTRIBUTION-README.md','GITHUB-SETUP.md','THIRD-PARTY-NOTICES.md','BUILD-LOOP.md','REMAINING-CHECKLIST.md','MCP-GUIDE.md','OPEN-WEIGHTS.md','CHALLENGE-CHECKLIST.md','COMFY-HUB-COMPARISON.md','DEMO-SCRIPT.md','MCP-CLIENT-ACCEPTANCE.md','ASSISTANT-CONNECTIONS.md'];
 const allowedArt=new Set(['observatory-concept.png','portrait-concept.png','product-concept.png','compass.svg','moon.svg','character.svg','knight.svg','robot.svg','bicycle.svg','mcp-observatory.png','mcp-portrait.png','mcp-product.png']);
 export async function sourceInventory(directory=root){
  const files=[];

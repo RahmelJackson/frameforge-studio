@@ -1,6 +1,6 @@
 {
   "version": 1,
-  "created": "2026-10-25T03:54:54.757Z",
+  "created": "2026-10-25T09:45:50.102Z",
   "files": [
     {
       "name": ".gitattributes",
@@ -11,6 +11,11 @@
       "name": ".gitignore",
       "bytes": 239,
       "sha256": "b8768a1f7ac377248b8bbe1c1bd4e90b720d45c3ace994321924e7ad5a50c58e"
+    },
+    {
+      "name": "ASSISTANT-CONNECTIONS.md",
+      "bytes": 6660,
+      "sha256": "c84a22dafea03dfea63aea0db350dfb439b6292ba57b659ec25091f498e9ee1a"
     },
     {
       "name": "BUILD-LOOP.md",
@@ -34,13 +39,18 @@
     },
     {
       "name": "DEMO-SCRIPT.md",
-      "bytes": 5181,
-      "sha256": "45f14c2c5993f1e38e2b7efdcb782317d2a3694cd4081d67577892c0a70e93ec"
+      "bytes": 5240,
+      "sha256": "c54898414addc114d4e40dfcf510e4312b413afa5fadf5a3a9fc8a1d6266932a"
     },
     {
       "name": "GITHUB-SETUP.md",
       "bytes": 9817,
       "sha256": "7d18f6a126a5beb93e3c5a306f7f72a370c0a3996f975d97e7938e6e29da8e5d"
+    },
+    {
+      "name": "lib/assistant-connection.mjs",
+      "bytes": 7788,
+      "sha256": "d1c9a0ec6c318f7c213259847f28ddc97f2d9e7784fa6d0344412ca41e99422e"
     },
     {
       "name": "lib/audio.mjs",
@@ -159,8 +169,8 @@
     },
     {
       "name": "lib/studio-assistant.mjs",
-      "bytes": 9624,
-      "sha256": "95c711eadab7068333faa1752a606ce06e283198899c0b67505a435f9309c057"
+      "bytes": 10382,
+      "sha256": "84cbe4516a5dc8517a4e196587f685a29e4e1e3a2ea5c3cdecb2cfad907c770f"
     },
     {
       "name": "lib/studio-mcp-tools.mjs",
@@ -239,8 +249,8 @@
     },
     {
       "name": "MCP-GUIDE.md",
-      "bytes": 8201,
-      "sha256": "5a22b0e4a50afe88a02ace6386a90c25b2f599c58a96a1e947ebb5b10cc9fc3f"
+      "bytes": 8543,
+      "sha256": "7d01d4fb4f07fbf60edc1b955a905177a7c853d625318c2196ac426ff259987d"
     },
     {
       "name": "OPEN-WEIGHTS.md",
@@ -258,14 +268,19 @@
       "sha256": "d6a86f1fcc8dcaa0b0957a11c7ca1bfac1e6d762377a43d0ca5da29d1a44588c"
     },
     {
+      "name": "public/assistant-connection.js",
+      "bytes": 6603,
+      "sha256": "d4b8f5ed07b70b588ab8a9b0d0219886f3815df693e5233e98f9eb0b90880edd"
+    },
+    {
       "name": "public/assistant.css",
-      "bytes": 3532,
-      "sha256": "2a381ffda41fd9af43d25a700544314d8d7ae6f2317aa1c6e45f873a88e6e538"
+      "bytes": 4782,
+      "sha256": "754c083109cbbc2906d1963d9a7130accecf42e8bb279ed60802685b9d29840a"
     },
     {
       "name": "public/assistant.js",
-      "bytes": 6715,
-      "sha256": "9352a9d417ae57ba478bdcc4c05eb307f0aadd0af1fa9cff19563d15319e613e"
+      "bytes": 7944,
+      "sha256": "e8cb30c45bc745e11d5416258d4477d3da857fd5f31db1cffaa373ee0ed37efc"
     },
     {
       "name": "public/audio.css",
@@ -569,18 +584,18 @@
     },
     {
       "name": "public/setup.css",
-      "bytes": 2567,
-      "sha256": "c14aa0382982fc83bdafda973eb5b0173ab3e0780d8474d8773cd75e9dd362f1"
+      "bytes": 3731,
+      "sha256": "dcb33b7a5a9418640f8695961f23739868833d77ae6e835902817a44a866a8d3"
     },
     {
       "name": "public/setup.html",
-      "bytes": 6254,
-      "sha256": "cddb9abf9bff4372024b69fb07547e14ebc2c9d4f953e9e9a7f7e07fa5712698"
+      "bytes": 5556,
+      "sha256": "554efae1f379efd7de2154a07c05e425eca981a0644b063b4f5928e098285cee"
     },
     {
       "name": "public/setup.js",
-      "bytes": 6430,
-      "sha256": "52b28f02bf065bc6a19527c13278cb340a62f36a912a3becdd3813377745c3e6"
+      "bytes": 6588,
+      "sha256": "9598d76f43a201fa5c2d6186c1933cf22116dfa140fe0bfe51f7274d44814914"
     },
     {
       "name": "public/short-film.css",
@@ -719,8 +734,8 @@
     },
     {
       "name": "README.md",
-      "bytes": 8652,
-      "sha256": "b75d24365703de9a91066dff839336e3c98ae22596a20a8951eae0d3357c440d"
+      "bytes": 9106,
+      "sha256": "0d6451bc19c789907733f94ef61dfd246abbb74e8318aede531654b76b0e3521"
     },
     {
       "name": "REMAINING-CHECKLIST.md",
@@ -1014,8 +1029,8 @@
     },
     {
       "name": "scripts/package-source.mjs",
-      "bytes": 5003,
-      "sha256": "424a8d9b7b176cb8ac5c8afa43cb627a5857659a67a9a16d54ef1db139622828"
+      "bytes": 5030,
+      "sha256": "fd5e951e24641019b230902d554d8c079ffae047833e970560674970e3f127ce"
     },
     {
       "name": "scripts/pose_retarget.py",
@@ -1204,8 +1219,8 @@
     },
     {
       "name": "scripts/start-assistant.mjs",
-      "bytes": 942,
-      "sha256": "64671236a9a87eef467eedcbe45a6e757e5fdb751a95987b7c0f684cba74b568"
+      "bytes": 1831,
+      "sha256": "f8770cbdaca9593ae3ff569773751bb5b185d4646ef5315a06fa029a3bbb0421"
     },
     {
       "name": "scripts/start-comfy.ps1",
@@ -1469,8 +1484,8 @@
     },
     {
       "name": "server.mjs",
-      "bytes": 94944,
-      "sha256": "824cf494e5f37d0805ced36c166dd200c2a7d48684583b5aff4e91272213332b"
+      "bytes": 96248,
+      "sha256": "fdf9157c77df8707fce875bdb2aa4984d58b303f9c330a87f4d8fe20a64f2e62"
     },
     {
       "name": "setup/advanced-models.lock.json",
@@ -1746,6 +1761,16 @@
       "name": "tests/api.test.mjs",
       "bytes": 8757,
       "sha256": "f8e537d966bb540fe51fb3153db5be9308f1641fe2e74c7d501a9974cbdeae7d"
+    },
+    {
+      "name": "tests/assistant-connection-http.test.mjs",
+      "bytes": 4503,
+      "sha256": "bb4c4ddfbdb7efde8ed17d8e5c95d53f606958ab759f370d914b2abe7c85fce4"
+    },
+    {
+      "name": "tests/assistant-connection.test.mjs",
+      "bytes": 6545,
+      "sha256": "67bfe8891d7f0e38494fb88996f5a7d7e280c01ee67b73f075fb82c5a21130a0"
     },
     {
       "name": "tests/audio_check.py",

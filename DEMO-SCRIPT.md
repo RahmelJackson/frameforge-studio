@@ -5,7 +5,7 @@ Record at 1080p with a readable browser scale. Follow one idea through the studi
 | Time | Show | Say |
 | --- | --- | --- |
 | 0:00–0:10 | Home: moving original artwork, then a real finished result playing. | “This is Frameforge: an open-source creative studio built around ComfyUI. It helps you turn an idea into an image, a moving shot and a story.” |
-| 0:10–0:25 | Open **Studio guide**. Ask: “Animate a photo, add narration and captions.” Show the linked steps. Expand **Local AI & connections** and show the installed Ollama model when available. | “Start with what you want to make. The studio guide connects you to the right tools and explains the steps. You can use guided matching, or connect a local Ollama model for AI answers.” |
+| 0:10–0:25 | Open **Studio guide**. Ask: “Animate a photo, add narration and captions.” Show the linked steps. Expand **Local AI & connections** and show the installed chat model when available. | “Start with what you want to make. The studio guide connects you to the right tools and explains the steps. Use guided matching, or connect LM Studio, Ollama or your own compatible model server.” |
 | 0:25–0:40 | Library → Workflows. Choose a recipe. Show inputs, output, setup check and missing-model download links. | “Every recipe explains what you bring, what you get and which files you need. Connect your own ComfyUI and download the required models separately.” |
 | 0:40–0:55 | Open the actual node graph. Select a node, inspect a setting and show the workflow download. | “The workflow is visible and editable. Inspect the real graph, adjust it, or download it for the native ComfyUI editor.” |
 | 0:55–1:10 | Setup creation routes: existing ComfyUI, install guide, Comfy Cloud and Civitai. Briefly show each external preparation page. | “Run locally, prepare a graph for Comfy Cloud, or take an image prompt and model references to Civitai. Cloud sign-in, pricing and generation stay with the provider.” |
@@ -23,7 +23,7 @@ MCP client: **“Use Frameforge to show its workflow library. Explain the image 
 
 - **Open weights only is not a universal “local only” or privacy switch.** It restricts reviewed execution routes; model licenses still apply. Existing imported media is not retroactively certified. The user-facing label is deliberately precise.
 - Comfy Cloud uses an external workflow/import handoff. Civitai uses a prompt/model-reference brief, not a ComfyUI graph import. Do not show either as an integrated paid-run service.
-- If Ollama is unavailable, show **Guided catalog matching** and keep the narration conditional. Do not label a catalog answer as a local LLM response.
+- If your model server is unavailable, show **Guided catalog matching** and keep the narration conditional. Do not label a catalog answer as a local LLM response.
 - MCP provides 17 tools with local creation enabled, not every website editor embedded in chat. Do not claim universal visual support in all Codex/Claude clients.
 - Until a real client renders it successfully, show the actual MCP tool call and image result, followed by the full website. If you show the browser test host, label it **MCP panel development preview**.
 - The concept art in the splash and recipe cards is original presentation artwork, not evidence of the named local workflow's output. Use real rendered results for the output shots.

@@ -1,5 +1,6 @@
 import {setupReport,mediaRuntime,discoverComfy} from './lib/studio-setup.mjs';
 import {StudioAssistant,assistantModels,createAssistantTools,ASSISTANT_TOOLS} from './lib/studio-assistant.mjs';
+import {AssistantConnection,ASSISTANT_PROVIDERS,detectAssistantServers,agentMCPConfig} from './lib/assistant-connection.mjs';
 import {CommunityGallery} from './lib/explore.mjs';
 import {explainPlan} from './lib/workflow-explanations.mjs';
 import {WorkflowPlans} from './lib/workflow-plans.mjs';
@@ -384,7 +385,8 @@ const workflowExports=await new WorkflowExports({data:DATA,plans:workflowPlans})
 
 const communityGallery=new CommunityGallery();
 const assistantTools=createAssistantTools({root:ROOT,comfy,policy:executionPolicy});
-const studioAssistant=new StudioAssistant({tools:assistantTools});
+const assistantConnection=await new AssistantConnection(path.join(DATA,'assistant-connection.json')).open();
+const studioAssistant=new StudioAssistant({tools:assistantTools,getConnection:()=>assistantConnection.value});
 const server = http.createServer(async (req, res) => {
   try {
     const validHosts = [`127.0.0.1:${PORT}`, `localhost:${PORT}`];
@@ -400,7 +402,11 @@ const server = http.createServer(async (req, res) => {
     if(route==='/api/execution-policy'&&req.method==='GET')return json(res,200,{...executionPolicy.describe(),...(openOnly?{openWeightsOnly:true,profile:'open-weights-only'}:{})});
     if(route==='/api/execution-policy'&&req.method==='POST'){const input=await readJson(req,2000);if([...jobs.values()].some(j=>['processing','uploading','submitting','submitted','running','verifying'].includes(j.status))||audioStudio.busy())throw Error('Wait for the current media job before changing the profile.');return json(res,200,await executionPolicy.set(input.openWeightsOnly));}
     if(openOnly&&route.startsWith('/api/explore/civitai'))throw policyError('external community APIs are disabled. Browse the reviewed local recipes instead.');
-    if(route==='/api/assistant/models'&&req.method==='GET')return json(res,200,await assistantModels());
+    if(route==='/api/assistant/connection'&&req.method==='GET')return json(res,200,{connection:assistantConnection.describe(),providers:ASSISTANT_PROVIDERS,inferenceEnabled:!openOnly});
+    if(route==='/api/assistant/connection'&&req.method==='POST'){if(studioAssistant.busy)throw Error('Wait for the current assistant answer before changing its connection.');return json(res,200,{connection:await assistantConnection.set(await readJson(req,2000))});}
+    if(route==='/api/assistant/detect'&&req.method==='GET')return json(res,200,await detectAssistantServers());
+    if(route==='/api/assistant/mcp-config'&&req.method==='GET')return json(res,200,agentMCPConfig({client:url.searchParams.get('client'),root:ROOT,base:'http://127.0.0.1:'+PORT,writes:url.searchParams.get('writes')==='1',openWeightsOnly:openOnly||url.searchParams.get('open')==='1'}));
+    if(route==='/api/assistant/models'&&req.method==='GET')return json(res,200,{...await assistantModels(fetch,assistantConnection.value),inferenceEnabled:!openOnly});
     if(route==='/api/assistant/chat'&&req.method==='POST'){const input=await readJson(req,16000);return json(res,200,await studioAssistant.ask(openOnly?{...input,model:null}:input));}
     if(route==='/api/assistant/tools'&&req.method==='GET')return json(res,200,ASSISTANT_TOOLS);
     if(route==='/api/assistant/tools'&&req.method==='POST'){const input=await readJson(req,4000);return json(res,200,await assistantTools(input.name,input.arguments));}
@@ -723,7 +729,7 @@ const server = http.createServer(async (req, res) => {
     Object.assign(publicFiles,{'/short-film':'short-film.html','/short-film.js':'short-film.js','/short-film.css':'short-film.css','/video-playback.js':'video-playback.js'});
     Object.assign(publicFiles,{'/workflows':'workflows.html','/workflows.js':'workflows.js','/workflows.css':'workflows.css','/workflow-graph.js':'workflow-graph.js'});
     Object.assign(publicFiles,{'/library':'saved-library.html','/saved-library.js':'saved-library.js','/saved-library-page.js':'saved-library-page.js','/saved-library.css':'saved-library.css','/workflow-help.js':'workflow-help.js'});
-    Object.assign(publicFiles,{'/online':'online.html','/online.js':'online.js','/online.css':'online.css','/online-handoff.js':'online-handoff.js','/setup':'setup.html','/setup.js':'setup.js','/setup-prompt.js':'setup-prompt.js','/setup.css':'setup.css','/assistant.js':'assistant.js','/assistant.css':'assistant.css','/workspace-art.css':'workspace-art.css'});
+    Object.assign(publicFiles,{'/online':'online.html','/online.js':'online.js','/online.css':'online.css','/online-handoff.js':'online-handoff.js','/setup':'setup.html','/setup.js':'setup.js','/setup-prompt.js':'setup-prompt.js','/setup.css':'setup.css','/assistant.js':'assistant.js','/assistant-connection.js':'assistant-connection.js','/assistant.css':'assistant.css','/workspace-art.css':'workspace-art.css'});
     Object.assign(publicFiles,{'/execution-policy.js':'execution-policy.js','/execution-policy.css':'execution-policy.css','/mcp-app':'mcp-app.html','/mcp-app.js':'mcp-app.js','/mcp-app.css':'mcp-app.css'});
     Object.assign(publicFiles,{'/workflow-panel.js':'workflow-panel.js','/workflow-panel.css':'workflow-panel.css'});
     for(const name of ['compass','moon','character','knight','robot','bicycle'])publicFiles['/explore-art/'+name+'.svg']='explore-art/'+name+'.svg';
