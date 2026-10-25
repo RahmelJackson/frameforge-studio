@@ -1,3 +1,7 @@
+> **0.6.1 header update:** The owner supplied a screenshot of the native studio rendering, confirming the prior content-blocking failure is resolved for that view. Frameforge now has one compact 60 px desktop toolbar, with responsive tab scrolling, instead of its duplicated brand/status/Expand row. The surrounding client title remains host-owned. The current revision is checked in the bridge fixture; reopening the actual plugin is the remaining presentation check.
+
+> **Current status — 0.6.0 / October 25, 2026:** The owner reported “content is blocked” in 0.5.2. That nested website approach is replaced with a native MCP Apps document, no iframe or direct network permissions. The bridge fixture prepared a real ten-node image graph, exposed its settings, loaded local voices, opened the existing three-shot timeline and decoded a saved 768×432 MP4 (2.041667 seconds, readyState 4, no media error). No GPU render, speech job, film edit or export was submitted during these UI checks. Native client rendering of 0.6.0 remains pending; older success records below do not establish it. Advanced controls remain JSON-based where described in MCP-GUIDE.
+
 # Plugin package acceptance — October 25, 2026
 
 Frameforge Studio is a local/community plugin package, not a universal-directory-approved app. It includes the existing visual MCP server, original lime film-frame icon, three starter prompts, onboarding and a creative workflow skill.

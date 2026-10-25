@@ -1,13 +1,23 @@
 {
   "$schema": "https://agent-plugins.org/schemas/1.0.0/plugin.schema.json",
   "name": "frameforge-studio",
-  "version": "0.5.2",
+  "version": "0.6.1",
   "description": "Discover, understand and run ComfyUI creative workflows through a visual studio in your assistant. Connect your own local engine, inspect editable graphs, find required model downloads, and continue into images, video, speech and films.",
-  "author": { "name": "Rahmel Jackson", "url": "https://github.com/RahmelJackson" },
+  "author": {
+    "name": "Rahmel Jackson",
+    "url": "https://github.com/RahmelJackson"
+  },
   "homepage": "https://github.com/RahmelJackson/frameforge-studio",
   "repository": "https://github.com/RahmelJackson/frameforge-studio",
   "license": "MIT",
-  "keywords": ["comfyui", "image", "video", "speech", "workflows", "open-weights"],
+  "keywords": [
+    "comfyui",
+    "image",
+    "video",
+    "speech",
+    "workflows",
+    "open-weights"
+  ],
   "extensions": {
     "com.openai": {
       "requires_local_executor": true,
@@ -15,7 +25,7 @@
       "interface": {
         "displayName": "Frameforge Studio",
         "shortDescription": "Your ComfyUI creative studio, inside your assistant",
-        "longDescription": "Start with an idea, a photo or a clip. Frameforge helps you choose an explained workflow, inspect its ComfyUI graph and check its exact models and nodes. Use your own local ComfyUI for generation, or prepare an external Comfy Cloud workflow package or Civitai image brief. The visual MCP entry opens the complete studio in supported clients: images, video, speech, film editors, workflow graphs, setup and saved results. Clients that block embedded local pages can open the same studio in a browser. Local creation tools support images, video, speech and film projects; some tools combine graphs with local media processors. Open weights only is a selectable execution profile. Requires Node.js 22+; local generation needs your own ComfyUI, models and documented media runtimes. No models, credentials or personal outputs are bundled. Visual rendering depends on the assistant client. Cloud and Civitai runs remain on the provider's website.",
+        "longDescription": "A native visual ComfyUI studio in your assistant: picture workflows, explained model downloads, editable connected graphs, local image/video generation, saved playback, narration, transcription and film timelines. All panel operations use MCP tools; no nested website frame or Cloud credentials. Advanced audio, video and layer controls currently use request JSON. Model weights, ComfyUI and media runtimes are separate installations. Open weights only is enforced server-side. Comfy Cloud is an external graph handoff; Civitai generation stays on its own website. Visual rendering depends on client MCP Apps support.",
         "developerName": "Rahmel Jackson",
         "category": "Creativity",
         "websiteURL": "https://github.com/RahmelJackson/frameforge-studio",
@@ -28,7 +38,10 @@
         "brandColor": "#D7FF34",
         "composerIcon": "./assets/frameforge.svg",
         "logo": "./assets/frameforge.svg",
-        "screenshots": ["./assets/studio-cover.png", "./assets/studio-workflows.png"]
+        "screenshots": [
+          "./assets/studio-cover.png",
+          "./assets/studio-workflows.png"
+        ]
       }
     }
   }

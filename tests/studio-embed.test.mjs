@@ -17,16 +17,7 @@ test('Codex native sandbox origin matches the installed factory and rejects othe
  for(const rejected of [origin+':444',origin+'/page',origin+'?x=1',origin+'#x',origin.replace('mcp-app-','source-'),origin.replace('.com','.com.evil.example'),origin.replace('a'.repeat(48),'a'.repeat(47)),origin.replace('codex-sandbox:','other-desktop:'),'codex-sandbox://example.com'])assert.throws(()=>embedAncestors([rejected]));
 });
 
-test('Native Codex ancestor registration passes through the actual MCP tool and opens only its connection view',async()=>{
- const origins=['codex-sandbox://mcp-app-'+'b'.repeat(48)+'.web-sandbox.oaiusercontent.com','app://codex'];
- const handle=createMCPServer({base:'http://127.0.0.1:1',fetcher:async()=>Response.json({workflows:[],tasks:[]})});
- const request=(method,params)=>handle({jsonrpc:'2.0',id:1,method,params});
- try{const ui=(await request('resources/read',{uri:STUDIO_UI_URI})).result.contents[0],origin=ui._meta.ui.csp.frameDomains[0];
-  const registration=(await request('tools/call',{name:'studio_workflows',arguments:{embedAncestors:origins}})).result;
-  assert.equal(registration.isError,undefined,'Previously returned Use exact embed origins only.');
-  assert.equal((await fetch(origin)).status,502,'Registration now passes; this fixture deliberately has no upstream studio.');
- }finally{await handle.close();}
-});
+
 
 
 test('Full studio view preserves assets, ranges and navigation while isolating frame permissions and read-only access',async()=>{
@@ -50,12 +41,4 @@ test('Write-enabled view forwards authorized local actions and enforces a locked
   const profile=await(await fetch(view.url+'/api/execution-policy')).json();assert.equal(profile.locked,true);assert.equal(profile.openWeightsOnly,true);
   const count=seen.length;assert.equal((await fetch(view.url+'/api/execution-policy',{method:'POST',body:'{"openWeightsOnly":false}'})).status,403);assert.equal(seen.length,count);
  }finally{if(view)await view.close();backend.closeAllConnections();await new Promise(resolve=>backend.close(resolve));}
-});
-
-test('MCP resource authorizes only its connection view, rejects invalid ancestors and closes its listener',async()=>{
- let calls=0;const handle=createMCPServer({base:'http://127.0.0.1:1',fetcher:async()=>{calls++;return Response.json({workflows:[],tasks:[]});}}),request=(method,params)=>handle({jsonrpc:'2.0',id:1,method,params});let origin;
- try{const ui=(await request('resources/read',{uri:STUDIO_UI_URI})).result.contents[0];origin=ui._meta.ui.csp.frameDomains[0];assert.equal((await fetch(origin)).status,403);assert.equal(calls,0);
-  const bad=(await request('tools/call',{name:'studio_workflows',arguments:{embedAncestors:['*']}})).result;assert.equal(bad.isError,true);assert.equal(calls,0);
-  const ready=(await request('tools/call',{name:'studio_workflows',arguments:{embedAncestors:['https://web-sandbox.oaiusercontent.com']}})).result;assert.equal(ready.isError,undefined);assert.equal((await fetch(origin)).status,502);
- }finally{await handle.close();}await assert.rejects(()=>fetch(origin));
 });

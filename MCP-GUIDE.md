@@ -4,17 +4,15 @@ Want a named plugin entry with an icon, starter prompts and setup guidance? [Ins
 
 Use the website normally, or connect its **local STDIO MCP server** to an agent. Both use the same ComfyUI connection, saved jobs, graph compiler and review gates. No Frameforge account, hosted MCP endpoint or Cloud key is required. This is a source checkout, not a published npm package.
 
-## A visual studio in compatible MCP hosts
+## Native visual studio — 0.6.1
 
-Calling `studio_workflows` also advertises `ui://frameforge/studio-v1.html`, an MCP Apps resource. It uses Frameforge's charcoal/lime branding, workspace tabs, explained recipe cards, graph inspection and setup checks. With creation enabled it can prepare/run native local image/video graphs and display checked images. The open-weight profile toggle uses the same server policy. Films and Audio link to the complete website editors and expose saved work; the panel does not reproduce every editor inside a chat.
+Calling `studio_workflows` advertises `ui://frameforge/studio-v6.html`. The host renders a self-contained native MCP Apps document with original artwork and a moving cover. **There is no nested website, loopback frame permission or browser redirect.** Every panel operation uses the host's MCP tool bridge. Older v2–v4 resource requests resolve to this native view too.
 
-Version 0.5 opens the **complete website** in the MCP panel: Home, Explore, Library and editable graphs, Images, Video, Films, Audio, Setup and the studio guide. It uses the same local backend and saved work. The duplicate MCP navigation and connection banner are gone. The full website now has a media-first home cover with original observatory video and picture recipes below it.
+The panel includes explained image/video workflows, model download cards, connected graph nodes with editable settings and graph JSON, prepared local graph runs, video finishing, saved images and bounded video/audio playback, narration/transcription, film project creation, clip order/trims, composition saves and draft exports. Open weights only uses the same server enforcement as the website. Advanced audio/video requests and film layers use JSON controls; this is not every specialized website editor reproduced pixel-for-pixel. Personal imports stay inside the deliberately configured media folder. Cloud graphs can be downloaded for an external Comfy Cloud handoff; no paid submission or credentials are collected here.
 
-The current resource `ui://frameforge/studio-v4.html` declares exactly one loopback iframe origin in `ui.csp.frameDomains`. A connection-owned local view forwards only to the configured studio, authorizes exact ancestor origins supplied by the MCP UI bridge, rejects other request origins, strips credentials, preserves media ranges and enforces read-only / locked open-weight permissions. It closes with the MCP connection. Ordinary website pages keep their anti-framing policy. No public tunnel, hosted backend or cloud credential is needed. This embeds an editor we own; a public directory submission must disclose and justify its iframe use under the [official iframe policy](https://developers.openai.com/plugins/plugin-guidelines).
+`studio_media` transfers only fixed saved output routes, up to 12 MiB, for playback/transcript inspection. Larger files remain available in the normal website. Eight tools are read-only; 18 are available with local writes enabled. Opening the panel does not render or change the execution profile. Ambiguous creation retries reuse their request IDs, and film saves retain composition signatures.
 
-Clients can block local iframes, private-network access or embedded uploads/downloads. The panel then offers **Open in browser** to use the same complete studio. No client restriction is bypassed. Original concept art provides the loading fallback. The old `studio-v1.html` resource and `/mcp-app` browser preview remain for compatibility; they are the earlier limited interface.
-
-The owner confirmed that the 0.4.1 native Codex plugin opens immediately from Plugins. The complete 0.5 embedded website is separately checked in the local bridge harness; new native Codex/Claude acceptance is still required. Earlier Claude Desktop 3.6556.2 panel and image-preview acceptance does not establish support for this new nested local frame. See [the client acceptance record](MCP-CLIENT-ACCEPTANCE.md). `node scripts/preview-mcp-ui.mjs` runs a read-only local test host on port 4390; add `--allow-writes` for local creation tests.
+The owner reported **content blocked** with the former 0.5 nested website. That implementation is superseded. The 0.6 native view is tested separately in a direct-document MCP bridge fixture; native Codex/Claude rendering still needs its own acceptance check after updating/restarting. Do not infer it from a browser preview. See [client acceptance](MCP-CLIENT-ACCEPTANCE.md). Run `node scripts/preview-mcp-ui.mjs` for the read-only fixture; add `--allow-writes` for creation controls. The fixture has no frames and explicitly labels itself as a test host.
 
 ## Install once
 
@@ -70,13 +68,13 @@ Use absolute paths and an import folder containing only media you authorize the 
 | Task | Tools |
 | --- | --- |
 | Discover and understand | `studio_workflows`, `workflow_requirements`, `comfy_status` |
-| Inspect graphs and saved work | `studio_graph`, `studio_library`, `studio_job`, `studio_preview` |
+| Inspect graphs and saved work | `studio_graph`, `studio_library`, `studio_job`, `studio_preview`, `studio_media` |
 | Prepare and generate | `studio_import_asset`, `studio_prepare_workflow`, `studio_run_workflow`, `studio_generate` |
 | Sound and production | `studio_audio`, `studio_project`, `studio_director` |
 | Native editor and recovery | `studio_export_workflow`, `studio_cancel` |
 | Execution profile | `studio_policy` (write enabled; changes the shared studio profile) |
 
-The first seven are available by default. The other ten require `--allow-writes`; GPU rendering and local file creation can then happen at the assistant's request. Paid generation, shell execution, model installation, deleting assets and approving creative results are not exposed. Tool permission controls in your client still apply. Project/Director list and get operations share their write-enabled tool; use `studio_library` for read-only browsing.
+The first eight are available by default. The other ten require `--allow-writes`; GPU rendering and local file creation can then happen at the assistant's request. Paid generation, shell execution, model installation, deleting assets and approving creative results are not exposed. Tool permission controls in your client still apply. Project/Director list and get operations share their write-enabled tool; use `studio_library` for read-only browsing.
 
 Ask: **“Find an open-weight workflow for a cinematic product still. Explain the models and check my setup. Prepare the graph, show me what it will do, then make one preview and inspect the result.”**
 
@@ -109,7 +107,7 @@ Ollama is optional. Setup and Studio guide now have local model-server presets a
 The owner reported that 0.5.0 stopped at the opening screen with “Use exact embed origins only.” Static inspection of installed Codex 26.1007.2314.0 found its local sandbox URL factory: the codex-sandbox scheme with an mcp-app- subdomain containing a 48-character hexadecimal digest, under web-sandbox.oaiusercontent.com. That scheme was missing from the validator. Version 0.5.1 accepts only that precise scheme/host shape, with no custom port, in addition to the original supported origins. Paths, queries, credentials, wildcard hosts and other custom schemes remain rejected. A fresh v3 resource avoids the previous UI cache; v1 and v2 resource addresses still resolve. Tests cover native-origin registration; a successful native full-site render still needs confirmation.
 
 
-### Visible editor and link feedback — 0.5.2
+### Superseded history: visible editor and link feedback — 0.5.2
 
 The live Codex 0.5.1 panel passed origin registration and assigned its exact local iframe URL, which returned the complete studio with HTTP 200. The splash still covered it because the frame-ready message had not arrived. The resource now declares both standard and documented legacy frame permissions, restricted to the same exact loopback view, plus the local studio as the trusted external-link destination. This adds compatibility metadata; it does not disable client security.
 

@@ -1,6 +1,4 @@
-> Version 0.5.2 removes the full-screen loading cover after the local editor connection is registered. It also declares exact local frame permissions in both client formats and reports declined browser actions with an actual studio link. A missing frame-ready message no longer forces you out of the studio. Native full-site acceptance is still separate from server/tests passing.
-
-> Version 0.5 opens the complete studio website in compatible MCP Apps clients, with a video-led home page and the same images, video, film, audio, library and setup tools. The duplicate small-panel navigation is removed. Update/reload the plugin after installation; existing open panels can keep the old resource. If your client blocks embedded local pages, choose Open in browser. Native full-site acceptance is separate from the earlier confirmed Plugins launch. See [acceptance and limitations](PLUGIN-ACCEPTANCE.md).
+> **0.6.1:** The MCP panel now renders native controls instead of a nested website. It includes visual workflows, editable graphs, local creation, speech, saved playback and film timelines. Advanced audio/video/layers use JSON controls. The former 0.5 frame was blocked in the owner’s Codex client; the new native rendering needs a fresh client check after updating. Browser fixture checks do not establish that acceptance.
 
 # Frameforge as a plugin
 
@@ -12,7 +10,7 @@ Version 0.4.0 adds a full-width cinematic cover with an original local Wan video
 
 The Plugins directory's Use action can select the plugin and prefill a chat prompt. A composer with that unsent text is not the studio UI. Send the starter prompt to request the visual panel through `studio_workflows`. Screenshots and brand metadata alone do not replace the host's composer or register an app launch path.
 
-Version 0.4.1 also registers OpenAI's documented global/sidebar and thread-side-panel entrypoints on the read-only `studio_workflows` tool, pointing to the actual bundled MCP Apps resource. Version 0.4.0 lacked that registration. On a host that supports these entrypoints for the connection type, the global entry opens fullscreen. The owner confirmed immediate direct opening from Plugins on their Codex installation after 0.4.1. The new complete-site frame in 0.5 still needs a separate native-client check. Tool-discovery metadata alone is not proof of visual rendering.
+Version 0.4.1 also registers OpenAI's documented global/sidebar and thread-side-panel entrypoints on the read-only `studio_workflows` tool, pointing to the actual bundled MCP Apps resource. Version 0.4.0 lacked that registration. On a host that supports these entrypoints for the connection type, the global entry opens fullscreen. The owner confirmed immediate direct opening from Plugins on their Codex installation after 0.4.1. The 0.5 website frame was subsequently reported blocked; 0.6 replaces it with native controls and needs a fresh native-client check. Tool-discovery metadata alone is not proof of visual rendering.
 
 The current package is a local STDIO integration. Use a local desktop/Work/Codex execution context that can connect to the computer; a hosted Chat context cannot run a local process by installing a source package. Higgsfield's installed plugin additionally references a registered hosted app. This package does not invent a registered app ID or silently expose the local studio on the internet. [OpenAI entrypoint documentation](https://developers.openai.com/plugins/build/extensions) and [local execution scope](https://developers.openai.com/plugins/deploy/desktop-only).
 
@@ -40,7 +38,7 @@ The root `plugin.json`, `mcp.json`, `skills/`, `assets/` and `.agents/plugins/ma
 
 ## Permissions and setup
 
-The plugin enables the same 17 tools as the creation-enabled standalone MCP connection. The host's normal tool permissions still apply. Simply opening the plugin does not request a render. No shell, model installer, paid submission, deletion or creative-approval tools are exposed.
+The plugin enables the same 18 tools as the creation-enabled standalone MCP connection. The host's normal tool permissions still apply. Simply opening the plugin does not request a render. No shell, model installer, paid submission, deletion or creative-approval tools are exposed.
 
 Direct imports are initially confined to `public/explore-art` in the installed plugin. Upload personal media through the website or configure a deliberately chosen import folder. Do not broaden the root to a home directory just to avoid a missing-file error. Local media previews shared in a chat are sent to that assistant provider under its privacy settings; local generation does not mean an external assistant is offline.
 
