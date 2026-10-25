@@ -52,6 +52,12 @@ Run Frameforge, then register this stdio server in your MCP client (replace the 
 
 Tools: `studio_workflows`, `comfy_status`, `workflow_requirements`. All are read-only and use the same bounded tool layer as the in-app guide. No shell execution, generation, arbitrary URLs, model installation or paid calls. A separate ComfyUI MCP can be registered in your external agent for generation; it is not silently inherited by the website. Existing Codex/ChatGPT MCP connections are owned by their host application.
 
+## Expanded MCP and open-weight profile
+
+The three-tool adapter above remains compatible. For graph preparation, generation, native previews, speech and production tools, register `scripts/frameforge-mcp.mjs`. It defaults to seven read-only tools. Add `--allow-writes` for the nine local creation tools and `--open-weights-only` to restrict this connection. `--start-studio` can launch the website backend, but never installs or launches ComfyUI. Full Codex/Claude configurations, import permissions and recovery behavior are in [MCP-GUIDE.md](MCP-GUIDE.md).
+
+The website also has an **Open weights only** toggle. Use `npm run start:open` for a locked demonstration profile. [OPEN-WEIGHTS.md](OPEN-WEIGHTS.md) explains the exact included routes and distinction between open application code, downloadable weights and model licenses.
+
 ## Prepare a GitHub upload
 
 Run `npm test`, then `npm run package:source`. The latter writes `dist/frameforge-source-<timestamp>.zip` and a SHA-256 inventory. It selects source roots explicitly, refuses symlinks/junctions and unreviewed public media, checks source sizes and credential patterns, and excludes private data, models, environments, logs, evidence, backups, local configuration and Git history. This pattern scan is a practical check, not a complete secret audit.

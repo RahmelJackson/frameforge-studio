@@ -36,12 +36,15 @@ import { normalizeEdit, editSignature } from './lib/timeline.mjs';
 import {normalizeFilm,normalizeFilmShots,filmSignature,shotAudio} from './lib/film.mjs';
 import {normalizePose} from './lib/pose.mjs';
 import { MODELS, PRESETS, SIZES, LENGTHS, CAMERA_POSES, generationSize, normalizeRequest, buildWorkflow, readiness, cameraReadiness, keyframeReadiness } from './lib/workflow.mjs';
+import {ExecutionPolicy,OPEN_WORKFLOW_IDS,assertOpenInput,assertOpenGraph,assertOpenWorkflow,policyError} from './lib/execution-policy.mjs';
 
 const ROOT = path.dirname(fileURLToPath(import.meta.url));
 const configDefaults={comfyUrl:'http://127.0.0.1:8188',port:4317,python:path.join(ROOT,'runtime','engine-env','Scripts','python.exe')};
 let config={...configDefaults};
 try{Object.assign(config,JSON.parse(await readFile(path.join(ROOT,'config.local.json'),'utf8')));}catch(error){if(error.code!=='ENOENT')throw error;}
 const DATA = process.env.STUDIO_DATA ?? path.join(ROOT, 'data');
+const executionPolicy=await new ExecutionPolicy({file:path.join(DATA,'execution-policy.json'),locked:process.env.FRAMEFORGE_OPEN_WEIGHTS_ONLY==='1'}).open();
+const policyModels=JSON.parse(await readFile(path.join(ROOT,'workflows/models.json'),'utf8'));
 const PORT = Number(process.env.PORT ?? config.port);
 const comfy = new ComfyClient(process.env.COMFY_URL ?? config.comfyUrl);
 const jobs = new Map();
@@ -267,6 +270,8 @@ async function tick() {
 const timer = setInterval(tick, 2500); timer.unref();
 
 async function submitJob(input,retriedFrom=null,workflowOverride=null) {
+  const openOnly=executionPolicy.enabled||input.openWeightsOnly===true;
+  if(openOnly){assertOpenInput(input.kind==='image'?'images':input.kind==='video-tool'?'video-tools':'create',input);if(workflowOverride)assertOpenGraph(workflowOverride,policyModels);}
   if (typeof input.requestId !== 'string' || !/^[a-f0-9-]{36}$/.test(input.requestId)) throw new Error('A valid request ID is required.');
   const existing=[...jobs.values()].find(x=>x.requestId===input.requestId);
   if(existing)return {code:200,body:existing};
@@ -310,7 +315,7 @@ async function submitJob(input,retriedFrom=null,workflowOverride=null) {
   const duplicate=[...jobs.values()].find(x=>x.requestId===input.requestId);
   if(duplicate)return {code:200,body:duplicate};
   if(active())return {code:409,body:{error:'One local render at a time. Wait for the current shot.'}};
-  const job={id:randomUUID(),requestId:input.requestId,createdAt:new Date().toISOString(),status:'uploading',request,review:null,...(retriedFrom?{retriedFrom}:{})};
+  const job={id:randomUUID(),requestId:input.requestId,createdAt:new Date().toISOString(),status:'uploading',request,review:null,...(openOnly?{executionPolicy:{profile:'open-weights-only',openWeightsOnly:true}}:{}),...(retriedFrom?{retriedFrom}:{})};
   jobs.set(job.id,job);await save(job);
   if(request.kind==='image'&&request.tool==='style-board'){
    try{if(!(await styleReady(request.styleMode)).ready)throw Error('Prepare the local style models first.');request.size=IMAGE_SIZES[request.aspect];await save(job);const sources=[];for(const asset of request.styleImages){const file=path.join(DATA,'assets',asset);await inspectImage(file);sources.push({asset,path:file,sha256:await fileDigest(file)});}const manifest={request,assets:path.join(DATA,'assets'),sources};await writeFile(path.join(jobDir(job.id),'style-manifest.json'),JSON.stringify(manifest,null,2));await writeFile(path.join(jobDir(job.id),'workflow.json'),JSON.stringify({processor:'local-sdxl-style-only',...manifest},null,2));void startStyleImage(job);return {code:202,body:job};}
@@ -345,6 +350,7 @@ async function submitJob(input,retriedFrom=null,workflowOverride=null) {
     if(request.kind==='image')for(const key of ['reference','reference2','mask'])if(request[key]){const ref=await comfy.upload(path.join(DATA,'assets',request[key]),request[key]);names[key]=ref.subfolder?ref.subfolder+'/'+ref.name:ref.name;}
     const originalGraph=request.kind==='image'?buildImageWorkflow(request,names,'frameforge/'+job.id):buildWorkflow(request,imageName,'frameforge/'+job.id,endName);
     const graph=workflowOverride?structuredClone(workflowOverride):originalGraph;
+    if(openOnly)job.executionPolicy={...job.executionPolicy,...assertOpenGraph(graph,policyModels)};
     if(workflowOverride){applyWorkflowSettings(request,graph,originalGraph);job.workflowEdited=true;for(const n of Object.values(graph))if(['SaveImage','SaveVideo'].includes(n.class_type))n.inputs.filename_prefix='frameforge/'+job.id;}
     await writeFile(path.join(jobDir(job.id),'workflow.json'),JSON.stringify(graph,null,2));
     job.status='submitting';await save(job);
@@ -377,7 +383,7 @@ const workflowPlans=await new WorkflowPlans({root:ROOT,data:DATA,comfy,resolveVi
 const workflowExports=await new WorkflowExports({data:DATA,plans:workflowPlans}).open();
 
 const communityGallery=new CommunityGallery();
-const assistantTools=createAssistantTools({root:ROOT,comfy});
+const assistantTools=createAssistantTools({root:ROOT,comfy,policy:executionPolicy});
 const studioAssistant=new StudioAssistant({tools:assistantTools});
 const server = http.createServer(async (req, res) => {
   try {
@@ -387,15 +393,20 @@ const server = http.createServer(async (req, res) => {
     res.setHeader('X-Content-Type-Options','nosniff');
     const url = new URL(req.url, 'http://127.0.0.1');
     const workflowFrame=url.pathname==='/workflows';
-    const communityMedia=['/','/home','/explore'].includes(url.pathname)?' https://image.civitai.com https://blobs-b2.civitai.com':'';
+    const communityMedia=!executionPolicy.enabled&&['/','/home','/explore'].includes(url.pathname)?' https://image.civitai.com https://blobs-b2.civitai.com':'';
     res.setHeader('Content-Security-Policy', "default-src 'self'; img-src 'self' blob:"+communityMedia+"; media-src 'self' blob:"+communityMedia+"; script-src 'self'; style-src 'self'; connect-src 'self'; object-src 'none'; frame-ancestors "+(workflowFrame?"'self'":"'none'"));
     const route = url.pathname;
+    const openOnly=executionPolicy.enabled||req.headers['x-frameforge-open-weights-only']==='1';
+    if(route==='/api/execution-policy'&&req.method==='GET')return json(res,200,{...executionPolicy.describe(),...(openOnly?{openWeightsOnly:true,profile:'open-weights-only'}:{})});
+    if(route==='/api/execution-policy'&&req.method==='POST'){const input=await readJson(req,2000);if([...jobs.values()].some(j=>['processing','uploading','submitting','submitted','running','verifying'].includes(j.status))||audioStudio.busy())throw Error('Wait for the current media job before changing the profile.');return json(res,200,await executionPolicy.set(input.openWeightsOnly));}
+    if(openOnly&&route.startsWith('/api/explore/civitai'))throw policyError('external community APIs are disabled. Browse the reviewed local recipes instead.');
     if(route==='/api/assistant/models'&&req.method==='GET')return json(res,200,await assistantModels());
-    if(route==='/api/assistant/chat'&&req.method==='POST')return json(res,200,await studioAssistant.ask(await readJson(req,16000)));
+    if(route==='/api/assistant/chat'&&req.method==='POST'){const input=await readJson(req,16000);return json(res,200,await studioAssistant.ask(openOnly?{...input,model:null}:input));}
     if(route==='/api/assistant/tools'&&req.method==='GET')return json(res,200,ASSISTANT_TOOLS);
     if(route==='/api/assistant/tools'&&req.method==='POST'){const input=await readJson(req,4000);return json(res,200,await assistantTools(input.name,input.arguments));}
     if(route==='/api/setup/detect'&&req.method==='GET')return json(res,200,await discoverComfy());
     if(route==='/api/setup'&&req.method==='GET'){
+      if(openOnly&&url.searchParams.has('workflow'))assertOpenWorkflow(url.searchParams.get('workflow'));
       const planId=url.searchParams.get('plan');let packet;
       if(planId){if(!/^[a-f0-9-]{36}$/.test(planId))throw Error('Choose a saved prepared workflow.');packet=workflowPlans.public(await workflowPlans.read(planId));}
       return json(res,200,await setupReport({root:ROOT,comfy,workflow:url.searchParams.get('workflow')??'wan-i2v',packet,studioMedia:await mediaRuntime(config.python)}));
@@ -448,7 +459,7 @@ const server = http.createServer(async (req, res) => {
       if(createHash('sha256').update(await readFile(path.join(DATA,'audio',item.audio+'.wav'))).digest('hex')!==item.sha256)throw new Error('This WAV changed after it entered the sound library.');return json(res,200,item);
     }
     if(route==='/api/audio-jobs'&&req.method==='GET')return json(res,200,audioStudio.list());
-    if(route==='/api/audio-jobs'&&req.method==='POST')return json(res,202,await audioStudio.submit(await readJson(req,150000)));
+    if(route==='/api/audio-jobs'&&req.method==='POST'){const input=await readJson(req,150000);if(openOnly)assertOpenInput('audio',input);return json(res,202,await audioStudio.submit(input));}
     const audioControl=route.match(/^\/api\/audio-jobs\/([a-f0-9-]{36})\/(review|cancel|reverify|audio-asset|video-footage)$/);
     if(audioControl&&req.method==='POST'){const result=audioControl[2]==='review'?await audioStudio.review(audioControl[1],await readJson(req)):audioControl[2]==='reverify'?await audioStudio.reverify(audioControl[1]):audioControl[2]==='cancel'?await audioStudio.cancel(audioControl[1]):audioControl[2]==='video-footage'?await audioStudio.videoFootage(audioControl[1]):await audioStudio.audioAsset(audioControl[1],await readAudioTrack(req));return json(res,200,result);}
     const audioOutput=route.match(/^\/audio-jobs\/([a-f0-9-]{36})\/(output\.(wav|mp4)|preserved\.mkv|transcript\.json|subtitles\.(srt|vtt)|report\.json|lipsync\.json|dialogue\.json|caption\.json|neural-speech\.json|separation\.json|voice-[12]\.wav|line-[0-9]{3}\.wav|poster\.jpg|contact-sheet\.jpg)$/);
@@ -540,21 +551,22 @@ const server = http.createServer(async (req, res) => {
     if (route === '/api/jobs' && req.method === 'GET') return json(res,200,[...jobs.values()].sort((a,b)=>b.createdAt.localeCompare(a.createdAt)));
     if(route==='/api/explore/civitai'&&req.method==='GET'){try{return json(res,200,await communityGallery.get(url.searchParams));}catch(e){return json(res,503,{error:e.message,sourceUrl:'https://civitai.com'});}}
     const communityVersion=route.match(/^\/api\/explore\/civitai\/version\/(\d{1,12})$/);if(communityVersion&&req.method==='GET')return json(res,200,await communityGallery.modelVersion(Number(communityVersion[1])));
-    if(route==='/api/workflows'&&req.method==='GET')return json(res,200,WORKFLOWS);
-    if(route==='/api/workflow-plans'&&req.method==='POST')return json(res,201,await workflowPlans.prepare(await readJson(req,1000000)));
+    if(route==='/api/workflows'&&req.method==='GET')return json(res,200,openOnly||url.searchParams.get('openWeightsOnly')==='true'?WORKFLOWS.filter(w=>OPEN_WORKFLOW_IDS.includes(w.id)):WORKFLOWS);
+    if(route==='/api/workflow-plans'&&req.method==='POST'){const input=await readJson(req,1000000);if(openOnly)assertOpenInput(input.context,{...input.input,provider:input.provider});const prepared=await workflowPlans.prepare(input);if(openOnly&&prepared.graph)prepared.openWeightsAudit=assertOpenGraph(prepared.graph,policyModels);return json(res,201,prepared);}
     const draftRoute=route.match(/^\/api\/workflow-plans\/([a-f0-9-]{36})$/);
-    if(draftRoute&&req.method==='GET')return json(res,200,workflowPlans.public(await workflowPlans.read(draftRoute[1])));
+    if(draftRoute&&req.method==='GET'){const plan=await workflowPlans.read(draftRoute[1]);if(openOnly){assertOpenInput(plan.context,{...plan.rawInput,provider:plan.provider});if(plan.graph)assertOpenGraph(plan.graph,policyModels);}return json(res,200,workflowPlans.public(plan));}
     const runDraft=route.match(/^\/api\/workflow-plans\/([a-f0-9-]{36})\/run$/);
-    if(runDraft&&req.method==='POST'){const body=await readJson(req,2000000),{plan,api:graph}=await workflowPlans.compile(runDraft[1],body.graph);if(plan.provider==='cloud')return json(res,409,{error:'Open this prepared workflow in Comfy Cloud. Paid submission is handled there.'});if(plan.execution==='processor')throw Error('Run this complete pipeline with the tool controls, or export its ComfyUI stage.');const result=await submitJob({...plan.rawInput,requestId:body.requestId},null,graph);return json(res,result.code,result.body);}
+    if(runDraft&&req.method==='POST'){const body=await readJson(req,2000000),{plan,api:graph}=await workflowPlans.compile(runDraft[1],body.graph);if(openOnly){assertOpenInput(plan.context,{...plan.rawInput,provider:plan.provider});assertOpenGraph(graph,policyModels);}if(plan.provider==='cloud')return json(res,409,{error:'Open this prepared workflow in Comfy Cloud. Paid submission is handled there.'});if(plan.execution==='processor')throw Error('Run this complete pipeline with the tool controls, or export its ComfyUI stage.');const result=await submitJob({...plan.rawInput,requestId:body.requestId,openWeightsOnly:openOnly},null,graph);return json(res,result.code,result.body);}
     if(route.startsWith('/api/cloud/'))return json(res,410,{error:'Cloud runs open in Comfy Cloud. This studio does not collect API keys or submit paid requests.'});
     const workflowExport=route.match(/^\/api\/workflow-plans\/([a-f0-9-]{36})\/export$/);
-    if(workflowExport&&req.method==='POST')return json(res,201,await workflowExports.create(workflowExport[1],await readJson(req,2000000)));
+    if(workflowExport&&req.method==='POST'){const body=await readJson(req,2000000);if(openOnly){const {plan,api}=await workflowPlans.compile(workflowExport[1],body.graph);assertOpenInput(plan.context,{...plan.rawInput,provider:plan.provider});assertOpenGraph(api,policyModels);}return json(res,201,await workflowExports.create(workflowExport[1],body));}
     const exportFile=route.match(/^\/workflow-exports\/([a-f0-9-]{36})\/(bundle\.zip|workflow\.json)$/);
     if(exportFile&&req.method==='GET'){res.setHeader('Content-Disposition','attachment; filename="frameforge-'+exportFile[2]+'"');return await serveFile(req,res,path.join(DATA,'workflow-exports',exportFile[1],exportFile[2]));}
     const planInput=route.match(/^\/workflow-plan-inputs\/([a-f0-9-]{36})\/(input\.mp4|mask\.mp4|poster\.jpg)$/);
     if(planInput&&req.method==='GET')return await serveFile(req,res,path.join(DATA,'workflow-plans',planInput[1],'stage',planInput[2]));
     const workflowRoute=route.match(/^\/api\/workflows\/([a-z0-9-]+)$/);
     if(workflowRoute&&req.method==='GET'){
+      if(openOnly)assertOpenWorkflow(workflowRoute[1]);
       if(!WORKFLOWS.some(w=>w.id===workflowRoute[1]))return json(res,404,{error:'Unknown workflow.'});
       return json(res,200,await workflowPacket(ROOT,workflowRoute[1]));
     }
@@ -570,7 +582,7 @@ const server = http.createServer(async (req, res) => {
     if(route==='/api/batches'&&req.method==='GET')return json(res,200,batchQueue.list());
     if(route==='/api/batches'&&req.method==='POST'){
       const input=await readJson(req);if(!Array.isArray(input.requests)||input.requests.length<1||input.requests.length>4)throw new Error('Choose 1–4 shots for this batch.');
-      const requests=input.requests.map(r=>r.kind==='image'?normalizeImage(r):normalizeRequest(r));
+      const requests=input.requests.map(r=>{if(openOnly)assertOpenInput(r.kind==='image'?'images':'create',r);return {...(r.kind==='image'?normalizeImage(r):normalizeRequest(r)),...(openOnly?{openWeightsOnly:true}:{})};});
       for(const request of requests){for(const key of ['asset','endAsset','reference','mask'])if(request[key])await stat(path.join(DATA,'assets',request[key]));}
       return json(res,201,await batchQueue.add(requests,input.requestId));
     }
@@ -611,7 +623,7 @@ const server = http.createServer(async (req, res) => {
     if(route==='/api/projects'&&req.method==='POST')return json(res,201,await projects.create(await readJson(req)));
     const composition=route.match(/^\/api\/projects\/([a-f0-9-]{36})\/composition$/);
     if(composition&&req.method==='PUT'){
-      const input=await readJson(req,100000),shots=normalizeFilmShots(input.shots),film=normalizeFilm(input.film);
+      const input=await readJson(req,100000),shots=normalizeFilmShots(input.shots),film=normalizeFilm(input.film);if(openOnly&&film.tracks.some(t=>t.type==='narration'))throw policyError('use an existing WAV or Kokoro narration; Windows narration is disabled.');
       for(const shot of shots){const job=jobs.get(shot.jobId);if(!job?.video||!job.report?.technicalPass)throw new Error('Choose checked video takes.');normalizeEdit(shot,job.report.duration);}
       for(const overlay of film.overlays)await stat(path.join(DATA,'assets',overlay.asset));for(const track of film.tracks)if(track.type==='wav')await stat(path.join(DATA,'audio',track.audio+'.wav'));
       const saved=await projects.compose(composition[1],{shots,film},input.signature);return json(res,200,{...saved,compositionSignature:filmSignature(saved)});
@@ -621,6 +633,7 @@ const server = http.createServer(async (req, res) => {
     if(filmMatch&&req.method==='POST'){
       const id=filmMatch[1],project=projects.list().find(p=>p.id===id);
       if(!project)throw new Error('Project not found.');
+      if(openOnly&&normalizeFilm(project.film).tracks.some(t=>t.type==='narration'))throw policyError('use an existing WAV or Kokoro narration; Windows narration is disabled.');
       const input=await readJson(req),requestId=input.requestId??randomUUID(),release=input.release??'draft';if(!/^[a-f0-9-]{36}$/.test(requestId))throw new Error('Invalid export request ID.');
       if(!['draft','reviewed-sources'].includes(release))throw Error('Choose a draft or an export with reviewed sources.');
       if(release==='reviewed-sources'&&(!shortFilmStatus(project,jobs).reviewed||!shortFilmStatus(project,jobs).timeline))throw Error('Manually approve every chosen image and clip before exporting with reviewed sources.');
@@ -661,7 +674,7 @@ const server = http.createServer(async (req, res) => {
       return json(res,201,{name,url:'/assets/'+name,...dimensions});
     }
     if (route === '/api/jobs' && req.method === 'POST') {
-      const result=await submitJob(await readJson(req));return json(res,result.code,result.body);
+      const result=await submitJob({...await readJson(req),...(openOnly?{openWeightsOnly:true}:{})});return json(res,result.code,result.body);
     }
     const imageReuse=route.match(/^\/api\/jobs\/([a-f0-9-]{36})\/image-asset$/);
     if(imageReuse&&req.method==='POST'){
@@ -711,15 +724,17 @@ const server = http.createServer(async (req, res) => {
     Object.assign(publicFiles,{'/workflows':'workflows.html','/workflows.js':'workflows.js','/workflows.css':'workflows.css','/workflow-graph.js':'workflow-graph.js'});
     Object.assign(publicFiles,{'/library':'saved-library.html','/saved-library.js':'saved-library.js','/saved-library-page.js':'saved-library-page.js','/saved-library.css':'saved-library.css','/workflow-help.js':'workflow-help.js'});
     Object.assign(publicFiles,{'/online':'online.html','/online.js':'online.js','/online.css':'online.css','/online-handoff.js':'online-handoff.js','/setup':'setup.html','/setup.js':'setup.js','/setup-prompt.js':'setup-prompt.js','/setup.css':'setup.css','/assistant.js':'assistant.js','/assistant.css':'assistant.css','/workspace-art.css':'workspace-art.css'});
+    Object.assign(publicFiles,{'/execution-policy.js':'execution-policy.js','/execution-policy.css':'execution-policy.css','/mcp-app':'mcp-app.html','/mcp-app.js':'mcp-app.js','/mcp-app.css':'mcp-app.css'});
     Object.assign(publicFiles,{'/workflow-panel.js':'workflow-panel.js','/workflow-panel.css':'workflow-panel.css'});
     for(const name of ['compass','moon','character','knight','robot','bicycle'])publicFiles['/explore-art/'+name+'.svg']='explore-art/'+name+'.svg';
     for(const name of ['observatory-concept','portrait-concept','product-concept'])publicFiles['/explore-art/'+name+'.png']='explore-art/'+name+'.png';
+    if(route==='/mcp-app'&&req.method==='GET')return await serveFile(req,res,path.join(ROOT,'public','mcp-app.html'));
     if(publicFiles[route] && req.method==='GET') {
       const legacyImage=route==='/'&&url.searchParams.has('image'),mergedWorkflows=route==='/library'&&url.searchParams.get('collection')==='workflows',file=legacyImage?'index.html':mergedWorkflows?'workflows.html':publicFiles[route];
-      if(file.endsWith('.html')){const page=legacyImage?'create':mergedWorkflows?'workflows':route==='/'||route==='/home'?'home':route.slice(1),raw=await readFile(path.join(ROOT,'public',file),'utf8');const html=route==='/workflows'&&url.searchParams.get('embedded')==='1'?raw.replace('<body>','<body class="embedded">'):renderWorkspacePage(raw,page,url.href,(req.headers.cookie??'').split(';').map(v=>v.trim()).find(v=>v.startsWith('frameforge_navigation='))?.split('=')[1]);res.writeHead(200,{'Content-Type':'text/html; charset=utf-8','Cache-Control':'no-store'});return res.end(html);}
+      if(file.endsWith('.html')){const page=legacyImage?'create':mergedWorkflows?'workflows':route==='/'||route==='/home'?'home':route.slice(1),raw=await readFile(path.join(ROOT,'public',file),'utf8');const html=route==='/workflows'&&url.searchParams.get('embedded')==='1'?raw.replace('<body>','<body class="embedded">'):renderWorkspacePage(raw,page,url.href,(req.headers.cookie??'').split(';').map(v=>v.trim()).find(v=>v.startsWith('frameforge_navigation='))?.split('=')[1],openOnly);res.writeHead(200,{'Content-Type':'text/html; charset=utf-8','Cache-Control':'no-store'});return res.end(html);}
       return await serveFile(req,res,path.join(ROOT,'public',file));
     }
     json(res,404,{error:'Not found.'});
-  } catch(e) { if(!res.headersSent) json(res,e.code==='ENOENT'?404:400,{error:e.message}); else res.destroy(); }
+  } catch(e) { if(!res.headersSent) json(res,e.statusCode??(e.code==='ENOENT'?404:400),{error:e.message}); else res.destroy(); }
 });
 server.listen(PORT,'127.0.0.1',()=>console.log(`Frameforge studio: http://127.0.0.1:${PORT}`));

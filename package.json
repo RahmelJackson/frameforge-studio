@@ -9,7 +9,8 @@
   "scripts": {
     "start": "node server.mjs",
     "package:source": "node scripts/package-source.mjs",
-    "mcp": "node scripts/studio-mcp.mjs",
+    "mcp": "node scripts/frameforge-mcp.mjs",
+    "start:open": "node scripts/start-open.mjs",
     "assistant:start": "node scripts/start-assistant.mjs",
     "setup:media": "node scripts/setup-media.mjs",
     "test": "node --test tests/*.test.mjs",

@@ -1,5 +1,20 @@
 # Workflow acceptance checklist
 
+## MCP and challenge preparation · 2026-10-24
+
+- [x] Local STDIO MCP server: seven default read-only tools, ten opt-in creation/production tools, native previews and client configuration guides.
+- [x] Open-weights toggle, locked launcher, filtered native graphs and server checks on execution/export; no paid submissions or automatic weight installs.
+- [x] Real strict-profile MCP image render with request replay returning the same job, plus local Kokoro speech and a checked WAV handoff for film tracks.
+- [x] Public source instructions distinguish app code, upstream templates and model terms.
+- [x] Visual MCP Apps resource with matching studio branding, workspaces, recipe explanations, real setup/graph preparation and stale-input protection; local bridge and mobile checks completed.
+- [x] Compare the official Cinematic Studio, Re-shoot, Openjutsu and visible Hub tasks against actual implementation; save exact missing pipelines in COMFY-HUB-COMPARISON.md.
+- [ ] Native client acceptance of the visual panel in each targeted Codex/Claude product. The local bridge test is not a client certification.
+- [ ] Clean second-machine reproduction of the chosen GPU/Python demo; actual model hash and dependency records.
+- [ ] Record a ≤2-minute demonstration explaining the contribution; register, publish a tagged social link and submit the official form before October 30 at noon Eastern.
+- [ ] Confirm the Open Weights Only interpretation with organizers for this mixed-provider repository plus locked local profile. Eligibility is not guaranteed by the toggle.
+
+See [MCP setup](MCP-GUIDE.md), [profile scope](OPEN-WEIGHTS.md) and [the challenge checklist](CHALLENGE-CHECKLIST.md). The 15 parked creative quality goals below remain open.
+
 ## Easier setup and online generation · 2026-10-24
 
 - [x] Four clear starting paths: existing ComfyUI, install locally, Comfy Cloud only and Civitai images.

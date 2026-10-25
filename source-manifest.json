@@ -1,6 +1,6 @@
 {
   "version": 1,
-  "created": "2026-10-24T22:17:55.676Z",
+  "created": "2026-10-25T02:57:48.318Z",
   "files": [
     {
       "name": ".gitattributes",
@@ -18,14 +18,24 @@
       "sha256": "157fd2674b5f7388dbd385587b089738029965e77a963d4dd0015fcd355ece82"
     },
     {
+      "name": "CHALLENGE-CHECKLIST.md",
+      "bytes": 5628,
+      "sha256": "7cd5b22722ccec73b71ba5e41655fde915d85fdd9d03e4bbd3b0e0d01dfe48ce"
+    },
+    {
+      "name": "COMFY-HUB-COMPARISON.md",
+      "bytes": 6241,
+      "sha256": "ef7e503c2d2fe853d39c42941d5de91f0dd9f89f212e7179bc8fbcde435dd4be"
+    },
+    {
       "name": "config.example.json",
       "bytes": 58,
       "sha256": "fbdf80056c6cbbcc9f52ef37e5bf075ac6f585b91fe5d0a08f39764235b5215e"
     },
     {
       "name": "GITHUB-SETUP.md",
-      "bytes": 8983,
-      "sha256": "7f70806b9e6d4f70449cc93a08ec60dc0d622639a5e9fe332ca92482388a3bb9"
+      "bytes": 9817,
+      "sha256": "7d18f6a126a5beb93e3c5a306f7f72a370c0a3996f975d97e7938e6e29da8e5d"
     },
     {
       "name": "lib/audio.mjs",
@@ -68,6 +78,11 @@
       "sha256": "0e3f9a1da4b2ead9f4bd8b84e39ae3a614c24c0010782eff15610896eee73a03"
     },
     {
+      "name": "lib/execution-policy.mjs",
+      "bytes": 5211,
+      "sha256": "ef67c9a16454a5f39f1f21dce9f1cca5620c6d5bfa8465d4a4674871a4dafbce"
+    },
+    {
       "name": "lib/explore.mjs",
       "bytes": 4714,
       "sha256": "c673cb9e3fca8bfbfc44bae57882d7703533b78f2ac937a59a6b3da4d34d716d"
@@ -103,6 +118,11 @@
       "sha256": "b18344668e20ead4c8156f944c1a9b203163a7aa8918a7c288961ae857ed13ff"
     },
     {
+      "name": "lib/mcp-ui.mjs",
+      "bytes": 826,
+      "sha256": "097892e31009690c2df51b1bd602f631735ba2d125b516e20e9f1558daccd9f1"
+    },
+    {
       "name": "lib/pose.mjs",
       "bytes": 752,
       "sha256": "3ab808e6daa4fb27dc76cde36a992d4e470607b4121c2347d07efcb2e0d671fd"
@@ -134,8 +154,13 @@
     },
     {
       "name": "lib/studio-assistant.mjs",
-      "bytes": 9355,
-      "sha256": "964d869c3bc1a8f42e1ee67c5ab7fce7f6ef8daf460799568b04dbfb7a5b3b12"
+      "bytes": 9624,
+      "sha256": "95c711eadab7068333faa1752a606ce06e283198899c0b67505a435f9309c057"
+    },
+    {
+      "name": "lib/studio-mcp-tools.mjs",
+      "bytes": 15888,
+      "sha256": "e89ceb0dd7ea44ffd0d846db2463376b5198cf7418e3c331be7e5adb089cc073"
     },
     {
       "name": "lib/studio-setup.mjs",
@@ -159,8 +184,8 @@
     },
     {
       "name": "lib/workflow-catalog.mjs",
-      "bytes": 6133,
-      "sha256": "61a44c103fdf32362ae5d929e68d90cf6ad90710c374ced9d0f587998e2cbf4a"
+      "bytes": 6370,
+      "sha256": "6a2ba29d0f3dc697b90a044c8f26e244fbb7d6ca824aa95cb6a2e0c60f12af73"
     },
     {
       "name": "lib/workflow-expectations.mjs",
@@ -179,8 +204,8 @@
     },
     {
       "name": "lib/workflow-plans.mjs",
-      "bytes": 13346,
-      "sha256": "c0d7b2d47fa01da7794d5b691c74affe0e20e8b751e92fd109d56f96fa197c8c"
+      "bytes": 13391,
+      "sha256": "aa9e437dc5a4ab8b3a65ba81f544ffe2cb0981fb482a198acb7d9c86cb03fa78"
     },
     {
       "name": "lib/workflow.mjs",
@@ -194,8 +219,8 @@
     },
     {
       "name": "lib/workspace.mjs",
-      "bytes": 8710,
-      "sha256": "dd707e56f316b9832e916a367cf1ad80f102d4ecaa385fdbd97a9d46b5b791bd"
+      "bytes": 9091,
+      "sha256": "391c936fca54b1b28eaeca2e4a105e8edf2709cd63a88e80bdf9bb257f5ac8db"
     },
     {
       "name": "LICENSE",
@@ -203,9 +228,19 @@
       "sha256": "546a08a615a6fef95d994ce6c98d9d036fab947660e8050906daf16a589d85f4"
     },
     {
+      "name": "MCP-GUIDE.md",
+      "bytes": 7611,
+      "sha256": "118146fe24064b02722a203eded77d34f41b11b0df95aca3b92c6a3679f5cf6f"
+    },
+    {
+      "name": "OPEN-WEIGHTS.md",
+      "bytes": 4020,
+      "sha256": "89591ac36034084d71b445b0e2009bf79722238a865deb099787a5d5502f28fe"
+    },
+    {
       "name": "package.json",
-      "bytes": 880,
-      "sha256": "8ddac41066b3a8555bafe49751767c852575cd18f11c6a6eacd8b604103df118"
+      "bytes": 933,
+      "sha256": "2406a5290e782836e108b3d3542ea08b5cd2c6b81f8f32570e1508bd04ae94ba"
     },
     {
       "name": "public/app.js",
@@ -254,8 +289,8 @@
     },
     {
       "name": "public/checklist.html",
-      "bytes": 2608,
-      "sha256": "a64e5057e7f20f3806617dd6537cbe78b5df12588ac7696ceec7821321fcdafc"
+      "bytes": 3332,
+      "sha256": "5b1a8c152be24c9f0c89b2b1e8814930992ff6c1f2c37148e18e0acf619c13ac"
     },
     {
       "name": "public/checklist.js",
@@ -301,6 +336,16 @@
       "name": "public/director.js",
       "bytes": 17788,
       "sha256": "3a9203cfb635e88725f3a67d06d750af7d1fa603a1f54e6e1d185c0968ca6cd3"
+    },
+    {
+      "name": "public/execution-policy.css",
+      "bytes": 1685,
+      "sha256": "70c104d7681cdd92c143aed8db3d3dde074b33c0566a23ad36a588afcefe0a21"
+    },
+    {
+      "name": "public/execution-policy.js",
+      "bytes": 3518,
+      "sha256": "92f5ae1aadddd0f7f15c2fb5f98a2c6c46e3cf07216afda37a08c0f48c314473"
     },
     {
       "name": "public/explore-art/bicycle.svg",
@@ -428,6 +473,21 @@
       "sha256": "aca0e561ff01d75af95f3b9ab2f05f1511abddb1ecb98b73e1ee9a7a8ef288d9"
     },
     {
+      "name": "public/mcp-app.css",
+      "bytes": 4689,
+      "sha256": "f615f480af952a3bb32092b384386ba1fcdbd4efe8e6014e2df110c7dfa7d83b"
+    },
+    {
+      "name": "public/mcp-app.html",
+      "bytes": 3190,
+      "sha256": "f0ba47ce5b09b67d9acf810ee9f8dea36bce6a12e9e2a00e7dfd748d5c100741"
+    },
+    {
+      "name": "public/mcp-app.js",
+      "bytes": 12248,
+      "sha256": "1fc5411f2b89b43e492b08d54c76532d88e1ffaa57b6d5366e864de22704f7a8"
+    },
+    {
       "name": "public/online-handoff.js",
       "bytes": 4244,
       "sha256": "f6f7c220e0c226c62a73e34bc8d53b47132d049406fecf8f165fd9f67ec5576c"
@@ -444,8 +504,8 @@
     },
     {
       "name": "public/online.js",
-      "bytes": 8471,
-      "sha256": "0937a453f97faac67f77db84a7b353c4f3ef4132c23a046397477bea987e383d"
+      "bytes": 8954,
+      "sha256": "9d66bb276d8e04dc9c4e468ee19873c4f3759bda07e02d81823ed887a88df35b"
     },
     {
       "name": "public/queue.js",
@@ -489,8 +549,8 @@
     },
     {
       "name": "public/setup.html",
-      "bytes": 5820,
-      "sha256": "cac131de6508c5375e1d4acab108d2b72ac32e62c7e851a45be38d96516bab4e"
+      "bytes": 6254,
+      "sha256": "cddb9abf9bff4372024b69fb07547e14ebc2c9d4f953e9e9a7f7e07fa5712698"
     },
     {
       "name": "public/setup.js",
@@ -614,8 +674,8 @@
     },
     {
       "name": "public/workflows.js",
-      "bytes": 20322,
-      "sha256": "a3d916357ddf96a654e0a3e51a8cae7b771ab2baf90ed147116c1348833dd2c6"
+      "bytes": 20337,
+      "sha256": "65f135c7363bae1ef1de53dcdde9d83c0b24826d653a7f248f1d9dd68fe379d9"
     },
     {
       "name": "public/workspace-art.css",
@@ -634,13 +694,13 @@
     },
     {
       "name": "README.md",
-      "bytes": 7492,
-      "sha256": "a0993163180336e96038ac7f12f7122400782732ef0e463300d980f3fea097bb"
+      "bytes": 8652,
+      "sha256": "b75d24365703de9a91066dff839336e3c98ae22596a20a8951eae0d3357c440d"
     },
     {
       "name": "REMAINING-CHECKLIST.md",
-      "bytes": 39859,
-      "sha256": "8540b1cc2493fb4ae5b5207c245933c22f07136dc3fef053de7a1326af0b5995"
+      "bytes": 41606,
+      "sha256": "e2318daa046e855151299e3e097ea2035e0dff87002cc9d07f368a24e8448753"
     },
     {
       "name": "scripts/acceptance-keyframes.mjs",
@@ -848,6 +908,11 @@
       "sha256": "bcda95d23afa4fc1db795db188d4f27389c15e300fadeb1a6c1fd8d619e0f6ec"
     },
     {
+      "name": "scripts/frameforge-mcp.mjs",
+      "bytes": 6938,
+      "sha256": "8c18636e6de7782a6b316c84abcc042ed6971f1be90afdc244d7265d7a336064"
+    },
+    {
       "name": "scripts/human_pose.py",
       "bytes": 7341,
       "sha256": "a1a5fd7c6118572ce7a65df611fc021b4b07e90cf153f83e04627768a94fabf7"
@@ -924,8 +989,8 @@
     },
     {
       "name": "scripts/package-source.mjs",
-      "bytes": 4786,
-      "sha256": "e235c4752093ed53a57e990e438ad69c767c5f5d306452f9c613523e8082cdfa"
+      "bytes": 4870,
+      "sha256": "ed9de36030a9dfcdc51548661bef44cdfde776b3be323a746072ca05d44e5bc8"
     },
     {
       "name": "scripts/pose_retarget.py",
@@ -956,6 +1021,11 @@
       "name": "scripts/prepare-round7-cases.mjs",
       "bytes": 5388,
       "sha256": "a1185a531556d8efc34842dfdf479b4b6a1f994d11f677949970988018632621"
+    },
+    {
+      "name": "scripts/preview-mcp-ui.mjs",
+      "bytes": 3967,
+      "sha256": "95c0439a5021ce09f7fe2225fb4330cf742bd9cf5e6e7717b7cc0d7849b65cd2"
     },
     {
       "name": "scripts/probe-lip-visibility.py",
@@ -1118,6 +1188,11 @@
       "sha256": "40dac6049ec7b228fd11511845ca33ccfd356fd49cac8fc1e125b456e0c5a1e4"
     },
     {
+      "name": "scripts/start-open.mjs",
+      "bytes": 476,
+      "sha256": "6ee2fa9c54130db0cdfedcc7ef1fc1f21b420b42bcd53c5981a8ddb84b6c3fa3"
+    },
+    {
       "name": "scripts/start-studio.ps1",
       "bytes": 2471,
       "sha256": "b40dcf3808b2561a5e113ad418a73a1da128fe52e449bc4d67c3024841f51485"
@@ -1231,6 +1306,11 @@
       "name": "scripts/verify-loop.mjs",
       "bytes": 5245,
       "sha256": "aeadc62039500a4d71a0ac8006ec49a17af192baf9388b825447409f8838b5e5"
+    },
+    {
+      "name": "scripts/verify-mcp.mjs",
+      "bytes": 5342,
+      "sha256": "84c9cc2434828e69d292aad92c4237f11da9105e02f570c48d70168da94fe9c6"
     },
     {
       "name": "scripts/verify-mcp.py",
@@ -1364,8 +1444,8 @@
     },
     {
       "name": "server.mjs",
-      "bytes": 91261,
-      "sha256": "23c17db407b93e3b328c39e26f86d3285659ceec84d1fda50a40c274f7eb0795"
+      "bytes": 94944,
+      "sha256": "824cf494e5f37d0805ced36c166dd200c2a7d48684583b5aff4e91272213332b"
     },
     {
       "name": "setup/advanced-models.lock.json",
@@ -1713,6 +1793,11 @@
       "sha256": "027ee57d162e7b8c96afa2fea06ac8ee96e8fb84fecc30584ccc8cdc8efaf4b7"
     },
     {
+      "name": "tests/execution-policy.test.mjs",
+      "bytes": 5065,
+      "sha256": "080c284f3672bb2e7b93d7188593ff316cf13147379b6cb365309e128d76ff59"
+    },
+    {
       "name": "tests/explore.test.mjs",
       "bytes": 4810,
       "sha256": "55330bd852db8d42910445a373f4247bdf5eeef1943bc2d5cef84f0dae987169"
@@ -1963,6 +2048,11 @@
       "sha256": "aca0dda0636eaa0dda8de465995bcf377f5602b86cbe2ecb656b219d85876ced"
     },
     {
+      "name": "tests/studio-mcp.test.mjs",
+      "bytes": 8204,
+      "sha256": "d1589fd7bffcf7f2af33857d7f1bfec04b67c144e4c63e78ed5cdefc20e54daf"
+    },
+    {
       "name": "tests/style_check_guards.py",
       "bytes": 2588,
       "sha256": "3fa80f649bf448f8694798b4bb3de507c0de01dc3dfe13150f33fcc6122d631a"
@@ -2024,8 +2114,8 @@
     },
     {
       "name": "tests/workflow-plans.test.mjs",
-      "bytes": 4076,
-      "sha256": "284b79e96c3f4d0de86de919d896ad4b94ea7b369456b8ff1cf3a3dec5da7426"
+      "bytes": 4609,
+      "sha256": "94ef98a5ad127fd02c3423ac0104624b8430fa8f0c4e7b55dc3024a5526b607d"
     },
     {
       "name": "tests/workflow.test.mjs",

@@ -26,9 +26,17 @@ Built as an open-source Higgsfield-inspired creative studio submission.
 | **Video** | Animate an image, generate from text, prepare camera/keyframe workflows, and edit or finish clips. |
 | **Films** | Connect a script, storyboard selections, clips, narration, music, captions and a saved timeline; export an MP4. |
 | **Audio** | Prepare narration, dialogue, transcription and translation; explore experimental lip-sync tools. |
-| **Studio guide** | Find the right workflow or plan a sequence of tools, with optional local Ollama assistance and read-only MCP tools. |
+| **Studio guide & MCP** | Find workflows in the website, or connect Codex/Claude to the same graph, generation and saved-production tools. |
 
 The interface includes guided starting points, purpose/input/output descriptions, model source links and setup checks. Navigation can use either a top bar or a sidebar.
+
+## Website or MCP. Your choice.
+
+The local STDIO MCP server gives Codex, Claude and other compatible clients **17 tools** for recipe discovery, setup checks, graph preparation, local creation, native previews, speech and film projects. Seven tools are read-only by default; creation requires `--allow-writes`. No paid submissions or automatic model installs. A bundled MCP Apps panel uses the studio's branding, recipe cards, setup checks and graph inspection in compatible hosts; ordinary text tools remain available. See [MCP setup and examples](MCP-GUIDE.md).
+
+Use the navigation **Open weights only** toggle to limit this studio to reviewed local pipelines. `npm run start:open` locks that profile; `--open-weights-only` does the same for an MCP connection. Partner nodes and unknown model loaders are rejected server-side. [Scope, model terms and limits](OPEN-WEIGHTS.md).
+
+This entry is being prepared for the Comfy Open Source Higgsfield challenge. [Submission requirements and remaining owner actions](CHALLENGE-CHECKLIST.md) include a two-minute demo, social link, signup and entry form. The profile is not an organizer eligibility certification.
 
 ## Four ways to start
 
