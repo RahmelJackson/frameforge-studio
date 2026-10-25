@@ -4,7 +4,9 @@ Want a named plugin entry with an icon, starter prompts and setup guidance? [Ins
 
 Use the website normally, or connect its **local STDIO MCP server** to an agent. Both use the same ComfyUI connection, saved jobs, graph compiler and review gates. No Frameforge account, hosted MCP endpoint or Cloud key is required. This is a source checkout, not a published npm package.
 
-## Native visual studio — 0.6.1
+## Native visual studio — 0.6.2
+
+The global entrypoint declares `header: { enabled: false }` to suppress the surrounding Codex title strip. This changes host presentation metadata, not the studio layout or the plugin’s name in the directory.
 
 Calling `studio_workflows` advertises `ui://frameforge/studio-v6.html`. The host renders a self-contained native MCP Apps document with original artwork and a moving cover. **There is no nested website, loopback frame permission or browser redirect.** Every panel operation uses the host's MCP tool bridge. Older v2–v4 resource requests resolve to this native view too.
 

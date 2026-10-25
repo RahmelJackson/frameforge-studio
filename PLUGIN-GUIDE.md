@@ -1,3 +1,5 @@
+> **0.6.2:** Removes the surrounding global-app title strip through the entrypoint’s `header.enabled = false` setting. Version 0.6.1 only removed the duplicate header inside the studio. Close the old app view and reopen Frameforge after updating to load the changed entrypoint metadata.
+
 > **0.6.1:** The MCP panel now renders native controls instead of a nested website. It includes visual workflows, editable graphs, local creation, speech, saved playback and film timelines. Advanced audio/video/layers use JSON controls. The former 0.5 frame was blocked in the owner’s Codex client; the new native rendering needs a fresh client check after updating. Browser fixture checks do not establish that acceptance.
 
 # Frameforge as a plugin
