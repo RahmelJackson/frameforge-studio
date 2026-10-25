@@ -85,7 +85,7 @@ Some tasks are ComfyUI graphs; others use local Python media processors. Where a
 
 ## Current state and limits
 
-This is a working prototype with **163 passing application tests** at the current checkpoint. Local image/video workflows, graph export, saved projects, media checks and a demonstration film export have retained verification records. A separate empty-model ComfyUI instance verifies that importing the Z-Image graph exposes its three dependencies and download controls.
+This is a working prototype with **164 passing application tests** at the current checkpoint. Local image/video workflows, graph export, saved projects, media checks and a demonstration film export have retained verification records. A separate empty-model ComfyUI instance verifies that importing the Z-Image graph exposes its three dependencies and download controls.
 
 Technical checks do not guarantee a convincing creative result. Fifteen broader quality goals remain parked, including difficult character consistency, swaps, motion/occlusion, advanced relighting and speech/lip realism. Some tools have narrow acceptance or remain experimental; the [saved checklist](REMAINING-CHECKLIST.md) records those limits.
 

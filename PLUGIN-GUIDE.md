@@ -4,6 +4,14 @@ The plugin packages the same Frameforge MCP server with a branded plugin entry, 
 
 Version 0.4.0 adds a full-width cinematic cover with an original local Wan video, large picture workflow cards immediately below it, expanded visual recipe details and two actual browser-preview screenshots for the plugin's gallery. The cover video and artwork are bundled into the MCP resource; no third-party media server is needed. A client that blocks video keeps the original poster. The host controls the directory/landing-page layout and whether it displays those screenshots; the live interactive layout appears when opening the visual MCP panel.
 
+## Opening the panel versus selecting the plugin
+
+The Plugins directory's Use action can select the plugin and prefill a chat prompt. A composer with that unsent text is not the studio UI. Send the starter prompt to request the visual panel through `studio_workflows`. Screenshots and brand metadata alone do not replace the host's composer or register an app launch path.
+
+Version 0.4.1 also registers OpenAI's documented global/sidebar and thread-side-panel entrypoints on the read-only `studio_workflows` tool, pointing to the actual bundled MCP Apps resource. Version 0.4.0 lacked that registration. On a host that supports these entrypoints for the connection type, the global entry opens fullscreen. Whether a particular Plugins menu action chooses that route is still a native-client acceptance check. Tool-discovery metadata is not proof that clicking that menu has been fixed.
+
+The current package is a local STDIO integration. Use a local desktop/Work/Codex execution context that can connect to the computer; a hosted Chat context cannot run a local process by installing a source package. Higgsfield's installed plugin additionally references a registered hosted app. This package does not invent a registered app ID or silently expose the local studio on the internet. [OpenAI entrypoint documentation](https://developers.openai.com/plugins/build/extensions) and [local execution scope](https://developers.openai.com/plugins/deploy/desktop-only).
+
 ## Install from GitHub
 
 Install Node.js 22+ first. In a supported local Codex installation:

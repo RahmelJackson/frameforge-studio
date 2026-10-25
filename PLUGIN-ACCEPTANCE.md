@@ -16,6 +16,18 @@ The new 0.4.0 visual layout and video still require a restarted native-client vi
 
 After installing 0.4.0, the Codex local plugin API confirms the enabled version, both screenshot paths, both skills and the bundled MCP server. All 163 regression tests and live ComfyUI readiness pass after this refresh. The public source snapshot contains the original cover and screenshots; model files, private job storage and runtimes stay excluded.
 
+## Native launch registration — 0.4.1
+
+Version 0.4.0 advertised the MCP Apps resource but omitted OpenAI's `openai/ui.entrypoints` registration. The startup composer with a selected plugin and an unsent prompt is not an accepted fullscreen studio launch. Adding screenshots did not address that route.
+
+The read-only `studio_workflows` tool now declares a Frameforge Studio title and both `{type:"global"}` and `{type:"thread"}` entrypoints, using the existing bundled UI resource. The global entrypoint is the documented fullscreen/sidebar app route; thread supplies a conversation panel. The new regression check calls the launch tool with empty arguments, checks the actual resource, and verifies that launch never renders or changes the execution profile. [Official registration format](https://developers.openai.com/plugins/build/extensions).
+
+Actual Plugins-menu routing remains an open native-client acceptance check. The UI must visibly appear after the client loads the registration before claiming that click path works. Metadata parsing, a standalone app-server check and browser preview do not establish that result. The current package uses local STDIO; a hosted Chat environment and a registered hosted app are separate connection paths. No hosted app ID, internet tunnel or credential was created to disguise that difference.
+
+The installed 0.4.1 package was checked through a fresh Codex app-server: `mcpServerStatus/list` returns both native entrypoints, the Frameforge Studio title and the existing UI resource URI with no discovery error. `mcpServer/resource/read` returns the actual bundled artwork and video resource (approximately 1.84 MB). All 164 regression tests pass. This verifies host transport and resource availability; menu-click rendering is still pending. The current desktop's control socket was unavailable, so a hot reload into that running UI was not performed.
+
+**Owner confirmation:** after installing 0.4.1 and being asked to reopen Codex, select Frameforge and send its starter prompt if necessary, the owner reported **"The visual studio opens."** This is user-reported successful opening in their client. The response did not separately distinguish direct menu launch from the send-prompt fallback. No agent-captured native screenshot was available in this chat; the exposed MCP Apps browser inventory contained no app tab. Direct one-click routing, if that is required, and other client versions remain distinct checks. Live local-engine readiness also passes after this change.
+
 ## Verified
 
 - A clean source-only copy was registered as `frameforge-community` with the Codex CLI and installed as `frameforge-studio@frameforge-community`. The CLI reports installed and enabled.

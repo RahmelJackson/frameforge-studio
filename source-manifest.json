@@ -1,6 +1,6 @@
 {
   "version": 1,
-  "created": "2026-10-25T11:37:29.418Z",
+  "created": "2026-10-25T11:50:25.719Z",
   "files": [
     {
       "name": ".agents/plugins/marketplace.json",
@@ -194,8 +194,8 @@
     },
     {
       "name": "lib/studio-mcp-tools.mjs",
-      "bytes": 15888,
-      "sha256": "e89ceb0dd7ea44ffd0d846db2463376b5198cf7418e3c331be7e5adb089cc073"
+      "bytes": 16018,
+      "sha256": "e36ab55b4a21d122fb827ee3b108a42e4edb0bc2f371b90fb9cb519f44644d36"
     },
     {
       "name": "lib/studio-setup.mjs",
@@ -289,18 +289,18 @@
     },
     {
       "name": "PLUGIN-ACCEPTANCE.md",
-      "bytes": 5335,
-      "sha256": "053f4e156dd5f4b6efe969a5776029caa501ba9f640bbf04236558ca48a5bdc9"
+      "bytes": 7861,
+      "sha256": "a1bba8dc686e20ddfc8fcf5e997cfd21c946b4f88224c7d39954167cf80d6b97"
     },
     {
       "name": "PLUGIN-GUIDE.md",
-      "bytes": 4909,
-      "sha256": "a710017071aed7a547f649332c8d41c93150fdd9df3b68a2f3fba1d43e32e059"
+      "bytes": 6370,
+      "sha256": "8a9dfb790faa80841a3c8fecc51465abc667517ee3cb03b9028ac687f9705942"
     },
     {
       "name": "plugin.json",
       "bytes": 2595,
-      "sha256": "0a47f236d87dde7b185d51a1a5710107c37b7d8f62f0ef7331fe4013901cb22a"
+      "sha256": "f2dc50d1a81eca418986167697e8ebb2df6d919ac34e91a68327753cbbe2c314"
     },
     {
       "name": "public/app.js",
@@ -785,7 +785,7 @@
     {
       "name": "README.md",
       "bytes": 9501,
-      "sha256": "a97049cbf86728962f990473af3bc6cbb9d7b1948557d653474b1938af68bfbe"
+      "sha256": "b7eeec61e06d9331d460426d97c8d3276926b87e0c87cabf060c106dd81fb8bf"
     },
     {
       "name": "REMAINING-CHECKLIST.md",
@@ -2164,8 +2164,8 @@
     },
     {
       "name": "tests/studio-mcp.test.mjs",
-      "bytes": 8498,
-      "sha256": "05c7b8353f41969625902500858ba7d9bf67d91eba821c1684b7509e3ce4000c"
+      "bytes": 10038,
+      "sha256": "8c2abb0df3099307307954e98ff34bfc6bd76b584dd3804672b8444bf18c0271"
     },
     {
       "name": "tests/style_check_guards.py",
