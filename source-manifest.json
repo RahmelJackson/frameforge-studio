@@ -1,6 +1,6 @@
 {
   "version": 1,
-  "created": "2026-10-25T12:31:50.685Z",
+  "created": "2026-10-25T13:31:10.187Z",
   "files": [
     {
       "name": ".agents/plugins/marketplace.json",
@@ -154,8 +154,8 @@
     },
     {
       "name": "lib/mcp-ui.mjs",
-      "bytes": 2845,
-      "sha256": "d1928b07cb171a3aa8681deddd03f458125fe9546a8fd5aa2e64fb6dcde791b0"
+      "bytes": 2973,
+      "sha256": "2935e8e2446d0de16483476e72fad7850e24d21d52545b892761ce8086a79f6c"
     },
     {
       "name": "lib/pose.mjs",
@@ -274,8 +274,8 @@
     },
     {
       "name": "MCP-GUIDE.md",
-      "bytes": 10746,
-      "sha256": "0a1ed4029fad89ca620a3eb3cce3c66ae7f8fa0aac301ed9bf5c2bf360b3aff3"
+      "bytes": 12522,
+      "sha256": "7907f803c73f8ef629888d32c4c206f6f0e968a8f5f9b12a850a80ca3e65bd6e"
     },
     {
       "name": "mcp.json",
@@ -294,18 +294,18 @@
     },
     {
       "name": "PLUGIN-ACCEPTANCE.md",
-      "bytes": 10358,
-      "sha256": "01de60250481f6059fdfba3fa47bebd369e193e5cf76f7f9b33ede798632c8d8"
+      "bytes": 12522,
+      "sha256": "09273f5ed3a5531d29b0e344dab4c86024faead54e5b863eacb7aad4c5ea4fbb"
     },
     {
       "name": "PLUGIN-GUIDE.md",
-      "bytes": 7008,
-      "sha256": "fd675b07d178f97ccf2038b6b7ff17f89d5a21de4ce0294e40daae9232df32bb"
+      "bytes": 7392,
+      "sha256": "4cf3efa6300b59d2216e81b04eb467ac6a0262399d169a41416872ba4baef26f"
     },
     {
       "name": "plugin.json",
       "bytes": 2769,
-      "sha256": "5dc66cf7d77d4d164c7bdda29afc9ad58ba610745b726030ab347258511571f7"
+      "sha256": "3456d2316155b02bded62e4378d8cb9616950750e479e30f1147f42e7c2e1f26"
     },
     {
       "name": "public/app.js",
@@ -584,18 +584,18 @@
     },
     {
       "name": "public/mcp-studio.css",
-      "bytes": 1462,
-      "sha256": "539a2d24c119acfab3e90c2b9db3c8b2662661554676fc60480d7841521a18b0"
+      "bytes": 1808,
+      "sha256": "d04f6725d780317650f6a5290d70fddb30726376d048decb520753233988467e"
     },
     {
       "name": "public/mcp-studio.html",
-      "bytes": 952,
-      "sha256": "104d1b179e829b0af316966cea5cc78be81c8fa586fdaf5feda57cf14ed107f6"
+      "bytes": 1199,
+      "sha256": "35b8b523b548deb21ebf07b0c92a1b115d3355cbfab637f5872373eef9e383d6"
     },
     {
       "name": "public/mcp-studio.js",
-      "bytes": 3342,
-      "sha256": "a6e432ccdf8f38138c4bf433ea4c45f8fc9ab027521fa9e6382dd8d254852b5a"
+      "bytes": 4000,
+      "sha256": "812e89d7af83800cd4d03fc49c693e36fe98d05901b149246694a52e0b45ee50"
     },
     {
       "name": "public/online-handoff.js",
@@ -1019,8 +1019,8 @@
     },
     {
       "name": "scripts/frameforge-mcp.mjs",
-      "bytes": 7849,
-      "sha256": "ec4fba6a5828c57b6cf4888987f9fc1a0b5d642f5b486b90542ece0293e58b98"
+      "bytes": 7882,
+      "sha256": "2095e3537a484f3169261d6ab86265fb439f6c38e49276eafce1271e9cf1d8ee"
     },
     {
       "name": "scripts/human_pose.py",
@@ -2043,6 +2043,11 @@
       "sha256": "a8a7dd87224e23f4c02b13e2053d92cb8bf27e4715d1609d4e0ce59617911c96"
     },
     {
+      "name": "tests/mcp-studio-ui.test.mjs",
+      "bytes": 4103,
+      "sha256": "2482fe77e5b3ddc8657fd4978bb6f844451ea6bbb0623f8853f57925216027be"
+    },
+    {
       "name": "tests/media_check.py",
       "bytes": 6370,
       "sha256": "05c4ab21c08e57bb721d03edb92b190ed8689021b29b732577698ea2f4396b25"
@@ -2060,7 +2065,7 @@
     {
       "name": "tests/plugin-release.test.mjs",
       "bytes": 3672,
-      "sha256": "ab0e7837cb1a57a494baae99de564d0112b2bf1f681300bb167f7aaec8d44001"
+      "sha256": "22a685d91b0171d6ce18aebd42c8e6056a8e3196d1b048cab40acb5db9dac761"
     },
     {
       "name": "tests/portable-workspace.test.mjs",

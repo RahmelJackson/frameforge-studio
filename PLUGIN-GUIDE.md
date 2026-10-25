@@ -1,3 +1,5 @@
+> Version 0.5.2 removes the full-screen loading cover after the local editor connection is registered. It also declares exact local frame permissions in both client formats and reports declined browser actions with an actual studio link. A missing frame-ready message no longer forces you out of the studio. Native full-site acceptance is still separate from server/tests passing.
+
 > Version 0.5 opens the complete studio website in compatible MCP Apps clients, with a video-led home page and the same images, video, film, audio, library and setup tools. The duplicate small-panel navigation is removed. Update/reload the plugin after installation; existing open panels can keep the old resource. If your client blocks embedded local pages, choose Open in browser. Native full-site acceptance is separate from the earlier confirmed Plugins launch. See [acceptance and limitations](PLUGIN-ACCEPTANCE.md).
 
 # Frameforge as a plugin

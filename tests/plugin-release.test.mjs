@@ -34,7 +34,7 @@ test('The plugin can launch from a relocated clean source release with its skill
   child.stdin.end([
    {id:1,method:'initialize',params:{protocolVersion:'2025-06-18'}},
    {id:2,method:'tools/list'},
-   {id:3,method:'resources/read',params:{uri:'ui://frameforge/studio-v3.html'}}
+   {id:3,method:'resources/read',params:{uri:'ui://frameforge/studio-v4.html'}}
   ].map(m=>JSON.stringify({jsonrpc:'2.0',...m})).join('\n')+'\n');
   const [code]=await exited;clearTimeout(timer);assert.equal(code,0,stderr);
   const messages=stdout.trim().split('\n').map(JSON.parse);assert.equal(messages.length,3);
