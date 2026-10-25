@@ -6,7 +6,9 @@ Use the website normally, or connect its **local STDIO MCP server** to an agent.
 
 Calling `studio_workflows` also advertises `ui://frameforge/studio-v1.html`, an MCP Apps resource. It uses Frameforge's charcoal/lime branding, workspace tabs, explained recipe cards, graph inspection and setup checks. With creation enabled it can prepare/run native local image/video graphs and display checked images. The open-weight profile toggle uses the same server policy. Films and Audio link to the complete website editors and expose saved work; the panel does not reproduce every editor inside a chat.
 
-MCP Apps rendering depends on the client. The ordinary tools and local website links work without it. Protocol and a local browser bridge harness are tested separately from actual Codex/Claude client acceptance; no particular client UI is guaranteed. `node scripts/preview-mcp-ui.mjs` runs a read-only local test host on port 4390. Add `--allow-writes` only when testing local creation. `/mcp-app` on the website is a labeled, read-only browser preview, not a live assistant session.
+The panel now embeds the same original concept imagery as the website, uses picture recipe cards, and provides a Saved results workspace that requests actual image/video-poster previews through MCP. Concept artwork is explicitly labeled and never presented as a graph result. Embedded art needs no external image domains.
+
+MCP Apps rendering depends on the client. The ordinary tools and local website links work without it. Claude Desktop 3.6556.2 has now rendered the actual local STDIO panel and returned the native image preview. Recipe search and detail interaction were exercised in the client. Codex visual rendering and other Claude versions remain separate acceptance checks. See [the client acceptance record](MCP-CLIENT-ACCEPTANCE.md). `node scripts/preview-mcp-ui.mjs` runs a read-only local test host on port 4390. Add `--allow-writes` only when testing local creation. `/mcp-app` on the website is a labeled, read-only browser preview, not a live assistant session.
 
 ## Install once
 

@@ -1,6 +1,6 @@
 {
   "version": 1,
-  "created": "2026-10-25T02:57:48.318Z",
+  "created": "2026-10-25T03:54:54.757Z",
   "files": [
     {
       "name": ".gitattributes",
@@ -19,8 +19,8 @@
     },
     {
       "name": "CHALLENGE-CHECKLIST.md",
-      "bytes": 5628,
-      "sha256": "7cd5b22722ccec73b71ba5e41655fde915d85fdd9d03e4bbd3b0e0d01dfe48ce"
+      "bytes": 6169,
+      "sha256": "7972810b712b25ad6b3275dcaa0f385ceaf4725eb956759db49da174cf2e1764"
     },
     {
       "name": "COMFY-HUB-COMPARISON.md",
@@ -31,6 +31,11 @@
       "name": "config.example.json",
       "bytes": 58,
       "sha256": "fbdf80056c6cbbcc9f52ef37e5bf075ac6f585b91fe5d0a08f39764235b5215e"
+    },
+    {
+      "name": "DEMO-SCRIPT.md",
+      "bytes": 5181,
+      "sha256": "45f14c2c5993f1e38e2b7efdcb782317d2a3694cd4081d67577892c0a70e93ec"
     },
     {
       "name": "GITHUB-SETUP.md",
@@ -119,8 +124,8 @@
     },
     {
       "name": "lib/mcp-ui.mjs",
-      "bytes": 826,
-      "sha256": "097892e31009690c2df51b1bd602f631735ba2d125b516e20e9f1558daccd9f1"
+      "bytes": 1276,
+      "sha256": "83c3aaadf7137e461f6f67481f883dfe29c9c714114836fc253994da60e70f56"
     },
     {
       "name": "lib/pose.mjs",
@@ -228,9 +233,14 @@
       "sha256": "546a08a615a6fef95d994ce6c98d9d036fab947660e8050906daf16a589d85f4"
     },
     {
+      "name": "MCP-CLIENT-ACCEPTANCE.md",
+      "bytes": 3651,
+      "sha256": "c60597f4d0ccb945a00ee1dc11a876e0f7662c090b7be7c37ad47903537c0438"
+    },
+    {
       "name": "MCP-GUIDE.md",
-      "bytes": 7611,
-      "sha256": "118146fe24064b02722a203eded77d34f41b11b0df95aca3b92c6a3679f5cf6f"
+      "bytes": 8201,
+      "sha256": "5a22b0e4a50afe88a02ace6386a90c25b2f599c58a96a1e947ebb5b10cc9fc3f"
     },
     {
       "name": "OPEN-WEIGHTS.md",
@@ -368,6 +378,21 @@
       "sha256": "9dabb753b01127e23656bbab7d03fd59a84f89fd20ee0cdc1e3612d77ff26702"
     },
     {
+      "name": "public/explore-art/mcp-observatory.png",
+      "bytes": 201703,
+      "sha256": "c304613e0b4e89680705801a278dc701bedb9ba1fb018c408d415351bd9bd3e3"
+    },
+    {
+      "name": "public/explore-art/mcp-portrait.png",
+      "bytes": 194627,
+      "sha256": "248aefc630b170c41e5df55322f2b969281cb33f5b588a42a6ea4644ea075557"
+    },
+    {
+      "name": "public/explore-art/mcp-product.png",
+      "bytes": 189151,
+      "sha256": "e7c82d9f55ca8bf3cc53d74f866e4401558327cd471cf1f419da3ccf416c76b7"
+    },
+    {
       "name": "public/explore-art/moon.svg",
       "bytes": 658,
       "sha256": "0d120f9ac8a550b7d74bcf7cf008414030d234a722cacc51550a3cc03b42caed"
@@ -474,18 +499,18 @@
     },
     {
       "name": "public/mcp-app.css",
-      "bytes": 4689,
-      "sha256": "f615f480af952a3bb32092b384386ba1fcdbd4efe8e6014e2df110c7dfa7d83b"
+      "bytes": 6401,
+      "sha256": "d1689df7c53b868e524c048f9eb13fc82f673f26393a7eadb980ec5acafb9d91"
     },
     {
       "name": "public/mcp-app.html",
-      "bytes": 3190,
-      "sha256": "f0ba47ce5b09b67d9acf810ee9f8dea36bce6a12e9e2a00e7dfd748d5c100741"
+      "bytes": 3541,
+      "sha256": "3a338024a89c7015bd3084777505d377677588be6e15aa9b9e30b009131b7f97"
     },
     {
       "name": "public/mcp-app.js",
-      "bytes": 12248,
-      "sha256": "1fc5411f2b89b43e492b08d54c76532d88e1ffaa57b6d5366e864de22704f7a8"
+      "bytes": 15331,
+      "sha256": "2389b38cf120c46307946f2d72d024e85179acc1a475e5b41dccbe4b8a548dfb"
     },
     {
       "name": "public/online-handoff.js",
@@ -989,8 +1014,8 @@
     },
     {
       "name": "scripts/package-source.mjs",
-      "bytes": 4870,
-      "sha256": "ed9de36030a9dfcdc51548661bef44cdfde776b3be323a746072ca05d44e5bc8"
+      "bytes": 5003,
+      "sha256": "424a8d9b7b176cb8ac5c8afa43cb627a5857659a67a9a16d54ef1db139622828"
     },
     {
       "name": "scripts/pose_retarget.py",
@@ -2049,8 +2074,8 @@
     },
     {
       "name": "tests/studio-mcp.test.mjs",
-      "bytes": 8204,
-      "sha256": "d1589fd7bffcf7f2af33857d7f1bfec04b67c144e4c63e78ed5cdefc20e54daf"
+      "bytes": 8498,
+      "sha256": "05c7b8353f41969625902500858ba7d9bf67d91eba821c1684b7509e3ce4000c"
     },
     {
       "name": "tests/style_check_guards.py",

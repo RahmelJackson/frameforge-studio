@@ -23,6 +23,13 @@ No signup, social publication or final entry submission is automated by this rep
 
 [COMFY-HUB-COMPARISON.md](COMFY-HUB-COMPARISON.md) distinguishes our existing alternatives from the exact Cinematic Studio, Re-shoot, Openjutsu and Hub pipelines. Those example apps are inspiration, not a requirement to implement every catalog item. Re-shoot/CrossView/H3 and SCAIL-2 are not marked implemented merely because we have related camera or motion tools.
 
+## Client check and recording
+
+- [x] Real Claude Desktop 3.6556.2 renders the visual MCP panel and returns a saved native image preview. [Acceptance record](MCP-CLIENT-ACCEPTANCE.md).
+- [x] [115-second shot list and narration](DEMO-SCRIPT.md), including local assistant, editable graphs, Comfy Cloud/Civitai handoffs, open-weight profile and MCP.
+- [ ] Record the actual demo; a script is not a completed video.
+- [ ] Separately verify Codex visual UI and wider host/version support.
+
 ## Where this entry can stand out
 
 **Demonstrate one coherent path, not the number of tabs.** The useful contribution is a guided creative layer that explains a workflow, checks a user's existing engine, supplies model links, exposes the editable graph and lets a website or an MCP client operate the same saved production work. Technical verification and human creative approval remain separate.
