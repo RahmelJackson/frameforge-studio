@@ -1,3 +1,5 @@
+> Version 0.5 opens the complete studio website in compatible MCP Apps clients, with a video-led home page and the same images, video, film, audio, library and setup tools. The duplicate small-panel navigation is removed. Update/reload the plugin after installation; existing open panels can keep the old resource. If your client blocks embedded local pages, choose Open in browser. Native full-site acceptance is separate from the earlier confirmed Plugins launch. See [acceptance and limitations](PLUGIN-ACCEPTANCE.md).
+
 # Frameforge as a plugin
 
 The plugin packages the same Frameforge MCP server with a branded plugin entry, three starter prompts, a setup skill and creative workflow guidance. Its visual MCP panel already includes original artwork, explained recipe cards, editable-graph inspection and saved-result previews. The website remains independently usable.
@@ -8,7 +10,7 @@ Version 0.4.0 adds a full-width cinematic cover with an original local Wan video
 
 The Plugins directory's Use action can select the plugin and prefill a chat prompt. A composer with that unsent text is not the studio UI. Send the starter prompt to request the visual panel through `studio_workflows`. Screenshots and brand metadata alone do not replace the host's composer or register an app launch path.
 
-Version 0.4.1 also registers OpenAI's documented global/sidebar and thread-side-panel entrypoints on the read-only `studio_workflows` tool, pointing to the actual bundled MCP Apps resource. Version 0.4.0 lacked that registration. On a host that supports these entrypoints for the connection type, the global entry opens fullscreen. Whether a particular Plugins menu action chooses that route is still a native-client acceptance check. Tool-discovery metadata is not proof that clicking that menu has been fixed.
+Version 0.4.1 also registers OpenAI's documented global/sidebar and thread-side-panel entrypoints on the read-only `studio_workflows` tool, pointing to the actual bundled MCP Apps resource. Version 0.4.0 lacked that registration. On a host that supports these entrypoints for the connection type, the global entry opens fullscreen. The owner confirmed immediate direct opening from Plugins on their Codex installation after 0.4.1. The new complete-site frame in 0.5 still needs a separate native-client check. Tool-discovery metadata alone is not proof of visual rendering.
 
 The current package is a local STDIO integration. Use a local desktop/Work/Codex execution context that can connect to the computer; a hosted Chat context cannot run a local process by installing a source package. Higgsfield's installed plugin additionally references a registered hosted app. This package does not invent a registered app ID or silently expose the local studio on the internet. [OpenAI entrypoint documentation](https://developers.openai.com/plugins/build/extensions) and [local execution scope](https://developers.openai.com/plugins/deploy/desktop-only).
 

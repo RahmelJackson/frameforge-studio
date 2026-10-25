@@ -1,7 +1,7 @@
 {
   "$schema": "https://agent-plugins.org/schemas/1.0.0/plugin.schema.json",
   "name": "frameforge-studio",
-  "version": "0.4.1",
+  "version": "0.5.0",
   "description": "Discover, understand and run ComfyUI creative workflows through a visual studio in your assistant. Connect your own local engine, inspect editable graphs, find required model downloads, and continue into images, video, speech and films.",
   "author": { "name": "Rahmel Jackson", "url": "https://github.com/RahmelJackson" },
   "homepage": "https://github.com/RahmelJackson/frameforge-studio",
@@ -15,7 +15,7 @@
       "interface": {
         "displayName": "Frameforge Studio",
         "shortDescription": "Your ComfyUI creative studio, inside your assistant",
-        "longDescription": "Start with an idea, a photo or a clip. Frameforge helps you choose an explained workflow, inspect its ComfyUI graph and check its exact models and nodes. Use your own local ComfyUI for generation, or prepare an external Comfy Cloud workflow package or Civitai image brief. The visual MCP panel includes picture recipe cards, graph inspection and saved results. Local creation tools support images, video, speech and film projects; some tools combine graphs with local media processors. Open weights only is a selectable execution profile. Requires Node.js 22+; local generation needs your own ComfyUI, models and documented media runtimes. No models, credentials or personal outputs are bundled. Visual rendering depends on the assistant client. Cloud and Civitai runs remain on the provider's website.",
+        "longDescription": "Start with an idea, a photo or a clip. Frameforge helps you choose an explained workflow, inspect its ComfyUI graph and check its exact models and nodes. Use your own local ComfyUI for generation, or prepare an external Comfy Cloud workflow package or Civitai image brief. The visual MCP entry opens the complete studio in supported clients: images, video, speech, film editors, workflow graphs, setup and saved results. Clients that block embedded local pages can open the same studio in a browser. Local creation tools support images, video, speech and film projects; some tools combine graphs with local media processors. Open weights only is a selectable execution profile. Requires Node.js 22+; local generation needs your own ComfyUI, models and documented media runtimes. No models, credentials or personal outputs are bundled. Visual rendering depends on the assistant client. Cloud and Civitai runs remain on the provider's website.",
         "developerName": "Rahmel Jackson",
         "category": "Creativity",
         "websiteURL": "https://github.com/RahmelJackson/frameforge-studio",

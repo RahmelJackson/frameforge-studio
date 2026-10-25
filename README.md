@@ -4,9 +4,9 @@
 
 Frameforge is a local creative studio over your own ComfyUI. Turn an idea into images, moving shots, voice and a short film through a guided browser interface. Inspect the actual workflow graph, understand its inputs, find the required models, and choose where to create.
 
-![Original Frameforge observatory concept artwork](public/explore-art/observatory-concept.png)
+![Frameforge Studio with its original locally generated observatory video cover](assets/studio-cover.png)
 
-*Original studio concept artwork, not a benchmark result or screenshot of the application.*
+*Actual browser screenshot of the studio. The cover uses original artwork and a short local Wan motion study; it is not a model-quality benchmark.*
 
 ## Why this exists
 
@@ -32,7 +32,7 @@ The interface includes guided starting points, purpose/input/output descriptions
 
 ## Website or MCP. Your choice.
 
-The local STDIO MCP server gives Codex, Claude and other compatible clients **17 tools** for recipe discovery, setup checks, graph preparation, local creation, native previews, speech and film projects. Seven tools are read-only by default; creation requires `--allow-writes`. No paid submissions or automatic model installs. A bundled MCP Apps panel uses the studio's branding, recipe cards, setup checks and graph inspection in compatible hosts; ordinary text tools remain available. See [MCP setup and examples](MCP-GUIDE.md).
+The local STDIO MCP server gives Codex, Claude and other compatible clients **17 tools** for recipe discovery, setup checks, graph preparation, local creation, native previews, speech and film projects. Seven tools are read-only by default; creation requires `--allow-writes`. No paid submissions or automatic model installs. The MCP Apps entry opens the complete studio website in compatible local clients, with the same image/video/film/audio editors, library, setup and guide. Clients that block embedded local pages can open the same studio in their browser; ordinary text tools remain available. New full-site native-client acceptance remains separate from the owner-confirmed direct Plugins launch. See [MCP setup and examples](MCP-GUIDE.md).
 
 Use the navigation **Open weights only** toggle to limit this studio to reviewed local pipelines. `npm run start:open` locks that profile; `--open-weights-only` does the same for an MCP connection. Partner nodes and unknown model loaders are rejected server-side. [Scope, model terms and limits](OPEN-WEIGHTS.md).
 
