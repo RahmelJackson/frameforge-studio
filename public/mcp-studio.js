@@ -16,7 +16,7 @@ document.querySelector('#browser').onclick=external;document.querySelector('#fal
 async function start(){
  document.querySelector('#retry').hidden=true;status.textContent='Opening your images, video, voices and films…';
  try{
-  await request('ui/initialize',{protocolVersion:'2026-01-26',appInfo:{name:'frameforge-studio',version:'0.5.0'},appCapabilities:{}});
+  await request('ui/initialize',{protocolVersion:'2026-01-26',appInfo:{name:'frameforge-studio',version:'0.5.1'},appCapabilities:{}});
   window.parent.postMessage({jsonrpc:'2.0',method:'ui/notifications/initialized',params:{}},parentOrigin);
   const ancestors=[location.origin,parentOrigin,...Array.from(location.ancestorOrigins??[])].filter(o=>o&&o!=='null'&&o!=='*');
   if(!ancestors.length)throw Error('This client does not expose an embeddable page origin.');

@@ -11,6 +11,24 @@ test('Embed access uses exact MCP-supplied ancestors, never wildcard or credenti
  for(const value of [[],['*'],['https://*.example.com'],['https://a.example/path'],['https://a.example; frame-src *'],['file:///'],['null'],['http://example.com'],['https://user:password@example.com']])assert.throws(()=>embedAncestors(value));
 });
 
+test('Codex native sandbox origin matches the installed factory and rejects other hosts, ports and desktop schemes',()=>{
+ const origin='codex-sandbox://mcp-app-'+'a'.repeat(48)+'.web-sandbox.oaiusercontent.com';
+ assert.deepEqual(embedAncestors([origin,'app://codex']),[origin,'app://codex']);
+ for(const rejected of [origin+':444',origin+'/page',origin+'?x=1',origin+'#x',origin.replace('mcp-app-','source-'),origin.replace('.com','.com.evil.example'),origin.replace('a'.repeat(48),'a'.repeat(47)),origin.replace('codex-sandbox:','other-desktop:'),'codex-sandbox://example.com'])assert.throws(()=>embedAncestors([rejected]));
+});
+
+test('Native Codex ancestor registration passes through the actual MCP tool and opens only its connection view',async()=>{
+ const origins=['codex-sandbox://mcp-app-'+'b'.repeat(48)+'.web-sandbox.oaiusercontent.com','app://codex'];
+ const handle=createMCPServer({base:'http://127.0.0.1:1',fetcher:async()=>Response.json({workflows:[],tasks:[]})});
+ const request=(method,params)=>handle({jsonrpc:'2.0',id:1,method,params});
+ try{const ui=(await request('resources/read',{uri:STUDIO_UI_URI})).result.contents[0],origin=ui._meta.ui.csp.frameDomains[0];
+  const registration=(await request('tools/call',{name:'studio_workflows',arguments:{embedAncestors:origins}})).result;
+  assert.equal(registration.isError,undefined,'Previously returned Use exact embed origins only.');
+  assert.equal((await fetch(origin)).status,502,'Registration now passes; this fixture deliberately has no upstream studio.');
+ }finally{await handle.close();}
+});
+
+
 test('Full studio view preserves assets, ranges and navigation while isolating frame permissions and read-only access',async()=>{
  const seen=[],backend=http.createServer((req,res)=>{seen.push({url:req.url,headers:req.headers,method:req.method});if(req.url==='/movie'){res.writeHead(206,{'Content-Type':'video/mp4','Content-Range':'bytes 0-3/20'});return res.end('film');}res.writeHead(200,{'Content-Type':'text/html','Content-Security-Policy':"default-src 'self'; frame-ancestors 'none'"});res.end('<html><head></head><body><a href="/images">Images</a></body></html>');});
  backend.listen(0,'127.0.0.1');await once(backend,'listening');let view;
