@@ -10,19 +10,20 @@ const equal=(a,b)=>{if(typeof a!=='string'||typeof b!=='string')return false;con
 const error=(status,message)=>Object.assign(Error(message),{status});
 const send=(res,status,value)=>{res.writeHead(status,{'Content-Type':'application/json'});res.end(JSON.stringify(value));};
 async function body(req){let b='';for await(const chunk of req){b+=chunk;if(Buffer.byteLength(b)>4096)throw error(413,'Request is too large.');}try{return JSON.parse(b);}catch{throw error(400,'Use valid JSON.');}}
-export async function createJudgeServer({root,stateDir,backend='http://127.0.0.1:4317',publicOrigin='',limit=10,days=14}={}){
+export async function createJudgeServer({root,stateDir,backend='http://127.0.0.1:4317',publicOrigin='',limit=35,days=14}={}){
  if(!root){for(const candidate of [path.resolve(HERE,'../..'),path.resolve(HERE,'../../frameforge')]){try{const p=JSON.parse(await readFile(path.join(candidate,'package.json')));if(p.name==='frameforge-local'){root=candidate;break;}}catch{}}if(!root)throw Error('Set FRAMEFORGE_ROOT to the installed studio folder.');}
  stateDir??=path.join(root,'data','judge-demo');
  const upstream=new URL(backend);if(!['127.0.0.1','localhost','[::1]'].includes(upstream.hostname)||upstream.protocol!=='http:'||upstream.username||upstream.password||upstream.pathname!=='/')throw Error('The studio backend must be a loopback HTTP origin.');
  if(publicOrigin){const u=new URL(publicOrigin);if(u.protocol!=='https:'||u.origin!==publicOrigin)throw Error('Public origin must be an exact HTTPS origin.');}
  await mkdir(stateDir,{recursive:true});const stateFile=path.join(stateDir,'state.json');let state;
  try{state=JSON.parse(await readFile(stateFile));}catch(e){if(e.code!=='ENOENT')throw e;state={version:1,code:randomBytes(32).toString('base64url'),cookie:randomBytes(32).toString('hex'),expiresAt:new Date(Date.now()+days*86400000).toISOString(),limit,jobs:[]};await writeFile(stateFile,JSON.stringify(state,null,2));}
- if(!Number.isInteger(state.limit)||state.limit<1||state.limit>20)throw Error('Judge budget must be between 1 and 20.');
+ if(!Number.isInteger(state.limit)||state.limit<1||state.limit>35)throw Error('Judge budget must be between 1 and 35.');
  async function save(){await writeFile(stateFile+'.tmp',JSON.stringify(state,null,2));await rename(stateFile+'.tmp',stateFile);}
  let gate=Promise.resolve();function locked(fn){const next=gate.catch(()=>{}).then(fn);gate=next;return next;}
  const assets={'/art/observatory.png':['public/explore-art/observatory-concept.png','image/png'],'/art/product.png':['public/explore-art/product-concept.png','image/png'],'/art/portrait.png':['public/explore-art/portrait-concept.png','image/png'],'/art/motion.mp4':['public/explore-art/observatory-motion.mp4','video/mp4']};
  async function call(route,init={}){const r=await fetch(new URL(route,upstream),{...init,headers:{'Content-Type':'application/json','X-Frameforge-Open-Weights-Only':'1',...init.headers},signal:AbortSignal.timeout(30000)});const v=await r.json();if(!r.ok)throw error(502,'The local engine could not accept this run. Its slot is retained so it cannot be submitted twice.');return v;}
  const finished=new Set(['review-ready','approved','rejected','failed','cancelled','needs-refinement','needs-attention']);
+ const blocksEngine=j=>!finished.has(j.status)||j.status==='needs-attention';
  async function refresh(record){if(!record.id)return record;try{const rows=await call(record.task==='speech'?'/api/audio-jobs':'/api/jobs');const j=rows.find(j=>j.id===record.id);if(!j)throw Error('Saved job unavailable');record.status=j.status;record.pass=j.report?.technicalPass===true;record.summary={size:j.report?.size,duration:j.report?.duration??j.report?.media?.audio?.duration};await locked(save);}catch{}return record;}
  const view=j=>({requestId:j.requestId,id:j.id??null,task:j.task,prompt:j.prompt,status:j.status,technicalPass:j.pass===true,summary:j.summary??{},message:j.status==='needs-attention'?'The submission needs local inspection. This slot remains reserved.':null});
  let authWindow={time:0,count:0};
@@ -47,15 +48,16 @@ export async function createJudgeServer({root,stateDir,backend='http://127.0.0.1
    const cookie=req.headers.cookie?.split(';').map(s=>s.trim()).find(s=>s.startsWith('frameforge_judge='))?.slice('frameforge_judge='.length);
    if(!equal(cookie,state.cookie))throw error(401,'Enter your judge access code to create.');if(Date.now()>Date.parse(state.expiresAt))throw error(410,'The judge session has expired.');
    if(route==='/api/status'&&req.method==='GET'){
-    await Promise.all(state.jobs.filter(j=>!finished.has(j.status)).map(refresh));let ready=false;try{const h=await call('/api/health');ready=h.connected===true||h.comfy?.connected===true||h.engine?.connected===true;}catch{}
-    return send(res,200,{remaining:state.limit-state.jobs.length,limit:state.limit,expiresAt:state.expiresAt,engineConnected:ready,jobs:state.jobs.map(view)});
+    await Promise.all(state.jobs.filter(blocksEngine).map(refresh));let ready=false;try{const h=await call('/api/health');ready=h.connected===true||h.comfy?.connected===true||h.engine?.connected===true;}catch{}
+    const active=state.jobs.find(blocksEngine);
+    return send(res,200,{remaining:state.limit-state.jobs.length,limit:state.limit,expiresAt:state.expiresAt,engineConnected:ready,busy:Boolean(active),activeRequestId:active?.requestId??null,busyMessage:active?(active.status==='needs-attention'?'A previous run needs the creator to check it. New runs are paused.':'Another judge is generating. Please wait. Your request has not been submitted.'):null,jobs:state.jobs.map(view)});
    }
    if(route==='/api/run'&&req.method==='POST'){
     if(req.headers.origin!==ownOrigin)throw error(403,'Open the judge page to run a workflow.');const input=await body(req);
     if(Object.keys(input).some(k=>!['requestId','task','prompt'].includes(k))||!uuid(input.requestId)||!['image','video','speech'].includes(input.task)||typeof input.prompt!=='string'||!input.prompt.trim()||input.prompt.length>(input.task==='speech'?300:800))throw error(400,'Choose a supported task and a short prompt.');
     const signature=digest(JSON.stringify({task:input.task,prompt:input.prompt.trim()}));
     let record,isNew=false;await locked(async()=>{record=state.jobs.find(j=>j.requestId===input.requestId);if(record){if(record.signature!==signature)throw error(409,'That request ID belongs to different inputs.');return;}
-     if(state.jobs.length>=state.limit)throw error(429,'The judge run allowance is used. Existing results remain available.');if(state.jobs.some(j=>!finished.has(j.status)))throw error(409,'One local job is already running. Please wait for it to finish.');
+     if(state.jobs.length>=state.limit)throw error(429,'The judge run allowance is used. Existing results remain available.');if(state.jobs.some(blocksEngine))throw Object.assign(error(409,'Another judge is generating. Please wait. Your request has not been submitted.'),{code:'ENGINE_BUSY'});
      record={requestId:input.requestId,task:input.task,prompt:input.prompt.trim(),signature,status:'submitting',createdAt:new Date().toISOString()};state.jobs.push(record);await save();isNew=true;
     });
     if(isNew){try{
@@ -74,7 +76,7 @@ export async function createJudgeServer({root,stateDir,backend='http://127.0.0.1
     if(Number(r.headers.get('content-length'))>100*1024**2)throw error(413,'Result is too large.');res.writeHead(r.status,{'Content-Type':mime,...Object.fromEntries(['content-length','content-range','accept-ranges'].flatMap(k=>r.headers.has(k)?[[k,r.headers.get(k)]]:[]))});let total=0;for await(const chunk of r.body){total+=chunk.length;if(total>100*1024**2){res.destroy();return;}if(!res.write(Buffer.from(chunk)))await new Promise(resolve=>res.once('drain',resolve));}return res.end();
    }
    throw error(404,'This route is not part of the judge demo.');
-  }catch(e){if(res.headersSent)return res.destroy();send(res,e.status??500,{error:e.status?e.message:'The local demo is temporarily unavailable.'});}
+  }catch(e){if(res.headersSent)return res.destroy();if(e.code==='ENGINE_BUSY')res.setHeader('Retry-After','5');send(res,e.status??500,{error:e.status?e.message:'The local demo is temporarily unavailable.',...(e.code==='ENGINE_BUSY'?{code:'ENGINE_BUSY'}:{})});}
  });
  return {server,stateFile,expiresAt:state.expiresAt};
 }

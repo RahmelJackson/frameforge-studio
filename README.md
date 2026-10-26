@@ -114,6 +114,6 @@ Built around the work of [ComfyUI](https://github.com/Comfy-Org/ComfyUI) and its
 
 ## Private judge demo and provider workflow pack
 
-Run `npm run judge` after starting the studio and its local engine. The separate invite page defaults to 10 bounded runs, with personal files and setup controls excluded. See [judge setup and publishing](scripts/judge-demo/README.md).
+Run `npm run judge` after starting the studio and its local engine. The separate invite page defaults to 35 bounded runs, with personal files and setup controls excluded. See [judge setup and publishing](scripts/judge-demo/README.md).
 
 The [provider workflow pack](workflows/bonus/README.md) contains pinned official LTX 2.5, FLUX 3 and MiniMax H3 graphs plus an original LTX atmosphere candidate. These are prepared workflows; bonus eligibility still requires actual model-generated results. Models and private invite state are not included.
