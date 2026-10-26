@@ -21,3 +21,9 @@ Review the LTX model license at https://huggingface.co/Lightricks/LTX-2.5. Downl
 ## Qualification evidence
 
 Prepared graphs alone do not qualify. For a provider bonus, save a successful output generated primarily by the named model, the exact executed graph, prompt/seed/settings, required input and model provenance. Show that result and the creation flow in the contest demo. Organizers determine eligibility. Rules: https://comfy.org/open-source-higgsfield
+
+## Studio entry points
+
+Open Library, choose Workflows, and use the Provider workflows section. It includes `frameforge-ltx-atmosphere.json`, `frameforge-flux3-product.json` and `frameforge-h3-keyframes.json`, with original sample images, steps, native graph inspection and downloads. The FLUX and H3 sample graphs adapt the pinned official templates; the original upstream files remain included. The H3 sample uses the observatory as both endpoints for a loop; replace the endpoints for another transition.
+
+The LTX preview disconnects the upstream resolution selector so its 640 x 384 controls are actually used. A two-second duration at 24 fps produces 49 latent frames using the upstream duration * fps + 1 expression. Native subgraphs are retained. These setup corrections do not establish a successful generation.

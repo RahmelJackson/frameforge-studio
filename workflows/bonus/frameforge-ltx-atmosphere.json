@@ -164,7 +164,7 @@
           "widget": {
             "name": "value_3"
           },
-          "link": 783
+          "link": null
         },
         {
           "label": "height",
@@ -173,7 +173,7 @@
           "widget": {
             "name": "value_4"
           },
-          "link": 784
+          "link": null
         },
         {
           "label": "frame_rate",
@@ -238,7 +238,7 @@
       "widgets_values": [
         "Use the provided start image as the first frame. A locked wide cinematic shot of the floating observatory above the clouds. A thin ring of violet luminous mist forms around the doorway and gently spirals upward. Warm amber doorway light remains stable. Soft clouds drift beneath the island. The explorer stays still. Preserve the observatory silhouette. One continuous shot, no cuts, no camera shake, no added people, no text. Quiet wind and a low soft magical hum, no speech or music.",
         false,
-        2.0416666666666665,
+        2,
         640,
         384,
         20261026,
@@ -343,16 +343,12 @@
         {
           "name": "width",
           "type": "INT",
-          "links": [
-            783
-          ]
+          "links": []
         },
         {
           "name": "height",
           "type": "INT",
-          "links": [
-            784
-          ]
+          "links": []
         }
       ],
       "properties": {
@@ -407,22 +403,6 @@
       398,
       0,
       "IMAGE"
-    ],
-    [
-      783,
-      403,
-      0,
-      398,
-      4,
-      "INT"
-    ],
-    [
-      784,
-      403,
-      1,
-      398,
-      5,
-      "INT"
     ]
   ],
   "groups": [],
@@ -1189,7 +1169,7 @@
               }
             },
             "widgets_values": [
-              5,
+              2,
               "fixed"
             ]
           },
@@ -1479,7 +1459,7 @@
               }
             },
             "widgets_values": [
-              1280,
+              640,
               "fixed"
             ]
           },
@@ -1646,7 +1626,7 @@
               }
             },
             "widgets_values": [
-              720,
+              384,
               "fixed"
             ]
           },
@@ -2648,9 +2628,9 @@
               }
             },
             "widgets_values": [
-              768,
-              512,
-              97,
+              320,
+              192,
+              49,
               1
             ]
           },
@@ -4722,6 +4702,11 @@
         -997.9255316404019,
         -5946.687550493496
       ]
+    },
+    "frameforge": {
+      "upstreamCommit": "67984637eefcd4825dcf5c134e39034785be1682",
+      "generationVerified": false,
+      "note": "Adapted input, prompt and preview settings; native model nodes and subgraphs retained."
     }
   },
   "version": 0.4

@@ -7,6 +7,7 @@ import {WorkflowPlans} from './lib/workflow-plans.mjs';
 import {applyWorkflowSettings} from './lib/workflow-expectations.mjs';
 import {WorkflowExports} from './lib/workflow-exports.mjs';
 import {WORKFLOWS,workflowPacket,modelDependencies} from './lib/workflow-catalog.mjs';
+import {PROVIDER_WORKFLOWS,providerPacket} from './lib/provider-workflows.mjs';
 import {apiToCanvas} from './public/workflow-graph.js';
 import {parseChecklist} from './lib/checklist.mjs';
 import {storyPlan,normalizeShortFilm,shortFilmStatus} from './lib/short-film.mjs';
@@ -557,6 +558,14 @@ const server = http.createServer(async (req, res) => {
     if (route === '/api/jobs' && req.method === 'GET') return json(res,200,[...jobs.values()].sort((a,b)=>b.createdAt.localeCompare(a.createdAt)));
     if(route==='/api/explore/civitai'&&req.method==='GET'){try{return json(res,200,await communityGallery.get(url.searchParams));}catch(e){return json(res,503,{error:e.message,sourceUrl:'https://civitai.com'});}}
     const communityVersion=route.match(/^\/api\/explore\/civitai\/version\/(\d{1,12})$/);if(communityVersion&&req.method==='GET')return json(res,200,await communityGallery.modelVersion(Number(communityVersion[1])));
+    if(route==='/api/provider-workflows'&&req.method==='GET')return json(res,200,openOnly?[]:PROVIDER_WORKFLOWS);
+    const providerRoute=route.match(/^\/api\/provider-workflows\/([a-z0-9-]+)(\/download)?$/);
+    if(providerRoute&&req.method==='GET'){
+      if(openOnly)throw policyError('provider templates and these unreviewed model routes are hidden in this profile.');
+      const packet=await providerPacket(ROOT,providerRoute[1],url.searchParams.get('variant')??'default');
+      if(providerRoute[2]){res.setHeader('Content-Disposition','attachment; filename="'+packet.file+'"');return await serveFile(req,res,path.join(ROOT,'workflows/bonus',packet.file));}
+      return json(res,200,packet);
+    }
     if(route==='/api/workflows'&&req.method==='GET')return json(res,200,openOnly||url.searchParams.get('openWeightsOnly')==='true'?WORKFLOWS.filter(w=>OPEN_WORKFLOW_IDS.includes(w.id)):WORKFLOWS);
     if(route==='/api/workflow-plans'&&req.method==='POST'){const input=await readJson(req,1000000);if(openOnly)assertOpenInput(input.context,{...input.input,provider:input.provider});const prepared=await workflowPlans.prepare(input);if(openOnly&&prepared.graph)prepared.openWeightsAudit=assertOpenGraph(prepared.graph,policyModels);return json(res,201,prepared);}
     const draftRoute=route.match(/^\/api\/workflow-plans\/([a-f0-9-]{36})$/);
@@ -727,7 +736,7 @@ const server = http.createServer(async (req, res) => {
     const publicFiles={'/explore':'explore.html','/explore.js':'explore.js','/explore.css':'explore.css','/explore-recipes.js':'explore-recipes.js','/showcase.js':'showcase.js','/studio-theme.css':'studio-theme.css','/home':'home.html','/create':'index.html','/home.js':'home.js','/home.css':'home.css','/workspace.css':'workspace.css','/workspace.js':'workspace.js','/studio-journeys.js':'studio-journeys.js','/studio-map.js':'studio-map.js','/studio-match.js':'studio-match.js','/checklist':'checklist.html','/checklist.js':'checklist.js','/checklist.css':'checklist.css','/dialogue-form.js':'dialogue-form.js','/dialogue-expressive-form.js':'dialogue-expressive-form.js','/caption-form.js':'caption-form.js','/sounds.js':'sounds.js','/audio':'audio.html','/audio.js':'audio.js','/lip-holds.js':'lip-holds.js','/body-pose.js':'body-pose.js','/audio.css':'audio.css','/continuity':'continuity.html','/continuity.js':'continuity.js','/continuity.css':'continuity.css','/film':'film.html','/film.js':'film.js','/film.css':'film.css','/':'home.html','/video-tools':'video-tools.html','/video-tools.js':'video-tools.js','/video-tools.css':'video-tools.css','/images':'images.html','/images.js':'images.js','/images.css':'images.css','/app.js':'app.js','/library.js':'library.js','/queue.js':'queue.js','/style.css':'style.css','/sample.jpg':'sample.jpg','/text-frame.svg':'text-frame.svg'};
     Object.assign(publicFiles,{'/director':'director.html','/director.js':'director.js','/director.css':'director.css','/view-options.js':'view-options.js','/style-board.js':'style-board.js'});
     Object.assign(publicFiles,{'/short-film':'short-film.html','/short-film.js':'short-film.js','/short-film.css':'short-film.css','/video-playback.js':'video-playback.js'});
-    Object.assign(publicFiles,{'/workflows':'workflows.html','/workflows.js':'workflows.js','/workflows.css':'workflows.css','/workflow-graph.js':'workflow-graph.js'});
+    Object.assign(publicFiles,{'/workflows':'workflows.html','/workflows.js':'workflows.js','/workflows.css':'workflows.css','/workflow-graph.js':'workflow-graph.js','/provider-workflows.js':'provider-workflows.js','/provider-workflows.css':'provider-workflows.css'});
     Object.assign(publicFiles,{'/library':'saved-library.html','/saved-library.js':'saved-library.js','/saved-library-page.js':'saved-library-page.js','/saved-library.css':'saved-library.css','/workflow-help.js':'workflow-help.js'});
     Object.assign(publicFiles,{'/online':'online.html','/online.js':'online.js','/online.css':'online.css','/online-handoff.js':'online-handoff.js','/setup':'setup.html','/setup.js':'setup.js','/setup-prompt.js':'setup-prompt.js','/setup.css':'setup.css','/assistant.js':'assistant.js','/assistant-connection.js':'assistant-connection.js','/assistant.css':'assistant.css','/workspace-art.css':'workspace-art.css'});
     Object.assign(publicFiles,{'/execution-policy.js':'execution-policy.js','/execution-policy.css':'execution-policy.css','/mcp-app':'mcp-app.html','/mcp-app.js':'mcp-app.js','/mcp-app.css':'mcp-app.css'});

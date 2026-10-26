@@ -38,7 +38,7 @@ export async function createJudgeServer({root,stateDir,backend='http://127.0.0.1
    const url=new URL(req.url,ownOrigin);const route=url.pathname;
    if(req.method==='GET'&&['/','/app.js','/style.css'].includes(route)){const name=route==='/'?'index.html':route.slice(1);res.writeHead(200,{'Content-Type':name.endsWith('.html')?'text/html; charset=utf-8':name.endsWith('.js')?'text/javascript':'text/css'});return res.end(await readFile(path.join(HERE,name)));}
    if(req.method==='GET'&&assets[route]){const [name,mime]=assets[route];res.writeHead(200,{'Content-Type':mime});return res.end(await readFile(path.join(root,name)));}
-   const workflow=route.match(/^\/workflow\/(frameforge-ltx-atmosphere|video_ltx2_5_i2v|video_ltx2_5_dfr_i2v|api_bfl_flux3_i2v|video_minimax_h3_i2v|api_minimax_h3_flf2v)\.json$/);
+   const workflow=route.match(/^\/workflow\/(frameforge-ltx-atmosphere|frameforge-flux3-product|frameforge-h3-keyframes|video_ltx2_5_i2v|video_ltx2_5_dfr_i2v|api_bfl_flux3_i2v|video_minimax_h3_i2v|api_minimax_h3_flf2v)\.json$/);
    if(req.method==='GET'&&workflow){res.writeHead(200,{'Content-Type':'application/json','Content-Disposition':'attachment; filename="'+workflow[1]+'.json"'});return res.end(await readFile(path.join(root,'workflows/bonus',workflow[1]+'.json')));}
    if(req.method==='POST'&&route==='/api/login'){
     if(Date.now()-authWindow.time>60000)authWindow={time:Date.now(),count:0};if(++authWindow.count>20)throw error(429,'Please wait one minute before trying again.');
