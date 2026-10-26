@@ -1,0 +1,266 @@
+[
+  {
+    "id": "video_ltx2_5_i2v",
+    "source": "https://raw.githubusercontent.com/Comfy-Org/workflow_templates/67984637eefcd4825dcf5c134e39034785be1682/templates/video_ltx2_5_i2v.json",
+    "upstreamCommit": "67984637eefcd4825dcf5c134e39034785be1682",
+    "sha256": "03b136ba0ad752c1e91e496a23fa4f4826ef881777d591dc9129c459922e7dac",
+    "models": [
+      {
+        "name": "gemma4_e2b_it_int8_convrot.safetensors",
+        "url": "https://huggingface.co/Comfy-Org/gemma-4/resolve/main/text_encoders/gemma4_e2b_it_int8_convrot.safetensors",
+        "directory": "text_encoders"
+      },
+      {
+        "name": "ltx-2.5-22b-distilled-transformer-comfy-int8-convrot.safetensors",
+        "url": "https://huggingface.co/Lightricks/LTX-2.5/resolve/main/diffusion_models/ltx-2.5-22b-distilled-transformer-comfy-int8-convrot.safetensors",
+        "directory": "diffusion_models"
+      },
+      {
+        "name": "ltx-2.5-video-vae-bf16.safetensors",
+        "url": "https://huggingface.co/Lightricks/LTX-2.5/resolve/main/vae/ltx-2.5-video-vae-bf16.safetensors",
+        "directory": "vae"
+      },
+      {
+        "name": "ltx-2.5-audio-vae-bf16.safetensors",
+        "url": "https://huggingface.co/Lightricks/LTX-2.5/resolve/main/vae/ltx-2.5-audio-vae-bf16.safetensors",
+        "directory": "vae"
+      },
+      {
+        "name": "gemma4-12b-with-proj-ltx-2.5-comfy-int8-convrot.safetensors",
+        "url": "https://huggingface.co/Lightricks/LTX-2.5/resolve/main/text_encoders/gemma4-12b-with-proj-ltx-2.5-comfy-int8-convrot.safetensors",
+        "directory": "text_encoders"
+      },
+      {
+        "name": "ltx-2.5-latent-spatial-upscaler-x2-bf16-1.0.safetensors",
+        "url": "https://huggingface.co/Lightricks/LTX-2.5/resolve/main/latent_upscale_models/ltx-2.5-latent-spatial-upscaler-x2-bf16-1.0.safetensors",
+        "directory": "latent_upscale_models"
+      }
+    ],
+    "nodeTypes": [
+      "CLIPLoader",
+      "CLIPTextEncode",
+      "ComfyMathExpression",
+      "ComfySwitchNode",
+      "CreateVideo",
+      "EmptyLTXVLatentVideo",
+      "KSamplerSelect",
+      "LTXVAudioVAEDecode",
+      "LTXVConcatAVLatent",
+      "LTXVConditioning",
+      "LTXVDualCFGGuider",
+      "LTXVEmptyLatentAudio",
+      "LTXVImgToVideoInplace",
+      "LTXVLatentUpsampler",
+      "LTXVPreprocess",
+      "LTXVSeparateAVLatent",
+      "LatentUpscaleModelLoader",
+      "LoadImage",
+      "ManualSigmas",
+      "PreviewAny",
+      "RandomNoise",
+      "ResizeImageMaskNode",
+      "ResolutionSelector",
+      "SamplerCustomAdvanced",
+      "SaveVideo",
+      "TextGenerateLTX2Prompt",
+      "UNETLoader",
+      "VAEDecodeTiled",
+      "VAELoader"
+    ],
+    "missingNodeTypes": [
+      "LTXVDualCFGGuider"
+    ],
+    "status": "Prepared official graph; no generation executed; bonus eligibility not established"
+  },
+  {
+    "id": "video_ltx2_5_dfr_i2v",
+    "source": "https://raw.githubusercontent.com/Comfy-Org/workflow_templates/67984637eefcd4825dcf5c134e39034785be1682/templates/video_ltx2_5_dfr_i2v.json",
+    "upstreamCommit": "67984637eefcd4825dcf5c134e39034785be1682",
+    "sha256": "d26f80074b5b73ec24d7db13df22e51bc409c2368f7c5e0b535d20b815afcd86",
+    "models": [
+      {
+        "name": "gemma4_e2b_it_bf16.safetensors",
+        "url": "https://huggingface.co/Comfy-Org/gemma-4/resolve/main/text_encoders/gemma4_e2b_it_bf16.safetensors",
+        "directory": "text_encoders"
+      },
+      {
+        "name": "ltx-2.5-latent-spatial-upscaler-x2-bf16-1.0.safetensors",
+        "url": "https://huggingface.co/Lightricks/LTX-2.5/resolve/main/latent_upscale_models/ltx-2.5-latent-spatial-upscaler-x2-bf16-1.0.safetensors",
+        "directory": "latent_upscale_models"
+      },
+      {
+        "name": "gemma4-12b-with-proj-ltx-2.5-bf16.safetensors",
+        "url": "https://huggingface.co/Lightricks/LTX-2.5/resolve/main/text_encoders/gemma4-12b-with-proj-ltx-2.5-bf16.safetensors",
+        "directory": "text_encoders"
+      },
+      {
+        "name": "ltx-2.5-audio-vae-bf16.safetensors",
+        "url": "https://huggingface.co/Lightricks/LTX-2.5/resolve/main/vae/ltx-2.5-audio-vae-bf16.safetensors",
+        "directory": "vae"
+      },
+      {
+        "name": "ltx-2.5-video-vae-bf16.safetensors",
+        "url": "https://huggingface.co/Lightricks/LTX-2.5/resolve/main/vae/ltx-2.5-video-vae-bf16.safetensors",
+        "directory": "vae"
+      },
+      {
+        "name": "ltx-2.5-22b-distilled-transformer-comfy-int8-convrot.safetensors",
+        "url": "https://huggingface.co/Lightricks/LTX-2.5/resolve/main/diffusion_models/ltx-2.5-22b-distilled-transformer-comfy-int8-convrot.safetensors",
+        "directory": "diffusion_models"
+      },
+      {
+        "name": "ltx-2.5-latent-temporal-upscaler-x2-bf16-1.0.safetensors",
+        "url": "https://huggingface.co/Lightricks/LTX-2.5/resolve/main/latent_upscale_models/ltx-2.5-latent-temporal-upscaler-x2-bf16-1.0.safetensors",
+        "directory": "latent_upscale_models"
+      },
+      {
+        "name": "ltx-2.5-22b-ic-lora-pixel-spatial-upscaler-x2-1.0.safetensors",
+        "url": "https://huggingface.co/Lightricks/LTX-2.5-22b-IC-LoRA-Pixel-Spatial-Upscaler/resolve/main/ltx-2.5-22b-ic-lora-pixel-spatial-upscaler-x2-1.0.safetensors",
+        "directory": "loras"
+      }
+    ],
+    "nodeTypes": [
+      "CFGGuider",
+      "CLIPLoader",
+      "CLIPTextEncode",
+      "ComfyMathExpression",
+      "ComfySwitchNode",
+      "CreateVideo",
+      "EmptyLTXVLatentVideo",
+      "GetImageSize",
+      "KSamplerSelect",
+      "LTXVAddGeneratedKeyframes",
+      "LTXVAddLatentGuide",
+      "LTXVAudioVAEDecode",
+      "LTXVConcatAVLatent",
+      "LTXVConditioning",
+      "LTXVCropGuides",
+      "LTXVEmptyLatentAudio",
+      "LTXVFreezeLatent",
+      "LTXVGeneratedKeyframesToGuides",
+      "LTXVImgToVideoInplace",
+      "LTXVLatentUpsampler",
+      "LTXVPreprocess",
+      "LTXVSeparateAVLatent",
+      "LTXVSeparateGeneratedKeyframes",
+      "LatentCutToBatch",
+      "LatentUpscaleModelLoader",
+      "LoadImage",
+      "LoraLoaderModelOnly",
+      "ManualSigmas",
+      "PreviewAny",
+      "PreviewImage",
+      "RandomNoise",
+      "ResizeImageMaskNode",
+      "ResolutionSelector",
+      "SamplerCustomAdvanced",
+      "SaveVideo",
+      "SeedNode",
+      "TextGenerateLTX2Prompt",
+      "UNETLoader",
+      "VAEDecode",
+      "VAEDecodeTiled",
+      "VAELoader"
+    ],
+    "missingNodeTypes": [
+      "LTXVAddGeneratedKeyframes",
+      "LTXVAddLatentGuide",
+      "LTXVFreezeLatent",
+      "LTXVGeneratedKeyframesToGuides",
+      "LTXVSeparateGeneratedKeyframes",
+      "SeedNode"
+    ],
+    "status": "Prepared official graph; no generation executed; bonus eligibility not established"
+  },
+  {
+    "id": "api_bfl_flux3_i2v",
+    "source": "https://raw.githubusercontent.com/Comfy-Org/workflow_templates/67984637eefcd4825dcf5c134e39034785be1682/templates/api_bfl_flux3_i2v.json",
+    "upstreamCommit": "67984637eefcd4825dcf5c134e39034785be1682",
+    "sha256": "20ee0c2ce272f4aedf4b2ef5abf72d7f330634edf818042bfc21aecf9fa4c0b9",
+    "models": [],
+    "nodeTypes": [
+      "Flux3ImageToVideoNode",
+      "LoadImage",
+      "SaveVideo"
+    ],
+    "missingNodeTypes": [
+      "Flux3ImageToVideoNode"
+    ],
+    "status": "Prepared official graph; no generation executed; bonus eligibility not established"
+  },
+  {
+    "id": "video_minimax_h3_i2v",
+    "source": "https://raw.githubusercontent.com/Comfy-Org/workflow_templates/67984637eefcd4825dcf5c134e39034785be1682/templates/video_minimax_h3_i2v.json",
+    "upstreamCommit": "67984637eefcd4825dcf5c134e39034785be1682",
+    "sha256": "34ee39544808fd3b0dc8de9df082940d4d41c3771beb80d3988c1ea5531cec0d",
+    "models": [
+      {
+        "name": "minimax_h3_video_vae_int8_convrot.safetensors",
+        "url": "https://huggingface.co/Comfy-Org/MiniMax-H3/resolve/main/vae/minimax_h3_video_vae_int8_convrot.safetensors",
+        "directory": "vae"
+      },
+      {
+        "name": "minimax_h3_audio_vae_fp32.safetensors",
+        "url": "https://huggingface.co/Comfy-Org/MiniMax-H3/resolve/main/vae/minimax_h3_audio_vae_fp32.safetensors",
+        "directory": "vae"
+      },
+      {
+        "name": "minimax_h3_fl2va_pruned_int8_convrot.safetensors",
+        "url": "https://huggingface.co/Comfy-Org/MiniMax-H3/resolve/main/diffusion_models/minimax_h3_fl2va_pruned_int8_convrot.safetensors",
+        "directory": "diffusion_models"
+      },
+      {
+        "name": "qwen3vl_32b_minimax_h3_nvfp4_awq.safetensors",
+        "url": "https://huggingface.co/Comfy-Org/MiniMax-H3/resolve/main/text_encoders/qwen3vl_32b_minimax_h3_nvfp4_awq.safetensors",
+        "directory": "text_encoders"
+      },
+      {
+        "name": "minimax_h3_fl2v_turbo_8step_v1.0_comfyui_bf16.safetensors",
+        "url": "https://huggingface.co/lightx2v/Minimax-h3-Turbo/resolve/main/minimax_h3_fl2v_turbo_8step_v1.0_comfyui_bf16.safetensors",
+        "directory": "loras"
+      }
+    ],
+    "nodeTypes": [
+      "BasicGuider",
+      "BasicScheduler",
+      "CLIPLoader",
+      "ComfyMathExpression",
+      "ComfySwitchNode",
+      "CreateVideo",
+      "GetImageSize",
+      "ImageScaleToTotalPixels",
+      "KSamplerSelect",
+      "LoadImage",
+      "LoraLoaderModelOnly",
+      "MiniMaxH3ImageToVideo",
+      "RandomNoise",
+      "ResolutionSelector",
+      "SamplerCustomAdvanced",
+      "SaveVideo",
+      "UNETLoader",
+      "VAEDecode",
+      "VAEDecodeAudio",
+      "VAELoader"
+    ],
+    "missingNodeTypes": [
+      "MiniMaxH3ImageToVideo"
+    ],
+    "status": "Prepared official graph; no generation executed; bonus eligibility not established"
+  },
+  {
+    "id": "api_minimax_h3_flf2v",
+    "source": "https://raw.githubusercontent.com/Comfy-Org/workflow_templates/67984637eefcd4825dcf5c134e39034785be1682/templates/api_minimax_h3_flf2v.json",
+    "upstreamCommit": "67984637eefcd4825dcf5c134e39034785be1682",
+    "sha256": "4363730af0e192c71b44ebe3eb902e0d7fac0827e8f37733ce72e0e048100e03",
+    "models": [],
+    "nodeTypes": [
+      "LoadImage",
+      "MinimaxHailuo03FirstLastFrameNode",
+      "SaveVideo"
+    ],
+    "missingNodeTypes": [
+      "MinimaxHailuo03FirstLastFrameNode"
+    ],
+    "status": "Prepared official graph; no generation executed; bonus eligibility not established"
+  }
+]
