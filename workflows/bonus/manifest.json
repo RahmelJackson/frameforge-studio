@@ -262,5 +262,55 @@
       "MinimaxHailuo03FirstLastFrameNode"
     ],
     "status": "Prepared official graph; no generation executed; bonus eligibility not established"
+  },
+  {
+    "id": "image_flux3_klein_distilled_image_edit",
+    "source": "https://raw.githubusercontent.com/Comfy-Org/workflow_templates/67984637eefcd4825dcf5c134e39034785be1682/templates/image_flux3_klein_distilled_image_edit.json",
+    "upstreamCommit": "67984637eefcd4825dcf5c134e39034785be1682",
+    "sha256": "75037b9482769ab98f9d00ac304899c48b9b46b9238686eca19ede42c40924cc",
+    "models": [
+      {
+        "name": "flux3-image-klein-int8-convrot.safetensors",
+        "url": "https://huggingface.co/black-forest-labs/flux-3-image-klein-comfy/resolve/main/diffusion_models/flux3-image-klein-int8-convrot.safetensors",
+        "directory": "diffusion_models"
+      },
+      {
+        "name": "qwen3vl_4b_int8_convrot.safetensors",
+        "url": "https://huggingface.co/black-forest-labs/flux-3-image-klein-comfy/resolve/main/text_encoders/qwen3vl_4b_int8_convrot.safetensors",
+        "directory": "text_encoders"
+      },
+      {
+        "name": "flux2-vae.safetensors",
+        "url": "https://huggingface.co/black-forest-labs/flux-3-image-klein-comfy/resolve/main/vae/flux2-vae.safetensors",
+        "directory": "vae"
+      },
+      {
+        "name": "qwen3.5_9b_flux3_prompt_upsampler_w4a8.safetensors",
+        "url": "https://huggingface.co/black-forest-labs/flux-3-image-klein-comfy/resolve/main/text_encoders/qwen3.5_9b_flux3_prompt_upsampler_w4a8.safetensors",
+        "directory": "text_encoders"
+      }
+    ],
+    "nodeTypes": [
+      "BatchImagesNode",
+      "CLIPLoader",
+      "CLIPTextEncode",
+      "ComfySwitchNode",
+      "ConditioningZeroOut",
+      "CreateBoundingBoxes",
+      "EmptyFlux2LatentImage",
+      "Flux3LayoutPrompt",
+      "ImageCompare",
+      "KSampler",
+      "LoadImage",
+      "MarkdownNote",
+      "PreviewAny",
+      "PrimitiveStringMultiline",
+      "ReferenceMultiLatent",
+      "SaveImage",
+      "TextGenerate",
+      "UNETLoader",
+      "VAEDecode",
+      "VAELoader"
+    ]
   }
 ]

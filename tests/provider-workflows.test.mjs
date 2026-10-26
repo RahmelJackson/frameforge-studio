@@ -19,7 +19,7 @@ test('Provider examples retain their real core models, original upstream provena
   const upstream=manifests.find(m=>m.id===w.manifestId);assert.equal(createHash('sha256').update(await readFile(path.join(root,'workflows/bonus',upstream.id+'.json'))).digest('hex'),upstream.sha256);
  }
  const ltx=await providerPacket(root,'ltx-vfx'),wrapper=ltx.graph.nodes.find(n=>n.id===398);assert.equal(wrapper.widgets_values[2],2);assert.deepEqual(wrapper.widgets_values.slice(3,5),[640,384]);assert.ok(wrapper.inputs.filter(i=>['value_3','value_4'].includes(i.name)).every(i=>i.link===null));assert.ok(!ltx.graph.links.some(l=>[783,784].includes(l[0])));assert.equal(ltx.models.length,5);assert.ok(ltx.models.every(m=>m.sha256&&/\/resolve\/[a-f0-9]{40}\//.test(m.url)));
- const h3=await providerPacket(root,'minimax-h3','local');assert.ok(h3.nodeTypes.includes('MiniMaxH3ImageToVideo'));assert.ok(h3.models.length>=4);assert.match(h3.input,/One starting image/);assert.match(h3.steps.join(' '),/territorial availability/);await assert.rejects(()=>providerPacket(root,'../../config.local.json'),/Unknown/);await assert.rejects(()=>providerPacket(root,'flux3-video','local'),/Unknown/);
+ const h3=await providerPacket(root,'minimax-h3','local');assert.ok(h3.nodeTypes.includes('MiniMaxH3ImageToVideo'));assert.equal(h3.models.length,5);assert.ok(h3.models.every(m=>m.sha256&&m.bytes&&/\/resolve\/[a-f0-9]{40}\//.test(m.url)));assert.equal(PROVIDER_WORKFLOWS.find(w=>w.id==='flux3-video').model,'FLUX 3 Video');assert.match(PROVIDER_WORKFLOWS.find(w=>w.id==='flux3-video').relatedModel.url,/flux-3-image-klein-comfy/);assert.match(h3.input,/One starting image/);assert.match(h3.steps.join(' '),/territorial availability/);await assert.rejects(()=>providerPacket(root,'../../config.local.json'),/Unknown/);await assert.rejects(()=>providerPacket(root,'flux3-video','invalid'),/Unknown/);const klein=await providerPacket(root,'flux3-video','local');assert.equal(klein.model,'FLUX 3 Image Klein');assert.equal(klein.execution,'local');assert.equal(klein.models.length,4);assert.ok(klein.models.every(m=>m.sha256&&m.bytes));assert.ok(!klein.nodeTypes.includes('Flux3ImageToVideoNode'));assert.match(klein.output,/edited image/);for(const n of klein.graph.nodes.filter(n=>['Flux3LayoutPrompt','CreateBoundingBoxes','KSampler'].includes(n.type)))assert.deepEqual(Object.values(n.widgets_values_named),n.widgets_values);const upstream=manifests.find(m=>m.id==='image_flux3_klein_distilled_image_edit');assert.equal(createHash('sha256').update(await readFile(path.join(root,'workflows/bonus',upstream.id+'.json'))).digest('hex'),upstream.sha256);
 });
 test('Provider HTTP downloads preserve exact native graphs and strict profile blocks provider access',async()=>{
  const directory=await mkdtemp(path.join(tmpdir(),'ff-provider-http-'));const socket=net.createServer();socket.listen(0,'127.0.0.1');await once(socket,'listening');const port=socket.address().port;await new Promise(r=>socket.close(r));
@@ -31,11 +31,11 @@ test('Provider HTTP downloads preserve exact native graphs and strict profile bl
   for(const route of ['/provider-workflows.js','/provider-workflows.css','/library?collection=workflows'])assert.equal((await fetch(base+route)).status,200);
   const html=await(await fetch(base+'/library?collection=workflows')).text();
   assert.ok(html.indexOf('id="provider-workflows"')<html.indexOf('class="workflow-browser"'));
-  for(const id of ['ltx-vfx','flux3-video','minimax-h3']){
-   const response=await fetch(base+'/api/provider-workflows/'+id+'/export',{method:'POST'});assert.equal(response.status,200);const bundle=await response.json();assert.equal(bundle.generationExecuted,false);
+  for(const [id,variant] of [['ltx-vfx','default'],['flux3-video','default'],['minimax-h3','default'],['flux3-video','local'],['minimax-h3','local']]){
+   const response=await fetch(base+'/api/provider-workflows/'+id+'/export?variant='+variant,{method:'POST'});assert.equal(response.status,200);const bundle=await response.json();assert.equal(bundle.generationExecuted,false);
    const download=await fetch(base+bundle.bundleUrl);assert.equal(download.status,200);const entries=unzipStored(Buffer.from(await download.arrayBuffer()));
    assert.deepEqual([...entries.keys()].sort(),['README.txt','inputs/'+(id==='flux3-video'?'product-concept.png':'observatory-concept.png'),'models.json','workflow.json']);
-   const graph=JSON.parse(entries.get('workflow.json'));assert.ok(graph.nodes.length);assert.match(entries.get('README.txt').toString(),/Press Run in native ComfyUI/);assert.ok(entries.get('inputs/'+(id==='flux3-video'?'product-concept.png':'observatory-concept.png')).length>1000);
+   const graph=JSON.parse(entries.get('workflow.json'));assert.ok(graph.nodes.length);for(const n of graph.nodes.filter(n=>n.type==='LoadImage')){assert.equal(n.widgets_values[0],id==='flux3-video'?'product-concept.png':'observatory-concept.png');if(n.widgets_values_named)assert.equal(n.widgets_values_named.image,n.widgets_values[0]);}assert.match(entries.get('README.txt').toString(),/Press Run in native ComfyUI/);assert.ok(entries.get('inputs/'+(id==='flux3-video'?'product-concept.png':'observatory-concept.png')).length>1000);
    assert.equal((await fetch(base+bundle.bundleUrl,{headers:{'X-Frameforge-Open-Weights-Only':'1'}})).status,403);
   }
   const cloud=await(await fetch(base+'/api/provider-workflows/flux3-video/readiness')).json();assert.equal(cloud.execution,'partner');assert.equal(cloud.ready,false);
@@ -45,7 +45,7 @@ test('Provider HTTP downloads preserve exact native graphs and strict profile bl
    assert.equal((await fetch(base+'/api/provider-workflows/'+id+'/readiness',{headers:strict})).status,403);
    assert.equal((await fetch(base+'/api/provider-workflows/'+id+'/export',{method:'POST',headers:strict})).status,403);
   }
-  assert.equal((await fetch(base+'/api/provider-workflows/flux3-video/export?variant=local',{method:'POST'})).status,404);
+  assert.equal((await fetch(base+'/api/provider-workflows/flux3-video/export?variant=invalid',{method:'POST'})).status,404);
   assert.equal((await fetch(base+'/api/provider-workflows/not-a-workflow/download')).status,404);
  }finally{child.kill();await once(child,'exit');await rm(directory,{recursive:true,force:true});}
 });

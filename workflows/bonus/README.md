@@ -27,3 +27,7 @@ Prepared graphs alone do not qualify. For a provider bonus, save a successful ou
 Open Library, choose Workflows, and use the Provider workflows section. It includes `frameforge-ltx-atmosphere.json`, `frameforge-flux3-product.json` and `frameforge-h3-keyframes.json`, with original sample images, steps, native graph inspection and downloads. The FLUX and H3 sample graphs adapt the pinned official templates; the original upstream files remain included. The H3 sample uses the observatory as both endpoints for a loop; replace the endpoints for another transition.
 
 The LTX preview disconnects the upstream resolution selector so its 640 x 384 controls are actually used. A two-second duration at 24 fps produces 49 latent frames using the upstream duration * fps + 1 expression. Native subgraphs are retained. These setup corrections do not establish a successful generation.
+
+FLUX 3 Image Klein local weights were released on October 15, 2026: https://huggingface.co/black-forest-labs/flux-3-image-klein-comfy . They generate and edit images, while `frameforge-flux3-product.json` uses the separate hosted FLUX 3 Video model. The local Image Klein checkpoint does not replace the video node.
+
+`h3-models.lock.json` pins the five public files required by the included local H3 I2V graph, including the NVFP4 AWQ text encoder (which does not require a Blackwell GPU). Model license and territorial terms still apply. Files and graph preparation do not establish a successful generation.
