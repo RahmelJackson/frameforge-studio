@@ -1,7 +1,15 @@
 const section=document.querySelector('#provider-workflows');
-document.body.classList.add('provider-featured');
+const compact=section.hasAttribute('data-provider-compact');
+if(!compact)document.body.classList.add('provider-featured');
 const esc=s=>String(s??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
 const link=(url,text)=>`<a href="${esc(url)}" target="_blank" rel="noopener">${esc(text)} ↗</a>`;
+function resultView(v,sample){
+ if(!v)return '';
+ const dimensions=v.size.map(esc).join(' × ');
+ const media=v.mediaType==='image'?`<div class="provider-comparison"><figure><img src="/explore-art/${sample}" alt="Original product with a green control knob"><figcaption>Original input</figcaption></figure><figure><img src="${esc(v.imageUrl)}" alt="Actual local FLUX 3 product-edit result"><figcaption>Actual local result</figcaption></figure></div>`:`<video controls playsinline preload="metadata" src="${esc(v.videoUrl)}"></video>`;
+ const facts=v.mediaType==='image'?dimensions+' · edited image':dimensions+' · '+Number(v.duration).toFixed(2)+' seconds · '+v.frames+' frames · '+v.blackFrames+' black frames · '+(v.hasAudio?'audio included':'no audio');
+ return `<div class="provider-run-panel provider-result"><h3>Actual local test result</h3>${media}<p>${esc(v.model)} · ${facts}</p><p>${esc(v.scope)}</p><small>Technical checks passed. Review the creative result before using it.</small></div>`;
+}
 async function show(id,variant='default',focus=true,check=false){
  const output=section.querySelector('[data-provider-detail]');
  output.textContent='Loading the exact workflow…';
@@ -27,8 +35,8 @@ async function show(id,variant='default',focus=true,check=false){
    ${link(p.guide,'Official model & setup guide')}
    </div></details>
    <p class="help-limit">${esc(p.limits)}</p><p><strong>Core model:</strong> ${esc(p.bonus)}</p>
-   <p><strong>Status:</strong> ${esc(p.status)}. ${p.verification?'The check below applies to this short preview; it does not approve every setting or output.':'Save an actual result and the executed graph before claiming bonus evidence.'}</p>
-   ${p.verification?'<div class="provider-run-panel"><h3>Actual local test result</h3><video controls playsinline preload="metadata" style="width:100%;max-height:460px;background:#080b09" src="'+esc(p.verification.videoUrl)+'"></video><p>'+esc(p.verification.model)+' · '+p.verification.size.map(esc).join(' × ')+' · '+Number(p.verification.duration).toFixed(2)+' seconds · '+p.verification.frames+' frames · '+p.verification.blackFrames+' black frames · '+(p.verification.hasAudio?'audio included':'no audio')+'</p><p>'+esc(p.verification.scope)+'</p><small>Technical checks passed. Your creative approval is still required.</small></div>':''}
+   <p><strong>Status:</strong> ${esc(p.status)}. ${p.verification?'The result below covers one tested profile; other settings still need review.':'Save an actual result and the executed graph before claiming bonus evidence.'}</p>
+   ${resultView(p.verification,sample)}
    ${p.models.length?'<h3>Model downloads from the official graph</h3><p>Choose the files used by your branch in native ComfyUI. Optional prompt enhancement is disabled in the LTX sample.</p>'+p.models.map(m=>'<p>'+link(m.url,m.name)+'<br><small>ComfyUI/models/'+esc(m.directory)+'/</small></p>').join(''):'<p>This selected route uses a hosted model. No local weights are required for the Cloud template.</p>'}
    <details><summary>Inspect ${p.nodeTypes.length} native node types</summary><ul>${p.nodeTypes.map(t=>'<li><code>'+esc(t)+'</code></li>').join('')}</ul><p>Use native ComfyUI for nested subgraphs and provider settings. The downloaded JSON retains them.</p></details>
    <details><summary>View the complete ComfyUI JSON</summary><pre>${esc(JSON.stringify(p.graph,null,2))}</pre></details>
@@ -38,18 +46,25 @@ async function show(id,variant='default',focus=true,check=false){
   async function localSetup(){const panel=output.querySelector('[data-local-readiness]');panel.textContent='Checking your local engines…';try{const r=await fetch(base+'/readiness'+suffix),v=await r.json();if(!r.ok)throw Error(v.error??'Could not check local setup.');panel.innerHTML=`<h3>${esc(v.message)}</h3>${(v.missingModels??[]).length?'<ul>'+v.missingModels.map(m=>'<li><strong>'+esc(m.name)+'</strong><br>'+link(m.url,'Download model')+' · '+(m.bytes?(m.bytes/1024**3).toFixed(1)+' GiB':'')+'<br><small>ComfyUI/models/'+esc(m.directory)+'/</small></li>').join('')+'</ul>':''}${v.missingNodes?.length?'<p>Missing nodes: '+v.missingNodes.map(esc).join(', ')+'</p>':''}${v.engineUrl?link(v.engineUrl,'Open this local ComfyUI'):''}<p>${esc(v.verification)}</p>`;const badge=section.querySelector('[data-readiness="'+id+'"]');if(badge)badge.textContent=v.ready?'Local setup present':v.missingModels?.length?v.missingModels.length+' model downloads needed':'Local setup needed';}catch(e){panel.textContent=e.message;}}
   output.querySelector('[data-check-local]')?.addEventListener('click',localSetup);
   if(check)await localSetup();
+  const address=new URL(location.href);address.searchParams.set('providerWorkflow',id);address.searchParams.set('providerVariant',variant);history.replaceState(null,'',address);
   if(focus)output.scrollIntoView({behavior:'smooth',block:'start'});
  }catch(e){output.textContent=e.message;}
 }
 try{
  const response=await fetch('/api/provider-workflows'),data=await response.json();
  if(!response.ok)throw Error(data.error??'Provider workflows unavailable.');
- if(!data.length)section.innerHTML='<h2>Provider workflows</h2><p>Open weights only is enabled. This profile shows the reviewed local graphs below; provider templates and these unreviewed model routes are hidden.</p>';
+ if(!data.length){if(compact)section.hidden=true;else section.innerHTML='<h2>Provider workflows</h2><p>Open weights only is enabled. This profile shows the reviewed local graphs below; provider templates and these unreviewed model routes are hidden.</p>';}
  else{
-  section.querySelector('[data-provider-cards]').innerHTML=data.map(w=>`<article class="workflow-card"><img src="${esc(w.art)}" alt="Original sample input for ${esc(w.model)}"><small>Original sample input</small><span class="badge">${esc(w.model)}</span><h3>${esc(w.title)}</h3><p>${esc(w.summary)}</p><p class="provider-readiness" data-readiness="${esc(w.id)}">${w.execution==='local'?'Check your local setup':'Comfy Cloud account and credits required'}</p><div class="provider-card-actions"><button data-provider="${esc(w.id)}">${w.execution==='local'?'Set up local run':'Open workflow & inputs'}</button>${w.localFile?'<button data-provider-local-card="'+esc(w.id)+'">'+esc(w.localLabel??'Use local H3')+'</button>':''}${link(w.cloudUrl,'Run on Comfy Cloud')}</div></article>`).join('');
-  section.querySelectorAll('[data-provider]').forEach(b=>b.addEventListener('click',()=>show(b.dataset.provider,'default',true,b.dataset.provider==='ltx-vfx')));
-  section.querySelectorAll('[data-provider-local-card]').forEach(b=>b.addEventListener('click',()=>show(b.dataset.providerLocalCard,'local',true,true)));
-  const id=new URLSearchParams(location.search).get('providerWorkflow');
-  if(data.some(w=>w.id===id))await show(id,'default',false);
+  section.querySelector('[data-provider-cards]').innerHTML=data.map(w=>{
+   const f=w.featured??w,v=f.verification,variant=f.variant??'default',url='/library?'+new URLSearchParams({collection:'workflows',providerWorkflow:w.id,providerVariant:variant})+'#provider-workflows';
+   const media=v?.mediaType==='image'?`<img src="${esc(v.imageUrl)}" alt="Actual ${esc(f.model)} local result" loading="lazy">`:v?.videoUrl?`<video controls muted loop playsinline preload="metadata" poster="${esc(w.art)}" src="${esc(v.videoUrl)}" aria-label="Actual ${esc(f.model)} local video result"></video>`:`<img src="${esc(w.art)}" alt="Original sample input for ${esc(f.model)}" loading="lazy">`;
+   const primary=compact?`<a class="provider-primary" href="${esc(url)}">Open local workflow →</a>`:`<button data-provider="${esc(w.id)}" data-variant="${esc(variant)}">Open local workflow →</button>`;
+   return `<article class="workflow-card">${media}<small>${v?'ACTUAL LOCAL RESULT':'ORIGINAL SAMPLE INPUT'}</small><span class="badge">${esc(f.model)}</span><h3>${esc(f.title)}</h3><p>${esc(f.summary)}</p><p class="provider-readiness" data-readiness="${esc(w.id)}">${v?'Local render completed · review the result':'Local graph + model downloads'}</p><div class="provider-card-actions">${primary}${compact?'':link(f.cloudUrl??w.cloudUrl,'Cloud alternative')}</div></article>`;
+  }).join('');
+  if(!compact){
+   section.querySelectorAll('[data-provider]').forEach(b=>b.addEventListener('click',()=>show(b.dataset.provider,b.dataset.variant,true,true)));
+   const params=new URLSearchParams(location.search),id=params.get('providerWorkflow'),entry=data.find(w=>w.id===id);
+   if(entry)await show(id,params.get('providerVariant')??entry.featured?.variant??'default',false);
+  }
  }
-}catch(e){section.querySelector('[data-provider-detail]').textContent=e.message;}
+}catch(e){if(compact)section.hidden=true;else section.querySelector('[data-provider-detail]').textContent=e.message;}

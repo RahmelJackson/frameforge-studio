@@ -7,7 +7,7 @@ import {WorkflowPlans} from './lib/workflow-plans.mjs';
 import {applyWorkflowSettings} from './lib/workflow-expectations.mjs';
 import {WorkflowExports} from './lib/workflow-exports.mjs';
 import {WORKFLOWS,workflowPacket,modelDependencies} from './lib/workflow-catalog.mjs';
-import {PROVIDER_WORKFLOWS,providerPacket,providerReadiness,providerRunPackage,providerVerification} from './lib/provider-workflows.mjs';
+import {providerCatalog,providerPacket,providerReadiness,providerRunPackage,providerVerification} from './lib/provider-workflows.mjs';
 import {apiToCanvas} from './public/workflow-graph.js';
 import {parseChecklist} from './lib/checklist.mjs';
 import {storyPlan,normalizeShortFilm,shortFilmStatus} from './lib/short-film.mjs';
@@ -558,7 +558,7 @@ const server = http.createServer(async (req, res) => {
     if (route === '/api/jobs' && req.method === 'GET') return json(res,200,[...jobs.values()].sort((a,b)=>b.createdAt.localeCompare(a.createdAt)));
     if(route==='/api/explore/civitai'&&req.method==='GET'){try{return json(res,200,await communityGallery.get(url.searchParams));}catch(e){return json(res,503,{error:e.message,sourceUrl:'https://civitai.com'});}}
     const communityVersion=route.match(/^\/api\/explore\/civitai\/version\/(\d{1,12})$/);if(communityVersion&&req.method==='GET')return json(res,200,await communityGallery.modelVersion(Number(communityVersion[1])));
-    if(route==='/api/provider-workflows'&&req.method==='GET')return json(res,200,openOnly?[]:PROVIDER_WORKFLOWS);
+    if(route==='/api/provider-workflows'&&req.method==='GET')return json(res,200,openOnly?[]:await providerCatalog({root:ROOT,data:DATA}));
     const providerSetup=route.match(/^\/api\/provider-workflows\/([a-z0-9-]+)\/(readiness|export)$/);
     if(providerSetup&&((providerSetup[2]==='readiness'&&req.method==='GET')||(providerSetup[2]==='export'&&req.method==='POST'))){
       if(openOnly)throw policyError('these provider routes are not part of the reviewed local-only profile.');
@@ -572,7 +572,7 @@ const server = http.createServer(async (req, res) => {
       if(openOnly)throw policyError('these provider previews are not part of the reviewed local-only profile.');
       const id=providerPreview[1],variant=url.searchParams.get('variant')??'default',proof=await providerVerification({data:DATA,id,variant});
       if(!proof)throw Object.assign(Error('No completed local preview is saved.'),{statusCode:404});
-      return await serveFile(req,res,path.join(DATA,'provider-verifications',id+(variant==='local'?'-local':''),'result.mp4'));
+      return await serveFile(req,res,path.join(DATA,'provider-verifications',id+(variant==='local'?'-local':''),proof.mediaType==='image'?'result.png':'result.mp4'));
     }
     const providerRoute=route.match(/^\/api\/provider-workflows\/([a-z0-9-]+)(\/download)?$/);
     if(providerRoute&&req.method==='GET'){

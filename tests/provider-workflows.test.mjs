@@ -27,10 +27,14 @@ test('Provider HTTP downloads preserve exact native graphs and strict profile bl
  try{
   await new Promise((resolve,reject)=>{const timer=setTimeout(()=>reject(Error('Provider test server timed out: '+errors)),15000);child.stdout.once('data',()=>{clearTimeout(timer);resolve();});child.once('exit',()=>{clearTimeout(timer);reject(Error(errors));});});
   const base='http://127.0.0.1:'+port;const response=await fetch(base+'/api/provider-workflows');assert.equal(response.status,200);const list=await response.json();assert.equal(list.length,3);
+  assert.deepEqual(list.map(w=>[w.featured.model,w.featured.execution,w.featured.variant]),[['LTX 2.5','local','default'],['FLUX 3 Image Klein','local','local'],['MiniMax H3','local','local']]);
+  assert.ok(list.every(w=>w.featured.verification===null&&!w.featured.graph));
+  assert.match(list[1].featured.cloudUrl,/template=image_flux3_klein_distilled_image_edit$/);assert.match(list[2].featured.cloudUrl,/template=video_minimax_h3_i2v$/);
   for(const w of list){const p=await(await fetch(base+'/api/provider-workflows/'+w.id)).json();const download=await fetch(base+'/api/provider-workflows/'+w.id+'/download');assert.equal(download.status,200);assert.match(download.headers.get('content-disposition'),/attachment/);assert.equal(createHash('sha256').update(Buffer.from(await download.arrayBuffer())).digest('hex'),p.sha256);assert.equal((await fetch(base+w.art)).status,200);}
   for(const route of ['/provider-workflows.js','/provider-workflows.css','/library?collection=workflows'])assert.equal((await fetch(base+route)).status,200);
   const html=await(await fetch(base+'/library?collection=workflows')).text();
   assert.ok(html.indexOf('id="provider-workflows"')<html.indexOf('class="workflow-browser"'));
+  const home=await(await fetch(base+'/')).text();assert.match(home,/data-provider-compact/);assert.ok(home.indexOf('id="provider-workflows"')<home.indexOf('class="home-showcase"'));
   for(const [id,variant] of [['ltx-vfx','default'],['flux3-video','default'],['minimax-h3','default'],['flux3-video','local'],['minimax-h3','local']]){
    const response=await fetch(base+'/api/provider-workflows/'+id+'/export?variant='+variant,{method:'POST'});assert.equal(response.status,200);const bundle=await response.json();assert.equal(bundle.generationExecuted,false);
    const download=await fetch(base+bundle.bundleUrl);assert.equal(download.status,200);const entries=unzipStored(Buffer.from(await download.arrayBuffer()));
@@ -42,7 +46,14 @@ test('Provider HTTP downloads preserve exact native graphs and strict profile bl
   const proofFolder=path.join(directory,'provider-verifications','ltx-vfx');await mkdir(proofFolder,{recursive:true});
   await writeFile(path.join(proofFolder,'report.json'),JSON.stringify({state:'completed',model:'LTX 2.5',duration:2,frames:49,fps:24,size:[640,384],blackFrames:0,hasAudio:true,creativeApproval:false,scope:'One short local test'}));await writeFile(path.join(proofFolder,'result.mp4'),'preview-fixture');
   const verified=await(await fetch(base+'/api/provider-workflows/ltx-vfx')).json();assert.equal(verified.generationVerified,true);assert.equal(verified.verification.creativeApproval,false);assert.equal(await(await fetch(base+verified.verification.videoUrl)).text(),'preview-fixture');assert.equal((await fetch(base+'/api/provider-workflows/not-a-workflow/preview')).status,404);
-  const strict={'X-Frameforge-Open-Weights-Only':'1'};assert.equal((await fetch(base+verified.verification.videoUrl,{headers:strict})).status,403);assert.deepEqual(await(await fetch(base+'/api/provider-workflows',{headers:strict})).json(),[]);
+  const imageFolder=path.join(directory,'provider-verifications','flux3-video-local');await mkdir(imageFolder,{recursive:true});
+  const imageProof={state:'completed',mediaType:'image',model:'FLUX 3 Image Klein',size:[1248,832],creativeApproval:false,scope:'One product edit'};
+  await writeFile(path.join(imageFolder,'report.json'),JSON.stringify(imageProof));await writeFile(path.join(imageFolder,'result.png'),'image-preview-fixture');
+  const imageResult=await(await fetch(base+'/api/provider-workflows/flux3-video?variant=local')).json();assert.equal(imageResult.verification.mediaType,'image');assert.equal(imageResult.verification.videoUrl,undefined);assert.equal(imageResult.verification.duration,undefined);
+  const imageResponse=await fetch(base+imageResult.verification.imageUrl);assert.equal(imageResponse.headers.get('content-type'),'image/png');assert.equal(await imageResponse.text(),'image-preview-fixture');
+  const featured=await(await fetch(base+'/api/provider-workflows')).json();assert.equal(featured[1].featured.verification.imageUrl,imageResult.verification.imageUrl);assert.equal(featured[0].featured.verification.mediaType,'video');
+  await writeFile(path.join(imageFolder,'report.json'),JSON.stringify({...imageProof,mediaType:'html'}));assert.equal((await fetch(base+imageResult.verification.imageUrl)).status,404);await writeFile(path.join(imageFolder,'report.json'),JSON.stringify(imageProof));
+  const strict={'X-Frameforge-Open-Weights-Only':'1'};assert.equal((await fetch(base+verified.verification.videoUrl,{headers:strict})).status,403);assert.equal((await fetch(base+imageResult.verification.imageUrl,{headers:strict})).status,403);assert.deepEqual(await(await fetch(base+'/api/provider-workflows',{headers:strict})).json(),[]);
   for(const id of ['flux3-video','minimax-h3','ltx-vfx']){
    assert.equal((await fetch(base+'/api/provider-workflows/'+id+'/download',{headers:strict})).status,403);
    assert.equal((await fetch(base+'/api/provider-workflows/'+id+'/readiness',{headers:strict})).status,403);
