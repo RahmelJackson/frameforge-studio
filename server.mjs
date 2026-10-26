@@ -1,3 +1,4 @@
+import {assertOpenProvider} from './lib/provider-policy.mjs';
 import {setupReport,mediaRuntime,discoverComfy} from './lib/studio-setup.mjs';
 import {StudioAssistant,assistantModels,createAssistantTools,ASSISTANT_TOOLS} from './lib/studio-assistant.mjs';
 import {AssistantConnection,ASSISTANT_PROVIDERS,detectAssistantServers,agentMCPConfig} from './lib/assistant-connection.mjs';
@@ -366,7 +367,9 @@ async function submitJob(input,retriedFrom=null,workflowOverride=null) {
 const batchQueue=await new BatchQueue(DATA,{getJobs:()=>[...jobs.values()],submit:submitJob}).open();
 const batchTimer=setInterval(()=>batchQueue.tick().catch(error=>console.error('Batch monitor:',error.message)),3000);batchTimer.unref();
 
-async function serveFile(req, res, filename) {
+const thumbnails=new Map();let thumbnailGate=Promise.resolve();
+async function imageThumbnail(job,file){try{const [a,b]=await Promise.all([stat(path.join(jobDir(job.id),job.image)),stat(file)]);if(b.mtimeMs>=a.mtimeMs)return;}catch{}if(!thumbnails.has(job.id)){const work=thumbnailGate.catch(()=>{}).then(()=>pythonJson('image-thumbnail.py',[path.join(jobDir(job.id),job.image),file]));thumbnailGate=work;thumbnails.set(job.id,work);work.finally(()=>thumbnails.delete(job.id)).catch(()=>{});}return thumbnails.get(job.id);}
+async function serveFile(req, res, filename, cacheSeconds=0) {
   const size = (await stat(filename)).size;
   const mime = { '.html':'text/html; charset=utf-8','.js':'text/javascript','.mjs':'text/javascript','.md':'text/markdown; charset=utf-8','.css':'text/css','.png':'image/png','.jpg':'image/jpeg','.webp':'image/webp','.mp4':'video/mp4','.mkv':'video/x-matroska','.webm':'video/webm','.json':'application/json','.svg':'image/svg+xml','.wav':'audio/wav','.flac':'audio/flac','.mp3':'audio/mpeg','.srt':'application/x-subrip; charset=utf-8','.vtt':'text/vtt; charset=utf-8' }[path.extname(filename)] ?? 'application/octet-stream';
   const range = req.headers.range?.match(/^bytes=(\d+)-(\d*)$/);
@@ -375,7 +378,7 @@ async function serveFile(req, res, filename) {
     if (start > end || start >= size) { res.writeHead(416, { 'Content-Range': `bytes */${size}` }); res.end(); return; }
     res.writeHead(206, { 'Content-Type':mime, 'Content-Length':end-start+1,'Content-Range':`bytes ${start}-${end}/${size}`,'Accept-Ranges':'bytes' });
     createReadStream(filename, { start, end }).pipe(res);
-  } else { res.writeHead(200, { 'Content-Type':mime,'Content-Length':size,'Accept-Ranges':'bytes','Cache-Control':'no-cache' }); createReadStream(filename).pipe(res); }
+  } else { res.writeHead(200, { 'Content-Type':mime,'Content-Length':size,'Accept-Ranges':'bytes','Cache-Control':cacheSeconds?'private, max-age='+cacheSeconds:'no-cache' }); createReadStream(filename).pipe(res); }
 }
 const audioStudio=await new AudioStudio({root:ROOT,data:DATA,resolveVideo:resolveVideoSource,inspectAudio:file=>pythonJson('inspect-audio.py',[file]),releaseGpu:async()=>{await comfy.releaseIdle();await new Promise(r=>setTimeout(r,1500));},videoBusy:()=>[...jobs.values()].some(j=>['processing','uploading','submitting','submitted','running','cancelling','verifying'].includes(j.status))}).open();
 async function preparePortableVideo(id,request){
@@ -420,7 +423,8 @@ const server = http.createServer(async (req, res) => {
     }
     if(route==='/api/setup/connection'&&req.method==='POST'){
       const input=await readJson(req,2000),next=new ComfyClient(input.url);
-      if(next.url!==comfy.url&&[...jobs.values()].some(j=>!['review-ready','technical-failed','failed','cancelled'].includes(j.status)))throw Error('Finish or resolve existing generation jobs before changing the engine connection.');
+      if(next.url!==comfy.url&&(audioStudio.busy()||[...jobs.values()].some(j=>['processing','uploading','submitting','submitted','running','cancelling','verifying'].includes(j.status))))throw Error('Finish or resolve existing generation jobs before changing the engine connection.');
+      if(next.url!==comfy.url){try{const queue=await comfy.json('/queue');if(queue.queue_running?.length||queue.queue_pending?.length)throw Object.assign(Error('Wait for the current ComfyUI queue before changing engines.'),{queued:true});}catch(error){if(error.queued)throw error;}}
       const previous=comfy.url;config.comfyUrl=next.url;
       try{await writeFile(path.join(ROOT,'config.local.json'),JSON.stringify(config,null,2)+'\n');}catch(error){config.comfyUrl=previous;throw error;}
       comfy.url=next.url;return json(res,200,{url:comfy.url,saved:true});
@@ -471,6 +475,7 @@ const server = http.createServer(async (req, res) => {
     if(audioControl&&req.method==='POST'){const result=audioControl[2]==='review'?await audioStudio.review(audioControl[1],await readJson(req)):audioControl[2]==='reverify'?await audioStudio.reverify(audioControl[1]):audioControl[2]==='cancel'?await audioStudio.cancel(audioControl[1]):audioControl[2]==='video-footage'?await audioStudio.videoFootage(audioControl[1]):await audioStudio.audioAsset(audioControl[1],await readAudioTrack(req));return json(res,200,result);}
     const audioOutput=route.match(/^\/audio-jobs\/([a-f0-9-]{36})\/(output\.(wav|mp4)|preserved\.mkv|transcript\.json|subtitles\.(srt|vtt)|report\.json|lipsync\.json|dialogue\.json|caption\.json|neural-speech\.json|separation\.json|voice-[12]\.wav|line-[0-9]{3}\.wav|poster\.jpg|contact-sheet\.jpg)$/);
     if(audioOutput&&req.method==='GET')return await serveFile(req,res,audioStudio.file(audioOutput[1],audioOutput[2]));
+    if(route==='/api/judge-readiness'&&req.method==='GET'){let connected=false,queued=false;try{const q=await comfy.json('/queue');connected=true;queued=!!(q.queue_running?.length||q.queue_pending?.length);}catch{}return json(res,200,{connected,busy:queued||audioStudio.busy()||[...jobs.values()].some(j=>['processing','uploading','submitting','submitted','running','cancelling','verifying'].includes(j.status))});}
     if (route === '/api/health' && req.method === 'GET') return json(res,200,await health());
     if (route === '/api/catalog' && req.method === 'GET') return json(res,200,{ presets:PRESETS,sizes:SIZES,lengths:LENGTHS,cameraPoses:CAMERA_POSES,looks:LOOKS,images:{tools:IMAGE_TOOLS,sizes:IMAGE_SIZES,camera:STILL_CAMERA,light:IMAGE_LIGHT} });
     if(route==='/api/video-keyframe'&&req.method==='POST'){
@@ -555,28 +560,30 @@ const server = http.createServer(async (req, res) => {
     if(route==='/api/audio-assets'&&req.method==='POST'){
       const bytes=await readBody(req);if(bytes.toString('ascii',0,4)!=='RIFF'||bytes.toString('ascii',8,12)!=='WAVE')throw new Error('Choose a WAV soundtrack up to 25 MB.');const id=randomUUID(),filename=path.join(DATA,'audio',id+'.wav');await writeFile(filename,bytes);try{const metadata=await pythonJson('inspect-audio.py',[filename]);return json(res,201,{id,...metadata});}catch(error){await unlink(filename);throw error;}
     }
-    if (route === '/api/jobs' && req.method === 'GET') return json(res,200,[...jobs.values()].sort((a,b)=>b.createdAt.localeCompare(a.createdAt)));
+    if (route === '/api/jobs' && req.method === 'GET') return json(res,200,[...jobs.values()].sort((a,b)=>b.createdAt.localeCompare(a.createdAt)).map(j=>url.searchParams.get('summary')==='1'?{id:j.id,status:j.status,createdAt:j.createdAt,requestId:j.requestId,image:j.image,video:j.video,request:{kind:j.request.kind,tool:j.request.tool,prompt:j.request.prompt,seed:j.request.seed},review:j.review,report:j.report?{technicalPass:j.report.technicalPass}:null}:j));
+    const jobRead=route.match(/^\/api\/jobs\/([a-f0-9-]{36})(\/thumbnail)?$/);
+    if(jobRead&&req.method==='GET'){const job=jobs.get(jobRead[1]);if(!job)throw Object.assign(Error('Saved job not found.'),{statusCode:404});if(!jobRead[2])return json(res,200,job);if(!job.image)throw Object.assign(Error('This job has no image.'),{statusCode:404});const file=path.join(jobDir(job.id),'thumbnail.jpg');await imageThumbnail(job,file);return await serveFile(req,res,file,3600);}
     if(route==='/api/explore/civitai'&&req.method==='GET'){try{return json(res,200,await communityGallery.get(url.searchParams));}catch(e){return json(res,503,{error:e.message,sourceUrl:'https://civitai.com'});}}
     const communityVersion=route.match(/^\/api\/explore\/civitai\/version\/(\d{1,12})$/);if(communityVersion&&req.method==='GET')return json(res,200,await communityGallery.modelVersion(Number(communityVersion[1])));
-    if(route==='/api/provider-workflows'&&req.method==='GET')return json(res,200,openOnly?[]:await providerCatalog({root:ROOT,data:DATA}));
+    if(route==='/api/provider-workflows'&&req.method==='GET')return json(res,200,await providerCatalog({root:ROOT,data:DATA,openOnly}));
     const providerSetup=route.match(/^\/api\/provider-workflows\/([a-z0-9-]+)\/(readiness|export)$/);
     if(providerSetup&&((providerSetup[2]==='readiness'&&req.method==='GET')||(providerSetup[2]==='export'&&req.method==='POST'))){
-      if(openOnly)throw policyError('these provider routes are not part of the reviewed local-only profile.');
+      if(openOnly)assertOpenProvider(await providerPacket(ROOT,providerSetup[1],url.searchParams.get('variant')??'default'));
       const variant=url.searchParams.get('variant')??'default';
       return json(res,200,providerSetup[2]==='readiness'?await providerReadiness({root:ROOT,id:providerSetup[1],variant,engines:[comfy.url,'http://127.0.0.1:8189']}):await providerRunPackage({root:ROOT,data:DATA,id:providerSetup[1],variant}));
     }
     const providerExport=route.match(/^\/provider-exports\/([a-f0-9-]{36})\/bundle\.zip$/);
-    if(providerExport&&req.method==='GET'){if(openOnly)throw policyError('provider export downloads are disabled in this profile.');res.setHeader('Content-Disposition','attachment; filename="frameforge-run-package.zip"');return await serveFile(req,res,path.join(DATA,'provider-exports',providerExport[1],'bundle.zip'));}
-    const providerPreview=route.match(/^\/api\/provider-workflows\/([a-z0-9-]+)\/preview$/);
+    if(providerExport&&req.method==='GET'){if(openOnly){const manifest=JSON.parse(await readFile(path.join(DATA,'provider-exports',providerExport[1],'manifest.json'),'utf8'));assertOpenProvider(await providerPacket(ROOT,manifest.workflow,manifest.variant));}res.setHeader('Content-Disposition','attachment; filename="frameforge-run-package.zip"');return await serveFile(req,res,path.join(DATA,'provider-exports',providerExport[1],'bundle.zip'));}
+    const providerPreview=route.match(/^\/api\/provider-workflows\/([a-z0-9-]+)\/(preview|poster)$/);
     if(providerPreview&&req.method==='GET'){
-      if(openOnly)throw policyError('these provider previews are not part of the reviewed local-only profile.');
+      if(openOnly)assertOpenProvider(await providerPacket(ROOT,providerPreview[1],url.searchParams.get('variant')??'default'));
       const id=providerPreview[1],variant=url.searchParams.get('variant')??'default',proof=await providerVerification({data:DATA,id,variant});
       if(!proof)throw Object.assign(Error('No completed local preview is saved.'),{statusCode:404});
-      return await serveFile(req,res,path.join(DATA,'provider-verifications',id+(variant==='local'?'-local':''),proof.mediaType==='image'?'result.png':'result.mp4'));
+      return await serveFile(req,res,path.join(DATA,'provider-verifications',id+(variant==='local'?'-local':''),providerPreview[2]==='poster'?'poster.jpg':proof.mediaType==='image'?'result.png':'result.mp4'));
     }
     const providerRoute=route.match(/^\/api\/provider-workflows\/([a-z0-9-]+)(\/download)?$/);
     if(providerRoute&&req.method==='GET'){
-      if(openOnly)throw policyError('provider templates and these unreviewed model routes are hidden in this profile.');
+      if(openOnly)assertOpenProvider(await providerPacket(ROOT,providerRoute[1],url.searchParams.get('variant')??'default'));
       const packet=await providerPacket(ROOT,providerRoute[1],url.searchParams.get('variant')??'default');
       if(providerRoute[2]){res.setHeader('Content-Disposition','attachment; filename="'+packet.file+'"');return await serveFile(req,res,path.join(ROOT,'workflows/bonus',packet.file));}
       const verification=await providerVerification({data:DATA,id:packet.id,variant:packet.variant});
@@ -758,6 +765,7 @@ const server = http.createServer(async (req, res) => {
     Object.assign(publicFiles,{'/execution-policy.js':'execution-policy.js','/execution-policy.css':'execution-policy.css','/mcp-app':'mcp-app.html','/mcp-app.js':'mcp-app.js','/mcp-app.css':'mcp-app.css'});
     Object.assign(publicFiles,{'/workflow-panel.js':'workflow-panel.js','/workflow-panel.css':'workflow-panel.css'});
     for(const name of ['compass','moon','character','knight','robot','bicycle'])publicFiles['/explore-art/'+name+'.svg']='explore-art/'+name+'.svg';
+    for(const name of ['observatory-preview','portrait-preview','product-preview'])publicFiles['/explore-art/'+name+'.jpg']='explore-art/'+name+'.jpg';
     for(const name of ['observatory-concept','portrait-concept','product-concept'])publicFiles['/explore-art/'+name+'.png']='explore-art/'+name+'.png';
     for(const name of ['mcp-observatory','mcp-portrait','mcp-product'])publicFiles['/explore-art/'+name+'.png']='explore-art/'+name+'.png';
     publicFiles['/explore-art/observatory-motion.mp4']='explore-art/observatory-motion.mp4';

@@ -1,0 +1,27 @@
+# Review follow-up
+
+This tracks the source and usability review of commit `24017e5`. The larger creative-quality goals remain in [REMAINING-CHECKLIST.md](REMAINING-CHECKLIST.md).
+
+## Completed
+
+- [x] Judge allowance: seven accepted runs per signed browser visitor, within the existing shared cap of 35. Reopening the invitation does not reset the browser's allowance.
+- [x] One judge or studio generation at a time. Busy/offline checks and definite submission rejections do not consume a run. Accepted failures still count; uncertain submissions pause safely and reconcile by request ID.
+- [x] Technical failure and verification-blocked states release the judge queue. Lost acknowledgements and restarts do not blindly resubmit work.
+- [x] Visitor-owned history and result downloads. Correct invitations remain usable after failed-login flooding, and session duration follows invitation expiry.
+- [x] LTX, FLUX 3, Klein, MiniMax, H3 and VFX are discoverable in the shared task catalog, finder, guide and plugin catalog. The guided matcher also recognizes their local graph packages.
+- [x] Real generated result covers for local LTX/H3 video and the FLUX image edit. Local setup and package actions come before Cloud alternatives.
+- [x] Open-weights mode retains only the exact reviewed local bonus graphs. Partner variants and edited/unreviewed graphs remain blocked by the server.
+- [x] Smaller artwork, cached 480-pixel image thumbnails, lazy gallery loading, 24-card pagination, coalesced refreshes, compact job summaries and slower idle polling.
+- [x] Studio guide lives in navigation and no longer floats over results, captions or footer controls. Narrow side navigation retains labels; phone navigation uses labelled horizontal links.
+- [x] Home has a single main path: introduction, featured local results, starting material, Explore link and recent work. Live community feeds no longer load on Home.
+- [x] Consistent page-title format, corrected repeated Explore breadcrumb, clearer local readiness wording, and the three narrow model tests recorded on Progress.
+- [x] Judge page documents and showcases the three saved local model results, with matching graph/model lock downloads. The obsolete preview server is stopped; the documented judge port is 4329.
+- [x] Source-only test runs explicitly skip optional Python integrations when their runtime is absent. Installed runtimes must pass those integrations. Source manifests are regenerated with release updates.
+
+## Still to do
+
+- [ ] Replace remaining machine-specific paths in advanced optional model/setup scripts with a shared configurable model root. The basic source-only UI, workflow discovery, export and setup guidance already work without those installations.
+- [ ] Reproduce advanced optional pipelines on another configured computer. Source-only passing tests do not establish every GPU workflow's portability or creative quality.
+- [ ] Continue the creative acceptance goals on Progress. These UI and reliability fixes do not close character consistency, swaps, difficult motion, lip realism or broader relighting quality.
+
+The visitor allowance identifies a browser cookie, not a person. Another browser or cleared cookies can create a new visitor session; the shared cap still limits all accepted runs. The private invitation and judge ledger must never be published.

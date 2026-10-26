@@ -1,3 +1,4 @@
+import {mediaTestSkip} from './media-runtime.mjs';
 import test from 'node:test';
 import assert from 'node:assert/strict';
 import {randomUUID} from 'node:crypto';
@@ -23,7 +24,7 @@ test('Neural video selections require explicit points, avoid text detection and 
  assert.throws(()=>normalizeVideoTool({tool:'masked',sourceJob,prompt:'Change garment',selectionMode:'segment'}));
  const reuse=normalizeVideoTool({tool:'masked',sourceJob,prompt:'Change garment',selectionMode:'segment',segmentationJob:randomUUID()});assert.ok(reuse.segmentationJob);assert.equal(reuse.segmentPoints,undefined);
 });
-test('Neural mask previews reconstruct exactly and refuse changed masks, sources, ranges and crops',()=>{
+test('Neural mask previews reconstruct exactly and refuse changed masks, sources, ranges and crops',{skip:mediaTestSkip('engine')},()=>{
  const r=spawnSync(path.join(process.cwd(),'runtime/engine-env/Scripts/python.exe'),['tests/round12_check.py'],{encoding:'utf8',timeout:30000,windowsHide:true});assert.equal(r.status,0,r.stdout+r.stderr);
 });
 test('Speech upgrades preserve old defaults, reject unsupported event tags and freeze actual Turbo controls',()=>{

@@ -1,3 +1,4 @@
+import {mediaTestSkip} from './media-runtime.mjs';
 import test from 'node:test';
 import assert from 'node:assert/strict';
 import {spawnSync} from 'node:child_process';
@@ -25,7 +26,7 @@ test('Canvas and character collections retain layout and notes across restart; i
   const directory=await mkdtemp(path.join(tmpdir(),'frameforge-image-library-'));
   try{let store=await new ImageLibrary(directory).open();const board=await store.save('boards',{name:'Copper world',notes:'Warm window light',cards:[{asset,x:25,y:10}]});await store.save('characters',{name:'Mara',notes:'Green jacket',cards:[{asset}]});store=await new ImageLibrary(directory).open();assert.equal(store.list().boards[0].cards[0].x,25);assert.equal(store.list().characters[0].name,'Mara');await assert.rejects(store.save('boards',{...board,cards:[{asset:'../../bad',x:0,y:0}]}));assert.equal(store.list().boards[0].name,'Copper world');}finally{await rm(directory,{recursive:true,force:true});}
 });
-test('Image verification proves exact mask preservation and rejects blank output, wrong sizes and empty masks',async()=>{
+test('Image verification proves exact mask preservation and rejects blank output, wrong sizes and empty masks',{skip:mediaTestSkip('configured')},async()=>{
   const config=JSON.parse(await readFile(new URL('../config.local.json',import.meta.url),'utf8'));
   const result=spawnSync(config.python,['tests/image_check.py'],{cwd:new URL('..',import.meta.url),encoding:'utf8',windowsHide:true});assert.equal(result.status,0,result.stdout+result.stderr);
 });

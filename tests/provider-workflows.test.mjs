@@ -1,3 +1,4 @@
+import {assertOpenProvider} from '../lib/provider-policy.mjs';
 import test from 'node:test';
 import assert from 'node:assert/strict';
 import {readFile,mkdtemp,rm,mkdir,writeFile} from 'node:fs/promises';
@@ -21,7 +22,7 @@ test('Provider examples retain their real core models, original upstream provena
  const ltx=await providerPacket(root,'ltx-vfx');assert.equal(ltx.graphFormat,'api');assert.equal(ltx.graph['398:362'].inputs.value,5);assert.equal(ltx.graph['398:372'].inputs.value,640);assert.equal(ltx.graph['398:360'].inputs.value,384);assert.ok(!Object.values(ltx.graph).some(n=>n.inputs.clip_name==='gemma4_e2b_it_int8_convrot.safetensors'));assert.equal(ltx.models.length,5);assert.ok(ltx.models.every(m=>m.sha256&&/\/resolve\/[a-f0-9]{40}\//.test(m.url)));
  const h3=await providerPacket(root,'minimax-h3','local');assert.ok(h3.nodeTypes.includes('MiniMaxH3ImageToVideo'));assert.equal(h3.models.length,5);assert.ok(h3.models.every(m=>m.sha256&&m.bytes&&/\/resolve\/[a-f0-9]{40}\//.test(m.url)));assert.equal(PROVIDER_WORKFLOWS.find(w=>w.id==='flux3-video').model,'FLUX 3 Video');assert.match(PROVIDER_WORKFLOWS.find(w=>w.id==='flux3-video').relatedModel.url,/flux-3-image-klein-comfy/);assert.match(h3.input,/One starting image/);assert.match(h3.steps.join(' '),/territorial availability/);await assert.rejects(()=>providerPacket(root,'../../config.local.json'),/Unknown/);await assert.rejects(()=>providerPacket(root,'flux3-video','invalid'),/Unknown/);const klein=await providerPacket(root,'flux3-video','local');assert.equal(klein.model,'FLUX 3 Image Klein');assert.equal(klein.execution,'local');assert.equal(klein.models.length,4);assert.ok(klein.models.every(m=>m.sha256&&m.bytes));assert.ok(!klein.nodeTypes.includes('Flux3ImageToVideoNode'));assert.match(klein.output,/edited image/);for(const n of klein.graph.nodes.filter(n=>['Flux3LayoutPrompt','CreateBoundingBoxes','KSampler'].includes(n.type)))assert.deepEqual(Object.values(n.widgets_values_named),n.widgets_values);const upstream=manifests.find(m=>m.id==='image_flux3_klein_distilled_image_edit');assert.equal(createHash('sha256').update(await readFile(path.join(root,'workflows/bonus',upstream.id+'.json'))).digest('hex'),upstream.sha256);
 });
-test('Provider HTTP downloads preserve exact native graphs and strict profile blocks provider access',async()=>{
+test('Provider HTTP downloads preserve exact native graphs and strict profile permits only reviewed local provider graphs',async()=>{
  const directory=await mkdtemp(path.join(tmpdir(),'ff-provider-http-'));const socket=net.createServer();socket.listen(0,'127.0.0.1');await once(socket,'listening');const port=socket.address().port;await new Promise(r=>socket.close(r));
  const child=spawn(process.execPath,['server.mjs'],{cwd:root,env:{...process.env,PORT:String(port),STUDIO_DATA:directory,COMFY_URL:'http://127.0.0.1:1',FRAMEFORGE_OPEN_WEIGHTS_ONLY:'0'},windowsHide:true,stdio:['ignore','pipe','pipe']});let errors='';child.stderr.on('data',c=>errors+=c);
  try{
@@ -34,13 +35,13 @@ test('Provider HTTP downloads preserve exact native graphs and strict profile bl
   for(const route of ['/provider-workflows.js','/provider-workflows.css','/library?collection=workflows'])assert.equal((await fetch(base+route)).status,200);
   const html=await(await fetch(base+'/library?collection=workflows')).text();
   assert.ok(html.indexOf('id="provider-workflows"')<html.indexOf('class="workflow-browser"'));
-  const home=await(await fetch(base+'/')).text();assert.match(home,/data-provider-compact/);assert.ok(home.indexOf('id="provider-workflows"')<home.indexOf('class="home-showcase"'));
+  const home=await(await fetch(base+'/')).text();assert.match(home,/data-provider-compact/);assert.ok(home.indexOf('id="provider-workflows"')<home.indexOf('id="start"'));
   for(const [id,variant] of [['ltx-vfx','default'],['flux3-video','default'],['minimax-h3','default'],['flux3-video','local'],['minimax-h3','local']]){
    const response=await fetch(base+'/api/provider-workflows/'+id+'/export?variant='+variant,{method:'POST'});assert.equal(response.status,200);const bundle=await response.json();assert.equal(bundle.generationExecuted,false);
    const download=await fetch(base+bundle.bundleUrl);assert.equal(download.status,200);const entries=unzipStored(Buffer.from(await download.arrayBuffer()));
    assert.deepEqual([...entries.keys()].sort(),['README.txt','inputs/'+(id==='flux3-video'?'product-concept.png':'observatory-concept.png'),'models.json','workflow.json']);
    const graph=JSON.parse(entries.get('workflow.json'));assert.ok(graph.nodes?.length||Object.keys(graph).length);for(const n of (graph.nodes??Object.values(graph)).filter(n=>(n.type??n.class_type)==='LoadImage')){const image=n.inputs?.image??n.widgets_values[0];assert.equal(image,id==='flux3-video'?'product-concept.png':'observatory-concept.png');if(n.widgets_values_named)assert.equal(n.widgets_values_named.image,image);}assert.match(entries.get('README.txt').toString(),/Press Run in native ComfyUI/);assert.ok(entries.get('inputs/'+(id==='flux3-video'?'product-concept.png':'observatory-concept.png')).length>1000);
-   assert.equal((await fetch(base+bundle.bundleUrl,{headers:{'X-Frameforge-Open-Weights-Only':'1'}})).status,403);
+   assert.equal((await fetch(base+bundle.bundleUrl,{headers:{'X-Frameforge-Open-Weights-Only':'1'}})).status,id==='ltx-vfx'||variant==='local'?200:403);
   }
   const cloud=await(await fetch(base+'/api/provider-workflows/flux3-video/readiness')).json();assert.equal(cloud.execution,'partner');assert.equal(cloud.ready,false);
   const proofFolder=path.join(directory,'provider-verifications','ltx-vfx');await mkdir(proofFolder,{recursive:true});
@@ -53,8 +54,8 @@ test('Provider HTTP downloads preserve exact native graphs and strict profile bl
   const imageResponse=await fetch(base+imageResult.verification.imageUrl);assert.equal(imageResponse.headers.get('content-type'),'image/png');assert.equal(await imageResponse.text(),'image-preview-fixture');
   const featured=await(await fetch(base+'/api/provider-workflows')).json();assert.equal(featured[1].featured.verification.imageUrl,imageResult.verification.imageUrl);assert.equal(featured[0].featured.verification.mediaType,'video');
   await writeFile(path.join(imageFolder,'report.json'),JSON.stringify({...imageProof,mediaType:'html'}));assert.equal((await fetch(base+imageResult.verification.imageUrl)).status,404);await writeFile(path.join(imageFolder,'report.json'),JSON.stringify(imageProof));
-  const strict={'X-Frameforge-Open-Weights-Only':'1'};assert.equal((await fetch(base+verified.verification.videoUrl,{headers:strict})).status,403);assert.equal((await fetch(base+imageResult.verification.imageUrl,{headers:strict})).status,403);assert.deepEqual(await(await fetch(base+'/api/provider-workflows',{headers:strict})).json(),[]);
-  for(const id of ['flux3-video','minimax-h3','ltx-vfx']){
+  const strict={'X-Frameforge-Open-Weights-Only':'1'};assert.equal((await fetch(base+verified.verification.videoUrl,{headers:strict})).status,200);assert.equal((await fetch(base+imageResult.verification.imageUrl,{headers:strict})).status,200);assert.equal((await(await fetch(base+'/api/provider-workflows',{headers:strict})).json()).length,3);
+  for(const id of ['flux3-video','minimax-h3']){
    assert.equal((await fetch(base+'/api/provider-workflows/'+id+'/download',{headers:strict})).status,403);
    assert.equal((await fetch(base+'/api/provider-workflows/'+id+'/readiness',{headers:strict})).status,403);
    assert.equal((await fetch(base+'/api/provider-workflows/'+id+'/export',{method:'POST',headers:strict})).status,403);
@@ -82,4 +83,12 @@ test('Local setup checks choose a compatible engine and never submit a generatio
   const partner=await providerReadiness({root,id:'flux3-video',engines:[base]});assert.equal(partner.execution,'partner');assert.deepEqual(requests,[['GET','/object_info'],['GET','/object_info']]);
   const h3=await providerPacket(root,'minimax-h3','local');assert.match(h3.licenseNotice,/excludes the USA/);
  }finally{engine.closeAllConnections();await new Promise(r=>engine.close(r));}
+});
+
+test('Strict provider policy pins exact reviewed local graphs and rejects edited or partner graphs',async()=>{
+ for(const [id,variant] of [['ltx-vfx','default'],['flux3-video','local'],['minimax-h3','local']]){
+  const p=await providerPacket(root,id,variant);assert.equal(assertOpenProvider(p),true);
+  const edited=structuredClone(p);edited.graph.injected={class_type:'PartnerBilling',inputs:{}};assert.throws(()=>assertOpenProvider(edited),/not been reviewed/);
+ }
+ const partner=await providerPacket(root,'flux3-video');assert.throws(()=>assertOpenProvider({...partner,execution:'local'}),/not been reviewed/);
 });

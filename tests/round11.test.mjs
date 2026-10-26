@@ -1,3 +1,4 @@
+import {mediaTestSkip} from './media-runtime.mjs';
 import{historyError}from'../lib/comfy.mjs';
 import test from 'node:test';import assert from 'node:assert/strict';import {randomUUID}from'node:crypto';import{spawnSync}from'node:child_process';import path from'node:path';
 import{normalizePose}from'../lib/pose.mjs';import{POSES}from'../public/body-pose.js';import{normalizeImage,buildImageWorkflow}from'../lib/images.mjs';import{normalizeRequest,buildWorkflow}from'../lib/workflow.mjs';import{normalizeVideoTool,buildVideoToolWorkflow}from'../lib/video-tools.mjs';
@@ -13,7 +14,7 @@ test('Mirrored camera swaps only horizontal conditioning and restores output ori
 test('Tracked borders require a selected still and prepared pose controls remain explicit',()=>{
  const request={tool:'outpaint',sourceJob,prompt:'Same scene',outpaintMode:'track-still'};assert.throws(()=>normalizeVideoTool(request),/guide/);const normalized=normalizeVideoTool({...request,outpaintGuide:true,reference:image});assert.throws(()=>buildVideoToolWorkflow(normalized,{},'test'),/locally/);assert.throws(()=>normalizeVideoTool({...request,outpaintMode:'magic'}));assert.equal(normalizeVideoTool({tool:'motion',sourceJob,prompt:'Raise arm',reference:image,motionGuide:'prepared-pose'}).motionGuide,'prepared-pose');
 });
-test('Tracked still reconstruction follows a known translation, keeps the original and refuses unsuitable scenes',()=>{
+test('Tracked still reconstruction follows a known translation, keeps the original and refuses unsuitable scenes',{skip:mediaTestSkip('engine')},()=>{
  const result=spawnSync(path.join(process.cwd(),'runtime/engine-env/Scripts/python.exe'),['tests/round11_check.py'],{encoding:'utf8',timeout:30000,windowsHide:true});assert.equal(result.status,0,result.stdout+result.stderr);
 });
 

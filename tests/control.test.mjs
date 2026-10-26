@@ -1,3 +1,4 @@
+import {mediaTestSkip} from './media-runtime.mjs';
 import test from 'node:test';
 import assert from 'node:assert/strict';
 import http from 'node:http';
@@ -29,7 +30,7 @@ test('Targeted cancellation never interrupts an unrelated engine job',async()=>{
   }finally{await close(engine);}
 });
 
-test('App validates image decoding, cancels owned work, and retries once with preserved settings',async()=>{
+test('App validates image decoding, cancels owned work, and retries once with preserved settings',{skip:mediaTestSkip('engine')},async()=>{
   const data=await mkdtemp(path.join(tmpdir(),'frameforge-controls-'));
   const calls=[];let submitted=0,running=[];const histories={};
   const info=Object.fromEntries(Object.values(buildWorkflow({aspect:'landscape',length:'preview',preset:'locked',prompt:'test',seed:1,steps:12,fps:24},'x.png','x')).map(n=>[n.class_type,{}]));

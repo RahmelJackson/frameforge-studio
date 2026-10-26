@@ -155,6 +155,10 @@ Research status: Parked
 
 ## Latest completed work
 
+- [x] LTX 2.5 local atmospheric VFX test: 640 × 384, 121 frames, generated audio and no detected black frames. One tested profile; broader quality goals remain open.
+- [x] FLUX 3 Image Klein local product edit: 1248 × 832 with the exact graph and pinned model links. Inspect scene preservation; this is a still-image workflow.
+- [x] MiniMax H3 local image-to-video test: 640 × 384, 56 frames and generated audio. One tested profile; license and hardware requirements apply.
+
 - [x] Public source release: https://github.com/RahmelJackson/frameforge-studio, with a Higgsfield-inspired project description, feature/setup tables, architecture overview, installation commands, honest limits and MIT/third-party notices. 147 tests and live readiness pass; fresh-clone startup and installation-free Cloud preparation pass. No models, personal media, local settings or previous development Git history were uploaded.
 
 - [x] Four setup paths on Home and Setup: existing ComfyUI, new local installation, Comfy Cloud only and Civitai images; local engine discovery checks ports 8188 and 8000 without changing the saved connection.

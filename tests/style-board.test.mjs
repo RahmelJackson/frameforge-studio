@@ -1,3 +1,4 @@
+import {mediaTestSkip} from './media-runtime.mjs';
 import test from 'node:test';import assert from 'node:assert/strict';import {randomUUID} from 'node:crypto';import {spawnSync} from 'node:child_process';import path from 'node:path';
 import {normalizeImage,buildImageWorkflow} from '../lib/images.mjs';
 test('Style generation freezes every card and supports zero influence without a source scene or layout',()=>{
@@ -10,9 +11,9 @@ test('Reference-subject subtraction is explicit, bounded and reusable independen
  for(const bad of [{styleMode:'silent'},{styleContent:''},{styleContent:'x'.repeat(501)},{styleContentStrength:-1},{styleContentStrength:NaN},{styleContentStrength:1.1}])assert.throws(()=>normalizeImage({...input,...bad}));
  assert.equal(normalizeImage({...input,styleMode:'layers'}).styleContent,'');
 });
-test('Whole-board embedding mean is order invariant, includes every card, and never enables layout attention',()=>{
+test('Whole-board embedding mean is order invariant, includes every card, and never enables layout attention',{skip:mediaTestSkip('engine')},()=>{
  const r=spawnSync(path.join(process.cwd(),'runtime/engine-env/Scripts/python.exe'),['-X','utf8','tests/style_math_check.py'],{encoding:'utf8',timeout:30000,windowsHide:true});assert.equal(r.status,0,r.stdout+r.stderr);
 });
-test('Style evidence rejects tampered metadata, reference bytes and layout-conditioning routes',()=>{
+test('Style evidence rejects tampered metadata, reference bytes and layout-conditioning routes',{skip:mediaTestSkip('engine')},()=>{
  const r=spawnSync(path.join(process.cwd(),'runtime/engine-env/Scripts/python.exe'),['-X','utf8','tests/style_check_guards.py'],{encoding:'utf8',timeout:30000,windowsHide:true});assert.equal(r.status,0,r.stdout+r.stderr);
 });

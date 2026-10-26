@@ -6,6 +6,10 @@ const localGraphs={'image-create':'z-image','image-edit':'qwen-edit','product-sh
 export function workflowOptions(material){return [...TASKS.filter(t=>t.start===material),...TASKS.filter(t=>t.start!==material&&(extra[material]??[]).includes(t.id))];}
 export function recommendWorkflow({material='image',taskId,location='studio'}={}){
  const choices=workflowOptions(material),task=choices.find(t=>t.id===taskId)??choices[0];if(!task)return null;
+ if(['ltx-vfx','flux3-edit','h3-animate'].includes(task.id)){
+  if(!['studio','comfy','cloud','civitai'].includes(location))location='studio';
+  return {task,location,available:location!=='civitai',url:taskURL(task),workflow:task.id,setup:taskURL(task),why:location==='civitai'?'These exact local graphs do not transfer into Civitai’s generator. Choose local ComfyUI or the recipe’s Cloud alternative.':location==='cloud'?'Open this recipe and choose its matching Cloud alternative. Review the model, inputs and credits in your account before running.':'Open the exact graph, model downloads and input package. Check local setup, then run it in compatible ComfyUI.',requires:location==='cloud'?'Your Comfy Cloud account and credits. No API key is collected here.':'Compatible ComfyUI, the listed model files, sufficient memory and applicable model permissions.'};
+ }
  const route=new URL(taskURL(task),'http://localhost'),context=route.pathname.slice(1),input=Object.fromEntries(route.searchParams),cloud=availableCloud(context,input),cloudTask=cloud[0]??null;
  if(!['studio','comfy','cloud','civitai'].includes(location))location='studio';
  const portable=context==='create'||context==='images'&&['create','cinema','edit','relight','inpaint','upscale'].includes(input.tool)||context==='video-tools'&&['restyle','motion','extend','interpolate'].includes(input.tool);

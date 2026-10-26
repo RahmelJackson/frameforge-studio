@@ -6,7 +6,7 @@ const link=(url,text)=>`<a href="${esc(url)}" target="_blank" rel="noopener">${e
 function resultView(v,sample){
  if(!v)return '';
  const dimensions=v.size.map(esc).join(' × ');
- const media=v.mediaType==='image'?`<div class="provider-comparison"><figure><img src="/explore-art/${sample}" alt="Original product with a green control knob"><figcaption>Original input</figcaption></figure><figure><img src="${esc(v.imageUrl)}" alt="Actual local FLUX 3 product-edit result"><figcaption>Actual local result</figcaption></figure></div>`:`<video controls playsinline preload="metadata" src="${esc(v.videoUrl)}"></video>`;
+ const media=v.mediaType==='image'?`<div class="provider-comparison"><figure><img loading="lazy" src="/explore-art/${sample.replace('-concept.png','-preview.jpg')}" alt="Original product with a green control knob"><figcaption>Original input</figcaption></figure><figure><img src="${esc(v.imageUrl)}" alt="Actual local FLUX 3 product-edit result"><figcaption>Actual local result</figcaption></figure></div>`:`<video controls playsinline preload="metadata" ${v.posterUrl?`poster="${esc(v.posterUrl)}"`:""} src="${esc(v.videoUrl)}#t=2"></video>`;
  const facts=v.mediaType==='image'?dimensions+' · edited image':dimensions+' · '+Number(v.duration).toFixed(2)+' seconds · '+v.frames+' frames · '+v.blackFrames+' black frames · '+(v.hasAudio?'audio included':'no audio');
  return `<div class="provider-run-panel provider-result"><h3>Actual local test result</h3>${media}<p>${esc(v.model)} · ${facts}</p><p>${esc(v.scope)}</p><small>Technical checks passed. Review the creative result before using it.</small></div>`;
 }
@@ -26,10 +26,9 @@ async function show(id,variant='default',focus=true,check=false){
    <ol>${p.steps.map(s=>'<li>'+esc(s)+'</li>').join('')}</ol>
    ${p.example?'<p><strong>Try this prompt:</strong> '+esc(p.example)+'</p>':''}
    <div class="provider-run-panel"><h3>Start this workflow</h3><p>Use the run package to keep this sample’s prompt, graph and input together. Import it in the editor, check settings, then press Run there.</p><div class="actions">
-   ${link(p.cloudUrl,p.variant==='local'?'Run Cloud alternative':p.id==='ltx-vfx'?'Run with Comfy Cloud':'Run on Comfy Cloud')}
    ${p.execution==='local'?'<button data-check-local>Check local run setup</button>':''}
    ${p.localFile&&p.variant!=='local'?'<button data-provider-local>'+esc(p.localLabel??'Use local H3 alternative')+'</button>':''}
-   <button class="primary" data-run-package>Download run package ↓</button></div><p data-run-status role="status"></p><div data-local-readiness></div></div>
+   <button class="primary" data-run-package>Download run package ↓</button>${link(p.cloudUrl,p.execution==='local'?'Cloud alternative':'Run on Comfy Cloud')}</div><p data-run-status role="status"></p><div data-local-readiness></div></div>
    <details><summary>Graph, input and official guide</summary><div class="actions"><a href="${base}/download${suffix}" download>Download ${esc(p.model)} graph only ↓</a>
    <a href="/explore-art/${sample}" download="${sample}">Download original input image ↓</a>
    ${link(p.guide,'Official model & setup guide')}
@@ -57,7 +56,7 @@ try{
  else{
   section.querySelector('[data-provider-cards]').innerHTML=data.map(w=>{
    const f=w.featured??w,v=f.verification,variant=f.variant??'default',url='/library?'+new URLSearchParams({collection:'workflows',providerWorkflow:w.id,providerVariant:variant})+'#provider-workflows';
-   const media=v?.mediaType==='image'?`<img src="${esc(v.imageUrl)}" alt="Actual ${esc(f.model)} local result" loading="lazy">`:v?.videoUrl?`<video controls muted loop playsinline preload="metadata" poster="${esc(w.art)}" src="${esc(v.videoUrl)}" aria-label="Actual ${esc(f.model)} local video result"></video>`:`<img src="${esc(w.art)}" alt="Original sample input for ${esc(f.model)}" loading="lazy">`;
+   const media=v?.mediaType==='image'?`<img src="${esc(v.posterUrl??v.imageUrl)}" alt="Actual ${esc(f.model)} local result" loading="lazy">`:v?.videoUrl?`<video controls muted loop playsinline preload="metadata" ${v.posterUrl?`poster="${esc(v.posterUrl)}"`:""} src="${esc(v.videoUrl)}#t=2" aria-label="Actual ${esc(f.model)} local video result"></video>`:`<img src="${esc(w.art)}" alt="Original sample input for ${esc(f.model)}" loading="lazy">`;
    const primary=compact?`<a class="provider-primary" href="${esc(url)}">Open local workflow →</a>`:`<button data-provider="${esc(w.id)}" data-variant="${esc(variant)}">Open local workflow →</button>`;
    return `<article class="workflow-card">${media}<small>${v?'ACTUAL LOCAL RESULT':'ORIGINAL SAMPLE INPUT'}</small><span class="badge">${esc(f.model)}</span><h3>${esc(f.title)}</h3><p>${esc(f.summary)}</p><p class="provider-readiness" data-readiness="${esc(w.id)}">${v?'Local render completed · review the result':'Local graph + model downloads'}</p><div class="provider-card-actions">${primary}${compact?'':link(f.cloudUrl??w.cloudUrl,'Cloud alternative')}</div></article>`;
   }).join('');

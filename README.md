@@ -85,7 +85,7 @@ Some tasks are ComfyUI graphs; others use local Python media processors. Where a
 
 ## Current state and limits
 
-This is a working prototype with **164 passing application tests** at the current checkpoint. Local image/video workflows, graph export, saved projects, media checks and a demonstration film export have retained verification records. A separate empty-model ComfyUI instance verifies that importing the Z-Image graph exposes its three dependencies and download controls.
+This is a working prototype. Run `npm test` for the current application regression checks and `npm run test:judge` for the protected demo checks. Local image/video workflows, graph export, saved projects, media checks and a demonstration film export have retained verification records. A separate empty-model ComfyUI instance verifies that importing the Z-Image graph exposes its three dependencies and download controls.
 
 Technical checks do not guarantee a convincing creative result. Fifteen broader quality goals remain parked, including difficult character consistency, swaps, motion/occlusion, advanced relighting and speech/lip realism. Some tools have narrow acceptance or remain experimental; the [saved checklist](REMAINING-CHECKLIST.md) records those limits.
 
@@ -97,7 +97,7 @@ Provider account-side Cloud imports/runs and Civitai generation still need accep
     npm run verify          # Running studio + installed local engine readiness; no render
     npm run package:source  # Clean source archive and SHA-256 inventory
 
-The readiness check needs the studio and configured engine running and is not expected to pass before local model setup. Some feature-specific tests need their documented runtimes. Follow [the verification loop](BUILD-LOOP.md) when changing generation behavior; watch/listen to real outputs separately from automated checks.
+The readiness check needs the studio and configured engine running and is not expected to pass before local model setup. Media integration tests explicitly skip when their optional Python runtime is absent. They run, and must pass, when that runtime is installed. A passing source-only suite does not prove GPU generation quality. Follow [the verification loop](BUILD-LOOP.md) when changing generation behavior; watch/listen to real outputs separately from automated checks.
 
 The server binds to localhost and is intended for personal local use. Public repository access does not make the running application a hosted multi-user service.
 
@@ -112,8 +112,4 @@ Built around the work of [ComfyUI](https://github.com/Comfy-Org/ComfyUI) and its
 
 **Install as a plugin:** Frameforge also packages a branded local/community plugin with starter prompts, onboarding, creative skills and its visual MCP studio. Add the GitHub marketplace, install `frameforge-studio@frameforge-community`, then restart your client. Node.js 22+ is required; models remain separate. [Plugin installation, permissions and public-listing limits](PLUGIN-GUIDE.md).
 
-## Private judge demo and provider workflow pack
-
-Run `npm run judge` after starting the studio and its local engine. The separate invite page defaults to 35 bounded runs, with personal files and setup controls excluded. See [judge setup and publishing](scripts/judge-demo/README.md).
-
-The [provider workflow pack](workflows/bonus/README.md) contains pinned official LTX 2.5, FLUX 3 and MiniMax H3 graphs plus an original LTX atmosphere candidate. These are prepared workflows; bonus eligibility still requires actual model-generated results. Models and private invite state are not included.
+See [review follow-up](REVIEW-FIXES.md) for the completed usability and judge-demo fixes, plus remaining portability work.

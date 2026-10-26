@@ -1,3 +1,4 @@
+import {mediaTestSkip} from './media-runtime.mjs';
 import test from 'node:test';import assert from 'node:assert/strict';import {randomUUID} from 'node:crypto';import {mkdtemp,rm,readFile} from 'node:fs/promises';import {tmpdir} from 'node:os';import path from 'node:path';import {spawnSync} from 'node:child_process';import {normalizeFilm,filmSignature} from '../lib/film.mjs';import {ProjectStore} from '../lib/projects.mjs';
 test('Film composition persists sound and visual layers, detects stale edits and rejects invalid timing',async()=>{
  const dir=await mkdtemp(path.join(tmpdir(),'frameforge-film-store-'));try{const store=await new ProjectStore(dir).open(),p=await store.create({name:'Sound film'}),signature=filmSignature(p),track={id:randomUUID(),type:'narration',narration:'Follow the light.',start:0,end:3,volume:.7,fadeIn:.2,fadeOut:.3};
@@ -5,4 +6,4 @@ test('Film composition persists sound and visual layers, detects stale edits and
  for(const film of [{tracks:[{...track,end:0}]},{tracks:[{...track,fadeIn:2,fadeOut:2}]},{tracks:[{...track,start:NaN}]},{overlays:[{id:randomUUID(),asset:'../bad.png'}]},{texts:[{id:randomUUID(),text:'Title',start:0,end:121}]}])assert.throws(()=>normalizeFilm(film));
  }finally{await rm(dir,{recursive:true,force:true});}
 });
-test('Exported film preserves source audio, aligns independent tracks, fades, subtitles and image layers',async()=>{const config=JSON.parse(await readFile(new URL('../config.local.json',import.meta.url),'utf8'));const result=spawnSync(config.python,['tests/film_check.py'],{cwd:new URL('..',import.meta.url),encoding:'utf8',windowsHide:true,timeout:60000});assert.equal(result.status,0,result.stdout+result.stderr);});
+test('Exported film preserves source audio, aligns independent tracks, fades, subtitles and image layers',{skip:mediaTestSkip('configured')},async()=>{const config=JSON.parse(await readFile(new URL('../config.local.json',import.meta.url),'utf8'));const result=spawnSync(config.python,['tests/film_check.py'],{cwd:new URL('..',import.meta.url),encoding:'utf8',windowsHide:true,timeout:60000});assert.equal(result.status,0,result.stdout+result.stderr);});

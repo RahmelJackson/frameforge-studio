@@ -1,11 +1,11 @@
 const $=s=>document.querySelector(s);
 const defaults={image:'An original miniature lighthouse on a mossy floating island at blue hour, warm amber windows, copper dome, soft mist, cinematic miniature photography, no text',video:'Locked tripod camera. Very gentle clouds drift around the floating observatory. Warm doorway light glows steadily. Keep the building and tiny explorer stationary. Restrained atmospheric motion, no cuts.',speech:'On a tiny island above the clouds, a lighthouse waits for the next traveler.'};
-const finished=new Set(['review-ready','approved','rejected','failed','cancelled','needs-refinement','needs-attention']);
+const finished=new Set(['review-ready','approved','rejected','failed','cancelled','needs-refinement','needs-attention','technical-failed','verification-blocked','not-submitted']);
 const form=$('#generate'),task=form.elements.task,prompt=form.elements.prompt;
 let current=null,poll=null,status,submitting=false,updating=false,statusPoll=null;
 function message(s){$('#message').textContent=s;}
 async function api(route,input){const r=await fetch(route,input?{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify(input)}:{});const v=await r.json();if(!r.ok)throw Object.assign(Error(v.error??'Demo unavailable'),{status:r.status,code:v.code});return v;}
-function select(){prompt.value=defaults[task.value];prompt.maxLength=task.value==='speech'?300:800;$('#task-hint').textContent=task.value==='video'?'Uses the original observatory image above. Creates a two-second, 768 × 432 Wan preview. Generation time is separate from clip length.':task.value==='speech'?'Up to 300 characters, English preset voice. Generates a WAV file and script subtitles.':'Creates one square 768 × 768 image. Model loading can take longer on the first run.';}
+function select(){prompt.value=defaults[task.value];$('#prompt-label').firstChild.textContent=task.value==='speech'?'Script to read':task.value==='video'?'Describe the movement':'Describe your image';prompt.maxLength=task.value==='speech'?300:800;$('#task-hint').textContent=task.value==='video'?'Uses the original observatory image above. Creates a two-second, 768 × 432 Wan preview. Generation time is separate from clip length.':task.value==='speech'?'Up to 300 characters, English preset voice. Generates a WAV file and script subtitles.':'Creates one square 768 × 768 image. Model loading can take longer on the first run.';}
 task.onchange=select;select();
 function renderJob(j){current=j;const result=$('#result');result.replaceChildren();const heading=document.createElement('h3');heading.textContent=j.status==='review-ready'?'Your result is ready to review.':j.status.replaceAll('-',' ');result.append(heading);
  const p=document.createElement('p');p.textContent=j.message??j.prompt;result.append(p);
@@ -14,20 +14,23 @@ function renderJob(j){current=j;const result=$('#result');result.replaceChildren
 async function loadJob(id){clearTimeout(poll);try{renderJob(await api('/api/job/'+id));}catch(e){message(e.message);}}
 async function update(){if(updating)return false;updating=true;clearTimeout(statusPoll);try{
  status=await api('/api/status');$('#login').hidden=true;$('.session').hidden=false;
- $('#allowance').textContent=status.remaining+' of '+status.limit+' shared runs available';
- $('#engine').textContent=status.engineConnected?'Local engine connected':'Engine status will be checked at submission';
+ $('#allowance').textContent=status.remaining+' of '+status.limit+' visitor runs · '+status.sharedRemaining+' shared runs left';
+ $('#engine').textContent=status.engineConnected?'Local engine connected':'Local engine offline · runs paused';
  const pending=JSON.parse(localStorage.getItem('frameforge-judge-pending')??'null');
  const ownRun=status.busy&&pending?.requestId===status.activeRequestId;
  $('#busy').hidden=!status.busy;$('#busy').textContent=ownRun?'Your generation is running. Other judges will wait until it finishes.':status.busyMessage??'';
- $('#run').disabled=submitting||status.remaining===0||status.busy;
- $('#run').textContent=status.busy?'Please wait…':status.remaining===0?'Shared allowance used':'Create locally ↗';
+ $('#run').disabled=submitting||!status.engineConnected||status.remaining===0||status.sharedRemaining===0||status.busy;
+ $('#run').textContent=!status.engineConnected?'Engine offline':status.busy?'Please wait…':status.remaining===0||status.sharedRemaining===0?'Allowance used':'Create locally ↗';
  const history=$('#history');history.replaceChildren();for(const j of status.jobs){const b=document.createElement('button');b.textContent=j.task+' · '+j.status;b.onclick=()=>loadJob(j.requestId);history.append(b);}return true;
  }catch(e){if(e.status===401||e.status===410){$('#login').hidden=false;$('.session').hidden=true;}if(e.status!==401)message(e.message);$('#run').disabled=true;return false;}
  finally{updating=false;statusPoll=setTimeout(update,5000);}}
 $('#login').onsubmit=async e=>{e.preventDefault();try{await api('/api/login',{code:e.target.elements.code.value});e.target.reset();message('Connected. Choose a workflow below.');await update();}catch(e){message(e.message);}};
-form.onsubmit=async e=>{e.preventDefault();if(submitting||status?.busy)return;submitting=true;$('#run').disabled=true;message('Submitting one local job. You can leave this page and return.');const pending=localStorage.getItem('frameforge-judge-pending');const data=pending?JSON.parse(pending):{requestId:crypto.randomUUID(),task:task.value,prompt:prompt.value.trim()};localStorage.setItem('frameforge-judge-pending',JSON.stringify(data));
+form.onsubmit=async e=>{e.preventDefault();if(submitting||status?.busy)return;submitting=true;$('#run').disabled=true;message('Submitting one local job. You can leave this page and return.');const pending=localStorage.getItem('frameforge-judge-pending');const prior=pending?JSON.parse(pending):null;if(prior&&(prior.task!==task.value||prior.prompt!==prompt.value.trim())){message('A previous submission is still recorded. Checking it before sending your edited prompt.');await loadJob(prior.requestId);submitting=false;await update();return;}const data=prior??{requestId:crypto.randomUUID(),task:task.value,prompt:prompt.value.trim()};localStorage.setItem('frameforge-judge-pending',JSON.stringify(data));
  try{const j=await api('/api/run',data);message('Job saved. Waiting for the checked output…');renderJob(j);}
- catch(e){if(e.code==='ENGINE_BUSY'){localStorage.removeItem('frameforge-judge-pending');message('Another judge is generating. Please wait. Your prompt is kept here and no run was charged. When the button becomes available, click Create locally to submit.');}else message(e.message+' Refreshing will check the saved request before any resubmission.');}
+ catch(e){if(['ENGINE_BUSY','ENGINE_OFFLINE','NOT_ACCEPTED','VISITOR_LIMIT','SHARED_LIMIT'].includes(e.code)){localStorage.removeItem('frameforge-judge-pending');message(e.message+' Your current prompt stays in the form. Click Create when the demo is available.');}else message(e.message+' Refreshing will check the saved request before any resubmission.');}
  finally{submitting=false;await update();}};
 async function start(){if(location.hash.startsWith('#access=')){const code=new URLSearchParams(location.hash.slice(1)).get('access');history.replaceState(null,'',location.pathname+'#try');try{await api('/api/login',{code});}catch(e){message(e.message);}}if(await update()){const p=localStorage.getItem('frameforge-judge-pending');if(p)await loadJob(JSON.parse(p).requestId);}}
 start();
+
+async function bonusResults(){try{const r=await fetch('/api/showcase');if(!r.ok)return;const rows=await r.json();for(const v of rows){const card=document.querySelector('[data-bonus="'+v.key+'"]');if(!card||!v.available)continue;const media=document.createElement(v.mediaType==='image'?'img':'video');media.src=v.previewUrl;if(v.mediaType==='image'){media.alt='Actual local '+v.model+' result';media.loading='lazy';}else{media.controls=true;media.preload='metadata';if(v.posterUrl)media.poster=v.posterUrl;}card.prepend(media);card.querySelector('[data-bonus-status]').textContent='Actual local test · '+v.size.join(' × ')+(v.duration?' · '+v.duration.toFixed(2)+' seconds':'');}}catch{}}
+bonusResults();

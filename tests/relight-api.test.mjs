@@ -1,5 +1,6 @@
+import {mediaTestSkip} from './media-runtime.mjs';
 import test from 'node:test';import assert from 'node:assert/strict';import {spawn,spawnSync} from 'node:child_process';import {mkdtemp,rm,readFile,appendFile,writeFile} from 'node:fs/promises';import {tmpdir} from 'node:os';import path from 'node:path';import {randomUUID} from 'node:crypto';import {normalizeVideoTool} from '../lib/video-tools.mjs';
-test('Lighting adjustments reuse a bound proposal offline, deduplicate and reject changed sources or proposals',async()=>{
+test('Lighting adjustments reuse a bound proposal offline, deduplicate and reject changed sources or proposals',{skip:mediaTestSkip('configured')},async()=>{
  const root=new URL('..',import.meta.url),config=JSON.parse(await readFile(new URL('../config.local.json',import.meta.url),'utf8')),data=await mkdtemp(path.join(tmpdir(),'frameforge-relight-api-')),port=22317+Math.floor(Math.random()*1000),base=`http://127.0.0.1:${port}`,sourceId=randomUUID(),proposalId=randomUUID();let child;
  const request=normalizeVideoTool({tool:'relight',sourceJob:sourceId,prompt:'Gentle neutral light',aspect:'square',seed:92,start:0,end:1,relightMode:'preserve',relightStrength:.6,relightMaxEV:.5});
  const fixture=spawnSync(config.python,['tests/relight_fixture.py',data,sourceId,proposalId,JSON.stringify(request)],{cwd:root,encoding:'utf8',windowsHide:true});

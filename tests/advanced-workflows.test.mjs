@@ -1,3 +1,4 @@
+import {mediaTestSkip} from './media-runtime.mjs';
 import test from 'node:test';import assert from 'node:assert/strict';
 import {normalizeVideoTool,buildVideoToolWorkflow,RIFE_MODEL,DETAIL_VIDEO_MODEL} from '../lib/video-tools.mjs';
 import {normalizeImage,buildImageWorkflow} from '../lib/images.mjs';
@@ -8,7 +9,7 @@ test('Automatic selection rejects unsafe controls and never silently uses an old
  for(const patch of [{selectionMode:'all materials'},{clothingPart:'skin'},{materialSeed:[-1,.6]},{materialSeed:[.3,NaN]},{videoModel:'cloud'},{interpolationModel:'unknown'},{keyframeJob:'../bad'},{motionSafety:'invent'},{isolateGarment:'yes'}])assert.throws(()=>normalizeVideoTool({tool:'masked',sourceJob:id,prompt:'red jacket',...patch}));
  assert.equal(normalizeVideoTool({tool:'recolor',sourceJob:id,mask:asset}).mask,asset);
 });
-test('Automatic clothing masks reject forbidden pixels and modified classification evidence',()=>{const result=spawnSync(fileURLToPath(new URL('../runtime/engine-env/Scripts/python.exe',import.meta.url)),['tests/selection_check.py'],{cwd:new URL('..',import.meta.url),windowsHide:true,encoding:'utf8',timeout:30000});assert.equal(result.status,0,result.stdout+result.stderr);});
+test('Automatic clothing masks reject forbidden pixels and modified classification evidence',{skip:mediaTestSkip('engine')},()=>{const result=spawnSync(fileURLToPath(new URL('../runtime/engine-env/Scripts/python.exe',import.meta.url)),['tests/selection_check.py'],{cwd:new URL('..',import.meta.url),windowsHide:true,encoding:'utf8',timeout:30000});assert.equal(result.status,0,result.stdout+result.stderr);});
 test('Alternative video models are explicit and preserve reference and mask bindings',()=>{
  const r=normalizeVideoTool({tool:'masked',sourceJob:id,prompt:'red jacket',videoModel:'detail',keyframeJob:id});r.prepared={size:[288,512],frames:29,fps:16};const g=buildVideoToolWorkflow(r,{video:'source.mp4',reference:'appearance.png',maskVideo:'visible.mp4'});
  assert.ok(Object.values(g).some(n=>n.inputs.unet_name===DETAIL_VIDEO_MODEL));assert.deepEqual(g['8'].inputs.reference_image,['13',0]);

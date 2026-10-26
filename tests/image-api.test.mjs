@@ -1,3 +1,4 @@
+import {mediaTestSkip} from './media-runtime.mjs';
 import test from 'node:test';
 import assert from 'node:assert/strict';
 import http from 'node:http';
@@ -7,7 +8,7 @@ import {tmpdir} from 'node:os';
 import path from 'node:path';
 import {randomUUID} from 'node:crypto';
 import {buildImageWorkflow,normalizeImage} from '../lib/images.mjs';
-test('Real app image lifecycle shares the video lock, deduplicates, decodes PNGs and binds reviews to output',async()=>{
+test('Real app image lifecycle shares the video lock, deduplicates, decodes PNGs and binds reviews to output',{skip:mediaTestSkip('configured')},async()=>{
   const root=new URL('..',import.meta.url),config=JSON.parse(await readFile(new URL('../config.local.json',import.meta.url),'utf8'));
   const data=await mkdtemp(path.join(tmpdir(),'frameforge-image-api-'));
   const image=spawnSync(config.python,['-c',"import sys,numpy as np;from PIL import Image;Image.fromarray(np.random.default_rng(1).integers(0,256,(768,768,3),dtype=np.uint8)).save(sys.stdout.buffer,format='PNG')"],{windowsHide:true,maxBuffer:5e6});assert.equal(image.status,0);

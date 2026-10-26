@@ -1,3 +1,4 @@
+import {mediaTestSkip} from './media-runtime.mjs';
 import test from 'node:test';
 import assert from 'node:assert/strict';
 import { spawn } from 'node:child_process';
@@ -6,7 +7,7 @@ import { tmpdir } from 'node:os';
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
 const root=path.dirname(path.dirname(fileURLToPath(import.meta.url)));
-test('HTTP app serves UI, rejects unwanted origins and malformed uploads, persists engine failures',async()=>{
+test('HTTP app serves UI, rejects unwanted origins and malformed uploads, persists engine failures',{skip:mediaTestSkip('engine')},async()=>{
   const data=await mkdtemp(path.join(tmpdir(),'frameforge-test-'));
   const port=14317+Math.floor(Math.random()*1000);const base=`http://127.0.0.1:${port}`;
   const child=spawn(process.execPath,['server.mjs'],{cwd:root,env:{...process.env,PORT:String(port),STUDIO_DATA:data,COMFY_URL:'http://127.0.0.1:1'},windowsHide:true,stdio:['ignore','pipe','pipe']});

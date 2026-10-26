@@ -1,3 +1,4 @@
+import {mediaTestSkip} from './media-runtime.mjs';
 import test from 'node:test';
 import assert from 'node:assert/strict';
 import {randomUUID} from 'node:crypto';
@@ -14,7 +15,7 @@ test('Target body fitting is optional, image-bound and confined to detected pose
   assert.throws(()=>normalizeVideoTool({...input,tool:'finish'}));
 });
 
-test('Target-relative lengths and driver directions reconstruct independently; missing joints and tampering fail',()=>{
+test('Target-relative lengths and driver directions reconstruct independently; missing joints and tampering fail',{skip:mediaTestSkip('engine')},()=>{
   const result=spawnSync(path.join(process.cwd(),'runtime/engine-env/Scripts/python.exe'),['-X','utf8','tests/pose_retarget_check.py'],{encoding:'utf8',timeout:30000,windowsHide:true});
   assert.equal(result.status,0,result.stdout+result.stderr);
 });
