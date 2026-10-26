@@ -7,7 +7,7 @@ import {WorkflowPlans} from './lib/workflow-plans.mjs';
 import {applyWorkflowSettings} from './lib/workflow-expectations.mjs';
 import {WorkflowExports} from './lib/workflow-exports.mjs';
 import {WORKFLOWS,workflowPacket,modelDependencies} from './lib/workflow-catalog.mjs';
-import {PROVIDER_WORKFLOWS,providerPacket,providerReadiness,providerRunPackage} from './lib/provider-workflows.mjs';
+import {PROVIDER_WORKFLOWS,providerPacket,providerReadiness,providerRunPackage,providerVerification} from './lib/provider-workflows.mjs';
 import {apiToCanvas} from './public/workflow-graph.js';
 import {parseChecklist} from './lib/checklist.mjs';
 import {storyPlan,normalizeShortFilm,shortFilmStatus} from './lib/short-film.mjs';
@@ -567,12 +567,20 @@ const server = http.createServer(async (req, res) => {
     }
     const providerExport=route.match(/^\/provider-exports\/([a-f0-9-]{36})\/bundle\.zip$/);
     if(providerExport&&req.method==='GET'){if(openOnly)throw policyError('provider export downloads are disabled in this profile.');res.setHeader('Content-Disposition','attachment; filename="frameforge-run-package.zip"');return await serveFile(req,res,path.join(DATA,'provider-exports',providerExport[1],'bundle.zip'));}
+    const providerPreview=route.match(/^\/api\/provider-workflows\/([a-z0-9-]+)\/preview$/);
+    if(providerPreview&&req.method==='GET'){
+      if(openOnly)throw policyError('these provider previews are not part of the reviewed local-only profile.');
+      const id=providerPreview[1],variant=url.searchParams.get('variant')??'default',proof=await providerVerification({data:DATA,id,variant});
+      if(!proof)throw Object.assign(Error('No completed local preview is saved.'),{statusCode:404});
+      return await serveFile(req,res,path.join(DATA,'provider-verifications',id+(variant==='local'?'-local':''),'result.mp4'));
+    }
     const providerRoute=route.match(/^\/api\/provider-workflows\/([a-z0-9-]+)(\/download)?$/);
     if(providerRoute&&req.method==='GET'){
       if(openOnly)throw policyError('provider templates and these unreviewed model routes are hidden in this profile.');
       const packet=await providerPacket(ROOT,providerRoute[1],url.searchParams.get('variant')??'default');
       if(providerRoute[2]){res.setHeader('Content-Disposition','attachment; filename="'+packet.file+'"');return await serveFile(req,res,path.join(ROOT,'workflows/bonus',packet.file));}
-      return json(res,200,packet);
+      const verification=await providerVerification({data:DATA,id:packet.id,variant:packet.variant});
+      return json(res,200,{...packet,verification,generationVerified:!!verification,status:verification?'Local preview completed; creative approval pending':packet.status});
     }
     if(route==='/api/workflows'&&req.method==='GET')return json(res,200,openOnly||url.searchParams.get('openWeightsOnly')==='true'?WORKFLOWS.filter(w=>OPEN_WORKFLOW_IDS.includes(w.id)):WORKFLOWS);
     if(route==='/api/workflow-plans'&&req.method==='POST'){const input=await readJson(req,1000000);if(openOnly)assertOpenInput(input.context,{...input.input,provider:input.provider});const prepared=await workflowPlans.prepare(input);if(openOnly&&prepared.graph)prepared.openWeightsAudit=assertOpenGraph(prepared.graph,policyModels);return json(res,201,prepared);}
