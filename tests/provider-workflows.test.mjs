@@ -5,10 +5,11 @@ import {createHash} from 'node:crypto';
 import {spawn} from 'node:child_process';
 import {once} from 'node:events';
 import net from 'node:net';
+import http from 'node:http';
 import path from 'node:path';
 import {tmpdir} from 'node:os';
 import {fileURLToPath} from 'node:url';
-import {PROVIDER_WORKFLOWS,providerPacket} from '../lib/provider-workflows.mjs';
+import {PROVIDER_WORKFLOWS,providerPacket,providerReadiness} from '../lib/provider-workflows.mjs';
 const root=fileURLToPath(new URL('../',import.meta.url));
 test('Provider examples retain their real core models, original upstream provenance and safe preview wiring',async()=>{
  assert.deepEqual(PROVIDER_WORKFLOWS.map(w=>w.id),['ltx-vfx','flux3-video','minimax-h3']);
@@ -28,9 +29,43 @@ test('Provider HTTP downloads preserve exact native graphs and strict profile bl
   const base='http://127.0.0.1:'+port;const response=await fetch(base+'/api/provider-workflows');assert.equal(response.status,200);const list=await response.json();assert.equal(list.length,3);
   for(const w of list){const p=await(await fetch(base+'/api/provider-workflows/'+w.id)).json();const download=await fetch(base+'/api/provider-workflows/'+w.id+'/download');assert.equal(download.status,200);assert.match(download.headers.get('content-disposition'),/attachment/);assert.equal(createHash('sha256').update(Buffer.from(await download.arrayBuffer())).digest('hex'),p.sha256);assert.equal((await fetch(base+w.art)).status,200);}
   for(const route of ['/provider-workflows.js','/provider-workflows.css','/library?collection=workflows'])assert.equal((await fetch(base+route)).status,200);
-  assert.match(await(await fetch(base+'/library?collection=workflows')).text(),/id="provider-workflows"/);
+  const html=await(await fetch(base+'/library?collection=workflows')).text();
+  assert.ok(html.indexOf('id="provider-workflows"')<html.indexOf('class="workflow-browser"'));
+  for(const id of ['ltx-vfx','flux3-video','minimax-h3']){
+   const response=await fetch(base+'/api/provider-workflows/'+id+'/export',{method:'POST'});assert.equal(response.status,200);const bundle=await response.json();assert.equal(bundle.generationExecuted,false);
+   const download=await fetch(base+bundle.bundleUrl);assert.equal(download.status,200);const entries=unzipStored(Buffer.from(await download.arrayBuffer()));
+   assert.deepEqual([...entries.keys()].sort(),['README.txt','inputs/'+(id==='flux3-video'?'product-concept.png':'observatory-concept.png'),'models.json','workflow.json']);
+   const graph=JSON.parse(entries.get('workflow.json'));assert.ok(graph.nodes.length);assert.match(entries.get('README.txt').toString(),/Press Run in native ComfyUI/);assert.ok(entries.get('inputs/'+(id==='flux3-video'?'product-concept.png':'observatory-concept.png')).length>1000);
+   assert.equal((await fetch(base+bundle.bundleUrl,{headers:{'X-Frameforge-Open-Weights-Only':'1'}})).status,403);
+  }
+  const cloud=await(await fetch(base+'/api/provider-workflows/flux3-video/readiness')).json();assert.equal(cloud.execution,'partner');assert.equal(cloud.ready,false);
   const strict={'X-Frameforge-Open-Weights-Only':'1'};assert.deepEqual(await(await fetch(base+'/api/provider-workflows',{headers:strict})).json(),[]);
-  for(const id of ['flux3-video','minimax-h3','ltx-vfx'])assert.equal((await fetch(base+'/api/provider-workflows/'+id+'/download',{headers:strict})).status,403);
+  for(const id of ['flux3-video','minimax-h3','ltx-vfx']){
+   assert.equal((await fetch(base+'/api/provider-workflows/'+id+'/download',{headers:strict})).status,403);
+   assert.equal((await fetch(base+'/api/provider-workflows/'+id+'/readiness',{headers:strict})).status,403);
+   assert.equal((await fetch(base+'/api/provider-workflows/'+id+'/export',{method:'POST',headers:strict})).status,403);
+  }
+  assert.equal((await fetch(base+'/api/provider-workflows/flux3-video/export?variant=local',{method:'POST'})).status,404);
   assert.equal((await fetch(base+'/api/provider-workflows/not-a-workflow/download')).status,404);
  }finally{child.kill();await once(child,'exit');await rm(directory,{recursive:true,force:true});}
+});
+
+// Read the central directory of our uncompressed ZIP format, including data descriptors.
+function unzipStored(bytes){
+ const end=bytes.length-22;assert.equal(bytes.readUInt32LE(end),0x06054b50);let at=bytes.readUInt32LE(end+16);const entries=new Map();
+ for(let i=0;i<bytes.readUInt16LE(end+10);i++){
+  assert.equal(bytes.readUInt32LE(at),0x02014b50);assert.equal(bytes.readUInt16LE(at+10),0);const size=bytes.readUInt32LE(at+24),n=bytes.readUInt16LE(at+28),extra=bytes.readUInt16LE(at+30),comment=bytes.readUInt16LE(at+32),local=bytes.readUInt32LE(at+42),name=bytes.subarray(at+46,at+46+n).toString();
+  const start=local+30+bytes.readUInt16LE(local+26)+bytes.readUInt16LE(local+28);entries.set(name,bytes.subarray(start,start+size));at+=46+n+extra+comment;
+ }return entries;
+}
+test('Local setup checks choose a compatible engine and never submit a generation',async()=>{
+ const packet=await providerPacket(root,'ltx-vfx'),types=packet.nodeTypes.filter(t=>!packet.graph.definitions.subgraphs.some(s=>s.id===t));const missing=packet.models[0];const requests=[];
+ const info=Object.fromEntries(types.map(t=>[t,{input:{}}]));info.UNETLoader={input:{required:{unet_name:[packet.models.filter(m=>m!==missing).map(m=>m.name)]}}};
+ const engine=http.createServer((req,res)=>{requests.push([req.method,req.url]);res.setHeader('Content-Type','application/json');res.end(JSON.stringify(info));});engine.listen(0,'127.0.0.1');await once(engine,'listening');
+ try{
+  const base='http://127.0.0.1:'+engine.address().port,result=await providerReadiness({root,id:'ltx-vfx',engines:['http://127.0.0.1:1',base,base]});assert.equal(result.engineUrl,base);assert.equal(result.ready,false);assert.deepEqual(result.missingNodes,[]);assert.deepEqual(result.missingModels.map(m=>m.name),[missing.name]);
+  info.UNETLoader.input.required.unet_name[0].push(missing.name);const ready=await providerReadiness({root,id:'ltx-vfx',engines:[base]});assert.equal(ready.ready,true);assert.match(ready.verification,/generation quality are separate/);
+  const partner=await providerReadiness({root,id:'flux3-video',engines:[base]});assert.equal(partner.execution,'partner');assert.deepEqual(requests,[['GET','/object_info'],['GET','/object_info']]);
+  const h3=await providerPacket(root,'minimax-h3','local');assert.match(h3.licenseNotice,/excludes the USA/);
+ }finally{engine.closeAllConnections();await new Promise(r=>engine.close(r));}
 });
