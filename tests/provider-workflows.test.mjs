@@ -34,7 +34,7 @@ test('Provider HTTP downloads preserve exact native graphs and strict profile pe
   for(const w of list){const p=await(await fetch(base+'/api/provider-workflows/'+w.id)).json();const download=await fetch(base+'/api/provider-workflows/'+w.id+'/download');assert.equal(download.status,200);assert.match(download.headers.get('content-disposition'),/attachment/);assert.equal(createHash('sha256').update(Buffer.from(await download.arrayBuffer())).digest('hex'),p.sha256);assert.equal((await fetch(base+w.art)).status,200);}
   for(const route of ['/provider-workflows.js','/provider-workflows.css','/library?collection=workflows'])assert.equal((await fetch(base+route)).status,200);
   const html=await(await fetch(base+'/library?collection=workflows')).text();
-  assert.ok(html.indexOf('id="provider-workflows"')<html.indexOf('class="workflow-browser"'));
+  assert.match(html,/data-provider-detail-only hidden/);assert.ok(!html.includes('id="studio-recipes"'));assert.ok(html.indexOf('class="workflow-browser"')<html.indexOf('id="provider-workflows"'));
   const home=await(await fetch(base+'/')).text();assert.match(home,/data-provider-compact/);assert.ok(home.indexOf('id="provider-workflows"')<home.indexOf('id="start"'));
   for(const [id,variant] of [['ltx-vfx','default'],['flux3-video','default'],['minimax-h3','default'],['flux3-video','local'],['minimax-h3','local']]){
    const response=await fetch(base+'/api/provider-workflows/'+id+'/export?variant='+variant,{method:'POST'});assert.equal(response.status,200);const bundle=await response.json();assert.equal(bundle.generationExecuted,false);

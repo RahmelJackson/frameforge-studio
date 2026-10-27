@@ -1,6 +1,8 @@
 const section=document.querySelector('#provider-workflows');
 const compact=section.hasAttribute('data-provider-compact');
-if(!compact)document.body.classList.add('provider-featured');
+const detailOnly=section.hasAttribute('data-provider-detail-only');
+if(!compact&&!detailOnly)document.body.classList.add('provider-featured');
+window.addEventListener('frameforge:provider-workflow',event=>{section.hidden=false;show(event.detail.id,event.detail.variant,true,true);});
 const esc=s=>String(s??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
 const link=(url,text)=>`<a href="${esc(url)}" target="_blank" rel="noopener">${esc(text)} ↗</a>`;
 function resultView(v,sample){
@@ -10,12 +12,16 @@ function resultView(v,sample){
  const facts=v.mediaType==='image'?dimensions+' · edited image':dimensions+' · '+Number(v.duration).toFixed(2)+' seconds · '+v.frames+' frames · '+v.blackFrames+' black frames · '+(v.hasAudio?'audio included':'no audio');
  return `<div class="provider-run-panel provider-result"><h3>Actual local test result</h3>${media}<p>${esc(v.model)} · ${facts}</p><p>${esc(v.scope)}</p><small>Technical checks passed. Review the creative result before using it.</small></div>`;
 }
+let detailToken=0;
+window.addEventListener('frameforge:provider-workflow-close',()=>{++detailToken;section.hidden=true;});
 async function show(id,variant='default',focus=true,check=false){
+ const token=++detailToken;
  const output=section.querySelector('[data-provider-detail]');
  output.textContent='Loading the exact workflow…';
  try{
   const base='/api/provider-workflows/'+encodeURIComponent(id),suffix=variant==='local'?'?variant=local':'';
   const response=await fetch(base+suffix),p=await response.json();
+  if(token!==detailToken)return;
   if(!response.ok)throw Error(p.error??'Could not load the provider workflow.');
   const sample=p.id==='flux3-video'?'product-concept.png':'observatory-concept.png';
   output.innerHTML=`<p class="eyebrow">${esc(p.model)} / ${p.execution==='local'?'LOCAL SETUP':'PAID EXTERNAL RUN'}</p>
@@ -45,16 +51,17 @@ async function show(id,variant='default',focus=true,check=false){
   async function localSetup(){const panel=output.querySelector('[data-local-readiness]');panel.textContent='Checking your local engines…';try{const r=await fetch(base+'/readiness'+suffix),v=await r.json();if(!r.ok)throw Error(v.error??'Could not check local setup.');panel.innerHTML=`<h3>${esc(v.message)}</h3>${(v.missingModels??[]).length?'<ul>'+v.missingModels.map(m=>'<li><strong>'+esc(m.name)+'</strong><br>'+link(m.url,'Download model')+' · '+(m.bytes?(m.bytes/1024**3).toFixed(1)+' GiB':'')+'<br><small>ComfyUI/models/'+esc(m.directory)+'/</small></li>').join('')+'</ul>':''}${v.missingNodes?.length?'<p>Missing nodes: '+v.missingNodes.map(esc).join(', ')+'</p>':''}${v.engineUrl?link(v.engineUrl,'Open this local ComfyUI'):''}<p>${esc(v.verification)}</p>`;const badge=section.querySelector('[data-readiness="'+id+'"]');if(badge)badge.textContent=v.ready?'Local setup present':v.missingModels?.length?v.missingModels.length+' model downloads needed':'Local setup needed';}catch(e){panel.textContent=e.message;}}
   output.querySelector('[data-check-local]')?.addEventListener('click',localSetup);
   if(check)await localSetup();
-  const address=new URL(location.href);address.searchParams.set('providerWorkflow',id);address.searchParams.set('providerVariant',variant);history.replaceState(null,'',address);
+  if(token!==detailToken)return;
+  const address=new URL(location.href);address.searchParams.delete('workflow');address.searchParams.delete('job');address.searchParams.set('providerWorkflow',id);address.searchParams.set('providerVariant',variant);history.replaceState(null,'',address);
   if(focus)output.scrollIntoView({behavior:'smooth',block:'start'});
- }catch(e){output.textContent=e.message;}
+ }catch(e){if(token===detailToken)output.textContent=e.message;}
 }
 try{
  const response=await fetch('/api/provider-workflows'),data=await response.json();
  if(!response.ok)throw Error(data.error??'Provider workflows unavailable.');
  if(!data.length){if(compact)section.hidden=true;else section.innerHTML='<h2>Provider workflows</h2><p>Open weights only is enabled. This profile shows the reviewed local graphs below; provider templates and these unreviewed model routes are hidden.</p>';}
  else{
-  section.querySelector('[data-provider-cards]').innerHTML=data.map(w=>{
+  if(!detailOnly)section.querySelector('[data-provider-cards]').innerHTML=data.map(w=>{
    const f=w.featured??w,v=f.verification,variant=f.variant??'default',url='/library?'+new URLSearchParams({collection:'workflows',providerWorkflow:w.id,providerVariant:variant})+'#provider-workflows';
    const media=v?.mediaType==='image'?`<img src="${esc(v.posterUrl??v.imageUrl)}" alt="Actual ${esc(f.model)} local result" loading="lazy">`:v?.videoUrl?`<video controls muted loop playsinline preload="metadata" ${v.posterUrl?`poster="${esc(v.posterUrl)}"`:""} src="${esc(v.videoUrl)}#t=2" aria-label="Actual ${esc(f.model)} local video result"></video>`:`<img src="${esc(w.art)}" alt="Original sample input for ${esc(f.model)}" loading="lazy">`;
    const primary=compact?`<a class="provider-primary" href="${esc(url)}">Open local workflow →</a>`:`<button data-provider="${esc(w.id)}" data-variant="${esc(variant)}">Open local workflow →</button>`;
@@ -63,7 +70,7 @@ try{
   if(!compact){
    section.querySelectorAll('[data-provider]').forEach(b=>b.addEventListener('click',()=>show(b.dataset.provider,b.dataset.variant,true,true)));
    const params=new URLSearchParams(location.search),id=params.get('providerWorkflow'),entry=data.find(w=>w.id===id);
-   if(entry)await show(id,params.get('providerVariant')??entry.featured?.variant??'default',false);
+   if(entry){section.hidden=false;}if(entry)await show(id,params.get('providerVariant')??entry.featured?.variant??'default',false);
   }
  }
 }catch(e){if(compact)section.hidden=true;else section.querySelector('[data-provider-detail]').textContent=e.message;}

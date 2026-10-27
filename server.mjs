@@ -768,11 +768,11 @@ const server = http.createServer(async (req, res) => {
     for(const name of ['observatory-preview','portrait-preview','product-preview'])publicFiles['/explore-art/'+name+'.jpg']='explore-art/'+name+'.jpg';
     for(const name of ['observatory-concept','portrait-concept','product-concept'])publicFiles['/explore-art/'+name+'.png']='explore-art/'+name+'.png';
     for(const name of ['mcp-observatory','mcp-portrait','mcp-product'])publicFiles['/explore-art/'+name+'.png']='explore-art/'+name+'.png';
-    publicFiles['/studio-recipes.js']='studio-recipes.js';
+    publicFiles['/studio-recipes.js']='studio-recipes.js';publicFiles['/workflow-outcomes.js']='workflow-outcomes.js';
     publicFiles['/explore-art/observatory-motion.mp4']='explore-art/observatory-motion.mp4';
     if(route==='/mcp-app'&&req.method==='GET')return await serveFile(req,res,path.join(ROOT,'public','mcp-app.html'));
     if(publicFiles[route] && req.method==='GET') {
-      const legacyImage=route==='/'&&url.searchParams.has('image'),mergedWorkflows=route==='/library'&&url.searchParams.get('collection')==='workflows',file=legacyImage?'index.html':mergedWorkflows?'workflows.html':publicFiles[route];
+      const legacyImage=route==='/'&&url.searchParams.has('image'),mergedWorkflows=route==='/library'&&url.searchParams.get('collection')!=='saved',file=legacyImage?'index.html':mergedWorkflows?'workflows.html':publicFiles[route];
       if(file.endsWith('.html')){const page=legacyImage?'create':mergedWorkflows?'workflows':route==='/'||route==='/home'?'home':route.slice(1),raw=await readFile(path.join(ROOT,'public',file),'utf8');const html=route==='/workflows'&&url.searchParams.get('embedded')==='1'?raw.replace('<body>','<body class="embedded">'):renderWorkspacePage(raw,page,url.href,(req.headers.cookie??'').split(';').map(v=>v.trim()).find(v=>v.startsWith('frameforge_navigation='))?.split('=')[1],openOnly);res.writeHead(200,{'Content-Type':'text/html; charset=utf-8','Cache-Control':'no-store'});return res.end(html);}
       return await serveFile(req,res,path.join(ROOT,'public',file));
     }

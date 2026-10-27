@@ -3,11 +3,11 @@ import {filmTabURL,WORKSPACES,workspaceTab} from './studio-map.js';
 import {TASKS,searchTasks,taskURL} from './studio-journeys.js';
 const key='frameforge.navigation';
 export function navigationMode(value){return ['side','top'].includes(value)?value:'side';}
-const control=typeof document==='undefined'?null:document.querySelector('#navigation-layout');
+const controls=typeof document==='undefined'?[]:[...document.querySelectorAll('[data-navigation-layout],#navigation-layout')];
 if(typeof document!=='undefined'){
  let value=navigationMode(document.body.dataset.navigation);try{const stored=localStorage.getItem(key);if(stored!==null)value=navigationMode(stored);}catch{}
- const apply=v=>{document.body.dataset.navigation=navigationMode(v);if(control)control.value=document.body.dataset.navigation;document.cookie='frameforge_navigation='+document.body.dataset.navigation+'; Path=/; SameSite=Strict; Max-Age=31536000';};apply(value);
- control?.addEventListener('change',()=>{apply(control.value);try{localStorage.setItem(key,document.body.dataset.navigation);}catch{}window.dispatchEvent(new Event('resize'));});
+ const apply=v=>{document.body.dataset.navigation=navigationMode(v);for(const control of controls)control.value=document.body.dataset.navigation;document.cookie='frameforge_navigation='+document.body.dataset.navigation+'; Path=/; SameSite=Strict; Max-Age=31536000';};apply(value);
+ for(const control of controls)control.addEventListener('change',()=>{apply(control.value);try{localStorage.setItem(key,document.body.dataset.navigation);}catch{}window.dispatchEvent(new Event('resize'));});
  window.addEventListener('storage',event=>{if(event.key===key)apply(event.newValue);});
  const menu=document.querySelector('[data-mobile-menu]');function closeMenu(){document.body.dataset.mobileNavigation='closed';menu?.setAttribute('aria-expanded','false');menu?.setAttribute('aria-label','Open studio navigation');}
  menu?.addEventListener('click',()=>{const open=document.body.dataset.mobileNavigation!=='open';document.body.dataset.mobileNavigation=open?'open':'closed';menu.setAttribute('aria-expanded',String(open));menu.setAttribute('aria-label',open?'Close studio navigation':'Open studio navigation');});
