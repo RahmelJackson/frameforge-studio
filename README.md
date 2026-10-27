@@ -20,21 +20,24 @@ Built as an open-source Higgsfield-inspired creative studio submission.
 
 | Workspace | What it helps you make |
 | --- | --- |
-| **Explore** | Discover Civitai examples, shared prompts and model references, with links and creator attribution. |
-| **Library** | Find saved work and explained workflow recipes; inspect, edit and export graphs. |
+| **Home** | Start with an idea, continue recent work, inspect actual local model results and explore Civitai examples, prompts and sources. |
+| **Library** | Browse 20 distinct tasks, choose a model inside its task, and inspect graphs and downloads. My work holds saved results separately. |
 | **Images** | Create and edit stills, paint masks, upscale, and organize character, scene and style references. |
-| **Video** | Animate an image, generate from text, prepare camera/keyframe workflows, and edit or finish clips. |
-| **Films** | Connect a script, storyboard selections, clips, narration, music, captions and a saved timeline; export an MP4. |
+| **Video** | Generate or edit a clip, then carry a film through Story, Director and Timeline. A project bar retains the working film and shot. |
 | **Audio** | Prepare narration, dialogue, transcription and translation; explore experimental lip-sync tools. |
 | **Studio guide & MCP** | Find workflows in the website, or connect Codex/Claude to the same graph, generation and saved-production tools. |
 
-The interface includes guided starting points, purpose/input/output descriptions, model source links and setup checks. Navigation can use either a top bar or a sidebar.
+The interface has five primary destinations: Home, Library, Images, Video and Audio. Top bar and Side bar remain mutually exclusive, with a visible navigation switch and Local only toggle. [Workspace and handoff guide](WORKSPACE-GUIDE.md).
+
+**One Studio guide:** Ctrl+K, the Home idea box and help buttons open the same side panel. Typing searches instantly without an LLM. Enter builds a suggested plan using guided matching or your explicitly selected local chat model. The plan stays open when following tool links. Connection settings live in Setup, and the guide cannot start media jobs or spend credits.
+
+**A film stays in context:** save shot notes in Story, open Generate this shot, review the loaded brief and source, then render deliberately. Use selected clip for this shot attaches the checked result only to that shot. Stale saves are rejected; selection never grants creative approval. Director keeps a separate production plan until assembly.
 
 ## Website or MCP. Your choice.
 
 The local STDIO MCP server gives Codex, Claude and compatible clients **18 tools** for workflow discovery, setup, editable graphs, local creation, saved playback, speech and film projects. Eight tools are read-only by default; creation needs `--allow-writes`. The native MCP Apps panel has visual workflows, generation, audio, timelines and saved results without loading a nested website or redirecting to a browser. Advanced audio/video requests and composition layers currently use JSON controls; it does not reproduce every specialized website editor. No paid submissions, automatic model installs or Cloud credentials. Native client acceptance is recorded separately from bridge-fixture checks. See [MCP setup and examples](MCP-GUIDE.md).
 
-Use the navigation **Open weights only** toggle to limit this studio to reviewed local pipelines. `npm run start:open` locks that profile; `--open-weights-only` does the same for an MCP connection. Partner nodes and unknown model loaders are rejected server-side. [Scope, model terms and limits](OPEN-WEIGHTS.md).
+Use the navigation **Local only** toggle (the reviewed open-weights profile) to limit this studio to reviewed local pipelines. `npm run start:open` locks that profile; `--open-weights-only` does the same for an MCP connection. Partner nodes and unknown model loaders are rejected server-side. [Scope, model terms and limits](OPEN-WEIGHTS.md).
 
 This entry is being prepared for the Comfy Open Source Higgsfield challenge. [Submission requirements and remaining owner actions](CHALLENGE-CHECKLIST.md) include a two-minute demo, social link, signup and entry form. The profile is not an organizer eligibility certification.
 

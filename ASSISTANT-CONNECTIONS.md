@@ -4,7 +4,7 @@
 
 ## Power the website guide
 
-Open **Setup & models → Use the AI you already have**, or **Studio guide → AI & agent connections**.
+Open **Setup & models → Use the AI you already have**. The Studio guide footer links to the same connection settings.
 
 1. Start the API server in your preferred model application.
 2. Choose its preset, or enter its actual local address. **Find running servers** checks only the standard local model-list endpoints; it does not install, load or generate anything.

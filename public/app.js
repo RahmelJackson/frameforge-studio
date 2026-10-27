@@ -1,3 +1,4 @@
+import {shotGenerationInput,checkedSelectedTake} from './video-project.js';
 import {takeLaunchPrompt} from '/workspace.js';
 import {createQueueUI} from './queue.js';
 import {createLibraryUI} from './library.js';
@@ -50,7 +51,7 @@ function evidence(job,full=false){
   ${report&&['review-ready','technical-failed'].includes(job.status)?`<textarea class="review-note" data-note="${job.id}" aria-label="Visual review notes" placeholder="Identity, flicker, camera movement, composition…">${escape(job.review?.notes??'')}</textarea><div class="review-actions"><button data-review="approved" data-job="${job.id}" ${report.technicalPass?'':'disabled'}>Approve take ✓</button><button data-review="rejected" data-job="${job.id}">Needs refinement</button><button data-reuse="${job.id}">Reuse settings ↗</button></div>`:`<div class="review-actions"><button data-reuse="${job.id}">Reuse settings ↗</button></div>`}`;
 }
 function render(){
-  const job=selectedJob();window.dispatchEvent(new CustomEvent('frameforge:video-context',{detail:{sourceJob:job?.video&&job.report?.technicalPass?job.id:null}})); const active=state.anyRenderBusy??state.jobs.some(j=>busyStates.includes(j.status));
+  const job=selectedJob();window.dispatchEvent(new CustomEvent('frameforge:take-selected',{detail:{takeJob:checkedSelectedTake(job)}}));window.dispatchEvent(new CustomEvent('frameforge:video-context',{detail:{sourceJob:job?.video&&job.report?.technicalPass?job.id:null}})); const active=state.anyRenderBusy??state.jobs.some(j=>busyStates.includes(j.status));
   const engine=$('#engine').value,camera=engine==='camera';const modeReady=camera?($('#camera-sampling').value==='full'?state.health?.cameraFull?.ready:state.health?.camera?.ready):engine==='keyframes'?state.health?.keyframes?.ready:state.health?.ready;
   $('#generate').disabled=!modeReady||active||state.submitting;
   $('#model-badge').textContent=job?.request.kind==='video-tool'?'VIDEO WORKFLOW':job?.request.engine==='camera'?'FUN CAMERA · 14B':job?.request.engine==='keyframes'?'FUN INPAINT · 5B':'WAN 2.2 · 5B';
@@ -199,6 +200,12 @@ initialize().then(async()=>{const launch=takeLaunchPrompt('video');if(launch){$(
   if(['studio','gallery','checks','projects','compare','guide','story','assets','queue'].includes(initialView))switchView(initialView);
   const image=query.get('image');if(image&&/^[a-f0-9-]{36}\.(png|jpg|webp)$/.test(image)){state.asset=image;state.selected=null;state.requestId=null;$('#reference-preview').src='/assets/'+image;$('#reference-preview').hidden=false;$('#drop-copy').hidden=true;$('#reference-name').textContent='From your image library';render();}
   if(query.get('job')&&state.jobs.some(j=>j.id===query.get('job')))selectJob(query.get('job'));
+  if(/^[a-f0-9-]{36}$/.test(query.get('project')??'')&&/^[a-f0-9-]{36}$/.test(query.get('shot')??'')&&!query.has('job')&&!query.has('production')){
+    try{const project=await api('/api/short-films/'+query.get('project')),frame=project.story.frames.find(f=>f.id===query.get('shot'));if(!frame)throw Error('The selected storyboard shot no longer exists.');const input=shotGenerationInput(frame,state.jobs);$('#prompt').value=input.prompt;state.selected=null;state.requestId=null;if(presets.some(p=>p.id===input.preset))selectPreset(input.preset);
+      if(frame.imageJobId){const source=state.jobs.find(j=>j.id===frame.imageJobId);if(!source?.image||!source.report?.technicalPass||source.review?.verdict==='rejected')throw Error('Choose a checked storyboard still in Story, or upload a new image.');const asset=await api('/api/jobs/'+frame.imageJobId+'/image-asset',{method:'POST'});state.asset=asset.name;$('#generation-type').value='image';$('#reference-preview').src=asset.url;$('#reference-preview').hidden=false;$('#drop-copy').hidden=true;$('#reference-name').textContent=frame.title+' · saved storyboard still';}else if(input.asset){state.asset=input.asset;$('#generation-type').value='image';$('#reference-preview').src='/assets/'+input.asset;$('#reference-preview').hidden=false;$('#drop-copy').hidden=true;$('#reference-name').textContent=frame.title+' · original take reference';}else{$('#generation-type').value='text';}
+      syncMode();render();toast(!input.prompt?'No brief is saved for this shot yet. Write one here or in Story before generating.':input.fromTake?'Original take prompt loaded. Review the source and controls before generating a variation.':'Saved shot brief loaded. Review the controls, generate a take, then choose Use selected clip for this shot.');
+    }catch(error){toast(error.message);}
+  }
   if(/^[a-f0-9-]{36}$/.test(query.get('production')??'')&&/^[a-f0-9-]{36}$/.test(query.get('shot')??'')){
     try{const prepared=await api(`/api/director/${query.get('production')}/shots/${query.get('shot')}/prepare`);restoreSettings(prepared.request);toast('Director shot loaded. Keep its settings to match the saved plan; generate, review, then select the take in Director.');}catch(error){toast(error.message);}
   }
