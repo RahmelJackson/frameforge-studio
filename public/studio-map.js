@@ -10,4 +10,39 @@ export const WORKSPACES=[
 export function workspaceFor(page){return WORKSPACES.find(g=>g.pages.includes(page))??null;}
 const uuid=/^[a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}$/i;
 export function filmTabURL(url,context={}){const u=new URL(url,'http://localhost');for(const key of ['project','plan']){u.searchParams.delete(key);if(uuid.test(context[key]??''))u.searchParams.set(key,context[key]);}return u.pathname+u.search;}
-export function workspaceTab(page,params=new URLSearchParams()){if(page==='images'){if(params.get('view')==='boards')return 'boards';if(params.get('view')==='characters')return 'characters';}return page;}
+export function workspaceTab(page,params=new URLSearchParams()){
+ const group=workspaceFor(page),view=params.get('view');
+ return group?.tabs.find(t=>t.page===page&&t.panel===view)?.id??group?.tabs.find(t=>t.page===page&&t.view===view)?.id??page;
+}
+
+// One navigation model for page links and in-page panels. The same labels appear
+// in the tabs, breadcrumbs and links, and every legacy panel remains reachable.
+WORKSPACES.find(g=>g.id==='images').tabs=[
+ {id:'images',page:'images',panel:'make',url:'/images',label:'Create & edit',hint:'Generate or change a still'},
+ {id:'image-library',page:'images',panel:'collection',url:'/images?view=collection',label:'Saved images',hint:'Review and reuse your stills'},
+ {id:'boards',page:'images',panel:'boards',url:'/images?view=boards',label:'Moodboards',hint:'Arrange visual references'},
+ {id:'characters',page:'images',panel:'characters',url:'/images?view=characters',label:'Characters',hint:'Save identity references'},
+ {id:'sets',page:'images',panel:'sets',url:'/images?view=sets',label:'Photo sets',hint:'Render a small image series'},
+ {id:'continuity',url:'/continuity',label:'Scene references',hint:'People, places, props and style'}
+];
+WORKSPACES.find(g=>g.id==='video').tabs=[
+ {id:'create',page:'create',view:'studio',url:'/create',label:'Generate',hint:'Words or a still into a moving shot'},
+ {id:'video-tools',page:'video-tools',view:'edit',url:'/video-tools',label:'Edit & finish',hint:'Trim, crop, captions and sound'},
+ {id:'video-library',page:'create',view:'gallery',url:'/create?view=gallery',label:'Saved clips',hint:'Generated takes and saved results'},
+ {id:'edited-clips',page:'video-tools',view:'library',url:'/video-tools?view=library',label:'Edited clips',hint:'Your processed footage'},
+ {id:'compare',page:'create',view:'compare',url:'/create?view=compare',label:'Compare takes',hint:'Review clips side by side'},
+ {id:'queue',page:'create',view:'queue',url:'/create?view=queue',label:'Batch queue',hint:'Plan sequential local renders'},
+ {id:'assets',page:'create',view:'assets',url:'/create?view=assets',label:'References',hint:'Saved source media and recipes'},
+ {id:'checks',page:'create',view:'checks',url:'/create?view=checks',label:'Checks',hint:'Inspect verification reports'},
+ {id:'storyboard',page:'video-tools',view:'story',url:'/video-tools?view=story',label:'Narrated storyboard',hint:'Stills, narration and captions'},
+ {id:'story-plan',page:'create',view:'story',url:'/create?view=story',label:'Story planner',hint:'Plan a sequence of shots'},
+ {id:'projects',page:'create',view:'projects',url:'/create?view=projects',label:'Film projects',hint:'Your saved film collections'},
+ {id:'guide',page:'create',view:'guide',url:'/create?view=guide',label:'Video help',hint:'Learn the generation controls'}
+];
+export const IMAGE_TOOL_GROUPS=[
+ {label:'Make',ids:['create','cinema']},
+ {label:'Change',ids:['edit','inpaint','upscale','relight']},
+ {label:'Characters & references',ids:['character','continuity','face-anchor','prop-place']},
+ {label:'Labs · experimental & research',ids:['style-board','views','identity-pose','face-neural','face-match','face-swap','character-swap']}
+];
+export function groupedImageTools(tools){const used=new Set();const groups=IMAGE_TOOL_GROUPS.map(g=>({label:g.label,tools:g.ids.flatMap(id=>{const t=tools.find(t=>t.id===id);if(t)used.add(id);return t?[t]:[];})}));const extra=tools.filter(t=>!used.has(t.id));if(extra.length)groups.push({label:'More tools',tools:extra});return groups.filter(g=>g.tools.length);}

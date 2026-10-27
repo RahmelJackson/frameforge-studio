@@ -1,0 +1,11 @@
+import {RECIPES} from '/explore-recipes.js';
+import {SHOWCASE} from '/showcase.js';
+import {TASKS,taskURL} from '/studio-journeys.js';
+const $=s=>document.querySelector(s),esc=s=>String(s??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+function promptHandoff(kind,prompt,url){sessionStorage.setItem('frameforge.launchPrompt',JSON.stringify({kind,prompt}));location.href=url+(url.includes('?')?'&':'?')+'from=home';}
+if($('#recipe-grid')){
+$('#recipe-grid').innerHTML=RECIPES.map(r=>{const image=SHOWCASE.find(s=>s.id===r.image||s.recipe===r.id)?.image??SHOWCASE[0].image,t=TASKS.find(t=>t.id===r.task);return `<article class="recipe-card" id="recipe-${r.id}"><img src="${esc(image.replace('-concept.png','-preview.jpg'))}" alt="Original concept artwork for ${esc(r.title)}" loading="lazy"><div><span class="eyebrow">${r.kind==='image'?'IMAGE':'VIDEO'} RECIPE</span><h2>${esc(r.title)}</h2><p><strong>Bring:</strong> ${esc(r.inputs)}</p><p><strong>Make:</strong> ${esc(r.output)}</p><ol>${r.steps.map(s=>`<li>${esc(s)}</li>`).join('')}</ol><p class="route-label">LOCAL / ${esc(r.local)}</p><p class="route-label">CLOUD / ${esc(r.cloud)}</p><div class="recipe-actions"><button data-recipe="${r.id}" data-provider="local">Start in studio →</button><button data-recipe="${r.id}" data-provider="cloud">Prepare for Comfy Cloud →</button>${r.workflow?`<a href="/library?collection=workflows&workflow=${r.workflow}">Local graph & models ↗</a>`:'<a href="'+esc(taskURL(t))+'">Prepare the graph from your files ↗</a>'}<a href="/library?collection=workflows&workflow=${r.cloudWorkflow}">Cloud template ↗</a></div><details><summary>What to check</summary><p>${esc(r.limits)}</p></details></div></article>`;}).join('');
+$('#recipe-grid').onclick=e=>{const b=e.target.closest('[data-recipe]');if(!b)return;const r=RECIPES.find(r=>r.id===b.dataset.recipe),t=TASKS.find(t=>t.id===r.task);if(!r||!t)return;try{const kind=new URL(t.url,location.origin).pathname==='/video-tools'?'video-edit':r.kind;promptHandoff(kind,r.brief,taskURL(t)+(b.dataset.provider==='cloud'?'&provider=cloud':''));}catch(error){alert(error.message);}};
+
+const selected=new URLSearchParams(location.search).get('recipe');if(RECIPES.some(r=>r.id===selected))document.querySelector('#recipe-'+selected)?.scrollIntoView({block:'start'});
+}

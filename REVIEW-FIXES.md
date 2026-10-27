@@ -25,3 +25,17 @@ This tracks the source and usability review of commit `24017e5`. The larger crea
 - [ ] Continue the creative acceptance goals on Progress. These UI and reliability fixes do not close character consistency, swaps, difficult motion, lip realism or broader relighting quality.
 
 The visitor allowance identifies a browser cookie, not a person. Another browser or cleared cookies can create a new visitor session; the shared cap still limits all accepted runs. The private invitation and judge ledger must never be published.
+
+
+## Navigation follow-up, October 27
+
+- [x] One visible tool row for each image/video workspace. Saved images, Photo sets, Compare takes, Batch queue, References, Checks, story planning and video help remain reachable without a hidden second menu.
+- [x] All 17 image tools remain available in Make, Change, Characters & references, and Labs groups. The common tools appear first; no Labs switch hides the rest.
+- [x] Workspace introductions appear on the first visit and collapse on subsequent visits in that browser. About this workspace reopens them.
+- [x] Navigation layout and the open-weights toggle live in Setup. Other pages show a profile badge when enabled. Narrow windows use a labelled Menu button while preserving the desktop preference.
+- [x] Breadcrumbs, active tabs and URLs stay in sync when switching panels. Image drafts survive in-page tab changes.
+- [x] Library → Workflows is the home for graph recipes and creative starting points. Explore links there; older Explore recipe links redirect there.
+- [x] Internal links use forward arrows. Links to external providers keep their external-link arrow.
+- [x] Result menus connect images to animation and references, videos to editing and films, and speech/transcripts to their existing next steps. Film links select the saved clip without adding it or generating anything automatically.
+
+These changes organize the existing studio. They do not remove the Python requirement for local media inspection/finishing, replace the installed ComfyUI engine, or close the creative-quality acceptance goals.

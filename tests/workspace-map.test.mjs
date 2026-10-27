@@ -2,7 +2,26 @@ import test from 'node:test';import assert from 'node:assert/strict';
 import {WORKSPACES,workspaceFor,workspaceTab,filmTabURL} from '../public/studio-map.js';
 import {workflowOptions,recommendWorkflow} from '../public/studio-match.js';
 import {renderWorkspacePage,workspaceNavigation} from '../lib/workspace.mjs';
+import {groupedImageTools} from '../public/studio-map.js';
+import {IMAGE_TOOLS} from '../lib/images.mjs';
 const id='3b9f96a0-77cb-471e-bffb-614eabe4ed6c',plan='4b9f96a0-77cb-471e-bffb-614eabe4ed6c';
+
+test('Every image and video panel has one labelled tab, with settings confined to Setup',()=>{
+ const raw='<head></head><body><aside class="rail"><button data-view="old">Old hidden menu</button></aside><header>Old breadcrumb</header><main></main></body>';
+ const images=renderWorkspacePage(raw,'images','http://localhost/images?view=sets');
+ for(const label of ['Create &amp; edit','Saved images','Moodboards','Characters','Photo sets','Scene references'])assert.ok(images.includes(label),label);
+ assert.ok(!images.includes('Old hidden menu'));assert.ok(!images.includes('workspace-tools'));assert.ok(!images.includes('data-open-weights-toggle'));assert.ok(!images.includes('id="navigation-layout"'));
+ const video=renderWorkspacePage(raw,'create','http://localhost/create?view=queue');
+ for(const view of ['studio','gallery','compare','queue','assets','checks','story','projects','guide'])assert.equal((video.match(new RegExp('data-view="'+view+'"','g'))??[]).length,1,view);
+ assert.match(video,/data-workspace-tab="queue" aria-current="page"/);assert.match(video,/id="library-count"/);
+ assert.equal(workspaceTab('images',new URLSearchParams('view=collection')),'image-library');assert.equal(workspaceTab('video-tools',new URLSearchParams('view=story')),'storyboard');
+ const setup=renderWorkspacePage('<head></head><body><header>Setup</header><main><div class="setup-columns"></div></main></body>','setup');
+ assert.equal((setup.match(/id="navigation-layout"/g)??[]).length,1);assert.equal((setup.match(/data-open-weights-toggle/g)??[]).length,1);
+});
+test('Image tool groups start with common tasks and retain every existing tool exactly once',()=>{
+ const groups=groupedImageTools(IMAGE_TOOLS);assert.deepEqual(groups[0].tools.map(t=>t.id),['create','cinema']);assert.deepEqual(groups.flatMap(g=>g.tools.map(t=>t.id)).sort(),IMAGE_TOOLS.map(t=>t.id).sort());
+ assert.ok(groups.find(g=>g.label.startsWith('Labs')).tools.some(t=>t.id==='face-neural'));assert.ok(groupedImageTools([...IMAGE_TOOLS,{id:'future',name:'Future tool'}]).at(-1).tools.some(t=>t.id==='future'));
+});
 test('Seven outcome workspaces group every legacy tool and expose its purpose without duplicate primary tabs',()=>{
  assert.equal(WORKSPACES.length,7);assert.equal(workspaceFor('workflows').id,'library');assert.equal(workspaceFor('video-tools').id,'video');for(const page of ['short-film','director','film'])assert.equal(workspaceFor(page).id,'films');assert.equal(workspaceFor('continuity').id,'images');
  const nav=workspaceNavigation('video-tools');assert.equal((nav.match(/class="workspace-link/g)??[]).length,7);assert.equal((nav.match(/aria-current="page"/g)??[]).length,1);assert.ok(!nav.includes('href="/video-tools"'));assert.match(nav,/Generate, edit|Generate|generate, edit/);
