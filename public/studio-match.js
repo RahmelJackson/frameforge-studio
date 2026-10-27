@@ -2,7 +2,7 @@ import {TASKS,taskURL} from './studio-journeys.js';
 import {availableCloud} from './workflow-panel.js';
 import {onlineURL} from './online-handoff.js';
 const extra={image:['product-shot','cover-image','keyframes','characters','boards'],video:['video-extend','video-motion'],idea:['director','timeline']};
-const localGraphs={'image-create':'z-image','image-edit':'qwen-edit','product-shot':'qwen-edit','cover-image':'qwen-edit','image-animate':'wan-i2v'};
+const localGraphs={'image-select':'sam-image','image-create':'z-image','image-edit':'qwen-edit','product-shot':'qwen-edit','cover-image':'qwen-edit','image-animate':'wan-i2v'};
 export function workflowOptions(material){return [...TASKS.filter(t=>t.start===material),...TASKS.filter(t=>t.start!==material&&(extra[material]??[]).includes(t.id))];}
 export function recommendWorkflow({material='image',taskId,location='studio'}={}){
  const choices=workflowOptions(material),task=choices.find(t=>t.id===taskId)??choices[0];if(!task)return null;

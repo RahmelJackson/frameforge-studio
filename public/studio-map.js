@@ -43,7 +43,7 @@ WORKSPACES.find(g=>g.id==='video').tabs=[
 ];
 export const IMAGE_TOOL_GROUPS=[
  {label:'Make',ids:['create','cinema']},
- {label:'Change',ids:['edit','inpaint','upscale','relight']},
+ {label:'Change',ids:['edit','select','inpaint','upscale','relight']},
  {label:'Characters & references',ids:['character','continuity','face-anchor','prop-place']},
  {label:'Labs · experimental & research',ids:['style-board','views','identity-pose','face-neural','face-match','face-swap','character-swap']}
 ];

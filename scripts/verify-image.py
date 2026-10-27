@@ -43,6 +43,13 @@ def check(raw, request, assets, directory):
     record('Dimensions',image.size==expected,f'{image.width} × {image.height}; expected {expected[0]} × {expected[1]}')
     record('Full decode',True,'All image pixels decoded.')
     pixels=np.asarray(image);record('Non-flat pixels',pixels.std()>1,'Blank or uniform outputs fail this check.')
+    selection=None
+    if request['tool']=='select':
+        channel=pixels[:,:,0]; selected=channel>0
+        record('Binary selection',np.all((channel==0)|(channel==255)) and np.all(pixels[:,:,0]==pixels[:,:,1]) and np.all(pixels[:,:,1]==pixels[:,:,2]),'Mask is a lossless black and white PNG.')
+        record('Selected and protected pixels',np.any(selected) and np.any(~selected),'Empty and full-frame masks cannot silently become edits.')
+        record('Selection source dimensions',image.size==source.size,'Mask matches the original source pixel grid.')
+        selection={'method':request['segmentMethod'],'coverage':float(selected.mean()),'semanticApproval':'pending','sourceSha256':provenance['asset']['sha256']}
     if request.get('continuity'):
         for name,checksum in request['continuity'].get('provenance',{}).items():
             if not __import__('re').fullmatch(r'[a-f0-9-]{36}\.(png|jpg|webp)',name):raise ValueError('Invalid continuity asset')
@@ -89,7 +96,7 @@ def check(raw, request, assets, directory):
         from check_style import check as check_style
         style=check_style(directory,request,assets)
         record('Whole-board style binding and style-only attention',style['valid'],'All '+str(style['cards'])+' reference embeddings averaged exactly; layout injection disabled.')
-    report={'vision':vision,'style':style,'kind':'image','technicalPass':all(c['pass'] for c in checks),'size':list(image.size),'width':image.width,'height':image.height,'sha256':hashlib.sha256(output.read_bytes()).hexdigest(),'rawSha256':hashlib.sha256(raw.read_bytes()).hexdigest(),'checks':checks,'provenance':provenance,'blending':blending,'creativeApproval':'pending','warnings':['Technical checks do not establish identity, lighting quality, anatomy, or prompt adherence.']}
+    report={'selection':selection,'vision':vision,'style':style,'kind':'image','technicalPass':all(c['pass'] for c in checks),'size':list(image.size),'width':image.width,'height':image.height,'sha256':hashlib.sha256(output.read_bytes()).hexdigest(),'rawSha256':hashlib.sha256(raw.read_bytes()).hexdigest(),'checks':checks,'provenance':provenance,'blending':blending,'creativeApproval':'pending','warnings':['Technical checks do not establish identity, lighting quality, anatomy, or prompt adherence.']}
     (directory/'report.json').write_text(json.dumps(report,indent=2,ensure_ascii=True),encoding='utf-8')
     return report
 

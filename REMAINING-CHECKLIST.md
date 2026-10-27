@@ -253,3 +253,13 @@ These are the same fifteen open goals. The proof below is the next bounded test 
 5. Keep the 15 experimental quality goals parked. Revisit one only with an explicitly chosen different approach and a bounded comparison.
 
 Evidence: STYLE-BOARD-WORKFLOWS.md, ACCEPTANCE-STYLE-BOARD.md and evidence/style-board/ record the newest controls, ten previews and their limits. WORKFLOW-SOLUTIONS-ROUND13.md, ACCEPTANCE-ROUND13.md and evidence/round13-* preserve the previous resolution plan and comparisons. Round twelve records remain available in ACCEPTANCE-ROUND12.md and ROUND12-WORKFLOWS.md. Earlier failures and DIRECTOR-WORKFLOWS.md remain retained. There are 15 unresolved quality goals parked as research: eight video/speech goals and seven image/character goals. Working tools and narrow successes are listed separately; no take is automatically creatively approved.
+
+## Latest completed work
+
+- [x] Judge invitation opens the same Home, Library, Images, Video/film and Audio pages as the studio, with a visible allowance/status bar.
+- [x] Seven submissions per signed browser visitor, existing 35-run shared ceiling, persistent request deduplication and one media render at a time. Busy/offline preflight costs no run.
+- [x] Visitor workspaces, uploads, projects and saved results are separate from the creator’s personal library and from other visitors. Protected setup/connection routes stay unavailable remotely.
+- [x] Real narration completed through the full-site judge UI in a separate test session; its allowance changed from seven to six. Live judges’ ledger was not reset or charged for that test.
+- [x] SAM 3.1 image selection by text, keep/exclude clicks and box, with a lossless PNG mask, native graph export and shared catalog/setup/MCP discovery.
+- [x] Canvas brush and eraser refinement before applying the mask to a protected Qwen edit.
+SAM object/edge acceptance remains open: text and clicks selected the product knob; the box case selected its outer ring and needs refinement. Missing-object false positives remain possible. The 15 broader creative-quality goals remain open.

@@ -19,7 +19,7 @@
     "verify:video": "node scripts/verify-video-workflows.mjs",
     "verify:continuity": "node scripts/verify-continuity.mjs",
     "judge": "node scripts/judge-demo/server.mjs",
-    "test:judge": "node --test scripts/judge-demo/server.test.mjs"
+    "test:judge": "node --test scripts/judge-demo/*.test.mjs"
   },
   "engines": { "node": ">=22" }
 }

@@ -3158,5 +3158,270 @@
     ],
     "essentials_category": null,
     "has_intermediate_output": false
+  },
+  "SAM3_Detect": {
+    "input": {
+      "required": {
+        "model": [
+          "MODEL",
+          {
+            "display_name": "model"
+          }
+        ],
+        "image": [
+          "IMAGE",
+          {
+            "display_name": "image"
+          }
+        ],
+        "threshold": [
+          "FLOAT",
+          {
+            "display_name": "threshold",
+            "default": 0.5,
+            "min": 0,
+            "max": 1,
+            "step": 0.01
+          }
+        ],
+        "refine_iterations": [
+          "INT",
+          {
+            "display_name": "refine_iterations",
+            "tooltip": "SAM decoder refinement passes (0=use raw detector masks)",
+            "default": 2,
+            "min": 0,
+            "max": 5
+          }
+        ],
+        "individual_masks": [
+          "BOOLEAN",
+          {
+            "display_name": "individual_masks",
+            "tooltip": "Output per-object masks instead of union",
+            "default": false
+          }
+        ]
+      },
+      "optional": {
+        "conditioning": [
+          "CONDITIONING",
+          {
+            "display_name": "conditioning",
+            "tooltip": "Text conditioning from CLIPTextEncode"
+          }
+        ],
+        "bboxes": [
+          "BOUNDING_BOX",
+          {
+            "display_name": "bboxes",
+            "tooltip": "Bounding boxes to segment within",
+            "default": {
+              "x": 0,
+              "y": 0,
+              "width": 512,
+              "height": 512
+            },
+            "socketless": true,
+            "forceInput": true
+          }
+        ],
+        "positive_coords": [
+          "STRING",
+          {
+            "display_name": "positive_coords",
+            "tooltip": "Positive point prompts as JSON [{\"x\": int, \"y\": int}, ...] (pixel coords)",
+            "forceInput": true,
+            "multiline": false
+          }
+        ],
+        "negative_coords": [
+          "STRING",
+          {
+            "display_name": "negative_coords",
+            "tooltip": "Negative point prompts as JSON [{\"x\": int, \"y\": int}, ...] (pixel coords)",
+            "forceInput": true,
+            "multiline": false
+          }
+        ]
+      }
+    },
+    "input_order": {
+      "required": [
+        "model",
+        "image",
+        "threshold",
+        "refine_iterations",
+        "individual_masks"
+      ],
+      "optional": [
+        "conditioning",
+        "bboxes",
+        "positive_coords",
+        "negative_coords"
+      ]
+    },
+    "is_input_list": false,
+    "output": [
+      "MASK",
+      "BOUNDING_BOX"
+    ],
+    "output_is_list": [
+      false,
+      false
+    ],
+    "output_name": [
+      "masks",
+      "bboxes"
+    ],
+    "output_tooltips": [
+      null,
+      null
+    ],
+    "output_matchtypes": null,
+    "name": "SAM3_Detect",
+    "display_name": "SAM3 Detect",
+    "description": "",
+    "python_module": "comfy_extras.nodes_sam3",
+    "category": "image/detection",
+    "output_node": false,
+    "deprecated": false,
+    "experimental": false,
+    "dev_only": false,
+    "api_node": false,
+    "price_badge": null,
+    "search_aliases": [
+      "sam3",
+      "segment anything",
+      "open vocabulary",
+      "text detection",
+      "segment"
+    ],
+    "essentials_category": null,
+    "has_intermediate_output": false
+  },
+  "PrimitiveString": {
+    "input": {
+      "required": {
+        "value": [
+          "STRING",
+          {
+            "multiline": false
+          }
+        ]
+      }
+    },
+    "input_order": {
+      "required": [
+        "value"
+      ]
+    },
+    "is_input_list": false,
+    "output": [
+      "STRING"
+    ],
+    "output_is_list": [
+      false
+    ],
+    "output_name": [
+      "STRING"
+    ],
+    "output_tooltips": [
+      null
+    ],
+    "output_matchtypes": null,
+    "name": "PrimitiveString",
+    "display_name": "Text String",
+    "description": "",
+    "python_module": "comfy_extras.nodes_primitive",
+    "category": "utils/primitive",
+    "output_node": false,
+    "deprecated": false,
+    "experimental": false,
+    "dev_only": false,
+    "api_node": false,
+    "price_badge": null,
+    "search_aliases": [
+      "text",
+      "string",
+      "text box",
+      "prompt"
+    ],
+    "essentials_category": null,
+    "has_intermediate_output": false
+  },
+  "PrimitiveBoundingBox": {
+    "input": {
+      "required": {
+        "x": [
+          "INT",
+          {
+            "default": 0,
+            "min": 0,
+            "max": 16384
+          }
+        ],
+        "y": [
+          "INT",
+          {
+            "default": 0,
+            "min": 0,
+            "max": 16384
+          }
+        ],
+        "width": [
+          "INT",
+          {
+            "default": 512,
+            "min": 1,
+            "max": 16384
+          }
+        ],
+        "height": [
+          "INT",
+          {
+            "default": 512,
+            "min": 1,
+            "max": 16384
+          }
+        ]
+      }
+    },
+    "input_order": {
+      "required": [
+        "x",
+        "y",
+        "width",
+        "height"
+      ]
+    },
+    "is_input_list": false,
+    "output": [
+      "BOUNDING_BOX"
+    ],
+    "output_is_list": [
+      false
+    ],
+    "output_name": [
+      "BOUNDING_BOX"
+    ],
+    "output_tooltips": [
+      null
+    ],
+    "output_matchtypes": null,
+    "name": "PrimitiveBoundingBox",
+    "display_name": "Bounding Box",
+    "description": "",
+    "python_module": "comfy_extras.nodes_images",
+    "category": "utils/primitive",
+    "output_node": false,
+    "deprecated": false,
+    "experimental": false,
+    "dev_only": false,
+    "api_node": false,
+    "price_badge": null,
+    "search_aliases": null,
+    "essentials_category": null,
+    "has_intermediate_output": false
   }
 }

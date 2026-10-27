@@ -121,3 +121,9 @@ Built around the work of [ComfyUI](https://github.com/Comfy-Org/ComfyUI) and its
 **Install as a plugin:** Frameforge also packages a branded local/community plugin with starter prompts, onboarding, creative skills and its visual MCP studio. Add the GitHub marketplace, install `frameforge-studio@frameforge-community`, then restart your client. Node.js 22+ is required; models remain separate. [Plugin installation, permissions and public-listing limits](PLUGIN-GUIDE.md).
 
 See [review follow-up](REVIEW-FIXES.md) for the completed usability and judge-demo fixes, plus remaining portability work.
+
+## Protected full-site judge demo
+
+Self-hosted judging can use the actual studio website with seven runs per signed browser visitor, a shared 35-run cap and a visible GPU/allowance bar. Each visitor gets a separate saved-work store. Only preview-sized work runs on the creator’s engine, one media job at a time; personal owner data and machine settings stay private. [Deployment, session limits and checks](scripts/judge-demo/README.md).
+
+**Select before editing:** Image Canvas supports native SAM 3.1 selection by text, box or keep/exclude points, plus brush/eraser touch-ups. It saves a lossless PNG mask for protected Qwen edits. One checkpoint is listed with its model download/source link; no model is bundled. Inspect selections, especially box edges and absent-object prompts. [Workflow and acceptance scope](WORKSPACE-GUIDE.md#judge-studio-and-sam-image-selection).

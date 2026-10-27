@@ -39,3 +39,9 @@ The visitor allowance identifies a browser cookie, not a person. Another browser
 - [x] Result menus connect images to animation and references, videos to editing and films, and speech/transcripts to their existing next steps. Film links select the saved clip without adding it or generating anything automatically.
 
 These changes organize the existing studio. They do not remove the Python requirement for local media inspection/finishing, replace the installed ComfyUI engine, or close the creative-quality acceptance goals.
+
+## October 27 delivery
+
+The judge route now uses the real studio pages with per-visitor data/process isolation, a visible seven-run bar and the existing global 35-run ledger / single-render gate. A separate full-site test session completed Kokoro narration, saved it, served playback and changed its allowance from seven to six. The live ledger was preserved at 35 available shared runs.
+
+Image Canvas now supports native SAM 3.1 text, box and keep/exclude-point masks, brush/eraser refinement and PNG download. Three real selection runs and a browser-based Qwen edit were checked. Text/click masks selected the green knob; the box mask selected its outer ring, requiring review/touch-up. The Qwen edit changed the knob to blue and independently retained every outside-mask source pixel. SAM appeared through the running MCP catalog as well as the site. Fifteen broad quality goals remain open.

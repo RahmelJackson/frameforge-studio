@@ -1,5 +1,6 @@
 // Each graph appears once. Model and draft variants belong to a task, not another card.
 export const OUTCOMES=[
+ {id:'select-object',title:'Select an object',category:'image',symbol:'⊡',summary:'Click, box or name an object with SAM, then refine its mask before editing.',input:'An image + a selection hint',output:'A PNG mask',variants:['sam-image']},
  {id:'create-image',title:'Create an image',category:'image',symbol:'◇',summary:'Turn a written idea into a still, concept or first storyboard frame.',input:'A prompt',output:'A new image',variants:['z-image','seedream-create']},
  {id:'edit-image',title:'Edit an image',category:'image',symbol:'◐',summary:'Change a picture with words. Compare the edited copy with your original.',input:'An image + a change request',output:'An edited image',variants:['qwen-edit','provider:flux3-video:local','seedream-edit']},
  {id:'animate-image',title:'Animate an image',category:'video',symbol:'▷',summary:'Give a still image movement. Choose a silent local preview, local audio model or hosted generation.',input:'A still + an action prompt',output:'A moving shot',variants:['wan-i2v','provider:minimax-h3:local','seedance-i2v','seedance-draft','provider:flux3-video:default']},

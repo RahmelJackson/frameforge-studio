@@ -86,3 +86,17 @@ Source tests cover distinct workflow grouping, legacy redirects, five-step navig
 - [ ] 3D scene editing, generated 3D props and 3D camera handoffs.
 - [ ] A dedicated guided ad-builder UI, talking-photo workflow, background-removal model setup and integrated music generation.
 - [ ] Broader visual-quality acceptance of the existing generation tools. The separate parked quality goals remain open.
+
+## Judge studio and SAM image selection
+
+The protected judge link now serves the actual studio pages, with an allowance bar. Every signed browser visitor receives seven runs within the existing shared 35-run cap. Personal results and saved projects are isolated per visitor; only model files and the creator’s local GPU engine are shared. Waiting/offline requests do not spend a run. Accepted or uncertain submissions keep a slot, and a global reservation allows one media run at a time. Cloud handoffs use the visitor’s own external account. Hosted machine settings, bulk jobs and modified graph execution remain unavailable. See scripts/judge-demo/README.md for limits and deployment.
+
+In Images → Canvas, open a still and expand Select an object · SAM 3.1. Name a visible object, use Keep / Exclude point, or draw a Box and choose Refine last box. SAM creates a saved, lossless PNG mask using the native ComfyUI checkpoint. Inspect the overlay; Paint adds and Erase removes. Generate selected edit then runs Qwen with that mask and restores unselected original pixels. The mask operation and image edit are two separate renders. Setup lists the one SAM checkpoint; Library, Studio guide and MCP discover the same workflow.
+
+October 27 local acceptance: text and point prompts selected the visible green product knob. A box around it returned its outer ring instead of its full surface, so box masks still need manual review/touch-up. Selection file checks reject empty/full-frame masks and confirm source dimensions; they do not establish object correctness. The native text, point and box graphs retain inputs through editable-canvas/API export. The current native text detector can also return a false match for an absent object; never treat a description as an automatic semantic approval.
+
+### Follow-up proposals from the October 27 review
+
+Completed: full-site judge sessions, visible allowance, SAM image selection and editable PNG masks. Already present: still outpainting, image-version comparison, local model download metadata and the LTX effect-prompt pack. Broader remaining proposals include four-path onboarding, external Cloud App Mode publishing and result import, action buttons on errors, larger accessibility text, Wan 14B / Animate, SeedVR2, generated Foley/music, training and 3D/depth guides. These remain follow-up work, not additional quality goals checked off. Wan dimension recommendations and any model/license claims need source-specific validation before changing existing measured profiles. The 15 broad creative-quality goals remain open.
+
+The SAM → Canvas → Qwen handoff was also run through the browser: the knob changed to cobalt blue, the final image retained its original 1280 × 853 grid, and the independent report confirmed every pixel outside the selected mask equals the original. This is narrow product-edit evidence, not broad segmentation or semantic-edit acceptance.

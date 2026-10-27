@@ -3,6 +3,7 @@ import {readFile,writeFile,mkdir,rename} from 'node:fs/promises';
 import path from 'node:path';
 import {fileURLToPath,pathToFileURL} from 'node:url';
 import {randomBytes,randomUUID,createHash,createHmac,timingSafeEqual} from 'node:crypto';
+import {createSessionPool,createStudioGateway} from './studio-gateway.mjs';
 const HERE=path.dirname(fileURLToPath(import.meta.url));
 const uuid=s=>typeof s==='string'&&/^[a-f0-9]{8}-[a-f0-9]{4}-4[a-f0-9]{3}-[89ab][a-f0-9]{3}-[a-f0-9]{12}$/.test(s);
 const digest=s=>createHash('sha256').update(s).digest('hex');
@@ -16,7 +17,7 @@ const activeStates=new Set(['processing','uploading','submitting','submitted','r
 const bonuses={ltx:{id:'ltx-vfx',variant:'default',model:'LTX 2.5',title:'Create an atmospheric VFX shot'},flux:{id:'flux3-video',variant:'local',model:'FLUX 3 Image Klein',title:'Edit a product image'},h3:{id:'minimax-h3',variant:'local',model:'MiniMax H3',title:'Animate an image'}};
 const workflowNames=new Set(['frameforge-ltx-atmosphere','frameforge-flux3-product','frameforge-flux3-image-edit','frameforge-h3-keyframes','frameforge-h3-local','video_ltx2_5_i2v','video_ltx2_5_dfr_i2v','api_bfl_flux3_i2v','video_minimax_h3_i2v','api_minimax_h3_flf2v','ltx-models.lock','flux3-image-models.lock','h3-models.lock']);
 
-export async function createJudgeServer({root,stateDir,backend='http://127.0.0.1:4317',publicOrigin='',limit=35,visitorLimit=7,days=14}={}){
+export async function createJudgeServer({root,stateDir,backend='http://127.0.0.1:4317',publicOrigin='',limit=35,visitorLimit=7,days=14,fullStudio=true,sessionPool}={}){
  if(!root){for(const candidate of [path.resolve(HERE,'../..'),path.resolve(HERE,'../../frameforge')]){try{if(JSON.parse(await readFile(path.join(candidate,'package.json'))).name==='frameforge-local'){root=candidate;break;}}catch{}}if(!root)throw Error('Set FRAMEFORGE_ROOT to the installed studio folder.');}
  stateDir??=path.join(root,'data','judge-demo');
  const upstream=new URL(backend);if(!['127.0.0.1','localhost','[::1]'].includes(upstream.hostname)||upstream.protocol!=='http:'||upstream.username||upstream.password||upstream.pathname!=='/')throw Error('The studio backend must be a loopback HTTP origin.');
@@ -32,12 +33,34 @@ export async function createJudgeServer({root,stateDir,backend='http://127.0.0.1
  const sign=id=>createHmac('sha256',state.cookie).update(id).digest('hex');
  function visitor(req){const token=req.headers.cookie?.split(';').map(s=>s.trim()).find(s=>s.startsWith('frameforge_judge='))?.slice('frameforge_judge='.length)??'';const [id,signature]=token.split('.');return state.visitors[id]&&equal(signature,sign(id))?id:null;}
  const assets={'/art/observatory.jpg':['public/explore-art/observatory-preview.jpg','image/jpeg'],'/art/product.jpg':['public/explore-art/product-preview.jpg','image/jpeg'],'/art/portrait.jpg':['public/explore-art/portrait-preview.jpg','image/jpeg'],'/art/observatory.png':['public/explore-art/observatory-concept.png','image/png'],'/art/product.png':['public/explore-art/product-concept.png','image/png'],'/art/portrait.png':['public/explore-art/portrait-concept.png','image/png'],'/art/motion.mp4':['public/explore-art/observatory-motion.mp4','video/mp4']};
- async function call(route,init={}){const r=await fetch(new URL(route,upstream),{...init,headers:{'Content-Type':'application/json','X-Frameforge-Open-Weights-Only':'1',...init.headers},signal:AbortSignal.timeout(30000)});const v=await r.json();if(!r.ok){const e=error(r.status,'The local engine could not accept this run.',r.status===409?'ENGINE_BUSY':'NOT_ACCEPTED');e.definite=[400,401,403,404,409,422].includes(r.status);throw e;}return v;}
+ async function call(route,init={},base=upstream){const r=await fetch(new URL(route,base),{...init,headers:{'Content-Type':'application/json','X-Frameforge-Open-Weights-Only':'1',...init.headers},signal:AbortSignal.timeout(30000)});const v=await r.json();if(!r.ok){const e=error(r.status,'The local engine could not accept this run.',r.status===409?'ENGINE_BUSY':'NOT_ACCEPTED');e.definite=[400,401,403,404,409,422].includes(r.status);throw e;}return v;}
  async function availability(){try{const v=await call('/api/judge-readiness');if(typeof v.connected==='boolean')return v;}catch{}try{const [h,images,audio]=await Promise.all([call('/api/health'),call('/api/jobs'),call('/api/audio-jobs')]);return {connected:h.connected===true,busy:[...(Array.isArray(images)?images:[]),...(Array.isArray(audio)?audio:[])].some(j=>activeStates.has(j.status))};}catch{return {connected:false,busy:false};}}
- async function refresh(record){try{const rows=await call(record.task==='speech'?'/api/audio-jobs':'/api/jobs');const j=rows.find(j=>record.id?j.id===record.id:j.requestId===record.requestId);if(j){record.id=j.id;record.status=j.status;record.pass=j.report?.technicalPass===true;record.summary={size:j.report?.size,duration:j.report?.duration??j.report?.media?.audio?.duration};await locked(save);}}catch{}return record;}
+ async function refresh(record){await locked(()=>refreshUnlocked(record));return record;}
  const charged=j=>j.status!=='not-submitted';
  const view=j=>({requestId:j.requestId,id:j.id??null,task:j.task,prompt:j.prompt,status:j.status,technicalPass:j.pass===true,summary:j.summary??{},message:j.status==='needs-attention'?'The creator must check this uncertain submission. It will not be sent twice.':null});
  const attempts=new Map();
+ const pool=sessionPool??createSessionPool({root,stateDir,hasActive:owner=>state.jobs.some(j=>j.visitor===owner&&blocksEngine(j))});
+ const gateway=createStudioGateway({root,pool,mainBackend:backend,reserveUpload:async(owner,bytes)=>locked(async()=>{const v=state.visitors[owner];if((v.uploadBytes??0)+bytes>64*1024*1024||Object.values(state.visitors).reduce((n,v)=>n+(v.uploadBytes??0),0)+bytes>256*1024*1024)throw error(413,'The shared demo upload allowance is full. Use smaller files or download the workflows.');v.uploadBytes=(v.uploadBytes??0)+bytes;await save();}),submit:async({owner,route,input,task,synchronous,perform})=>{
+  if(!uuid(input?.requestId))throw error(400,'A fresh request ID is required.');
+  const signature=digest(JSON.stringify({route,input}));let record,isNew=false;
+  await locked(async()=>{
+   record=state.jobs.find(j=>j.requestId===input.requestId);
+   if(record){if(record.visitor!==owner||record.signature!==signature)throw error(409,'That request ID belongs to different inputs.');return;}
+   if(state.jobs.filter(charged).length>=state.limit)throw error(429,'The shared demo allowance is used. You can keep browsing and downloading workflows.','SHARED_LIMIT');
+   if(state.jobs.filter(j=>j.visitor===owner&&charged(j)).length>=visitorLimit)throw error(429,'Your seven demo runs are used. You can keep browsing and downloading workflows.','VISITOR_LIMIT');
+   for(const j of state.jobs.filter(blocksEngine))await refreshUnlocked(j);
+   if(state.jobs.some(blocksEngine))throw error(409,'Another judge is running a workflow. Please wait. No run was used.','ENGINE_BUSY');
+   const ready=await availability();if(!ready.connected)throw error(503,'The creator’s GPU engine is offline. No run was used.','ENGINE_OFFLINE');if(ready.busy)throw error(409,'The creator is rendering. Please wait. No run was used.','ENGINE_BUSY');
+   record={requestId:input.requestId,visitor:owner,task,signature,studio:true,route,prompt:String(input.prompt??input.text??'Studio workflow').slice(0,800),status:'submitting',createdAt:new Date().toISOString()};state.jobs.push(record);await save();isNew=true;
+  });
+  if(!isNew)return record.response??{status:202,body:view(record)};
+  try{
+   const result=await perform();
+   if(result.status>=400){record.status=result.status<500?'not-submitted':'needs-attention';record.response=result;await locked(save);return result;}
+   if(!synchronous&&!uuid(result.body.id))throw Error('No acknowledged studio job.');
+   record.id=result.body.id;record.status=synchronous?'review-ready':result.body.status;record.response=result;await locked(save);return result;
+  }catch(e){record.status='needs-attention';await locked(save);return {status:202,body:{...view(record),error:'The submission needs inspection. It will not be sent twice.'}};}
+ }});
  const server=http.createServer(async(req,res)=>{
   res.setHeader('X-Content-Type-Options','nosniff');res.setHeader('Referrer-Policy','no-referrer');res.setHeader('Cache-Control','no-store');res.setHeader('Content-Security-Policy',"default-src 'self'; script-src 'self'; style-src 'self'; img-src 'self' blob:; media-src 'self'; connect-src 'self'; object-src 'none'; base-uri 'none'; frame-ancestors 'none'; form-action 'self'");
   try{
@@ -46,8 +69,20 @@ export async function createJudgeServer({root,stateDir,backend='http://127.0.0.1
    if(!localHost&&!publicHost)throw error(403,'Unknown host.');
    const ownOrigin=publicHost?publicOrigin:'http://'+req.headers.host;
    if(req.headers.origin&&req.headers.origin!==ownOrigin)throw error(403,'Cross-site requests are disabled.');
-   const route=new URL(req.url,ownOrigin).pathname;
-   if(req.method==='GET'&&['/','/app.js','/style.css'].includes(route)){const name=route==='/'?'index.html':route.slice(1);res.writeHead(200,{'Content-Type':name.endsWith('.html')?'text/html; charset=utf-8':name.endsWith('.js')?'text/javascript':'text/css'});return res.end(await readFile(path.join(HERE,name)));}
+   const url=new URL(req.url,ownOrigin),route=url.pathname;
+   const signedVisitor=visitor(req);
+   if(fullStudio){
+    res.setHeader('Content-Security-Policy',"default-src 'self'; script-src 'self'; style-src 'self'; img-src 'self' blob: https://image.civitai.com https://blobs-b2.civitai.com; media-src 'self' blob: https://image.civitai.com https://blobs-b2.civitai.com; connect-src 'self'; object-src 'none'; base-uri 'none'; frame-ancestors 'self'; form-action 'self'");
+    if(req.method==='GET'&&['/judge-login.js','/judge-login.css'].includes(route)){res.setHeader('Content-Type',route.endsWith('.js')?'text/javascript':'text/css');return res.end(await readFile(path.join(HERE,route.endsWith('.js')?'login.js':'studio.css')));}
+    if(!signedVisitor&&req.method==='GET'&&(route==='/'||!path.extname(route)&&!route.startsWith('/api/'))){res.setHeader('Content-Type','text/html; charset=utf-8');return res.end(await readFile(path.join(HERE,'login.html')));}
+    if(signedVisitor&&Date.now()>Date.parse(state.expiresAt))throw error(410,'The judge invitation has expired.');
+    if(!['/api/login','/api/status','/api/run'].includes(route)&&!route.startsWith('/api/job/')&&!route.startsWith('/result/')&&!route.startsWith('/bonus/')&&!route.startsWith('/workflow/')&&!route.startsWith('/art/')&&route!=='/api/showcase'){
+     if(req.method!=='GET'&&req.headers.origin!==ownOrigin)throw error(403,'Open the judge studio to make changes.');
+     if(await gateway(req,res,signedVisitor,url))return;
+     if(!signedVisitor)throw error(401,'Reopen your judge invitation to enter the studio.');
+    }
+   }
+   if(!fullStudio&&req.method==='GET'&&['/','/app.js','/style.css'].includes(route)){const name=route==='/'?'index.html':route.slice(1);res.writeHead(200,{'Content-Type':name.endsWith('.html')?'text/html; charset=utf-8':name.endsWith('.js')?'text/javascript':'text/css'});return res.end(await readFile(path.join(HERE,name)));}
    if(req.method==='GET'&&assets[route]){const [name,mime]=assets[route];res.setHeader('Cache-Control','public, max-age=3600');res.writeHead(200,{'Content-Type':mime});return res.end(await readFile(path.join(root,name)));}
    const workflow=route.match(/^\/workflow\/([a-z0-9.-]+)\.json$/);
    if(req.method==='GET'&&workflow&&workflowNames.has(workflow[1])){res.writeHead(200,{'Content-Type':'application/json','Content-Disposition':'attachment; filename="'+workflow[1]+'.json"'});return res.end(await readFile(path.join(root,'workflows/bonus',workflow[1]+'.json')));}
@@ -98,7 +133,8 @@ export async function createJudgeServer({root,stateDir,backend='http://127.0.0.1
   }catch(e){if(res.headersSent)return res.destroy();if(e.code==='ENGINE_BUSY')res.setHeader('Retry-After','5');send(res,e.status??500,{error:e.status?e.message:'The local demo is temporarily unavailable.',...(e.code?{code:e.code}:{})});}
  });
  // Called inside the reservation lock; do not reacquire the same lock.
- async function refreshUnlocked(record){try{const rows=await call(record.task==='speech'?'/api/audio-jobs':'/api/jobs'),j=rows.find(j=>record.id?j.id===record.id:j.requestId===record.requestId);if(j){record.id=j.id;record.status=j.status;record.pass=j.report?.technicalPass===true;await save();}}catch{}}
+ async function refreshUnlocked(record){try{if(record.studio&&record.route?.endsWith('/export'))return;const base=record.studio?await pool.get(record.visitor):upstream;const rows=await call(record.task==='speech'?'/api/audio-jobs':'/api/jobs',{},base),j=rows.find(j=>record.id?j.id===record.id:j.requestId===record.requestId);if(j){record.id=j.id;record.status=j.status;record.pass=j.report?.technicalPass===true;record.summary={size:j.report?.size,duration:j.report?.duration??j.report?.media?.audio?.duration};await save();}}catch{}}
+ server.once('close',()=>pool.close());
  return {server,stateFile,expiresAt:state.expiresAt};
 }
-if(process.argv[1]&&import.meta.url===pathToFileURL(process.argv[1]).href){const app=await createJudgeServer({root:process.env.FRAMEFORGE_ROOT,stateDir:process.env.JUDGE_STATE_DIR,publicOrigin:process.env.JUDGE_PUBLIC_ORIGIN??'',backend:process.env.JUDGE_BACKEND??'http://127.0.0.1:4317'});const port=Number(process.env.PORT??4329);app.server.listen(port,'127.0.0.1',()=>console.log(JSON.stringify({url:'http://127.0.0.1:'+port,stateFile:app.stateFile,public:false,expiresAt:app.expiresAt})));}
+if(process.argv[1]&&import.meta.url===pathToFileURL(process.argv[1]).href){const app=await createJudgeServer({root:process.env.FRAMEFORGE_ROOT,stateDir:process.env.JUDGE_STATE_DIR,publicOrigin:process.env.JUDGE_PUBLIC_ORIGIN??'',backend:process.env.JUDGE_BACKEND??'http://127.0.0.1:4317',fullStudio:process.env.JUDGE_FULL_STUDIO!=='0'});const port=Number(process.env.PORT??4329);app.server.listen(port,'127.0.0.1',()=>console.log(JSON.stringify({url:'http://127.0.0.1:'+port,stateFile:app.stateFile,public:false,expiresAt:app.expiresAt})));}

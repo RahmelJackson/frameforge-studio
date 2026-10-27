@@ -3,8 +3,8 @@ import {WORKFLOWS,workflowPacket,modelDependencies} from '../lib/workflow-catalo
 import {validateGraph,connect,rebuildLinks,apiToCanvas} from '../public/workflow-graph.js';
 const root=fileURLToPath(new URL('../',import.meta.url));
 test('All shipped workflows have valid links and accurate local or paid requirements',async()=>{
- assert.equal(WORKFLOWS.length,14);
- for(const w of WORKFLOWS){const p=await workflowPacket(root,w.id);validateGraph(p.graph);assert.equal(p.graph.version,0.4);assert.ok(p.graph.nodes.length);if(w.execution==='local'){assert.ok(p.models.length>=3);for(const m of p.models){assert.match(m.url,/^https:\/\/huggingface.co\/[^/]+\/[^/]+\/resolve\/[a-f0-9]{40}\//);assert.match(m.sha256,/^[a-f0-9]{64}$/);assert.match(m.destination,/^models\//);}}else{assert.equal(p.models.length,0);assert.match(w.cloudUrl,/^https:\/\/cloud.comfy.org\/\?template=api_/);assert.match(w.requirements,/credits/);assert.match(w.status,/not tested/);}}
+ assert.equal(WORKFLOWS.length,15);
+ for(const w of WORKFLOWS){const p=await workflowPacket(root,w.id);validateGraph(p.graph);assert.equal(p.graph.version,0.4);assert.ok(p.graph.nodes.length);if(w.execution==='local'){assert.ok(p.models.length>=1);for(const m of p.models){assert.match(m.url,/^https:\/\/huggingface.co\/[^/]+\/[^/]+\/resolve\/[a-f0-9]{40}\//);assert.match(m.sha256,/^[a-f0-9]{64}$/);assert.match(m.destination,/^models\//);}}else{assert.equal(p.models.length,0);assert.match(w.cloudUrl,/^https:\/\/cloud.comfy.org\/\?template=api_/);assert.match(w.requirements,/credits/);assert.match(w.status,/not tested/);}}
  await assert.rejects(()=>workflowPacket(root,'../../config.local.json'),/Unknown/);
  const seedance=await workflowPacket(root,'seedance-i2v');assert.ok(seedance.graph.nodes.some(n=>n.type==='ByteDance2ReferenceNodeV2'&&n.widgets_values[0]==='Seedance 2.5'));
  const local=await workflowPacket(root,'wan-i2v'),save=local.graph.nodes.find(n=>n.type==='SaveVideo');assert.deepEqual(save.widgets_values,['Frameforge/video','mp4','h264']);assert.deepEqual(save.inputs.map(i=>i.name),['video']);

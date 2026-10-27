@@ -6,7 +6,7 @@ const providers=[{id:'ltx-vfx',model:'LTX',execution:'local',featured:{execution
 test('Every portable graph belongs to one distinct task and local/hosted provider graphs keep their input roles',()=>{
  const keys=OUTCOMES.flatMap(t=>t.variants);assert.equal(new Set(keys).size,keys.length);
  for(const w of WORKFLOWS)assert.equal(keys.filter(k=>k===w.id).length,1,w.id);
- const all=outcomeCatalog(WORKFLOWS,providers);assert.equal(all.length,21);
+ const all=outcomeCatalog(WORKFLOWS,providers);assert.equal(all.length,22);
  assert.ok(all.find(t=>t.id==='animate-image').options.some(v=>v.key==='provider:flux3-video:default'));
  assert.ok(!all.find(t=>t.id==='text-video').options.some(v=>v.key.startsWith('provider:flux3')));
  assert.deepEqual(all.find(t=>t.id==='atmosphere-vfx').options[0].verification,{model:'LTX'});

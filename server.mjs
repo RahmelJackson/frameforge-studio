@@ -50,6 +50,7 @@ const DATA = process.env.STUDIO_DATA ?? path.join(ROOT, 'data');
 const executionPolicy=await new ExecutionPolicy({file:path.join(DATA,'execution-policy.json'),locked:process.env.FRAMEFORGE_OPEN_WEIGHTS_ONLY==='1'}).open();
 const policyModels=JSON.parse(await readFile(path.join(ROOT,'workflows/models.json'),'utf8'));
 const PORT = Number(process.env.PORT ?? config.port);
+const JUDGE_MODE=process.env.FRAMEFORGE_JUDGE_MODE==='1';
 const comfy = new ComfyClient(process.env.COMFY_URL ?? config.comfyUrl);
 const jobs = new Map();
 const saves = new Map();
@@ -310,7 +311,7 @@ async function submitJob(input,retriedFrom=null,workflowOverride=null) {
     if(request.asset){const dimensions=await inspectImage(path.join(DATA,'assets',request.asset));
       const limit=request.tool==='upscale'?1000000:4000000;
       if(dimensions.width*dimensions.height>limit)throw new Error(request.tool==='upscale'?'Upscale source is limited to one megapixel.':'Edit source is limited to four megapixels.');
-      if(LOCAL_IMAGE_TOOLS.includes(request.tool)){request.size=[dimensions.width,dimensions.height];}
+      if(LOCAL_IMAGE_TOOLS.includes(request.tool)||request.tool==='select'){request.size=[dimensions.width,dimensions.height];}
       else if(request.tool==='identity-pose'||request.tool==='continuity'&&!request.mask){request.size=IMAGE_SIZES[request.aspect];}
       else if(request.tool!=='upscale'){const scale=Math.min(1,1024/Math.max(dimensions.width,dimensions.height),768/Math.sqrt(dimensions.width*dimensions.height));request.size=[Math.max(16,Math.round(dimensions.width*scale/16)*16),Math.max(16,Math.round(dimensions.height*scale/16)*16)];}
       if(request.mask){const mask=await inspectImage(path.join(DATA,'assets',request.mask),true);if(mask.width!==dimensions.width||mask.height!==dimensions.height)throw new Error('Mask dimensions must match the source.');if(!mask.hasPaint||!mask.hasBackground)throw new Error('Paint part of the image and leave some area untouched.');}
@@ -332,7 +333,7 @@ async function submitJob(input,retriedFrom=null,workflowOverride=null) {
   }
   try{
     const check=await health();
-    const selected=request.kind==='image'?check.images?.[request.tool==='identity-pose'&&request.poseGuide==='skeleton'?'identity-skeleton':['upscale','inpaint','identity-pose','views'].includes(request.tool)?request.tool:['create','cinema'].includes(request.tool)?'create':'edit']:request.engine==='camera'?(request.cameraSampling==='full'?check.cameraFull:check.camera):request.engine==='keyframes'?check.keyframes:check;
+    const selected=request.kind==='image'?check.images?.[request.tool==='identity-pose'&&request.poseGuide==='skeleton'?'identity-skeleton':['upscale','inpaint','identity-pose','views','select'].includes(request.tool)?request.tool:['create','cinema'].includes(request.tool)?'create':'edit']:request.engine==='camera'?(request.cameraSampling==='full'?check.cameraFull:check.camera):request.engine==='keyframes'?check.keyframes:check;
     if(!selected?.ready)throw new Error(check.connected?'Missing models or nodes: '+[...(selected?.missingModels??[]),...(selected?.missingNodes??[])].join(', '):'Start the ComfyUI engine first.');
     if(request.kind==='image'&&request.tool==='identity-pose'){
       const locks=JSON.parse(await readFile(path.join(ROOT,'setup/advanced-models.lock.json'),'utf8')).filter(x=>['photomaker','sdxl',request.poseGuide==='skeleton'?'pose':'canny'].includes(x.group));
@@ -394,7 +395,8 @@ const assistantConnection=await new AssistantConnection(path.join(DATA,'assistan
 const studioAssistant=new StudioAssistant({tools:assistantTools,getConnection:()=>assistantConnection.value});
 const server = http.createServer(async (req, res) => {
   try {
-    const validHosts = [`127.0.0.1:${PORT}`, `localhost:${PORT}`];
+    const listeningPort=server.address()?.port??PORT;
+    const validHosts = [`127.0.0.1:${listeningPort}`, `localhost:${listeningPort}`];
     if (!validHosts.includes(req.headers.host)) return json(res, 403, { error:'Local access only.' });
     if (req.headers.origin && !validHosts.some(host => req.headers.origin === 'http://' + host)) return json(res,403,{error:'Cross-origin requests are disabled.'});
     res.setHeader('X-Content-Type-Options','nosniff');
@@ -403,6 +405,7 @@ const server = http.createServer(async (req, res) => {
     const communityMedia=!executionPolicy.enabled&&['/','/home','/explore'].includes(url.pathname)?' https://image.civitai.com https://blobs-b2.civitai.com':'';
     res.setHeader('Content-Security-Policy', "default-src 'self'; img-src 'self' blob:"+communityMedia+"; media-src 'self' blob:"+communityMedia+"; script-src 'self'; style-src 'self'; connect-src 'self'; object-src 'none'; frame-ancestors "+(workflowFrame?"'self'":"'none'"));
     const route = url.pathname;
+    if(JUDGE_MODE&&(['/api/setup/connection','/api/setup/detect','/api/storage','/api/assistant/detect','/api/assistant/mcp-config','/api/assistant/tools'].includes(route)||route==='/api/assistant/connection'&&req.method!=='GET'))return json(res,403,{error:'Machine settings are managed by the demo creator. Download Frameforge to connect your own engine and assistant.'});
     const openOnly=executionPolicy.enabled||req.headers['x-frameforge-open-weights-only']==='1';
     if(route==='/api/execution-policy'&&req.method==='GET')return json(res,200,{...executionPolicy.describe(),...(openOnly?{openWeightsOnly:true,profile:'open-weights-only'}:{})});
     if(route==='/api/execution-policy'&&req.method==='POST'){const input=await readJson(req,2000);if([...jobs.values()].some(j=>['processing','uploading','submitting','submitted','running','verifying'].includes(j.status))||audioStudio.busy())throw Error('Wait for the current media job before changing the profile.');return json(res,200,await executionPolicy.set(input.openWeightsOnly));}
@@ -412,7 +415,7 @@ const server = http.createServer(async (req, res) => {
     if(route==='/api/assistant/detect'&&req.method==='GET')return json(res,200,await detectAssistantServers());
     if(route==='/api/assistant/mcp-config'&&req.method==='GET')return json(res,200,agentMCPConfig({client:url.searchParams.get('client'),root:ROOT,base:'http://127.0.0.1:'+PORT,writes:url.searchParams.get('writes')==='1',openWeightsOnly:openOnly||url.searchParams.get('open')==='1'}));
     if(route==='/api/assistant/models'&&req.method==='GET')return json(res,200,{...await assistantModels(fetch,assistantConnection.value),inferenceEnabled:!openOnly});
-    if(route==='/api/assistant/chat'&&req.method==='POST'){const input=await readJson(req,16000);return json(res,200,await studioAssistant.ask(openOnly?{...input,model:null}:input));}
+    if(route==='/api/assistant/chat'&&req.method==='POST'){const input=await readJson(req,16000);return json(res,200,await studioAssistant.ask(openOnly||JUDGE_MODE?{...input,model:null}:input));}
     if(route==='/api/assistant/tools'&&req.method==='GET')return json(res,200,ASSISTANT_TOOLS);
     if(route==='/api/assistant/tools'&&req.method==='POST'){const input=await readJson(req,4000);return json(res,200,await assistantTools(input.name,input.arguments));}
     if(route==='/api/setup/detect'&&req.method==='GET')return json(res,200,await discoverComfy());
@@ -556,10 +559,10 @@ const server = http.createServer(async (req, res) => {
     if(route==='/api/footage'&&req.method==='POST'){
       const bytes=await readBody(req,100*1024*1024),ext=bytes.subarray(0,4).equals(Buffer.from([26,69,223,163]))?'webm':bytes.toString('ascii',4,8)==='ftyp'?'mp4':null;if(!ext)throw new Error('Upload MP4/MOV or WebM footage up to 100 MB.');
       const id=randomUUID(),directory=path.join(DATA,'footage',id),filename='source.'+ext;await mkdir(directory,{recursive:true});await writeFile(path.join(directory,filename),bytes);
-      try{const info=await pythonJson('inspect-video.py',[path.join(directory,filename),'--poster',path.join(directory,'poster.jpg')]);let displayName=String(req.headers['x-file-name']??'Uploaded footage');try{displayName=decodeURIComponent(displayName);}catch{}const record={id,...info,filename,name:displayName.slice(0,100),createdAt:new Date().toISOString()};await writeFile(path.join(directory,'source.json'),JSON.stringify(record,null,2));return json(res,201,record);}catch(error){await unlink(path.join(directory,filename));throw error;}
+      try{const info=await pythonJson('inspect-video.py',[path.join(directory,filename),'--poster',path.join(directory,'poster.jpg')]);if(JUDGE_MODE&&(info.duration>10||Math.max(...info.size)>1280))throw Error('Use a clip up to 10 seconds and 1280 pixels on its longest side for the shared demo.');let displayName=String(req.headers['x-file-name']??'Uploaded footage');try{displayName=decodeURIComponent(displayName);}catch{}const record={id,...info,filename,name:displayName.slice(0,100),createdAt:new Date().toISOString()};await writeFile(path.join(directory,'source.json'),JSON.stringify(record,null,2));return json(res,201,record);}catch(error){await unlink(path.join(directory,filename));throw error;}
     }
     if(route==='/api/audio-assets'&&req.method==='POST'){
-      const bytes=await readBody(req);if(bytes.toString('ascii',0,4)!=='RIFF'||bytes.toString('ascii',8,12)!=='WAVE')throw new Error('Choose a WAV soundtrack up to 25 MB.');const id=randomUUID(),filename=path.join(DATA,'audio',id+'.wav');await writeFile(filename,bytes);try{const metadata=await pythonJson('inspect-audio.py',[filename]);return json(res,201,{id,...metadata});}catch(error){await unlink(filename);throw error;}
+      const bytes=await readBody(req);if(bytes.toString('ascii',0,4)!=='RIFF'||bytes.toString('ascii',8,12)!=='WAVE')throw new Error('Choose a WAV soundtrack up to 25 MB.');const id=randomUUID(),filename=path.join(DATA,'audio',id+'.wav');await writeFile(filename,bytes);try{const metadata=await pythonJson('inspect-audio.py',[filename]);if(JUDGE_MODE&&metadata.duration>30)throw Error('Use a WAV up to 30 seconds in the shared demo.');return json(res,201,{id,...metadata});}catch(error){await unlink(filename);throw error;}
     }
     if (route === '/api/jobs' && req.method === 'GET') return json(res,200,[...jobs.values()].sort((a,b)=>b.createdAt.localeCompare(a.createdAt)).map(j=>url.searchParams.get('summary')==='1'?{id:j.id,status:j.status,createdAt:j.createdAt,requestId:j.requestId,image:j.image,video:j.video,request:{kind:j.request.kind,tool:j.request.tool,prompt:j.request.prompt,seed:j.request.seed},review:j.review,report:j.report?{technicalPass:j.report.technicalPass}:null}:j));
     const jobRead=route.match(/^\/api\/jobs\/([a-f0-9-]{36})(\/thumbnail)?$/);
@@ -709,7 +712,7 @@ const server = http.createServer(async (req, res) => {
     if (route === '/api/assets' && req.method === 'POST') {
       const bytes = await readBody(req); const name = randomUUID() + '.' + imageExtension(bytes);
       const filename=path.join(DATA,'assets',name);await writeFile(filename,bytes);
-      let dimensions;try{dimensions=await inspectImage(filename);}catch(error){await unlink(filename);throw error;}
+      let dimensions;try{dimensions=await inspectImage(filename);if(JUDGE_MODE&&(dimensions.width*dimensions.height>1500000||Math.max(dimensions.width,dimensions.height)>2048))throw Error('Use an image up to 1.5 megapixels and 2048 pixels on its longest side in the shared demo.');}catch(error){await unlink(filename);throw error;}
       return json(res,201,{name,url:'/assets/'+name,...dimensions});
     }
     if (route === '/api/jobs' && req.method === 'POST') {
@@ -769,7 +772,7 @@ const server = http.createServer(async (req, res) => {
     for(const name of ['observatory-preview','portrait-preview','product-preview'])publicFiles['/explore-art/'+name+'.jpg']='explore-art/'+name+'.jpg';
     for(const name of ['observatory-concept','portrait-concept','product-concept'])publicFiles['/explore-art/'+name+'.png']='explore-art/'+name+'.png';
     for(const name of ['mcp-observatory','mcp-portrait','mcp-product'])publicFiles['/explore-art/'+name+'.png']='explore-art/'+name+'.png';
-    for(const name of ['canvas-state.js','image-canvas.js','tool-picker.js','studio-tools.css','my-work.js','my-work.css','studio-interactions.js'])publicFiles['/'+name]=name;
+    for(const name of ['canvas-state.js','sam-selection.js','image-canvas.js','tool-picker.js','studio-tools.css','my-work.js','my-work.css','studio-interactions.js'])publicFiles['/'+name]=name;
     publicFiles['/video-project.js']='video-project.js';publicFiles['/studio-recipes.js']='studio-recipes.js';publicFiles['/workflow-outcomes.js']='workflow-outcomes.js';
     publicFiles['/explore-art/observatory-motion.mp4']='explore-art/observatory-motion.mp4';
     if(route==='/mcp-app'&&req.method==='GET')return await serveFile(req,res,path.join(ROOT,'public','mcp-app.html'));
@@ -782,4 +785,4 @@ const server = http.createServer(async (req, res) => {
     json(res,404,{error:'Not found.'});
   } catch(e) { if(!res.headersSent) json(res,e.statusCode??(e.code==='ENOENT'?404:400),{error:e.message}); else res.destroy(); }
 });
-server.listen(PORT,'127.0.0.1',()=>console.log(`Frameforge studio: http://127.0.0.1:${PORT}`));
+server.listen(PORT,'127.0.0.1',()=>console.log(`Frameforge studio: http://127.0.0.1:${server.address().port}`));
