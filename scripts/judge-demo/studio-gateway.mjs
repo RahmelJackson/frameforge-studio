@@ -30,7 +30,8 @@ export function boundedInput(context,input){
 export function cleanStudioJSON(value){
  if(Array.isArray(value))return value.map(cleanStudioJSON);
  if(value&&typeof value==='object')return Object.fromEntries(Object.entries(value).filter(([k])=>!['privatePath','python','visionPython','facePython','stylePython','apiKey','token','secret'].includes(k)).map(([k,v])=>[k,cleanStudioJSON(v)]));
- if(typeof value==='string')return value.replace(/[A-Z]:[\\/][^\r\n"<>]*/gi,'[creator-local file]').replace(/http:\/\/(?:127\.0\.0\.1|localhost):\d+/g,'[creator-local engine]');
+ // A drive letter must start a path, not be the final letter of an URL scheme.
+ if(typeof value==='string')return value.replace(/(?<![\w+.-])[A-Z]:[\\/][^\r\n"<>]*/gi,'[creator-local file]').replace(/http:\/\/(?:127\.0\.0\.1|localhost):\d+/g,'[creator-local engine]');
  return value;
 }
 

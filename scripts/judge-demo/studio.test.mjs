@@ -48,3 +48,12 @@ test('Hosted preview limits reject expensive settings and redact creator machine
  assert.throws(()=>boundedInput('create',{length:'long'}),/two-second/);assert.throws(()=>boundedInput('images',{scale:4}),/2×/);assert.throws(()=>boundedInput('video-tools',{start:0,end:30}),/3 seconds/);assert.throws(()=>boundedInput('audio',{text:'a'.repeat(301)}),/300/);
  assert.equal(boundedInput('create',{length:'preview'}).length,'preview');assert.deepEqual(cleanStudioJSON({privatePath:'secret',python:'secret',path:'D:/private/data/file.png',url:'/outputs/safe/output.png'}),{path:'[creator-local file]',url:'/outputs/safe/output.png'});
 });
+
+test('Judge privacy filtering preserves community media, model downloads and external source links',()=>{
+ const item={image:'https://image.civitai.com/example/width=640,quality=85/picture.jpeg',url:'https://image.civitai.com/example/video.mp4',sourceUrl:'https://civitai.com/images/123',model:{url:'https://huggingface.co/Comfy-Org/sam3.1/resolve/main/model.safetensors'},cloud:'https://cloud.comfy.org/?template=example'};
+ assert.deepEqual(cleanStudioJSON(item),item);
+ assert.equal(cleanStudioJSON('Source: D:\\private\\library.png'),'Source: [creator-local file]');
+ assert.equal(cleanStudioJSON('c:/private/source.png'),'[creator-local file]');
+ assert.equal(cleanStudioJSON('http://127.0.0.1:8188'),'[creator-local engine]');
+ assert.deepEqual(cleanStudioJSON({nested:{token:'secret',privatePath:'secret',url:item.sourceUrl}}),{nested:{url:item.sourceUrl}});
+});

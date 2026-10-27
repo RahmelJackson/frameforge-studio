@@ -1,6 +1,6 @@
 {
   "version": 1,
-  "created": "2026-10-27T13:23:50.814Z",
+  "created": "2026-10-27T13:40:00.451Z",
   "files": [
     {
       "name": ".agents/plugins/marketplace.json",
@@ -914,8 +914,8 @@
     },
     {
       "name": "REVIEW-FIXES.md",
-      "bytes": 5807,
-      "sha256": "e659b2dab3899f6b0b6bfdc99e69434c0ce78d236285639c24897f892c0f422c"
+      "bytes": 6287,
+      "sha256": "9a7c887446de59a836fb1499c4bd29ceb3f983545f10d0baa57cb1a14ebf45c1"
     },
     {
       "name": "scripts/acceptance-keyframes.mjs",
@@ -1194,8 +1194,8 @@
     },
     {
       "name": "scripts/judge-demo/studio-gateway.mjs",
-      "bytes": 13027,
-      "sha256": "6a2375438287f334f428b1e8deda32a5d10550d6bbde956f901350dafafc0e4a"
+      "bytes": 13119,
+      "sha256": "27f6fabc29ebb95f9c84f601a61d767ff01f794f0509fde875ebe354f9daf708"
     },
     {
       "name": "scripts/judge-demo/studio.css",
@@ -1204,13 +1204,13 @@
     },
     {
       "name": "scripts/judge-demo/studio.js",
-      "bytes": 3154,
-      "sha256": "f3df720a8ac8a6e4b51b757a475dee966036359afec648c3eb0917a729631491"
+      "bytes": 3145,
+      "sha256": "eede26ff3cf665f6358c578f0862b0f22a506d448af652e58c5d012617b3fba3"
     },
     {
       "name": "scripts/judge-demo/studio.test.mjs",
-      "bytes": 6644,
-      "sha256": "66da0178abcfdb578c0f410f4674ebafd4db5b98e023a661186b8c1cb4929cd6"
+      "bytes": 7515,
+      "sha256": "4fc3325c7f22162cb2b576c9eaa73e07c12f6699509e7de52536091701746114"
     },
     {
       "name": "scripts/judge-demo/style.css",

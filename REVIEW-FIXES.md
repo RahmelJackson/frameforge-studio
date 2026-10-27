@@ -45,3 +45,7 @@ These changes organize the existing studio. They do not remove the Python requir
 The judge route now uses the real studio pages with per-visitor data/process isolation, a visible seven-run bar and the existing global 35-run ledger / single-render gate. A separate full-site test session completed Kokoro narration, saved it, served playback and changed its allowance from seven to six. The live ledger was preserved at 35 available shared runs.
 
 Image Canvas now supports native SAM 3.1 text, box and keep/exclude-point masks, brush/eraser refinement and PNG download. Three real selection runs and a browser-based Qwen edit were checked. Text/click masks selected the green knob; the box mask selected its outer ring, requiring review/touch-up. The Qwen edit changed the knob to blue and independently retained every outside-mask source pixel. SAM appeared through the running MCP catalog as well as the site. Fifteen broad quality goals remain open.
+
+## Judge community viewer follow-up
+
+The judge privacy filter now recognizes a Windows drive path only at a path boundary. It preserves HTTPS community images/video, attribution links and model-download URLs, while continuing to hide local file paths and machine endpoints. The prior pattern matched the final letter of HTTPS and broke these links. Regression checks cover both URL preservation and private-path filtering. The welcome banner uses the creator’s warmer wording.
