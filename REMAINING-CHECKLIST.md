@@ -1,3 +1,19 @@
+## Follow-up release 0.7.1
+
+Validation: 216 public tests and 9 private recovery/gateway tests passed. Actual native ComfyUI MP4/WAV handoffs preserved file SHA-256 bytes and created My work records. A 7.375-second two-clip rough cut exported with a replay returning the same export. Browser Proof view on a saved masked edit measured 36,488 changed RGB pixels out of 589,824 (6.19%), and retained its original comparison after reopening. Technical checks do not approve creative quality.
+
+
+- [x] Explicit per-workflow downloads with missing-file count and size. Other workflows are not downloaded.
+- [x] Website Explore shortcuts for Civitai and Guide; native plugin Explore has a credited Civitai gallery, separate Library and LLM/guided workflow helper.
+- [x] Canvas RGB changed-pixel Proof view and selection toolbar; image tools collapse to a selected-tool chip.
+- [x] Saved-film Rough cut action builds the selected clips and exports a draft without new AI generation.
+- [x] LTX/H3 hide Wan-only settings; grouped Library with film first; Settings section navigation.
+- [x] Native ComfyUI IMAGE/VIDEO/AUDIO handoff nodes and imported-media records in My work.
+- [x] Exact-result model/source details and native graph remix links where saved graphs exist.
+- [x] Isolated CPU media/vision software check/install commands. Advanced GPU environments remain separate.
+
+Still open: account-published custom Cloud App Mode links, automatic installation of all advanced GPU processors, FLUX protected Canvas masking, the larger 3D/animation/music pipelines, and the fifteen parked creative-quality goals. No paid Cloud run or new model download was made in this follow-up.
+
 # Workflow acceptance checklist
 
 ## Setup and MCP integration · release 0.7.0
@@ -8,9 +24,9 @@
 - [x] Model lists shown before input uploads for image/video/audio tools, with additional processor lock metadata and manual setup notes where needed.
 - [x] Per-assistant Copy setup buttons for Codex, Claude, LM Studio, Hermes and Antigravity, plus recent real MCP-request status.
 - [x] Cloud/Civitai result drop zone, recorded as imported media in the local library.
-- [x] Native ComfyUI image-output bridge: actual saved PNG imported into Studio with identical bytes. Video/audio bridge nodes remain open.
+- [x] Native ComfyUI image-output bridge: actual saved PNG imported into Studio with identical bytes. Video/audio bridge nodes added in 0.7.1.
 - [ ] Custom Comfy Cloud App Mode share URLs published and tested in an authorized Cloud account.
-- [ ] Complete automatic installation of every advanced processor and finish the video/audio native bridge.
+- [ ] Complete automatic installation of every advanced processor and finish every advanced processor installation.
 
 Read [the integration release guide](INTEGRATION-UPGRADE.md) for exact recipe IDs, tested profiles and remaining limits. The creative-quality goals below are unchanged.
 
@@ -39,7 +55,7 @@ Use [the workspace guide](WORKSPACE-GUIDE.md) for the complete interaction flow 
 
 ## MCP and challenge preparation · 2026-10-24
 
-- [x] Local STDIO MCP server: seven default read-only tools, ten opt-in creation/production tools, native previews and client configuration guides.
+- [x] Local STDIO MCP server: ten default read-only tools, ten opt-in creation/production tools, native previews and client configuration guides.
 - [x] Open-weights toggle, locked launcher, filtered native graphs and server checks on execution/export; no paid submissions or automatic weight installs.
 - [x] Real strict-profile MCP image render with request replay returning the same job, plus local Kokoro speech and a checked WAV handoff for film tracks.
 - [x] Public source instructions distinguish app code, upstream templates and model terms.

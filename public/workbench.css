@@ -74,3 +74,7 @@ body[data-page=audio] main>.page-heading{display:none}
 #shot-form[data-provider-recipe]:not([data-provider-recipe=""]) :is(label:has(#engine),label:has(#generation-type),#presets,label:has(#aspect),label:has(#length),#film-look){display:none}
 
 #shot-form[data-provider-recipe]:not([data-provider-recipe=""]) :is(#engine,#generation-type,label[for="engine"],label[for="generation-type"],#camera-controls,#motion-note,.advanced:has(#look-controls),label:has(#generation-profile),label:has(#quality),.advanced:has(#seed) .micro,#add-to-batch){display:none}
+
+#shot-form[data-provider-recipe]:not([data-provider-recipe=""]) :is(#presets,#camera-controls,#camera-sampling,#motion-note,#look-controls,#generation-profile,#end-reference-section,#add-to-batch){display:none!important}
+
+#shot-form[data-provider-recipe]:not([data-provider-recipe=""]) button[data-view="queue"]{display:none!important}

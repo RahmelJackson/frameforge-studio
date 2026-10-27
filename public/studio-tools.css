@@ -9,3 +9,5 @@ body[data-workspace] .intro-collapsed .workspace-heading>div>p,body[data-workspa
 
 .canvas-controls button:focus-visible,.canvas-edge-handle:focus-visible{outline:2px solid #d6ff00;outline-offset:3px}.canvas-surface p small{padding:0 18px;display:block}
 .canvas-sam{border-top:1px solid #3e4e40;padding-top:14px}.canvas-sam summary{font-size:14px}.canvas-sam input{width:100%;box-sizing:border-box}.canvas-sam .micro,.canvas-sam [role=status],.canvas-sam label{font-size:12px;line-height:1.5}.canvas-sam [data-sam-download]{color:#d4ff36;font-size:12px}.canvas-tools{flex-wrap:wrap}
+
+.tool-current{width:100%;text-align:left;background:#202b21;color:#eff5e9;border:1px solid #53634b;border-radius:12px;padding:12px 16px;font:600 14px system-ui;cursor:pointer}.tool-picker [data-tool-options][hidden]{display:none!important}

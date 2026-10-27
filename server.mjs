@@ -1,7 +1,9 @@
 import {assertOpenProvider} from './lib/provider-policy.mjs';
 import {providerRecipe,providerSetup,assertProviderPlan,executableProvider,providerCanvas} from './lib/provider-execution.mjs';
+import {recordComfyImport,listMediaImports} from './lib/media-imports.mjs';
 import {ModelDownloads} from './lib/model-downloads.mjs';
-import {toolRequirements,checkProcessorFiles} from './lib/tool-requirements.mjs';
+import {toolRequirements,checkProcessorFiles,modelRegistry} from './lib/tool-requirements.mjs';
+import {resultProvenance} from './lib/result-provenance.mjs';
 import {setupReport,mediaRuntime,discoverComfy} from './lib/studio-setup.mjs';
 import {StudioAssistant,assistantModels,createAssistantTools,ASSISTANT_TOOLS} from './lib/studio-assistant.mjs';
 import {AssistantConnection,ASSISTANT_PROVIDERS,detectAssistantServers,agentMCPConfig} from './lib/assistant-connection.mjs';
@@ -282,7 +284,7 @@ async function tick() {
 }
 const timer = setInterval(tick, 2500); timer.unref();
 
-async function submitProviderPlan(plan,graph,requestId,openOnly){
+async function submitProviderPlan(plan,graph,requestId,openOnly,createdVia='Studio'){
  if(!/^[a-f0-9-]{36}$/.test(requestId??''))throw Error('A valid request ID is required.');
  const existing=[...jobs.values()].find(j=>j.requestId===requestId);
  if(existing){if(existing.planId!==plan.id)throw Error('This request ID belongs to another workflow.');return {code:200,body:existing};}
@@ -293,7 +295,7 @@ async function submitProviderPlan(plan,graph,requestId,openOnly){
  // Recheck after the asynchronous preflight, then reserve the same shared job queue.
  const duplicate=[...jobs.values()].find(j=>j.requestId===requestId);if(duplicate){if(duplicate.planId!==plan.id)throw Error('This request ID belongs to another workflow.');return {code:200,body:duplicate};}
  if(active())return {code:409,body:{error:'One local render at a time. Wait for the current shot.'}};
- const job={id:randomUUID(),requestId,planId:plan.id,createdAt:new Date().toISOString(),status:'uploading',request:structuredClone(plan.request),engineUrl:plan.engineUrl,review:null,...(openOnly?{executionPolicy:{profile:'open-weights-only',openWeightsOnly:true,reviewedProvider:plan.providerWorkflow}}:{})};
+ const job={id:randomUUID(),createdVia,requestId,planId:plan.id,createdAt:new Date().toISOString(),status:'uploading',request:structuredClone(plan.request),engineUrl:plan.engineUrl,review:null,...(openOnly?{executionPolicy:{profile:'open-weights-only',openWeightsOnly:true,reviewedProvider:plan.providerWorkflow}}:{})};
  jobs.set(job.id,job);await save(job);
  try{
   const {ready}=await providerSetup({root:ROOT,id:plan.providerWorkflow,engines:[plan.engineUrl]});if(!ready.ready)throw Error(ready.message);
@@ -308,7 +310,7 @@ async function submitProviderPlan(plan,graph,requestId,openOnly){
  }catch(error){job.error=error.message;job.status=job.status==='submitting'?'needs-attention':'failed';await save(job);return {code:502,body:{error:error.message,job}};}
 }
 
-async function submitJob(input,retriedFrom=null,workflowOverride=null) {
+async function submitJob(input,retriedFrom=null,workflowOverride=null,createdVia='Studio') {
   if(input.providerWorkflow)throw Error('Prepare this provider recipe, inspect its graph, then run the prepared workflow. Direct jobs do not substitute a Wan or Qwen model.');
   const openOnly=executionPolicy.enabled||input.openWeightsOnly===true;
   if(openOnly){assertOpenInput(input.kind==='image'?'images':input.kind==='video-tool'?'video-tools':'create',input);if(workflowOverride)assertOpenGraph(workflowOverride,policyModels);}
@@ -355,7 +357,7 @@ async function submitJob(input,retriedFrom=null,workflowOverride=null) {
   const duplicate=[...jobs.values()].find(x=>x.requestId===input.requestId);
   if(duplicate)return {code:200,body:duplicate};
   if(active())return {code:409,body:{error:'One local render at a time. Wait for the current shot.'}};
-  const job={id:randomUUID(),requestId:input.requestId,createdAt:new Date().toISOString(),status:'uploading',request,review:null,...(openOnly?{executionPolicy:{profile:'open-weights-only',openWeightsOnly:true}}:{}),...(retriedFrom?{retriedFrom}:{})};
+  const job={id:randomUUID(),createdVia,requestId:input.requestId,createdAt:new Date().toISOString(),status:'uploading',request,review:null,...(openOnly?{executionPolicy:{profile:'open-weights-only',openWeightsOnly:true}}:{}),...(retriedFrom?{retriedFrom}:{})};
   jobs.set(job.id,job);await save(job);
   if(request.kind==='image'&&request.tool==='style-board'){
    try{if(!(await styleReady(request.styleMode)).ready)throw Error('Prepare the local style models first.');request.size=IMAGE_SIZES[request.aspect];await save(job);const sources=[];for(const asset of request.styleImages){const file=path.join(DATA,'assets',asset);await inspectImage(file);sources.push({asset,path:file,sha256:await fileDigest(file)});}const manifest={request,assets:path.join(DATA,'assets'),sources};await writeFile(path.join(jobDir(job.id),'style-manifest.json'),JSON.stringify(manifest,null,2));await writeFile(path.join(jobDir(job.id),'workflow.json'),JSON.stringify({processor:'local-sdxl-style-only',...manifest},null,2));void startStyleImage(job);return {code:202,body:job};}
@@ -610,18 +612,23 @@ const server = http.createServer(async (req, res) => {
     const assessment=route.match(/^\/api\/continuity\/jobs\/([a-f0-9-]{36})\/assessment$/);
     if(assessment&&req.method==='POST'){const job=jobs.get(assessment[1]);if(!job?.report?.technicalPass||!job.request.continuity)throw new Error('Choose a checked continuity image.');const input=await readJson(req),criteria={};for(const key of ['identity','location','prop','style','pose','wardrobe']){const value=input.criteria?.[key]??'not-applicable';if(!['pass','fail','uncertain','not-applicable'].includes(value))throw new Error('Choose a criterion verdict.');criteria[key]=value;}job.continuityReview={criteria,notes:String(input.notes??'').slice(0,2000),sha256:job.report.sha256,at:new Date().toISOString()};await save(job);return json(res,200,job);}
     if(route==='/api/video-catalog'&&req.method==='GET')return json(res,200,{tools:VIDEO_TOOLS,formats:VIDEO_FORMATS,grades:VIDEO_GRADES,voices:['Microsoft David Desktop','Microsoft Zira Desktop']});
+    if(route==='/api/imports'&&req.method==='GET')return json(res,200,await listMediaImports(DATA));
     if(route==='/api/footage'&&req.method==='GET'){
       const records=[];for(const id of await readdir(path.join(DATA,'footage')))if(/^[a-f0-9-]{36}$/.test(id)){try{records.push(JSON.parse(await readFile(path.join(DATA,'footage',id,'source.json'),'utf8')));}catch{}}return json(res,200,records);
     }
     if(route==='/api/footage'&&req.method==='POST'){
       const bytes=await readBody(req,100*1024*1024),ext=bytes.subarray(0,4).equals(Buffer.from([26,69,223,163]))?'webm':bytes.toString('ascii',4,8)==='ftyp'?'mp4':null;if(!ext)throw new Error('Upload MP4/MOV or WebM footage up to 100 MB.');
       const id=randomUUID(),directory=path.join(DATA,'footage',id),filename='source.'+ext;await mkdir(directory,{recursive:true});await writeFile(path.join(directory,filename),bytes);
-      try{const info=await pythonJson('inspect-video.py',[path.join(directory,filename),'--poster',path.join(directory,'poster.jpg')]);if(HOSTED_MODE&&(info.duration>10||Math.max(...info.size)>1280))throw Error('Use a clip up to 10 seconds and 1280 pixels on its longest side for the shared demo.');let displayName=String(req.headers['x-file-name']??'Uploaded footage');try{displayName=decodeURIComponent(displayName);}catch{}const record={id,...info,filename,name:displayName.slice(0,100),createdAt:new Date().toISOString()};await writeFile(path.join(directory,'source.json'),JSON.stringify(record,null,2));return json(res,201,record);}catch(error){await unlink(path.join(directory,filename));throw error;}
+      try{const info=await pythonJson('inspect-video.py',[path.join(directory,filename),'--poster',path.join(directory,'poster.jpg')]);if(HOSTED_MODE&&(info.duration>10||Math.max(...info.size)>1280))throw Error('Use a clip up to 10 seconds and 1280 pixels on its longest side for the shared demo.');let displayName=String(req.headers['x-file-name']??'Uploaded footage');try{displayName=decodeURIComponent(displayName);}catch{}const record={id,...info,filename,name:displayName.slice(0,100),createdAt:new Date().toISOString()};await writeFile(path.join(directory,'source.json'),JSON.stringify(record,null,2));await recordComfyImport(DATA,'video',record,req.headers['x-frameforge-source']);return json(res,201,record);}catch(error){await unlink(path.join(directory,filename));throw error;}
     }
+    const audioAssetRead=route.match(/^\/api\/audio-assets\/([a-f0-9-]{36})$/);
+    if(audioAssetRead&&req.method==='GET'){if(HOSTED_MODE)return json(res,403,{error:'Choose an audio source from your invitation library.'});const id=audioAssetRead[1];return json(res,200,{id,...await pythonJson('inspect-audio.py',[path.join(DATA,'audio',id+'.wav')])});}
     if(route==='/api/audio-assets'&&req.method==='POST'){
-      const bytes=await readBody(req);if(bytes.toString('ascii',0,4)!=='RIFF'||bytes.toString('ascii',8,12)!=='WAVE')throw new Error('Choose a WAV soundtrack up to 25 MB.');const id=randomUUID(),filename=path.join(DATA,'audio',id+'.wav');await writeFile(filename,bytes);try{const metadata=await pythonJson('inspect-audio.py',[filename]);if(HOSTED_MODE&&metadata.duration>30)throw Error('Use a WAV up to 30 seconds in the shared demo.');return json(res,201,{id,...metadata});}catch(error){await unlink(filename);throw error;}
+      const bytes=await readBody(req);if(bytes.toString('ascii',0,4)!=='RIFF'||bytes.toString('ascii',8,12)!=='WAVE')throw new Error('Choose a WAV soundtrack up to 25 MB.');const id=randomUUID(),filename=path.join(DATA,'audio',id+'.wav');await writeFile(filename,bytes);try{const metadata=await pythonJson('inspect-audio.py',[filename]);if(HOSTED_MODE&&metadata.duration>30)throw Error('Use a WAV up to 30 seconds in the shared demo.');const item={id,...metadata};await recordComfyImport(DATA,'audio',item,req.headers['x-frameforge-source']);return json(res,201,item);}catch(error){await unlink(filename);throw error;}
     }
     if (route === '/api/jobs' && req.method === 'GET') return json(res,200,[...jobs.values()].sort((a,b)=>b.createdAt.localeCompare(a.createdAt)).map(j=>url.searchParams.get('summary')==='1'?{id:j.id,status:j.status,createdAt:j.createdAt,requestId:j.requestId,image:j.image,video:j.video,request:{kind:j.request.kind,tool:j.request.tool,prompt:j.request.prompt,seed:j.request.seed},review:j.review,report:j.report?{technicalPass:j.report.technicalPass}:null}:j));
+    const provenanceRead=route.match(/^\/api\/jobs\/([a-f0-9-]{36})\/provenance$/);
+    if(provenanceRead&&req.method==='GET'){const job=jobs.get(provenanceRead[1]);if(!job)return json(res,404,{error:'Saved job not found.'});let graph=null,models=await modelRegistry(ROOT);try{graph=JSON.parse(await readFile(path.join(jobDir(job.id),'workflow.json'),'utf8'));}catch{}if(job.planId)try{models=[...(await workflowPlans.read(job.planId)).models,...models];}catch{}return json(res,200,resultProvenance(job,graph,models));}
     const jobRead=route.match(/^\/api\/jobs\/([a-f0-9-]{36})(\/thumbnail)?$/);
     if(jobRead&&req.method==='GET'){const job=jobs.get(jobRead[1]);if(!job)throw Object.assign(Error('Saved job not found.'),{statusCode:404});if(!jobRead[2])return json(res,200,job);if(!job.image)throw Object.assign(Error('This job has no image.'),{statusCode:404});const file=path.join(jobDir(job.id),'thumbnail.jpg');await imageThumbnail(job,file);return await serveFile(req,res,file,3600);}
     if(route==='/api/explore/civitai'&&req.method==='GET'){try{return json(res,200,await communityGallery.get(url.searchParams));}catch(e){return json(res,503,{error:e.message,sourceUrl:'https://civitai.com'});}}
@@ -655,7 +662,7 @@ const server = http.createServer(async (req, res) => {
     const draftRoute=route.match(/^\/api\/workflow-plans\/([a-f0-9-]{36})$/);
     if(draftRoute&&req.method==='GET'){const plan=await workflowPlans.read(draftRoute[1]);if(openOnly&&!plan.providerWorkflow){assertOpenInput(plan.context,{...plan.rawInput,provider:plan.provider});if(plan.graph)assertOpenGraph(plan.graph,policyModels);}return json(res,200,workflowPlans.public(plan));}
     const runDraft=route.match(/^\/api\/workflow-plans\/([a-f0-9-]{36})\/run$/);
-    if(runDraft&&req.method==='POST'){const body=await readJson(req,2000000),{plan,api:graph}=await workflowPlans.compile(runDraft[1],body.graph);if(plan.providerWorkflow){const result=await submitProviderPlan(plan,graph,body.requestId,openOnly);return json(res,result.code,result.body);}if(openOnly){assertOpenInput(plan.context,{...plan.rawInput,provider:plan.provider});assertOpenGraph(graph,policyModels);}if(plan.provider==='cloud')return json(res,409,{error:'Open this prepared workflow in Comfy Cloud. Paid submission is handled there.'});if(plan.execution==='processor')throw Error('Run this complete pipeline with the tool controls, or export its ComfyUI stage.');const result=await submitJob({...plan.rawInput,requestId:body.requestId,openWeightsOnly:openOnly},null,graph);return json(res,result.code,result.body);}
+    if(runDraft&&req.method==='POST'){const body=await readJson(req,2000000),{plan,api:graph}=await workflowPlans.compile(runDraft[1],body.graph);if(plan.providerWorkflow){const result=await submitProviderPlan(plan,graph,body.requestId,openOnly,req.headers['x-frameforge-client']==='mcp'?'MCP':'Studio');return json(res,result.code,result.body);}if(openOnly){assertOpenInput(plan.context,{...plan.rawInput,provider:plan.provider});assertOpenGraph(graph,policyModels);}if(plan.provider==='cloud')return json(res,409,{error:'Open this prepared workflow in Comfy Cloud. Paid submission is handled there.'});if(plan.execution==='processor')throw Error('Run this complete pipeline with the tool controls, or export its ComfyUI stage.');const result=await submitJob({...plan.rawInput,requestId:body.requestId,openWeightsOnly:openOnly},null,graph,req.headers['x-frameforge-client']==='mcp'?'MCP':'Studio');return json(res,result.code,result.body);}
     if(route.startsWith('/api/cloud/'))return json(res,410,{error:'Cloud runs open in Comfy Cloud. This studio does not collect API keys or submit paid requests.'});
     const workflowExport=route.match(/^\/api\/workflow-plans\/([a-f0-9-]{36})\/export$/);
     if(workflowExport&&req.method==='POST'){const body=await readJson(req,2000000);if(openOnly){const {plan,api}=await workflowPlans.compile(workflowExport[1],body.graph);if(!plan.providerWorkflow){assertOpenInput(plan.context,{...plan.rawInput,provider:plan.provider});assertOpenGraph(api,policyModels);}}return json(res,201,await workflowExports.create(workflowExport[1],body));}
@@ -771,10 +778,10 @@ const server = http.createServer(async (req, res) => {
       const bytes = await readBody(req); const name = randomUUID() + '.' + imageExtension(bytes);
       const filename=path.join(DATA,'assets',name);await writeFile(filename,bytes);
       let dimensions;try{dimensions=await inspectImage(filename);if(HOSTED_MODE&&(dimensions.width*dimensions.height>1500000||Math.max(dimensions.width,dimensions.height)>2048))throw Error('Use an image up to 1.5 megapixels and 2048 pixels on its longest side in the shared demo.');}catch(error){await unlink(filename);throw error;}
-      return json(res,201,{name,url:'/assets/'+name,...dimensions});
+      const item={name,url:'/assets/'+name,...dimensions};await recordComfyImport(DATA,'image',item,req.headers['x-frameforge-source']);return json(res,201,item);
     }
     if (route === '/api/jobs' && req.method === 'POST') {
-      const result=await submitJob({...await readJson(req),...(openOnly?{openWeightsOnly:true}:{})});return json(res,result.code,result.body);
+      const result=await submitJob({...await readJson(req),...(openOnly?{openWeightsOnly:true}:{})},null,null,req.headers['x-frameforge-client']==='mcp'?'MCP':'Studio');return json(res,result.code,result.body);
     }
     const imageReuse=route.match(/^\/api\/jobs\/([a-f0-9-]{36})\/image-asset$/);
     if(imageReuse&&req.method==='POST'){
@@ -824,14 +831,14 @@ const server = http.createServer(async (req, res) => {
     Object.assign(publicFiles,{'/short-film':'short-film.html','/short-film.js':'short-film.js','/short-film.css':'short-film.css','/video-playback.js':'video-playback.js'});
     Object.assign(publicFiles,{'/workflows':'workflows.html','/workflows.js':'workflows.js','/workflows.css':'workflows.css','/workflow-graph.js':'workflow-graph.js','/provider-workflows.js':'provider-workflows.js','/provider-workflows.css':'provider-workflows.css'});
     Object.assign(publicFiles,{'/library':'saved-library.html','/saved-library.js':'saved-library.js','/saved-library-page.js':'saved-library-page.js','/saved-library.css':'saved-library.css','/workflow-help.js':'workflow-help.js'});
-    Object.assign(publicFiles,{'/online':'online.html','/online.js':'online.js','/online.css':'online.css','/online-handoff.js':'online-handoff.js','/setup':'setup.html','/model-downloads.js':'model-downloads.js','/setup.js':'setup.js','/setup-prompt.js':'setup-prompt.js','/setup.css':'setup.css','/assistant.js':'assistant.js','/assistant-connection.js':'assistant-connection.js','/assistant.css':'assistant.css','/workspace-art.css':'workspace-art.css'});
+    Object.assign(publicFiles,{'/frameforge.svg':'../assets/frameforge.svg','/online':'online.html','/online.js':'online.js','/online.css':'online.css','/online-handoff.js':'online-handoff.js','/setup':'setup.html','/model-downloads.js':'model-downloads.js','/setup.js':'setup.js','/setup-prompt.js':'setup-prompt.js','/setup.css':'setup.css','/assistant.js':'assistant.js','/assistant-connection.js':'assistant-connection.js','/assistant.css':'assistant.css','/workspace-art.css':'workspace-art.css'});
     Object.assign(publicFiles,{'/execution-policy.js':'execution-policy.js','/execution-policy.css':'execution-policy.css','/mcp-app':'mcp-app.html','/mcp-workflow-inputs.js':'mcp-workflow-inputs.js','/mcp-app.js':'mcp-app.js','/mcp-app.css':'mcp-app.css'});
     Object.assign(publicFiles,{'/workflow-panel.js':'workflow-panel.js','/workflow-panel.css':'workflow-panel.css'});
     for(const name of ['compass','moon','character','knight','robot','bicycle'])publicFiles['/explore-art/'+name+'.svg']='explore-art/'+name+'.svg';
     for(const name of ['observatory-preview','portrait-preview','product-preview'])publicFiles['/explore-art/'+name+'.jpg']='explore-art/'+name+'.jpg';
     for(const name of ['observatory-concept','portrait-concept','product-concept'])publicFiles['/explore-art/'+name+'.png']='explore-art/'+name+'.png';
     for(const name of ['mcp-observatory','mcp-portrait','mcp-product'])publicFiles['/explore-art/'+name+'.png']='explore-art/'+name+'.png';
-    for(const name of ['workbench.js','workbench.css','video-model-routes.js','canvas-state.js','sam-selection.js','image-canvas.js','tool-picker.js','studio-tools.css','my-work.js','my-work.css','studio-interactions.js'])publicFiles['/'+name]=name;
+    for(const name of ['workbench.js','workbench.css','video-model-routes.js','proof-view.js','result-details.js','canvas-state.js','sam-selection.js','image-canvas.js','tool-picker.js','studio-tools.css','my-work.js','my-work.css','studio-interactions.js'])publicFiles['/'+name]=name;
     publicFiles['/video-project.js']='video-project.js';publicFiles['/studio-recipes.js']='studio-recipes.js';publicFiles['/workflow-outcomes.js']='workflow-outcomes.js';
     publicFiles['/explore-art/observatory-motion.mp4']='explore-art/observatory-motion.mp4';
     if(route==='/mcp-app'&&req.method==='GET')return await serveFile(req,res,path.join(ROOT,'public','mcp-app.html'));

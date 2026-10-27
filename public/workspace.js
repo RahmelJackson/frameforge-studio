@@ -37,3 +37,4 @@ import './studio-interactions.js';
 import './workbench.js';
 import './video-model-routes.js';
 import './my-work.js';
+import './result-details.js';

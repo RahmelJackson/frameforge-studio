@@ -4,7 +4,7 @@ import {storyWithTake,shotGenerationInput,checkedSelectedTake} from '../public/v
 import {ProjectStore} from '../lib/projects.mjs';import {shortFilmSignature} from '../lib/short-film.mjs';import {mkdtemp,rm} from 'node:fs/promises';import {tmpdir} from 'node:os';import path from 'node:path';
 const project='3b9f96a0-77cb-471e-bffb-614eabe4ed6c',shot='4b9f96a0-77cb-471e-bffb-614eabe4ed6c',other='5b9f96a0-77cb-471e-bffb-614eabe4ed6c',take='6b9f96a0-77cb-471e-bffb-614eabe4ed6c';
 test('Five primary destinations retain all clip tools and present the same five video steps in order',()=>{
- assert.deepEqual(WORKSPACES.map(w=>w.name),['Home','Library','Images','Video','Audio']);assert.equal(workspaceFor('explore').id,'home');
+ assert.deepEqual(WORKSPACES.map(w=>w.name),['Explore','Library','Images','Video','Audio']);assert.equal(workspaceFor('explore').id,'home');
  for(const page of ['create','video-tools','short-film','director','film']){const rows=workspaceTabGroups(workspaceFor(page),page);assert.deepEqual(rows[0].tabs.map(t=>t.id),['create','video-tools','short-film','director','film']);assert.equal(new Set(rows.flatMap(r=>r.tabs.map(t=>t.id))).size,rows.reduce((n,r)=>n+r.tabs.length,0));}
  assert.equal(workspaceTabGroups(workspaceFor('create'),'create').length,1);const utilities=workspaceFor('create').tabs;for(const id of ['queue','compare','checks','assets','projects','story-plan'])assert.ok(utilities.some(t=>t.id===id));
  assert.equal(filmTabURL('/video-tools?sourceJob='+take,{project,shot}),'/video-tools?sourceJob='+take+'&project='+project+'&shot='+shot);

@@ -1,6 +1,8 @@
+> **0.7.1:** Explore includes Civitai inspiration; Guide finds/chains workflows in the website and native MCP panel. Canvas Proof view shows actual changed pixels. Rough cut exports selected film clips without new generation. Video/audio ComfyUI return nodes and per-workflow download labels are included. Ten read-only MCP tools plus ten opt-in production tools. No paid generation is submitted automatically.
+
 # Frameforge
 
-Release **0.7.0** adds direct local LTX/H3/FLUX execution, reviewed model downloads, early dependency lists, per-assistant setup and a native ComfyUI image bridge. See [the integration guide](INTEGRATION-UPGRADE.md) for tested profiles and remaining work.
+Release **0.7.1** adds direct local LTX/H3/FLUX execution, reviewed model downloads, early dependency lists, per-assistant setup and a native ComfyUI image/video/audio bridge. See [the integration guide](INTEGRATION-UPGRADE.md) for tested profiles and remaining work.
 
 **An open-source creative studio inspired by Higgsfield, built around ComfyUI workflows.**
 
@@ -42,7 +44,7 @@ The interface has five primary destinations: Home, Library, Images, Video and Au
 
 ## Website or MCP. Your choice.
 
-The local STDIO MCP server gives Codex, Claude and compatible clients **18 tools** for workflow discovery, setup, editable graphs, local creation, saved playback, speech and film projects. Eight tools are read-only by default; creation needs `--allow-writes`. The native MCP Apps panel has visual workflows, generation, audio, timelines and saved results without loading a nested website or redirecting to a browser. Advanced audio/video requests and composition layers currently use JSON controls; it does not reproduce every specialized website editor. No paid submissions, automatic model installs or Cloud credentials. Native client acceptance is recorded separately from bridge-fixture checks. See [MCP setup and examples](MCP-GUIDE.md).
+The local STDIO MCP server gives Codex, Claude and compatible clients **20 tools** for workflow discovery, setup, editable graphs, local creation, saved playback, speech and film projects. Eight tools are read-only by default; creation needs `--allow-writes`. The native MCP Apps panel has visual workflows, generation, audio, timelines and saved results without loading a nested website or redirecting to a browser. Advanced audio/video requests and composition layers currently use JSON controls; it does not reproduce every specialized website editor. No paid submissions, automatic model installs or Cloud credentials. Native client acceptance is recorded separately from bridge-fixture checks. See [MCP setup and examples](MCP-GUIDE.md).
 
 Use the navigation **Local only** toggle (the reviewed open-weights profile) to limit this studio to reviewed local pipelines. `npm run start:open` locks that profile; `--open-weights-only` does the same for an MCP connection. Partner nodes and unknown model loaders are rejected server-side. [Scope, model terms and limits](OPEN-WEIGHTS.md).
 
