@@ -1,14 +1,14 @@
-> **0.7.2:** Explore includes Civitai inspiration; Guide finds/chains workflows in the website and native MCP panel. Canvas Proof view shows actual changed pixels. Rough cut exports selected film clips without new generation. Video/audio ComfyUI return nodes and per-workflow download labels are included. Ten read-only MCP tools plus ten opt-in production tools. No paid generation is submitted automatically.
+> **0.7.4:** Explore includes Civitai inspiration; Guide finds/chains workflows in the website and native MCP panel. Canvas Proof view shows actual changed pixels. Rough cut exports selected film clips without new generation. Video/audio ComfyUI return nodes and per-workflow download labels are included. Ten read-only MCP tools plus ten opt-in production tools. No paid generation is submitted automatically.
 
 # Frameforge in Codex and Claude
 
-Release **0.7.2** adds direct local LTX/H3/FLUX execution, reviewed model downloads, early dependency lists, per-assistant setup and a native ComfyUI image/video/audio bridge. See [the integration guide](INTEGRATION-UPGRADE.md) for tested profiles and remaining work.
+Release **0.7.4** adds direct local LTX/H3/FLUX execution, reviewed model downloads, early dependency lists, per-assistant setup and a native ComfyUI image/video/audio bridge. See [the integration guide](INTEGRATION-UPGRADE.md) for tested profiles and remaining work.
 
 Want a named plugin entry with an icon, starter prompts and setup guidance? [Install the Frameforge Studio plugin](PLUGIN-GUIDE.md). It bundles this same MCP server. Avoid keeping duplicate standalone and plugin Frameforge studio connections active. The separate ComfyUI engine connector is independent.
 
 Use the website normally, or connect its **local STDIO MCP server** to an agent. Both use the same ComfyUI connection, saved jobs, graph compiler and review gates. No Frameforge account, hosted MCP endpoint or Cloud key is required. This is a source checkout, not a published npm package.
 
-## Native visual studio · 0.7.2
+## Native visual studio · 0.7.4
 
 The global entrypoint declares `header: { enabled: false }` to suppress the surrounding Codex title strip. This changes host presentation metadata, not the studio layout or the plugin’s name in the directory.
 

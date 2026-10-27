@@ -1,8 +1,9 @@
-## Follow-up release 0.7.2
+## Follow-up release 0.7.4
 
-Validation: 216 public tests and 9 private recovery/gateway tests passed. Actual native ComfyUI MP4/WAV handoffs preserved file SHA-256 bytes and created My work records. A 7.375-second two-clip rough cut exported with a replay returning the same export. Browser Proof view on a saved masked edit measured 36,488 changed RGB pixels out of 589,824 (6.19%), and retained its original comparison after reopening. Technical checks do not approve creative quality.
+Validation: 218 public tests and 9 private recovery/gateway tests passed. Actual native ComfyUI MP4/WAV handoffs preserved file SHA-256 bytes and created My work records. A 7.375-second two-clip rough cut exported with a replay returning the same export. Browser Proof view on a saved masked edit measured 36,488 changed RGB pixels out of 589,824 (6.19%), and retained its original comparison after reopening. Technical checks do not approve creative quality.
 
 
+- [x] Selected audio engine requirements: preset dialogue uses only Kokoro; Chatterbox/Turbo, small/large ASR and MuseTalk/LatentSync each have separate lists. Changing engine refreshes requirements. Dubbing requests a source language before listing a translation model.
 - [x] Explicit per-workflow downloads with missing-file count and size. Other workflows are not downloaded.
 - [x] Website Explore shortcuts for Civitai and Guide; native plugin Explore has a credited Civitai gallery, separate Library and LLM/guided workflow helper.
 - [x] Canvas RGB changed-pixel Proof view and selection toolbar; image tools collapse to a selected-tool chip.
@@ -24,7 +25,7 @@ Still open: account-published custom Cloud App Mode links, automatic installatio
 - [x] Model lists shown before input uploads for image/video/audio tools, with additional processor lock metadata and manual setup notes where needed.
 - [x] Per-assistant Copy setup buttons for Codex, Claude, LM Studio, Hermes and Antigravity, plus recent real MCP-request status.
 - [x] Cloud/Civitai result drop zone, recorded as imported media in the local library.
-- [x] Native ComfyUI image-output bridge: actual saved PNG imported into Studio with identical bytes. Video/audio bridge nodes added in 0.7.2.
+- [x] Native ComfyUI image-output bridge: actual saved PNG imported into Studio with identical bytes. Video/audio bridge nodes added in 0.7.4.
 - [ ] Custom Comfy Cloud App Mode share URLs published and tested in an authorized Cloud account.
 - [ ] Complete automatic installation of every advanced processor and finish every advanced processor installation.
 

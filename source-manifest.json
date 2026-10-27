@@ -1,6 +1,6 @@
 {
   "version": 1,
-  "created": "2026-10-27T20:20:48.163Z",
+  "created": "2026-10-27T20:39:01.458Z",
   "files": [
     {
       "name": ".agents/plugins/marketplace.json",
@@ -85,7 +85,7 @@
     {
       "name": "INTEGRATION-UPGRADE.md",
       "bytes": 6739,
-      "sha256": "45fe3e835e6b04683e06f127903bfd9f914ffdb09f969127ec1eb4bd99e062d5"
+      "sha256": "2e6b581e8de27d57313020033e14ad374ff65ac0739f6a4f35c95aba88204590"
     },
     {
       "name": "lib/assistant-connection.mjs",
@@ -224,8 +224,8 @@
     },
     {
       "name": "lib/result-provenance.mjs",
-      "bytes": 1027,
-      "sha256": "ae3b5db4bb60f1e3b609148380e0652557bb4bad3898c5c017f5a904fb06c0d1"
+      "bytes": 1408,
+      "sha256": "eba9071cabbabfd2c39b81796ef5cb8fd2bcda759fadbef16e22159db30bb16a"
     },
     {
       "name": "lib/segmentation.mjs",
@@ -279,8 +279,8 @@
     },
     {
       "name": "lib/tool-requirements.mjs",
-      "bytes": 6500,
-      "sha256": "47bb93af397dd1a33c34684bd2241b91a61dc441948824f253012d488c1fa3d3"
+      "bytes": 7612,
+      "sha256": "810f683b190f9c1a94d0817d8c5d6a76849d03ed3b7508a8a0c275bfc2264463"
     },
     {
       "name": "lib/video-tools.mjs",
@@ -340,7 +340,7 @@
     {
       "name": "MCP-GUIDE.md",
       "bytes": 12940,
-      "sha256": "d671f4ce9b622f08a3780bf98d990f9a8aebff993486ef599facb88c394476c6"
+      "sha256": "ab2b6b18e18d5114434af6b24c8bfa52ded3d3561a820778175209dae849618f"
     },
     {
       "name": "mcp.json",
@@ -355,7 +355,7 @@
     {
       "name": "package.json",
       "bytes": 933,
-      "sha256": "11c2d60db5697cebdca69e3881a4c833d7f938e2353fc9e5661f4ade39e7edad"
+      "sha256": "0b78438710839db090ed81ba96927d4f46501c8fd0fecb8b04a32a3453c384e5"
     },
     {
       "name": "PLUGIN-ACCEPTANCE.md",
@@ -365,12 +365,12 @@
     {
       "name": "PLUGIN-GUIDE.md",
       "bytes": 7807,
-      "sha256": "bfe8bf1f4ec4c95f6c89c8d02c06ca434dd7493c592c36af9e7d27a3ce03c73f"
+      "sha256": "6990b2cac920139184b3dc2ed7ff309b3327754409384032c1e7c6e307cf6a17"
     },
     {
       "name": "plugin.json",
       "bytes": 2478,
-      "sha256": "9521e2579b0c701d008751002e2b928440662fcc5f903a601fe859e17a2fcc0b"
+      "sha256": "a0a42056e91ef566778a241280e979962c4a5cf5552ad9dd0ce2ce1677dfbb35"
     },
     {
       "name": "public/app.js",
@@ -670,7 +670,7 @@
     {
       "name": "public/mcp-app.js",
       "bytes": 44001,
-      "sha256": "23da447dda1fe6dac2f6ca24d0902628c2540cd18bed32c3cdfd9ff6c9968f58"
+      "sha256": "bf3e36d66df3165fdc7e75d1146a9322ae0d42843c43cf2e22f17cb1b2df167e"
     },
     {
       "name": "public/mcp-studio.css",
@@ -799,8 +799,8 @@
     },
     {
       "name": "public/setup.js",
-      "bytes": 7100,
-      "sha256": "e284b0691e66467f2579bad54079311f82814c7c50f7b277222ec1b9b091311e"
+      "bytes": 7204,
+      "sha256": "bfb2839099d9ca5086537fb8554722e0275b005a352afbc0e3f9b82c8c8a58d8"
     },
     {
       "name": "public/short-film.css",
@@ -949,8 +949,8 @@
     },
     {
       "name": "public/workflow-panel.js",
-      "bytes": 19708,
-      "sha256": "57913983e13444d72830e5f52d5772dc9c46bc1b4aa2185f2f328778a9c9863e"
+      "bytes": 20511,
+      "sha256": "d15e2b64fdee5b755ae73247f2f930ce23e4e7e94b6f76843601f621133e33bd"
     },
     {
       "name": "public/workflows.css",
@@ -985,12 +985,12 @@
     {
       "name": "README.md",
       "bytes": 13110,
-      "sha256": "22a80ccbc8f7e0d06856fa36d678a6484be72c2cbc0c2097f5f24bb063585d24"
+      "sha256": "afc7cab0d64bfbfd814ada223f11585bada6a6d7e91883e3b3d1678788b7a605"
     },
     {
       "name": "REMAINING-CHECKLIST.md",
-      "bytes": 48615,
-      "sha256": "c0930e4c25f8d83881b76d53be4012488212224068aebcc97affa9a9e6529059"
+      "bytes": 48887,
+      "sha256": "850e69515bc9bfd6e23a027f63e81cc87581cb12ccf75af88d9c5be342d1581b"
     },
     {
       "name": "REVIEW-FIXES.md",
@@ -1205,7 +1205,7 @@
     {
       "name": "scripts/frameforge-mcp.mjs",
       "bytes": 7415,
-      "sha256": "c4f067953b221d8ab46ac2dde0a36e1f025da1e6bf41f388882b588f0196dcd2"
+      "sha256": "d0ad18b2e2596d6d60f1693a41b527c7a159dc8d86a9a9989e3c72b120a4b247"
     },
     {
       "name": "scripts/human_pose.py",
@@ -1444,8 +1444,8 @@
     },
     {
       "name": "scripts/setup-processor.mjs",
-      "bytes": 2619,
-      "sha256": "818c0635c075d632f4db4367bf6451911d5fb208aca90411a971ce31782a1a40"
+      "bytes": 2802,
+      "sha256": "4c1e8bf3702d621e63b7473b84f9cf42e6b59c92b0aea3465e4386a38b9ed43c"
     },
     {
       "name": "scripts/setup-separation-model.py",
@@ -1754,8 +1754,8 @@
     },
     {
       "name": "server.mjs",
-      "bytes": 115313,
-      "sha256": "127a03ebcfa2f9bef1acf44a7117673584afcd2251f8ba5f9d18a6a5af8be8a2"
+      "bytes": 116404,
+      "sha256": "5852da21980093d4d4f4f5a13a4a2941ce47965706d691b5b67eadb10059ead5"
     },
     {
       "name": "setup/advanced-models.lock.json",
@@ -2194,8 +2194,8 @@
     },
     {
       "name": "tests/followup-experience.test.mjs",
-      "bytes": 3325,
-      "sha256": "2d769403657f52ac2d942ee17055c7ca3073365c7e0c35a6986a60bca72e6e4a"
+      "bytes": 5227,
+      "sha256": "3aa74dda76aa0a6a76794a2dfbb82b73a370f05f8cf1c81668611eb26619214a"
     },
     {
       "name": "tests/illumination_check.py",

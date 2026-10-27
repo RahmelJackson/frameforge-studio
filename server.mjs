@@ -3,7 +3,7 @@ import {providerRecipe,providerSetup,assertProviderPlan,executableProvider,provi
 import {recordComfyImport,listMediaImports} from './lib/media-imports.mjs';
 import {ModelDownloads} from './lib/model-downloads.mjs';
 import {toolRequirements,checkProcessorFiles,modelRegistry} from './lib/tool-requirements.mjs';
-import {resultProvenance} from './lib/result-provenance.mjs';
+import {resultProvenance,audioModelBindings} from './lib/result-provenance.mjs';
 import {setupReport,mediaRuntime,discoverComfy} from './lib/studio-setup.mjs';
 import {StudioAssistant,assistantModels,createAssistantTools,ASSISTANT_TOOLS} from './lib/studio-assistant.mjs';
 import {AssistantConnection,ASSISTANT_PROVIDERS,detectAssistantServers,agentMCPConfig} from './lib/assistant-connection.mjs';
@@ -425,6 +425,8 @@ async function preparePortableVideo(id,request){
 }
 const workflowPlans=await new WorkflowPlans({root:ROOT,data:DATA,comfy,providerEngines,resolveVideo:resolveVideoSource,inspectImage,prepareVideo:preparePortableVideo,resolveKeyframe:async id=>{const frame=jobs.get(id);if(!frame?.image||!frame.report?.technicalPass||frame.review?.verdict==='rejected')throw Error('Choose a checked appearance still.');const file=path.join(jobDir(id),frame.image);if(await fileDigest(file)!==frame.report.sha256)throw Error('Appearance keyframe changed.');const name=randomUUID()+'.png';await copyFile(file,path.join(DATA,'assets',name));return name;}}).open();
 async function selectedSetup(selection={}){
+ if(typeof selection.input==='string'){if(selection.input.length>2000)throw Error('Setup options are too long.');selection={...selection,input:JSON.parse(selection.input)};}if(selection.input!=null&&(typeof selection.input!=='object'||Array.isArray(selection.input)))throw Error('Choose valid workflow setup options.');
+ if(selection.context==='audio'&&selection.tool==='dub'&&/^[a-f0-9-]{36}$/.test(selection.input?.transcriptJob??'')&&(!selection.input.sourceLanguage||selection.input.sourceLanguage==='auto')){const job=audioStudio.list().find(j=>j.id===selection.input.transcriptJob);if(job?.report?.technicalPass){try{const transcript=JSON.parse(await readFile(audioStudio.file(job.id,'transcript.json'),'utf8'));if(['en','es'].includes(transcript.language))selection={...selection,input:{...selection.input,sourceLanguage:transcript.language}};}catch{}}}
  const workflow=selection.workflow??'wan-i2v';let packet,engine=comfy;
  if(selection.context&&selection.tool){packet=await toolRequirements(ROOT,selection);packet=await checkProcessorFiles(packet,{root:ROOT,modelRoot});}
  else if(selection.imageTool)packet=await toolRequirements(ROOT,{context:'images',tool:selection.imageTool});
@@ -432,7 +434,7 @@ async function selectedSetup(selection={}){
  else if(providerRecipe(workflow)){const checked=await providerSetup({root:ROOT,id:workflow,engines:providerEngines});packet=checked.packet;engine=new ComfyClient(checked.ready.engineUrl);}
  else if(executionPolicy.enabled)assertOpenWorkflow(workflow);
  const report=await setupReport({root:ROOT,comfy:engine,workflow,packet,studioMedia:await mediaRuntime(config.python)});
- return {...report,setupUrl:'/setup?'+new URLSearchParams(Object.fromEntries(Object.entries(selection).filter(([key])=>['workflow','plan','imageTool','context','tool'].includes(key))))};
+ return {...report,setupUrl:'/setup?'+new URLSearchParams(Object.entries(selection).filter(([key])=>['workflow','plan','imageTool','context','tool','input'].includes(key)).map(([key,value])=>[key,key==='input'?JSON.stringify(value):value]))};
 }
 const modelDownloads=await new ModelDownloads({directory:path.join(DATA,'model-downloads'),roots:{models:modelRoot,runtime:path.join(ROOT,'runtime')},resolveModels:async selection=>{
  if(!selection||typeof selection!=='object'||Array.isArray(selection)||Object.keys(selection).some(k=>!['workflow','plan','imageTool','context','tool','input'].includes(k)))throw Error('Choose a catalog workflow or tool.');
@@ -533,7 +535,7 @@ const server = http.createServer(async (req, res) => {
       if(createHash('sha256').update(await readFile(path.join(DATA,'audio',item.audio+'.wav'))).digest('hex')!==item.sha256)throw new Error('This WAV changed after it entered the sound library.');return json(res,200,item);
     }
     const audioProvenance=route.match(/^\/api\/audio-jobs\/([a-f0-9-]{36})\/provenance$/);
-    if(audioProvenance&&req.method==='GET'){const job=audioStudio.list().find(j=>j.id===audioProvenance[1]);if(!job)return json(res,404,{error:'Saved audio job not found.'});const packet=await toolRequirements(ROOT,{context:'audio',tool:job.request.tool,input:job.request}),result=resultProvenance(job,null,[]);return json(res,200,{...result,recipe:[job.request.tool,job.request.voice,job.request.language].filter(Boolean).join(' · '),models:(packet.models??[]).map(m=>({name:m.name,url:m.url,licenseUrl:m.licenseUrl,sha256:m.sha256})),note:'Declared model requirements for the selected audio processor. The saved audio report records the actual runtime/file checks; this list does not certify voice quality.'});}
+    if(audioProvenance&&req.method==='GET'){const job=audioStudio.list().find(j=>j.id===audioProvenance[1]);if(!job)return json(res,404,{error:'Saved audio job not found.'});const packet=await toolRequirements(ROOT,{context:'audio',tool:job.request.tool,input:job.request}),result=resultProvenance(job,null,[]),bound=job.report?.models?audioModelBindings(await modelRegistry(ROOT),job.report.models):{models:packet.models??[],unresolved:[]};return json(res,200,{...result,unresolved:bound.unresolved,recipe:[job.request.tool,job.request.voice,job.request.language].filter(Boolean).join(' · '),models:bound.models.map(m=>({name:m.name,url:m.url,licenseUrl:m.licenseUrl,sha256:m.sha256})),note:'Model files matched to the saved audio report when bindings are available; otherwise these are the selected processor requirements. This does not certify voice quality.'});}
     if(route==='/api/audio-jobs'&&req.method==='GET')return json(res,200,audioStudio.list());
     if(route==='/api/audio-jobs'&&req.method==='POST'){const input=await readJson(req,150000);if(openOnly)assertOpenInput('audio',input);return json(res,202,await audioStudio.submit(input));}
     const audioControl=route.match(/^\/api\/audio-jobs\/([a-f0-9-]{36})\/(review|cancel|reverify|audio-asset|video-footage)$/);
