@@ -23,6 +23,10 @@ body[data-workspace] .tool-cards small{font-size:12px;line-height:1.45}
 .workbench-checks ul,.workbench-checks .check-pills{margin-top:12px}
 .workbench-result-actions{display:flex;flex-wrap:wrap;gap:8px;align-items:center}
 .workbench-result-actions button,.workbench-result-actions a,.workbench-result-actions summary{font-size:12px;min-height:36px}
+.workbench-primary-actions{display:flex;align-items:center;gap:8px;flex-wrap:wrap;margin:12px 0}
+.workbench-primary-actions>a,.workbench-primary-actions>button,.workbench-primary-actions>details>summary{display:inline-flex;align-items:center;border:1px solid #41513b;border-radius:7px;min-height:36px;padding:8px 12px;font:12px system-ui;color:#dfedc9;background:#202a1d;cursor:pointer}
+.workbench-primary-actions .result-sendto{margin:0}
+.workbench-primary-actions>.result-primary-actions{display:contents}
 .audio-waveform{display:block;width:100%;height:100px;border-radius:10px;background:#111b17}
 .audio-waveform-status{font-size:12px;color:var(--muted);margin:8px 0}
 .audio-transcript-preview{max-height:170px;overflow:auto;font-size:13px;line-height:1.6;width:100%;margin-top:12px}

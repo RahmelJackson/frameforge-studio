@@ -78,7 +78,7 @@ Images, Generate, Edit & finish and Audio use the same bounded desktop workbench
 
 Audio has Voice, Dialogue, Transcribe & dub and Lip sync tabs. Its preview decodes the selected recording into a real waveform, shows timed transcript segments and lets a timestamp seek the recording. Transcription previews use the original source when no new audio was generated. The eight-item recent strip uses first words where available; See all saved work opens the full saved library. SAM selection masks remain saved but do not appear as completed pictures in Images' recent strip.
 
-Technical checks appear in an expandable count beside the result. They do not grant creative approval; existing report downloads, review notes and actions remain available.
+Technical checks appear in an expandable count beside the result. A common result bar keeps download/edit/reuse actions together; additional image actions, rechecks and handoffs live under More actions. Media-specific options remain distinct. Review notes and explicit approval stay beside the evidence. Technical checks do not grant creative approval.
 
 The Library now contains **42 task cards**, with model alternatives inside each task. These are not 42 independently tested neural models or 42 standalone ComfyUI graphs. Twenty added cards expose already implemented tools, including film assembly, cinematic stills, reference/face/prop/viewpoint tools, video finishing/tracking/recolor/upscale, expressive speech, conversion, dialogue, separation, lip sync and captioned video. The new distinct tasks are also discoverable in the shared Studio guide/MCP task catalog.
 

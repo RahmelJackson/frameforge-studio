@@ -1,6 +1,6 @@
 {
   "version": 1,
-  "created": "2026-10-27T14:24:40.084Z",
+  "created": "2026-10-27T14:33:06.988Z",
   "files": [
     {
       "name": ".agents/plugins/marketplace.json",
@@ -359,8 +359,8 @@
     },
     {
       "name": "public/audio.js",
-      "bytes": 31296,
-      "sha256": "713c0451ab59eeb2c19b5c604a04dee1dca33c1e0b769e02b4eeae4df5bdd24b"
+      "bytes": 31375,
+      "sha256": "12ad84e10f8c9ea00faf07af90da0b35f21cf969c3bc505f04c2a051dd700fa2"
     },
     {
       "name": "public/body-pose.js",
@@ -854,13 +854,13 @@
     },
     {
       "name": "public/workbench.css",
-      "bytes": 6026,
-      "sha256": "b7c349599725790723fea0b07edb8c79b11c6af3b4ab43a8d1441f611a7eb849"
+      "bytes": 6534,
+      "sha256": "7a9db98781968175bb4707a67cfddb3c8b8143121b570c7248b3671ce6fa825c"
     },
     {
       "name": "public/workbench.js",
-      "bytes": 7485,
-      "sha256": "a3e77f8c346044d194783d3d3966dad8761b8621d8996f5af6f83b1ae9ca6a85"
+      "bytes": 10690,
+      "sha256": "dc93e64e4ab921372612eeec9f3211aee20783a3affca01487eace8383f221d3"
     },
     {
       "name": "public/workflow-graph.js",
@@ -2624,8 +2624,8 @@
     },
     {
       "name": "WORKSPACE-GUIDE.md",
-      "bytes": 18756,
-      "sha256": "fa867e22820acf839469f79736c59b9e581630765cc30390433ecc2ba6d3d235"
+      "bytes": 18936,
+      "sha256": "4493c77ebe7477ca1a01fe9c1759a607b5aa1dae3b866c9448c6635ba0354195"
     }
   ],
   "excluded": [
