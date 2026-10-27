@@ -20,3 +20,4 @@ models/
 *.onnx
 .env.*
 !.env.example
+scripts/judge-demo/

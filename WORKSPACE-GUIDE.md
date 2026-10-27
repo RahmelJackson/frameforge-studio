@@ -72,10 +72,36 @@ Old /explore links redirect to Home's inspiration section and preserve filter pa
 
 Source tests cover distinct workflow grouping, legacy redirects, five-step navigation, valid project/shot context, non-mutating take selection, saved-story persistence and stale-tab rejection. Browser checks cover instant guide search, guided planning without inference, a plan surviving a tool handoff, the inspiration browser and a saved shot brief opening in Generate. No new paid Cloud run or creative-quality acceptance is implied by these interface checks.
 
+## Suggested workflows: current coverage
+
+This audit checks the implemented tools and native graph catalog, not just names on cards. **The 3D proposal is not implemented.** A camera prompt or generated viewpoint is not an editable 3D scene. “Available” means the integration exists; it does not mean every output passes creative review. Existing model setup is still required.
+
+| Suggested workflow | Status | Where it stands |
+| --- | --- | --- |
+| SAM image selection by text, box and clicks | Available | Images → Canvas. Export a PNG mask, refine with brush/eraser and use it for a selective Qwen edit. Box edges and absent-object matches need review. |
+| Masked image edits and still outpainting | Available | Images → Canvas. Preserves original pixels outside the edit, with saved versions and comparison. General semantic/lighting quality remains open. |
+| LTX VFX, FLUX 3 Klein image edits and MiniMax H3 animation | Available graph packages | Library's local examples have exact graphs, model links and saved narrow tests. Additional LTX effect prompts have not each been tested. |
+| Speech, expressive delivery, dialogue, voice conversion, transcription, translation/dubbing and lip sync | Available, bounded | Audio. Installed engines/languages differ by task. Natural acting, overlap, teeth, profiles and occlusions still need broader acceptance. |
+| Short-film planning, timelines, captions, soundtrack import and export | Available | Video → Story / Director / Timeline and Edit & finish. WAV soundtracks work; this does not generate music. |
+| Video object masks and mask-guided edits | Partial | Video → Track a selected object uses keep/exclude points. No video text/box selector, automatic cutout/green-screen export or complete SAM-follow/recolor chain. |
+| Reference motion and whole-character replacement | Partial | VACE motion/reference and pose tools exist. Wan Animate and the exact SCAIL-2 replacement graph are absent; convincing swaps remain open. |
+| Upscaling and smoother playback | Partial | Real-ESRGAN, FILM/RIFE and video finishing exist. SeedVR2 is absent; difficult motion/detail acceptance remains open. |
+| Local Wan 14B quality alternative | Partial | Fun Camera 14B is present. A separate general high/low 14B image-to-video quality profile is not installed as a supported alternative. |
+| Native FLUX layout boxes and editable image layers | Missing | Canvas boxes currently create edit masks. They do not provide native FLUX layout conditioning or composited/Qwen-Layered editing. |
+| Dedicated background removal and video object removal | Missing as dedicated workflows | Mask-guided editing exists, but a validated cutout/removal pipeline is not available. |
+| Image → 3D object, 3D scene editing and camera handoff | Missing | No TRELLIS/Pixal graph, mesh preview/export, scene editor or 3D-to-video handoff. Trained image viewpoints do not provide these. |
+| Depth/normal guides and depth-based Re-shoot | Missing | No MoGe/Depth Anything guide pipeline or CrossView Warp scene reconstruction. |
+| Talking photos and singing characters | Missing | Existing lip sync requires footage. No InfiniteTalk/S2V talking-photo or singing pipeline. |
+| Generated Foley, sound effects and music | Missing | No MMAudio/Hunyuan Foley or ACE-Step integration. Imported WAVs and narration are available. |
+| Character/style/product LoRA training | Missing | Existing adapters are used for inference; there is no training interface or reproducible training pipeline. |
+| Beat-synchronized cuts and guided ad builder | Missing | Manual timeline edits, product images and narrated storyboards are present, without those dedicated builders. |
+| External Cloud App Mode publication and automatic result return | Missing | Current Cloud/Civitai links and workflow exports are handoffs. They do not publish an App Mode application or automatically import provider results. |
+
+These are distinct missing capabilities. They are separate from the 15 parked creative-quality goals, which remain open.
+
 ## Remaining work from the workspace proposal
 
 - [x] Five workspaces, one guide, grouped Library tasks and a film project bar.
-- [x] Judge failure/busy handling, 7 runs per visitor, 35 shared and one active render, covered by isolated queue tests.
 - [x] Compact returning-visit headers, grouped tool cards and collapsed workflow setup.
 - [x] My work drawer, recent stills, compatible media handoffs and keyboard submit.
 - [x] Canvas paint/box masks, source protection, edge extension, versions/comparison and prop/animation handoffs.
@@ -87,9 +113,8 @@ Source tests cover distinct workflow grouping, legacy redirects, five-step navig
 - [ ] A dedicated guided ad-builder UI, talking-photo workflow, background-removal model setup and integrated music generation.
 - [ ] Broader visual-quality acceptance of the existing generation tools. The separate parked quality goals remain open.
 
-## Judge studio and SAM image selection
+## SAM image selection
 
-The protected judge link now serves the actual studio pages, with an allowance bar. Every signed browser visitor receives seven runs within the existing shared 35-run cap. Personal results and saved projects are isolated per visitor; only model files and the creator’s local GPU engine are shared. Waiting/offline requests do not spend a run. Accepted or uncertain submissions keep a slot, and a global reservation allows one media run at a time. Cloud handoffs use the visitor’s own external account. Hosted machine settings, bulk jobs and modified graph execution remain unavailable. See scripts/judge-demo/README.md for limits and deployment.
 
 In Images → Canvas, open a still and expand Select an object · SAM 3.1. Name a visible object, use Keep / Exclude point, or draw a Box and choose Refine last box. SAM creates a saved, lossless PNG mask using the native ComfyUI checkpoint. Inspect the overlay; Paint adds and Erase removes. Generate selected edit then runs Qwen with that mask and restores unselected original pixels. The mask operation and image edit are two separate renders. Setup lists the one SAM checkpoint; Library, Studio guide and MCP discover the same workflow.
 
@@ -97,6 +122,6 @@ October 27 local acceptance: text and point prompts selected the visible green p
 
 ### Follow-up proposals from the October 27 review
 
-Completed: full-site judge sessions, visible allowance, SAM image selection and editable PNG masks. Already present: still outpainting, image-version comparison, local model download metadata and the LTX effect-prompt pack. Broader remaining proposals include four-path onboarding, external Cloud App Mode publishing and result import, action buttons on errors, larger accessibility text, Wan 14B / Animate, SeedVR2, generated Foley/music, training and 3D/depth guides. These remain follow-up work, not additional quality goals checked off. Wan dimension recommendations and any model/license claims need source-specific validation before changing existing measured profiles. The 15 broad creative-quality goals remain open.
+Completed: SAM image selection and editable PNG masks. Already present: still outpainting, image-version comparison, local model download metadata and the LTX effect-prompt pack. Broader remaining proposals include four-path onboarding, external Cloud App Mode publishing and result import, action buttons on errors, larger accessibility text, Wan 14B / Animate, SeedVR2, generated Foley/music, training and 3D/depth guides. These remain follow-up work, not additional quality goals checked off. Wan dimension recommendations and any model/license claims need source-specific validation before changing existing measured profiles. The 15 broad creative-quality goals remain open.
 
 The SAM → Canvas → Qwen handoff was also run through the browser: the knob changed to cobalt blue, the final image retained its original 1280 × 853 grid, and the independent report confirmed every pixel outside the selected mask equals the original. This is narrow product-edit evidence, not broad segmentation or semantic-edit acceptance.

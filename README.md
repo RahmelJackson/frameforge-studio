@@ -93,7 +93,7 @@ Some tasks are ComfyUI graphs; others use local Python media processors. Where a
 
 ## Current state and limits
 
-This is a working prototype. Run `npm test` for the current application regression checks and `npm run test:judge` for the protected demo checks. Local image/video workflows, graph export, saved projects, media checks and a demonstration film export have retained verification records. A separate empty-model ComfyUI instance verifies that importing the Z-Image graph exposes its three dependencies and download controls.
+This is a working prototype. Run `npm test` for the current application regression checks. Local image/video workflows, graph export, saved projects, media checks and a demonstration film export have retained verification records. A separate empty-model ComfyUI instance verifies that importing the Z-Image graph exposes its three dependencies and download controls.
 
 Technical checks do not guarantee a convincing creative result. Fifteen broader quality goals remain parked, including difficult character consistency, swaps, motion/occlusion, advanced relighting and speech/lip realism. Some tools have narrow acceptance or remain experimental; the [saved checklist](REMAINING-CHECKLIST.md) records those limits.
 
@@ -120,10 +120,10 @@ Built around the work of [ComfyUI](https://github.com/Comfy-Org/ComfyUI) and its
 
 **Install as a plugin:** Frameforge also packages a branded local/community plugin with starter prompts, onboarding, creative skills and its visual MCP studio. Add the GitHub marketplace, install `frameforge-studio@frameforge-community`, then restart your client. Node.js 22+ is required; models remain separate. [Plugin installation, permissions and public-listing limits](PLUGIN-GUIDE.md).
 
-See [review follow-up](REVIEW-FIXES.md) for the completed usability and judge-demo fixes, plus remaining portability work.
+See [review follow-up](REVIEW-FIXES.md) for the completed usability fixes, plus remaining portability work.
 
-## Protected full-site judge demo
+## Select before editing
 
-Self-hosted judging can use the actual studio website with seven runs per signed browser visitor, a shared 35-run cap and a visible GPU/allowance bar. Each visitor gets a separate saved-work store. Only preview-sized work runs on the creator’s engine, one media job at a time; personal owner data and machine settings stay private. [Deployment, session limits and checks](scripts/judge-demo/README.md).
+**Select before editing:** Image Canvas supports native SAM 3.1 selection by text, box or keep/exclude points, plus brush/eraser touch-ups. It saves a lossless PNG mask for protected Qwen edits. One checkpoint is listed with its model download/source link; no model is bundled. Inspect selections, especially box edges and absent-object prompts. [Workflow and acceptance scope](WORKSPACE-GUIDE.md#sam-image-selection).
 
-**Select before editing:** Image Canvas supports native SAM 3.1 selection by text, box or keep/exclude points, plus brush/eraser touch-ups. It saves a lossless PNG mask for protected Qwen edits. One checkpoint is listed with its model download/source link; no model is bundled. Inspect selections, especially box edges and absent-object prompts. [Workflow and acceptance scope](WORKSPACE-GUIDE.md#judge-studio-and-sam-image-selection).
+Workflow availability is tracked in the [suggested-workflow audit](WORKSPACE-GUIDE.md#suggested-workflows-current-coverage). 3D generation, generated music, LoRA training and other planned capabilities are not advertised as working tools.

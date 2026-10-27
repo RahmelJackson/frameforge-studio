@@ -50,7 +50,7 @@ const DATA = process.env.STUDIO_DATA ?? path.join(ROOT, 'data');
 const executionPolicy=await new ExecutionPolicy({file:path.join(DATA,'execution-policy.json'),locked:process.env.FRAMEFORGE_OPEN_WEIGHTS_ONLY==='1'}).open();
 const policyModels=JSON.parse(await readFile(path.join(ROOT,'workflows/models.json'),'utf8'));
 const PORT = Number(process.env.PORT ?? config.port);
-const JUDGE_MODE=process.env.FRAMEFORGE_JUDGE_MODE==='1';
+const HOSTED_MODE=process.env.FRAMEFORGE_HOSTED_MODE==='1';
 const comfy = new ComfyClient(process.env.COMFY_URL ?? config.comfyUrl);
 const jobs = new Map();
 const saves = new Map();
@@ -405,7 +405,7 @@ const server = http.createServer(async (req, res) => {
     const communityMedia=!executionPolicy.enabled&&['/','/home','/explore'].includes(url.pathname)?' https://image.civitai.com https://blobs-b2.civitai.com':'';
     res.setHeader('Content-Security-Policy', "default-src 'self'; img-src 'self' blob:"+communityMedia+"; media-src 'self' blob:"+communityMedia+"; script-src 'self'; style-src 'self'; connect-src 'self'; object-src 'none'; frame-ancestors "+(workflowFrame?"'self'":"'none'"));
     const route = url.pathname;
-    if(JUDGE_MODE&&(['/api/setup/connection','/api/setup/detect','/api/storage','/api/assistant/detect','/api/assistant/mcp-config','/api/assistant/tools'].includes(route)||route==='/api/assistant/connection'&&req.method!=='GET'))return json(res,403,{error:'Machine settings are managed by the demo creator. Download Frameforge to connect your own engine and assistant.'});
+    if(HOSTED_MODE&&(['/api/setup/connection','/api/setup/detect','/api/storage','/api/assistant/detect','/api/assistant/mcp-config','/api/assistant/tools'].includes(route)||route==='/api/assistant/connection'&&req.method!=='GET'))return json(res,403,{error:'Machine settings are managed by the demo creator. Download Frameforge to connect your own engine and assistant.'});
     const openOnly=executionPolicy.enabled||req.headers['x-frameforge-open-weights-only']==='1';
     if(route==='/api/execution-policy'&&req.method==='GET')return json(res,200,{...executionPolicy.describe(),...(openOnly?{openWeightsOnly:true,profile:'open-weights-only'}:{})});
     if(route==='/api/execution-policy'&&req.method==='POST'){const input=await readJson(req,2000);if([...jobs.values()].some(j=>['processing','uploading','submitting','submitted','running','verifying'].includes(j.status))||audioStudio.busy())throw Error('Wait for the current media job before changing the profile.');return json(res,200,await executionPolicy.set(input.openWeightsOnly));}
@@ -415,7 +415,7 @@ const server = http.createServer(async (req, res) => {
     if(route==='/api/assistant/detect'&&req.method==='GET')return json(res,200,await detectAssistantServers());
     if(route==='/api/assistant/mcp-config'&&req.method==='GET')return json(res,200,agentMCPConfig({client:url.searchParams.get('client'),root:ROOT,base:'http://127.0.0.1:'+PORT,writes:url.searchParams.get('writes')==='1',openWeightsOnly:openOnly||url.searchParams.get('open')==='1'}));
     if(route==='/api/assistant/models'&&req.method==='GET')return json(res,200,{...await assistantModels(fetch,assistantConnection.value),inferenceEnabled:!openOnly});
-    if(route==='/api/assistant/chat'&&req.method==='POST'){const input=await readJson(req,16000);return json(res,200,await studioAssistant.ask(openOnly||JUDGE_MODE?{...input,model:null}:input));}
+    if(route==='/api/assistant/chat'&&req.method==='POST'){const input=await readJson(req,16000);return json(res,200,await studioAssistant.ask(openOnly||HOSTED_MODE?{...input,model:null}:input));}
     if(route==='/api/assistant/tools'&&req.method==='GET')return json(res,200,ASSISTANT_TOOLS);
     if(route==='/api/assistant/tools'&&req.method==='POST'){const input=await readJson(req,4000);return json(res,200,await assistantTools(input.name,input.arguments));}
     if(route==='/api/setup/detect'&&req.method==='GET')return json(res,200,await discoverComfy());
@@ -479,7 +479,7 @@ const server = http.createServer(async (req, res) => {
     if(audioControl&&req.method==='POST'){const result=audioControl[2]==='review'?await audioStudio.review(audioControl[1],await readJson(req)):audioControl[2]==='reverify'?await audioStudio.reverify(audioControl[1]):audioControl[2]==='cancel'?await audioStudio.cancel(audioControl[1]):audioControl[2]==='video-footage'?await audioStudio.videoFootage(audioControl[1]):await audioStudio.audioAsset(audioControl[1],await readAudioTrack(req));return json(res,200,result);}
     const audioOutput=route.match(/^\/audio-jobs\/([a-f0-9-]{36})\/(output\.(wav|mp4)|preserved\.mkv|transcript\.json|subtitles\.(srt|vtt)|report\.json|lipsync\.json|dialogue\.json|caption\.json|neural-speech\.json|separation\.json|voice-[12]\.wav|line-[0-9]{3}\.wav|poster\.jpg|contact-sheet\.jpg)$/);
     if(audioOutput&&req.method==='GET')return await serveFile(req,res,audioStudio.file(audioOutput[1],audioOutput[2]));
-    if(route==='/api/judge-readiness'&&req.method==='GET'){let connected=false,queued=false;try{const q=await comfy.json('/queue');connected=true;queued=!!(q.queue_running?.length||q.queue_pending?.length);}catch{}return json(res,200,{connected,busy:queued||audioStudio.busy()||[...jobs.values()].some(j=>['processing','uploading','submitting','submitted','running','cancelling','verifying'].includes(j.status))});}
+    if(route==='/api/engine-readiness'&&req.method==='GET'){let connected=false,queued=false;try{const q=await comfy.json('/queue');connected=true;queued=!!(q.queue_running?.length||q.queue_pending?.length);}catch{}return json(res,200,{connected,busy:queued||audioStudio.busy()||[...jobs.values()].some(j=>['processing','uploading','submitting','submitted','running','cancelling','verifying'].includes(j.status))});}
     if (route === '/api/health' && req.method === 'GET') return json(res,200,await health());
     if (route === '/api/catalog' && req.method === 'GET') return json(res,200,{ presets:PRESETS,sizes:SIZES,lengths:LENGTHS,cameraPoses:CAMERA_POSES,looks:LOOKS,images:{tools:IMAGE_TOOLS,sizes:IMAGE_SIZES,camera:STILL_CAMERA,light:IMAGE_LIGHT} });
     if(route==='/api/video-keyframe'&&req.method==='POST'){
@@ -559,10 +559,10 @@ const server = http.createServer(async (req, res) => {
     if(route==='/api/footage'&&req.method==='POST'){
       const bytes=await readBody(req,100*1024*1024),ext=bytes.subarray(0,4).equals(Buffer.from([26,69,223,163]))?'webm':bytes.toString('ascii',4,8)==='ftyp'?'mp4':null;if(!ext)throw new Error('Upload MP4/MOV or WebM footage up to 100 MB.');
       const id=randomUUID(),directory=path.join(DATA,'footage',id),filename='source.'+ext;await mkdir(directory,{recursive:true});await writeFile(path.join(directory,filename),bytes);
-      try{const info=await pythonJson('inspect-video.py',[path.join(directory,filename),'--poster',path.join(directory,'poster.jpg')]);if(JUDGE_MODE&&(info.duration>10||Math.max(...info.size)>1280))throw Error('Use a clip up to 10 seconds and 1280 pixels on its longest side for the shared demo.');let displayName=String(req.headers['x-file-name']??'Uploaded footage');try{displayName=decodeURIComponent(displayName);}catch{}const record={id,...info,filename,name:displayName.slice(0,100),createdAt:new Date().toISOString()};await writeFile(path.join(directory,'source.json'),JSON.stringify(record,null,2));return json(res,201,record);}catch(error){await unlink(path.join(directory,filename));throw error;}
+      try{const info=await pythonJson('inspect-video.py',[path.join(directory,filename),'--poster',path.join(directory,'poster.jpg')]);if(HOSTED_MODE&&(info.duration>10||Math.max(...info.size)>1280))throw Error('Use a clip up to 10 seconds and 1280 pixels on its longest side for the shared demo.');let displayName=String(req.headers['x-file-name']??'Uploaded footage');try{displayName=decodeURIComponent(displayName);}catch{}const record={id,...info,filename,name:displayName.slice(0,100),createdAt:new Date().toISOString()};await writeFile(path.join(directory,'source.json'),JSON.stringify(record,null,2));return json(res,201,record);}catch(error){await unlink(path.join(directory,filename));throw error;}
     }
     if(route==='/api/audio-assets'&&req.method==='POST'){
-      const bytes=await readBody(req);if(bytes.toString('ascii',0,4)!=='RIFF'||bytes.toString('ascii',8,12)!=='WAVE')throw new Error('Choose a WAV soundtrack up to 25 MB.');const id=randomUUID(),filename=path.join(DATA,'audio',id+'.wav');await writeFile(filename,bytes);try{const metadata=await pythonJson('inspect-audio.py',[filename]);if(JUDGE_MODE&&metadata.duration>30)throw Error('Use a WAV up to 30 seconds in the shared demo.');return json(res,201,{id,...metadata});}catch(error){await unlink(filename);throw error;}
+      const bytes=await readBody(req);if(bytes.toString('ascii',0,4)!=='RIFF'||bytes.toString('ascii',8,12)!=='WAVE')throw new Error('Choose a WAV soundtrack up to 25 MB.');const id=randomUUID(),filename=path.join(DATA,'audio',id+'.wav');await writeFile(filename,bytes);try{const metadata=await pythonJson('inspect-audio.py',[filename]);if(HOSTED_MODE&&metadata.duration>30)throw Error('Use a WAV up to 30 seconds in the shared demo.');return json(res,201,{id,...metadata});}catch(error){await unlink(filename);throw error;}
     }
     if (route === '/api/jobs' && req.method === 'GET') return json(res,200,[...jobs.values()].sort((a,b)=>b.createdAt.localeCompare(a.createdAt)).map(j=>url.searchParams.get('summary')==='1'?{id:j.id,status:j.status,createdAt:j.createdAt,requestId:j.requestId,image:j.image,video:j.video,request:{kind:j.request.kind,tool:j.request.tool,prompt:j.request.prompt,seed:j.request.seed},review:j.review,report:j.report?{technicalPass:j.report.technicalPass}:null}:j));
     const jobRead=route.match(/^\/api\/jobs\/([a-f0-9-]{36})(\/thumbnail)?$/);
@@ -712,7 +712,7 @@ const server = http.createServer(async (req, res) => {
     if (route === '/api/assets' && req.method === 'POST') {
       const bytes = await readBody(req); const name = randomUUID() + '.' + imageExtension(bytes);
       const filename=path.join(DATA,'assets',name);await writeFile(filename,bytes);
-      let dimensions;try{dimensions=await inspectImage(filename);if(JUDGE_MODE&&(dimensions.width*dimensions.height>1500000||Math.max(dimensions.width,dimensions.height)>2048))throw Error('Use an image up to 1.5 megapixels and 2048 pixels on its longest side in the shared demo.');}catch(error){await unlink(filename);throw error;}
+      let dimensions;try{dimensions=await inspectImage(filename);if(HOSTED_MODE&&(dimensions.width*dimensions.height>1500000||Math.max(dimensions.width,dimensions.height)>2048))throw Error('Use an image up to 1.5 megapixels and 2048 pixels on its longest side in the shared demo.');}catch(error){await unlink(filename);throw error;}
       return json(res,201,{name,url:'/assets/'+name,...dimensions});
     }
     if (route === '/api/jobs' && req.method === 'POST') {

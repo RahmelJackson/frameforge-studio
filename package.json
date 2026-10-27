@@ -17,9 +17,7 @@
     "verify": "node scripts/verify-loop.mjs",
     "verify:images": "node scripts/verify-images.mjs",
     "verify:video": "node scripts/verify-video-workflows.mjs",
-    "verify:continuity": "node scripts/verify-continuity.mjs",
-    "judge": "node scripts/judge-demo/server.mjs",
-    "test:judge": "node --test scripts/judge-demo/*.test.mjs"
+    "verify:continuity": "node scripts/verify-continuity.mjs"
   },
   "engines": { "node": ">=22" }
 }

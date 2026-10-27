@@ -20,8 +20,8 @@ These are the major tasks visible in [the official directory](https://comfy.org/
 
 | Hub task | Frameforge status |
 | --- | --- |
-| Image → video | Alternative: Wan 2.2, local graph. Hub example uses LTX. |
-| Multi-reference video | Partial: reference/motion tools; no H3 equivalent validated. |
+| Image → video | Local Wan 2.2 plus LTX 2.5 and H3 graph packages, with saved narrow local examples. Broad output quality is not established. |
+| Multi-reference video | Partial: reference/motion tools. The saved H3 image-to-video test does not validate multi-reference video. |
 | First/last frames and camera | Alternative: Wan keyframes/camera; continuity and control acceptance remain partial. |
 | Video background/object editing | Partial: masked VACE/editing stages; difficult motion remains open. |
 | Video frame expansion | Partial: generated borders and tracked-still methods; scene reconstruction remains limited. |
@@ -38,7 +38,9 @@ These are the major tasks visible in [the official directory](https://comfy.org/
 | Image/video restoration | Alternative: Real-ESRGAN and finishing; SeedVR2/Topaz/HitPaw recipes absent. |
 | Archival restoration | Missing as a dedicated validated workflow. |
 | Region editing | Alternative: Qwen masked edits and original-pixel preservation. |
-| Still border expansion | No dedicated validated still-outpaint interface; video border tools are separate. |
+| Still border expansion | Available in Image Canvas, with an actual edge-extension test and outside-mask pixel checks. General seam/scene quality still needs review. |
+| Image object selection | Available: native SAM 3.1 text/box/point masks and brush/eraser refinement. Box/object correctness needs visual review. |
+| Image → 3D / editable 3D scenes | Missing: no mesh generation, 3D preview/export, scene editor or camera handoff. Image viewpoints are a separate tool. |
 | Editable image layers | Missing: Qwen-Image-Layered graph not installed. |
 | Background removal | No dedicated validated BiRefNet recipe; existing masks are not equivalent. |
 | Reference lighting | Partial: Qwen relight and restrained transfer experiments. |

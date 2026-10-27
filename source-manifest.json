@@ -1,6 +1,6 @@
 {
   "version": 1,
-  "created": "2026-10-27T13:40:00.451Z",
+  "created": "2026-10-27T13:52:35.988Z",
   "files": [
     {
       "name": ".agents/plugins/marketplace.json",
@@ -14,8 +14,8 @@
     },
     {
       "name": ".gitignore",
-      "bytes": 239,
-      "sha256": "b8768a1f7ac377248b8bbe1c1bd4e90b720d45c3ace994321924e7ad5a50c58e"
+      "bytes": 260,
+      "sha256": "3e9811c159812ccda5fc73a8c511f9099eedceb31082f128e173abe56fba9c72"
     },
     {
       "name": "assets/frameforge.svg",
@@ -49,8 +49,8 @@
     },
     {
       "name": "COMFY-HUB-COMPARISON.md",
-      "bytes": 6241,
-      "sha256": "ef7e503c2d2fe853d39c42941d5de91f0dd9f89f212e7179bc8fbcde435dd4be"
+      "bytes": 6720,
+      "sha256": "4a6ca8eb79b5d467c240e2f4598a95c90d7428c72e294892621c6be6484ee9cd"
     },
     {
       "name": "config.example.json",
@@ -309,8 +309,8 @@
     },
     {
       "name": "package.json",
-      "bytes": 1047,
-      "sha256": "cbbba3f8bd1c575fe075f9337dc89ca9b2d9fbfcd1dc357adbc1f6afe21f2acc"
+      "bytes": 933,
+      "sha256": "2406a5290e782836e108b3d3542ea08b5cd2c6b81f8f32570e1508bd04ae94ba"
     },
     {
       "name": "PLUGIN-ACCEPTANCE.md",
@@ -384,8 +384,8 @@
     },
     {
       "name": "public/checklist.html",
-      "bytes": 4781,
-      "sha256": "3aa2d5080a349dee2b326a5096a0ee445b26d0da978a9578eb28a9babeaeb903"
+      "bytes": 6271,
+      "sha256": "cd3fdb051a7f4a5bd18cb2e863c276c3d608e74bd0ebdfbc6de2db95424b0b6a"
     },
     {
       "name": "public/checklist.js",
@@ -904,18 +904,18 @@
     },
     {
       "name": "README.md",
-      "bytes": 12341,
-      "sha256": "228ebbe8d42cfd0d7f182f3fcf22a68d95f53d17f7da8a91f3e932c075c6b6ef"
+      "bytes": 12079,
+      "sha256": "a8d5630d4fc03de9c7ca2238e654fd941f7d7beec43f2f506032f327e80b5cc2"
     },
     {
       "name": "REMAINING-CHECKLIST.md",
-      "bytes": 44899,
-      "sha256": "dc984da23bc221bbb5460bae98fc65705f1f6d3fe800586d40990735c6f27f92"
+      "bytes": 44479,
+      "sha256": "7c71dd28674a6e4bc129ae5906753d54687d80bef6f10349420282b567c09b91"
     },
     {
       "name": "REVIEW-FIXES.md",
-      "bytes": 6287,
-      "sha256": "9a7c887446de59a836fb1499c4bd29ceb3f983545f10d0baa57cb1a14ebf45c1"
+      "bytes": 4301,
+      "sha256": "44304ed825e85c0030312b9fb8d126158e0ae07e11f98ec030d8d5b3e1097e5e"
     },
     {
       "name": "scripts/acceptance-keyframes.mjs",
@@ -1158,66 +1158,6 @@
       "sha256": "766689ff6b8570b41ee4f448270c29746aea0e8178e74c3dad4a887fbf73057a"
     },
     {
-      "name": "scripts/judge-demo/app.js",
-      "bytes": 7481,
-      "sha256": "2d7d19ad43701b36609c75cf9e238492dd2e5315c87b5b7caf0aaef95486ca54"
-    },
-    {
-      "name": "scripts/judge-demo/index.html",
-      "bytes": 6911,
-      "sha256": "e2ef57f76a302b53d1469fb71f15beb9af523b7c6d60ab08810f687d11f0ea00"
-    },
-    {
-      "name": "scripts/judge-demo/login.html",
-      "bytes": 1196,
-      "sha256": "4a9ba39f1b5c2d5a62bddff5b4136dad30d3a88c80c570e91c86a226666fc395"
-    },
-    {
-      "name": "scripts/judge-demo/login.js",
-      "bytes": 937,
-      "sha256": "cbd0a6559e97f0105a34ade7b801564300f3d3543dc0262441094c8d19270de5"
-    },
-    {
-      "name": "scripts/judge-demo/README.md",
-      "bytes": 5631,
-      "sha256": "86ff79b21d3f81251c988fa2b6da759ac18915adc5232b4d46f20fd50c2f6021"
-    },
-    {
-      "name": "scripts/judge-demo/server.mjs",
-      "bytes": 23031,
-      "sha256": "e489fa0d2cc89f3377000a3946b32f9ad0d07c0dfc8ca5230c8a760e3970eeaa"
-    },
-    {
-      "name": "scripts/judge-demo/server.test.mjs",
-      "bytes": 11910,
-      "sha256": "28953efcdbdffccea099ef41ffcbdf3d89d41b3dc4fffb54a0bd7b6c6cafe9de"
-    },
-    {
-      "name": "scripts/judge-demo/studio-gateway.mjs",
-      "bytes": 13119,
-      "sha256": "27f6fabc29ebb95f9c84f601a61d767ff01f794f0509fde875ebe354f9daf708"
-    },
-    {
-      "name": "scripts/judge-demo/studio.css",
-      "bytes": 1987,
-      "sha256": "f02aa11358333f2a37a866616988be84871d26847405be90bf6a16097d20ab52"
-    },
-    {
-      "name": "scripts/judge-demo/studio.js",
-      "bytes": 3145,
-      "sha256": "eede26ff3cf665f6358c578f0862b0f22a506d448af652e58c5d012617b3fba3"
-    },
-    {
-      "name": "scripts/judge-demo/studio.test.mjs",
-      "bytes": 7515,
-      "sha256": "4fc3325c7f22162cb2b576c9eaa73e07c12f6699509e7de52536091701746114"
-    },
-    {
-      "name": "scripts/judge-demo/style.css",
-      "bytes": 5065,
-      "sha256": "6657dc939cec64079ccfad08cee82417a16a7a337622a780211036748c0fb037"
-    },
-    {
       "name": "scripts/lip_holds.py",
       "bytes": 479,
       "sha256": "cbe24910547795e2b8826ee1ac8dc923b1b709916bb1802e231327227f433439"
@@ -1269,8 +1209,8 @@
     },
     {
       "name": "scripts/package-source.mjs",
-      "bytes": 5502,
-      "sha256": "493ffb8e2ba5c88b1fa50559b7828ee03971fb74f9283e572422dc7d9e2a99fa"
+      "bytes": 5601,
+      "sha256": "e63b80bdb2dc609d7a0b630026c2a826a1e174351e802e602d91a15b33b975bc"
     },
     {
       "name": "scripts/pose_retarget.py",
@@ -1724,8 +1664,8 @@
     },
     {
       "name": "server.mjs",
-      "bytes": 104007,
-      "sha256": "13191c8a6b196e29cc0e4084bde7fffbbeac3e67a5718c4cf0143191156d0fe9"
+      "bytes": 104015,
+      "sha256": "4efc5ab5b63ec17ad286847eb19d70dbd76b0c1600271dd190db305858001b3e"
     },
     {
       "name": "setup/advanced-models.lock.json",
@@ -2374,8 +2314,8 @@
     },
     {
       "name": "tests/source-release.test.mjs",
-      "bytes": 2372,
-      "sha256": "2561143f82473c1c1bd986fb3c55359e8cf1aad9761ac7a8777a79e6b75bcb87"
+      "bytes": 2607,
+      "sha256": "530316ebe2df82e4780c9de35ad500f73ae82d49bf25afaf6c3bf93eec3880fb"
     },
     {
       "name": "tests/studio-embed.test.mjs",
@@ -2664,11 +2604,12 @@
     },
     {
       "name": "WORKSPACE-GUIDE.md",
-      "bytes": 12891,
-      "sha256": "33cb0b42f91a4b311bed4e2276d7c27a11e76cd408624bd39d6f3729c9386c69"
+      "bytes": 16096,
+      "sha256": "038c65a9f91d933cd4fb3fc4ed015e3a7cfb9cb2f171c02fbc6fdd9bb51f6dc7"
     }
   ],
   "excluded": [
+    "private deployments",
     "models",
     "runtime",
     "data",

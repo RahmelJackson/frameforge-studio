@@ -1,5 +1,9 @@
 # Workflow acceptance checklist
 
+## Suggested workflow coverage
+
+Not every requested workflow is built. **Image-to-3D objects, editable 3D scenes and 3D camera handoffs are missing.** SAM image selection, Canvas masked edits/outpainting and local LTX/FLUX/H3 graph packages are present. See [the complete coverage audit](WORKSPACE-GUIDE.md#suggested-workflows-current-coverage) for available, partial and missing capabilities. The 15 quality goals below remain separate.
+
 ## Connected workspaces and Image Canvas · 2026-10-27
 
 - [x] Five workspaces, one Studio guide, distinct Library outcomes and saved film/shot context.
@@ -9,7 +13,6 @@
 - [x] Real local Canvas edit and outpainting tests passed. Every unmasked pixel equals its input in both saved reports.
 - [x] Image-tool-specific model download guidance works before uploading an input image.
 - [x] Five selectable local LTX prompt packages; downloaded mist package inspected. Only original violet smoke has a tested video result.
-- [x] Isolated judge tests cover failed checks, offline/busy submissions, request reconciliation, one render at a time and 7/35 allowances.
 - [ ] Native FLUX layout boxes in Canvas and additional compatible/custom model adapters.
 - [ ] Region-only upscale/compositing and richer composited layers.
 - [ ] 3D scene/prop tools and camera handoffs.
@@ -256,10 +259,6 @@ Evidence: STYLE-BOARD-WORKFLOWS.md, ACCEPTANCE-STYLE-BOARD.md and evidence/style
 
 ## Latest completed work
 
-- [x] Judge invitation opens the same Home, Library, Images, Video/film and Audio pages as the studio, with a visible allowance/status bar.
-- [x] Seven submissions per signed browser visitor, existing 35-run shared ceiling, persistent request deduplication and one media render at a time. Busy/offline preflight costs no run.
-- [x] Visitor workspaces, uploads, projects and saved results are separate from the creator’s personal library and from other visitors. Protected setup/connection routes stay unavailable remotely.
-- [x] Real narration completed through the full-site judge UI in a separate test session; its allowance changed from seven to six. Live judges’ ledger was not reset or charged for that test.
 - [x] SAM 3.1 image selection by text, keep/exclude clicks and box, with a lossless PNG mask, native graph export and shared catalog/setup/MCP discovery.
 - [x] Canvas brush and eraser refinement before applying the mask to a protected Qwen edit.
 SAM object/edge acceptance remains open: text and clicks selected the product knob; the box case selected its outer ring and needs refinement. Missing-object false positives remain possible. The 15 broader creative-quality goals remain open.
