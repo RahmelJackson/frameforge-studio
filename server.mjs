@@ -8,6 +8,7 @@ import {WorkflowPlans} from './lib/workflow-plans.mjs';
 import {applyWorkflowSettings} from './lib/workflow-expectations.mjs';
 import {WorkflowExports} from './lib/workflow-exports.mjs';
 import {WORKFLOWS,workflowPacket,modelDependencies} from './lib/workflow-catalog.mjs';
+import {imageToolSetup} from './lib/image-tool-setup.mjs';
 import {providerCatalog,providerPacket,providerReadiness,providerRunPackage,providerVerification} from './lib/provider-workflows.mjs';
 import {apiToCanvas} from './public/workflow-graph.js';
 import {parseChecklist} from './lib/checklist.mjs';
@@ -417,7 +418,7 @@ const server = http.createServer(async (req, res) => {
     if(route==='/api/setup/detect'&&req.method==='GET')return json(res,200,await discoverComfy());
     if(route==='/api/setup'&&req.method==='GET'){
       if(openOnly&&url.searchParams.has('workflow'))assertOpenWorkflow(url.searchParams.get('workflow'));
-      const planId=url.searchParams.get('plan');let packet;
+      const planId=url.searchParams.get('plan');let packet;if(url.searchParams.has('imageTool'))packet=await imageToolSetup(ROOT,url.searchParams.get('imageTool'));
       if(planId){if(!/^[a-f0-9-]{36}$/.test(planId))throw Error('Choose a saved prepared workflow.');packet=workflowPlans.public(await workflowPlans.read(planId));}
       return json(res,200,await setupReport({root:ROOT,comfy,workflow:url.searchParams.get('workflow')??'wan-i2v',packet,studioMedia:await mediaRuntime(config.python)}));
     }
@@ -570,7 +571,7 @@ const server = http.createServer(async (req, res) => {
     if(providerSetup&&((providerSetup[2]==='readiness'&&req.method==='GET')||(providerSetup[2]==='export'&&req.method==='POST'))){
       if(openOnly)assertOpenProvider(await providerPacket(ROOT,providerSetup[1],url.searchParams.get('variant')??'default'));
       const variant=url.searchParams.get('variant')??'default';
-      return json(res,200,providerSetup[2]==='readiness'?await providerReadiness({root:ROOT,id:providerSetup[1],variant,engines:[comfy.url,'http://127.0.0.1:8189']}):await providerRunPackage({root:ROOT,data:DATA,id:providerSetup[1],variant}));
+      return json(res,200,providerSetup[2]==='readiness'?await providerReadiness({root:ROOT,id:providerSetup[1],variant,engines:[comfy.url,'http://127.0.0.1:8189']}):await providerRunPackage({root:ROOT,data:DATA,id:providerSetup[1],variant,effect:url.searchParams.get('effect')??'original'}));
     }
     const providerExport=route.match(/^\/provider-exports\/([a-f0-9-]{36})\/bundle\.zip$/);
     if(providerExport&&req.method==='GET'){if(openOnly){const manifest=JSON.parse(await readFile(path.join(DATA,'provider-exports',providerExport[1],'manifest.json'),'utf8'));assertOpenProvider(await providerPacket(ROOT,manifest.workflow,manifest.variant));}res.setHeader('Content-Disposition','attachment; filename="frameforge-run-package.zip"');return await serveFile(req,res,path.join(DATA,'provider-exports',providerExport[1],'bundle.zip'));}
@@ -768,6 +769,7 @@ const server = http.createServer(async (req, res) => {
     for(const name of ['observatory-preview','portrait-preview','product-preview'])publicFiles['/explore-art/'+name+'.jpg']='explore-art/'+name+'.jpg';
     for(const name of ['observatory-concept','portrait-concept','product-concept'])publicFiles['/explore-art/'+name+'.png']='explore-art/'+name+'.png';
     for(const name of ['mcp-observatory','mcp-portrait','mcp-product'])publicFiles['/explore-art/'+name+'.png']='explore-art/'+name+'.png';
+    for(const name of ['canvas-state.js','image-canvas.js','tool-picker.js','studio-tools.css','my-work.js','my-work.css','studio-interactions.js'])publicFiles['/'+name]=name;
     publicFiles['/video-project.js']='video-project.js';publicFiles['/studio-recipes.js']='studio-recipes.js';publicFiles['/workflow-outcomes.js']='workflow-outcomes.js';
     publicFiles['/explore-art/observatory-motion.mp4']='explore-art/observatory-motion.mp4';
     if(route==='/mcp-app'&&req.method==='GET')return await serveFile(req,res,path.join(ROOT,'public','mcp-app.html'));

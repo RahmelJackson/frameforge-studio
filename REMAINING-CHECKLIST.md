@@ -1,5 +1,24 @@
 # Workflow acceptance checklist
 
+## Connected workspaces and Image Canvas · 2026-10-27
+
+- [x] Five workspaces, one Studio guide, distinct Library outcomes and saved film/shot context.
+- [x] Compact returning-visit headers, grouped tool cards, collapsed graph/run setup and remembered tools.
+- [x] My work drawer for generated images, clips, audio and saved visual references, with compatible drag/drop handoffs.
+- [x] Canvas paint/box selections, original-pixel protection, edge padding/handles, version comparison and prop/animation handoffs.
+- [x] Real local Canvas edit and outpainting tests passed. Every unmasked pixel equals its input in both saved reports.
+- [x] Image-tool-specific model download guidance works before uploading an input image.
+- [x] Five selectable local LTX prompt packages; downloaded mist package inspected. Only original violet smoke has a tested video result.
+- [x] Isolated judge tests cover failed checks, offline/busy submissions, request reconciliation, one render at a time and 7/35 allowances.
+- [ ] Native FLUX layout boxes in Canvas and additional compatible/custom model adapters.
+- [ ] Region-only upscale/compositing and richer composited layers.
+- [ ] 3D scene/prop tools and camera handoffs.
+- [ ] Dedicated ad-builder UI, talking photos, background removal and generated music.
+- [ ] Broader creative acceptance for generation quality and the new LTX variants. The 15 parked quality goals remain open.
+
+Use [the workspace guide](WORKSPACE-GUIDE.md) for the complete interaction flow and verification limits.
+
+
 ## MCP and challenge preparation · 2026-10-24
 
 - [x] Local STDIO MCP server: seven default read-only tools, ten opt-in creation/production tools, native previews and client configuration guides.

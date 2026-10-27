@@ -12,6 +12,7 @@ export const OUTCOMES=[
  {id:'extend-video',title:'Continue a video',category:'video',symbol:'→',summary:'Generate the next moment, then inspect the join in your editor.',input:'A clip + what happens next',output:'A continuation segment',variants:['seedance-extend']},
  {id:'shot-sequence',title:'Generate a shot sequence',category:'video',symbol:'▤',summary:'Describe and time several shots using the native storyboard controls.',input:'Shot descriptions + timings',output:'A generated sequence',variants:['kling-video']},
  {id:'inpaint',title:'Replace a painted region',category:'image',symbol:'◌',summary:'Paint the area to change. The local masked pipeline preserves untouched pixels.',input:'An image + mask + prompt',output:'A selectively edited image',variants:['tool:inpaint']},
+ {id:'extend-image',title:'Extend an image’s edges',category:'image',symbol:'⊞',summary:'Add room around a still. Generate only the new borders while keeping the existing picture.',input:'An image + new canvas size + continuation prompt',output:'A wider or taller still',variants:['tool:canvas-outpaint']},
  {id:'relight-image',title:'Relight a still',category:'image',symbol:'☼',summary:'Choose light direction, color and brightness. Compare the scene after the edit.',input:'An image + lighting choices',output:'A relit still',variants:['tool:relight']},
  {id:'upscale-image',title:'Enhance image detail',category:'image',symbol:'↗',summary:'Use Real-ESRGAN at 2× or 4× to enlarge a still. Inspect invented texture.',input:'An image',output:'A larger enhanced image',variants:['tool:image-upscale']},
  {id:'smooth-video',title:'Smooth video motion',category:'video',symbol:'≈',summary:'Generate intermediate frames with FILM or RIFE, retaining duration and audio. Review occlusions.',input:'A short video',output:'A clip with twice the frames',variants:['tool:interpolate']},
@@ -22,7 +23,8 @@ export const OUTCOMES=[
  {id:'dub',title:'Translate & dub dialogue',category:'audio',symbol:'文',summary:'Transcribe, translate and generate replacement dialogue. Review timing and translation.',input:'A recording + target language',output:'Translated dialogue',variants:['tool:dub']}
 ];
 export const TOOL_VARIANTS={
- inpaint:{label:'Local masked image pipeline',url:'/images?tool=inpaint',reviewed:true},
+ inpaint:{label:'Canvas · local masked image pipeline',url:'/images?view=canvas&tool=inpaint',reviewed:true},
+ 'canvas-outpaint':{label:'Canvas · local masked edge generation',url:'/images?view=canvas&tool=inpaint&action=extend',reviewed:true},
  relight:{label:'Local image relighting',url:'/images?tool=relight',reviewed:true},
  'image-upscale':{label:'Real-ESRGAN',url:'/images?tool=upscale',reviewed:true},
  interpolate:{label:'FILM / RIFE',url:'/video-tools?tool=interpolate'},

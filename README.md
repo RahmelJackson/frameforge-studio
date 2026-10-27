@@ -16,6 +16,11 @@ Frameforge brings those steps together: explained recipes, setup checks, editabl
 
 Built as an open-source Higgsfield-inspired creative studio submission.
 
+
+### Canvas and connected workspaces
+
+Images now includes a Canvas for paint/box edits, protected edge extension, original/result comparison and saved versions. A shared My work drawer reuses generated media and saved references across workspaces. Grouped tool cards and compact run/export controls bring the tools into view. The LTX recipe includes five selectable prompt packages; only its original smoke example is claimed as tested. See [Workspace guide and remaining work](WORKSPACE-GUIDE.md) for the complete flow, verification scope and remaining features.
+
 ## What you can do
 
 | Workspace | What it helps you make |

@@ -17,6 +17,7 @@ export function workspaceTab(page,params=new URLSearchParams()){
 // in the tabs, breadcrumbs and links, and every legacy panel remains reachable.
 WORKSPACES.find(g=>g.id==='images').tabs=[
  {id:'images',page:'images',panel:'make',url:'/images',label:'Create & edit',hint:'Generate or change a still'},
+ {id:'canvas',page:'images',panel:'canvas',url:'/images?view=canvas',label:'Canvas',hint:'Paint, box or extend an image'},
  {id:'image-library',page:'images',panel:'collection',url:'/images?view=collection',label:'Saved images',hint:'Review and reuse your stills'},
  {id:'boards',page:'images',panel:'boards',url:'/images?view=boards',label:'Moodboards',hint:'Arrange visual references'},
  {id:'characters',page:'images',panel:'characters',url:'/images?view=characters',label:'Characters',hint:'Save identity references'},

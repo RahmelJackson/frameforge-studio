@@ -6,7 +6,7 @@ Updated October 27, 2026. The main navigation has five destinations. Top bar and
 | --- | --- | --- |
 | Home | Start, continue and discover inspiration | Describe an idea in the guide box, use a quick start, reopen recent work or browse community examples. |
 | Library | Different tasks and their model options | Choose a task, compare model/run-location options, inspect the exact graph and get setup/downloads. My work is the separate saved-results view. |
-| Images | Stills and reference organization | Create & edit, saved images, moodboards, characters, photo sets and scene references. |
+| Images | Stills, a selective-edit Canvas and reference organization | Create & edit, Canvas, saved images, moodboards, characters, photo sets and scene references. |
 | Video | Clips and film projects | Generate, Edit & finish, Story, Director and Timeline. A secondary row holds the current page's clip utilities. |
 | Audio | Voice, words and dialogue | Speech, transcription, translation, dubbing and lip sync with the actual source material. |
 
@@ -20,7 +20,35 @@ Studio guide, Ctrl+K, the Home idea box and Help me choose buttons all open the 
 - The plan remains open when following a tool link. Close the panel to reclaim its space. The plan is kept in this browser tab's session and Clear plan removes it.
 - Model-server and agent connection settings live in Setup. The guide only suggests routes; it does not run media jobs, download models or spend credits.
 
-## Video and film context
+## Controls, preview and saved work
+
+After a workspace's first visit its introduction collapses. Workflow export and run-location controls now live in a closed disclosure, so the tool and preview appear first. Images, video editing and audio use grouped tool cards; the underlying selectors and all existing tool IDs remain available. The last chosen tool is remembered, with explicit task links taking precedence. Image seed is under More settings.
+
+The preview stays alongside settings on desktop. Images has a recent-results strip; click a still to inspect it or drag it into a source/reference input. Ctrl+Enter (Cmd+Enter on macOS) submits the visible creation form through its existing validation and single-render gate. It does not submit while typing in the guide or My work. The page header mirrors active processing status.
+
+My work opens a non-modal drawer from every workspace. Search generated images, clips, audio and saved moodboard/character references. Use here loads compatible input; it does not generate. Dragging a saved clip into Timeline adds an unsaved shot through the existing editor. Story also accepts checked stills and clips as new draft frames. Save the film plan or timeline explicitly. The complete saved library remains available separately.
+
+Dropping a computer file on Images, Generate, Edit or Audio uses the existing image, footage or WAV upload handler. On Images, dropping onto Additional reference loads a reference rather than replacing the scene. No upload is sent to an external provider.
+
+Image readiness beside Generate links to that tool's actual model/node requirements. These checks work without an input image, including for Masked edit and Real-ESRGAN. Downloads remain explicit source links; model weights are never packaged with the source.
+
+## Image Canvas
+
+Open Images → Canvas. Upload an image, choose My work, or send a generated still using Open in Canvas.
+
+1. Paint a region, drag a box, or enter selection coordinates. Undo selection removes the last stroke/box; Clear removes the selection.
+2. Describe an edit, object removal or regional lighting change. The compatible integrated model is Qwen Image Edit. A box is converted to a mask, not presented as FLUX native layout conditioning.
+3. Generate using the existing masked ComfyUI graph. The studio restores original pixels outside the mask, saves a new PNG and checks that protection. Compare original toggles the input; the version strip lets you return to earlier saved images. These are saved versions, not Photoshop-style composited layers.
+4. To outpaint, drag an edge handle outward or enter edge padding under Extend the image edges. Prepare new edges pads a new source and selects only its borders. Describe the continuation and generate. The four-megapixel input limit includes the new space.
+5. Place an original prop opens the existing four-corner placement tool with the current scene. Animate sends the chosen still to Video without generating automatically. Inspect / export prepares the exact local graph and input/mask package.
+
+Two real local tests on October 27 passed the source-pixel preservation checks: a 768 × 768 boxed compass-lid edit and a 896 × 768 edge extension. These examples establish working integration, not general quality acceptance for object removal, lighting or every image.
+
+## LTX effects
+
+Library → Create an atmospheric VFX shot contains an LTX effects selector. The five run packages retain the same local model graph, dimensions, frame count and audio settings, and change only the positive prompt. Violet smoke has the existing saved result. Embers, mist, doorway light and rain are prepared prompt variations, not independently accepted outputs. Download the selected package, import its graph and image in native ComfyUI and run there. No paid Cloud request is submitted.
+
+## Video project handoffs
 
 The five main steps are always in the same order: Generate, Edit & finish, Story, Director and Timeline. Saved clips, Compare takes, Make variations, References, Checks and other creation utilities are below them on Generate. Edit & finish exposes its own edited clips and narrated storyboard. Existing deep links and panel controls remain supported.
 
@@ -43,3 +71,18 @@ Old /explore links redirect to Home's inspiration section and preserve filter pa
 ## Verification scope
 
 Source tests cover distinct workflow grouping, legacy redirects, five-step navigation, valid project/shot context, non-mutating take selection, saved-story persistence and stale-tab rejection. Browser checks cover instant guide search, guided planning without inference, a plan surviving a tool handoff, the inspiration browser and a saved shot brief opening in Generate. No new paid Cloud run or creative-quality acceptance is implied by these interface checks.
+
+## Remaining work from the workspace proposal
+
+- [x] Five workspaces, one guide, grouped Library tasks and a film project bar.
+- [x] Judge failure/busy handling, 7 runs per visitor, 35 shared and one active render, covered by isolated queue tests.
+- [x] Compact returning-visit headers, grouped tool cards and collapsed workflow setup.
+- [x] My work drawer, recent stills, compatible media handoffs and keyboard submit.
+- [x] Canvas paint/box masks, source protection, edge extension, versions/comparison and prop/animation handoffs.
+- [x] Tool-specific image setup/download guidance before uploading an input.
+- [x] Five selectable LTX prompt packages, with only the original smoke sample claimed as tested.
+- [ ] Native FLUX layout boxes integrated into Canvas, additional compatible model adapters and custom model selection. FLUX's existing native workflow remains available in Library.
+- [ ] Region-only upscale/compositing and richer composited layer editing. Full-image Real-ESRGAN upscale remains available.
+- [ ] 3D scene editing, generated 3D props and 3D camera handoffs.
+- [ ] A dedicated guided ad-builder UI, talking-photo workflow, background-removal model setup and integrated music generation.
+- [ ] Broader visual-quality acceptance of the existing generation tools. The separate parked quality goals remain open.

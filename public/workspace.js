@@ -33,3 +33,5 @@ if(typeof document!=='undefined'){
 }
 
 import './video-project.js';
+import './studio-interactions.js';
+import './my-work.js';

@@ -1,6 +1,6 @@
 {
   "version": 1,
-  "created": "2026-10-27T08:09:44.932Z",
+  "created": "2026-10-27T09:01:33.345Z",
   "files": [
     {
       "name": ".agents/plugins/marketplace.json",
@@ -138,6 +138,11 @@
       "sha256": "c94df6bebf9a3590c3566d5189ba14a0c6e215f8ac8648ffc4526464544b3885"
     },
     {
+      "name": "lib/image-tool-setup.mjs",
+      "bytes": 1348,
+      "sha256": "8c93d981f0e54ff77fda185532b0f0ae1f418cb06bb0d07a22a56337ff577024"
+    },
+    {
       "name": "lib/images.mjs",
       "bytes": 17083,
       "sha256": "a3e08b0a08215765c092c0fd63c50cb072db1527a952f8ed4b157a0806b07a74"
@@ -151,6 +156,11 @@
       "name": "lib/looks.mjs",
       "bytes": 2478,
       "sha256": "b18344668e20ead4c8156f944c1a9b203163a7aa8918a7c288961ae857ed13ff"
+    },
+    {
+      "name": "lib/ltx-effects.mjs",
+      "bytes": 3150,
+      "sha256": "29c963eec6095a58c96f6ab2d9fa4f5add41befeb3ecd088af26747534fa8271"
     },
     {
       "name": "lib/mcp-ui.mjs",
@@ -174,8 +184,8 @@
     },
     {
       "name": "lib/provider-workflows.mjs",
-      "bytes": 16018,
-      "sha256": "1976406a3cd2ee1a888b71c910c310f6bbd14a9174934dbc13c6e1844d32fa32"
+      "bytes": 16628,
+      "sha256": "e11c28d9dda87032484a5d6b59946671f39f6041b43fb87a1d7659392b76a38b"
     },
     {
       "name": "lib/segmentation.mjs",
@@ -199,8 +209,8 @@
     },
     {
       "name": "lib/studio-assistant.mjs",
-      "bytes": 10552,
-      "sha256": "cd566a954bbd677e948835ff7eba6e49d7cfa026f5b229adf8d2bff253348b15"
+      "bytes": 10764,
+      "sha256": "944fb475c6f7301d4d43efac42df234630c91d07518f66e2c818ae4348ca1ced"
     },
     {
       "name": "lib/studio-embed.mjs",
@@ -214,8 +224,8 @@
     },
     {
       "name": "lib/studio-setup.mjs",
-      "bytes": 3512,
-      "sha256": "5267b8a9a285d5028093d3ccd515b45bf8c216d3970a30c326fd55f901fc6a5c"
+      "bytes": 3559,
+      "sha256": "40bfa1b0147b7904cb63c53f1716c6f072d70b5c0b3c94b0e28891cbc2f0c56c"
     },
     {
       "name": "lib/style.mjs",
@@ -269,8 +279,8 @@
     },
     {
       "name": "lib/workspace.mjs",
-      "bytes": 9069,
-      "sha256": "0d044bf31e8c7ac2fa2a6af4de1b1e23a7458f0f183d2c5ab67cc2a61b469593"
+      "bytes": 9109,
+      "sha256": "9c6529ebcf3f5d2f6fa6c15265ba6cb11785585ced20ce2ec96f62e81b848223"
     },
     {
       "name": "LICENSE",
@@ -319,8 +329,8 @@
     },
     {
       "name": "public/app.js",
-      "bytes": 39715,
-      "sha256": "3fc2ed79374b7a73c426e14f1c85adc17a8259eaa77ab7ef4c162a20db7f3b52"
+      "bytes": 40532,
+      "sha256": "6232da5cc5963a88360b25f30801de279c31243a217de1e07e0644fe9a4f27a6"
     },
     {
       "name": "public/assistant-connection.js",
@@ -334,8 +344,8 @@
     },
     {
       "name": "public/assistant.js",
-      "bytes": 10966,
-      "sha256": "52af76dcf14363b99aac0ac38500222001a4ac10593853d17a6e568b8d684bfa"
+      "bytes": 11097,
+      "sha256": "ff172201c8684862a923c72b178a8e9f62dea89572af71411c66c322dc0b8c3e"
     },
     {
       "name": "public/audio.css",
@@ -349,13 +359,18 @@
     },
     {
       "name": "public/audio.js",
-      "bytes": 29025,
-      "sha256": "f89ebaa3c2d27a7e6cc2de35d89d574b9ab7bc0b9dd4ff1e69160b474e132307"
+      "bytes": 29970,
+      "sha256": "b484d352a6a0a4cafeb383dbf7f525da8b25f7295db7bcdfc96ac43f309c447f"
     },
     {
       "name": "public/body-pose.js",
       "bytes": 2720,
       "sha256": "483fa7a1dae1b56c4e5cef37e259e22e6fd3e9d2a4ff3b6bf4ec9945f4ce639d"
+    },
+    {
+      "name": "public/canvas-state.js",
+      "bytes": 1754,
+      "sha256": "1b2cd9dd9ed98146f7afc64c3ecc1b9190d067bf2efe4e42afaf51896f519160"
     },
     {
       "name": "public/caption-form.js",
@@ -369,8 +384,8 @@
     },
     {
       "name": "public/checklist.html",
-      "bytes": 3332,
-      "sha256": "5b1a8c152be24c9f0c89b2b1e8814930992ff6c1f2c37148e18e0acf619c13ac"
+      "bytes": 4781,
+      "sha256": "3aa2d5080a349dee2b326a5096a0ee445b26d0da978a9578eb28a9babeaeb903"
     },
     {
       "name": "public/checklist.js",
@@ -544,8 +559,8 @@
     },
     {
       "name": "public/film.js",
-      "bytes": 19987,
-      "sha256": "2459e0ec33dab3ce47ee439127e819a5c5d616b3184b718d9bbe64036d47ea0f"
+      "bytes": 20410,
+      "sha256": "1c768c288b7e904a7c826cda7478f2de4155a7961dc17b2f33bfaebd2f4a8e7c"
     },
     {
       "name": "public/home.css",
@@ -563,19 +578,24 @@
       "sha256": "7c859fd48df577a4e38781fd258f083d9423009bad7b6a0e9956bd0dc7e3b33a"
     },
     {
+      "name": "public/image-canvas.js",
+      "bytes": 16702,
+      "sha256": "9af957f842ca3d20700455637b7f82b032f56de4a92afaed2828335d70f6ae5b"
+    },
+    {
       "name": "public/images.css",
       "bytes": 3280,
       "sha256": "56d1b84ffb6890a2b470d94776a296a050c226faadc121c50da3ea1412df17b8"
     },
     {
       "name": "public/images.html",
-      "bytes": 15144,
-      "sha256": "77f945eb067180f9a2ac7d03d196e20595c0714fa11b5fc898b098551c7ba150"
+      "bytes": 15699,
+      "sha256": "6a272a4b4b38fd413106a08f47ad4b2121f0f5d9143dab118a7574ef3e43ec8e"
     },
     {
       "name": "public/images.js",
-      "bytes": 32023,
-      "sha256": "54c01aeb31b21e947f50a1f0c4c9438e74beae043c72fed65fb26be24a484cd6"
+      "bytes": 36810,
+      "sha256": "78461fb20eacd7e6c6137abe99e8f33b11f7e6a5b637044fb3c4f4bcb0ed1e31"
     },
     {
       "name": "public/index.html",
@@ -623,6 +643,16 @@
       "sha256": "812e89d7af83800cd4d03fc49c693e36fe98d05901b149246694a52e0b45ee50"
     },
     {
+      "name": "public/my-work.css",
+      "bytes": 2819,
+      "sha256": "44e616934a2e1015a6d8b9e7ec7c31a3bfbb1f7e107e5dcdc607588a3e8ef717"
+    },
+    {
+      "name": "public/my-work.js",
+      "bytes": 7271,
+      "sha256": "a5c6331be3eb55a1178ce4e60831ee09c4fd798ab0f78be8df9edb46a36e5dd8"
+    },
+    {
       "name": "public/online-handoff.js",
       "bytes": 4244,
       "sha256": "f6f7c220e0c226c62a73e34bc8d53b47132d049406fecf8f165fd9f67ec5576c"
@@ -649,8 +679,8 @@
     },
     {
       "name": "public/provider-workflows.js",
-      "bytes": 10254,
-      "sha256": "f7320904993f9a5b0c374e7004ae77e6d7f8c1c9becb075645d9cc43d36af20f"
+      "bytes": 10910,
+      "sha256": "5a23263ededb7ac128dace4597a7fe328dbf660d60fd9c710dababbec112595e"
     },
     {
       "name": "public/queue.js",
@@ -699,8 +729,8 @@
     },
     {
       "name": "public/setup.js",
-      "bytes": 6588,
-      "sha256": "9598d76f43a201fa5c2d6186c1933cf22116dfa140fe0bfe51f7274d44814914"
+      "bytes": 6681,
+      "sha256": "067740a45c6bef36f0b374f8719c53b1fefe4ff0e115bac651ef6f8d3a517d39"
     },
     {
       "name": "public/short-film.css",
@@ -714,8 +744,8 @@
     },
     {
       "name": "public/short-film.js",
-      "bytes": 13686,
-      "sha256": "7337c4df428bfa188888690035d3dca9c3ecb2c3beba9ad6012703199ced3f03"
+      "bytes": 15214,
+      "sha256": "9b0164c233b8e74a4648ed6853f8666b4a84b8b83d9315d82c5d29e8a64a587d"
     },
     {
       "name": "public/showcase.js",
@@ -728,14 +758,19 @@
       "sha256": "55d0160e4adcc2e10bacd21bd6b0cbf7c5d95051697e7e92bdbcde4a9bde99a8"
     },
     {
+      "name": "public/studio-interactions.js",
+      "bytes": 4324,
+      "sha256": "6414998deb85251c895f6ceb2e0d1dec476469daad496cd2cb883c77301d32e5"
+    },
+    {
       "name": "public/studio-journeys.js",
-      "bytes": 14819,
-      "sha256": "d5a5e6e6520c421c43ffeeeff0dca3de9d28a5ce610be6e538589cb52cb1403b"
+      "bytes": 15934,
+      "sha256": "6dfc05f8a148f8edc3aeb068af841cdeeb3425faf95069b4436793c5aa3092c5"
     },
     {
       "name": "public/studio-map.js",
-      "bytes": 7302,
-      "sha256": "751902aa4a5ad2299b7235995bda4fe9fab9ae65674f2464639b11baf235b855"
+      "bytes": 7426,
+      "sha256": "aae590065a31926bfdf910a55e5ae5fe1c50769765b7ca69fa912ae66c4f7522"
     },
     {
       "name": "public/studio-match.js",
@@ -753,6 +788,11 @@
       "sha256": "e520c6afeedd98d6f2bf4ef6d0905e25a404fd15905f851ced3e03fc55d472cd"
     },
     {
+      "name": "public/studio-tools.css",
+      "bytes": 9083,
+      "sha256": "64bee534431fdf6a37054581920745110eab54fe1fbdf5972b3d27b756c764d1"
+    },
+    {
       "name": "public/style-board.js",
       "bytes": 3715,
       "sha256": "cae1715658f29e30a1156db354cb3f690950601c31945157c8c743ae73a4dfc3"
@@ -766,6 +806,11 @@
       "name": "public/text-frame.svg",
       "bytes": 337,
       "sha256": "869b9a8e43472edac049fd1bb319504177cb706083d205f6f234085e9fb01275"
+    },
+    {
+      "name": "public/tool-picker.js",
+      "bytes": 3040,
+      "sha256": "00471b00df35fdcac80dc028091c010c02c99d48c7068109d25fc724168ae815"
     },
     {
       "name": "public/video-playback.js",
@@ -789,8 +834,8 @@
     },
     {
       "name": "public/video-tools.js",
-      "bytes": 46969,
-      "sha256": "642e82fea8f640d96588d5e9f3bb6a9609fc8e1b5015866651d35279e8b76201"
+      "bytes": 47834,
+      "sha256": "abccdc59b51238dfb5adaf5b015a5a2a1f8d5c178ccc09aed3841b3c20aea4df"
     },
     {
       "name": "public/view-options.js",
@@ -809,8 +854,8 @@
     },
     {
       "name": "public/workflow-outcomes.js",
-      "bytes": 7538,
-      "sha256": "e78e973ac7cbaf1f7f9669776f13eaba60a9b252e9786bd4cfb75aecdd565895"
+      "bytes": 8009,
+      "sha256": "70c17f347aa7d188f571753c7fec24adff42c1dbb4b212e072acc971eb504fcc"
     },
     {
       "name": "public/workflow-panel.css",
@@ -819,8 +864,8 @@
     },
     {
       "name": "public/workflow-panel.js",
-      "bytes": 13993,
-      "sha256": "5658fe1517bf2616174d178c7535b8f206cad29fceb12729b274fcc74225f19f"
+      "bytes": 14237,
+      "sha256": "2750c30f29ddbf37afe744e6da792a8df2ac4911835ad92d78199002f776408a"
     },
     {
       "name": "public/workflows.css",
@@ -849,18 +894,18 @@
     },
     {
       "name": "public/workspace.js",
-      "bytes": 7587,
-      "sha256": "f3c2c395733b3af6db3c67bf65ca13c9f061141f890b2830d14c5999bb3a0281"
+      "bytes": 7647,
+      "sha256": "093338121216360e01301d9d29c5b21eae185caa331ff1b0b160bab79415d3d8"
     },
     {
       "name": "README.md",
-      "bytes": 10909,
-      "sha256": "9a7a9dc38d8fec639df6c15dc52eb68ec1b85261b0a6574f2955048f76a91046"
+      "bytes": 11479,
+      "sha256": "2b94de0ccbdcdf0de631598db52becdadad4aa5fafda90035c481a6f1dc70cfc"
     },
     {
       "name": "REMAINING-CHECKLIST.md",
-      "bytes": 42114,
-      "sha256": "3e893c99fbde636a22e8453ed8564c5a56bd509b7a1075e289d2576f3188b006"
+      "bytes": 43656,
+      "sha256": "ab69dbf7ad7db2fcb5c6590ed0d38560f214dd437106c01b05a3d0827f4e93fc"
     },
     {
       "name": "REVIEW-FIXES.md",
@@ -1644,8 +1689,8 @@
     },
     {
       "name": "server.mjs",
-      "bytes": 102549,
-      "sha256": "a981fe7d06cd4c69ccbef1dfa9b1206eb761b5ceb4b4a464cf12b314240a4142"
+      "bytes": 102941,
+      "sha256": "09b8ecdae121fd3f788f4b4cc1bb0b3c252b30302573db057929d4d0bb5a2ef2"
     },
     {
       "name": "setup/advanced-models.lock.json",
@@ -1968,6 +2013,11 @@
       "sha256": "fc40074574c061eecccaf30c2aa8ce44ba01c8177e1697417d1a19099cd7a2f5"
     },
     {
+      "name": "tests/canvas-workspace.test.mjs",
+      "bytes": 5147,
+      "sha256": "1302986c972a269ac0e55bc64f3b1895bd6f312e2e4f63e216a80ab85acefb34"
+    },
+    {
       "name": "tests/checklist-resolution.test.mjs",
       "bytes": 1207,
       "sha256": "4f8821338ec92e67eee39e97d0b001c4c9e6ba855a21d3f5c4e5f967d6b4cc29"
@@ -2131,6 +2181,11 @@
       "name": "tests/light-transfer.test.mjs",
       "bytes": 561,
       "sha256": "0b2a096f182a1b71e924d4350c27927b9fda766aecf1237770ad27823a1d1300"
+    },
+    {
+      "name": "tests/ltx-effects.test.mjs",
+      "bytes": 959,
+      "sha256": "410366dc213b997562bfccc99029e90715e30dc3ae16aec9cd04dfd2a6b839e3"
     },
     {
       "name": "tests/mcp-studio-ui.test.mjs",
@@ -2365,7 +2420,7 @@
     {
       "name": "tests/workflow-outcomes.test.mjs",
       "bytes": 2688,
-      "sha256": "72c1d3db4aff205b8d0e81afef6655f587ef4b6ef85fd2282065c7cd309087e9"
+      "sha256": "87d5d5cb6ffd0896040d389807e433d9cadccce4ee0e97b39863a79e8db0d506"
     },
     {
       "name": "tests/workflow-plans.test.mjs",
@@ -2564,8 +2619,8 @@
     },
     {
       "name": "WORKSPACE-GUIDE.md",
-      "bytes": 4639,
-      "sha256": "e8618f7fa69dfb063ad2199767b66a1bada5ebb51bccd10857b01bd829bc6a85"
+      "bytes": 9846,
+      "sha256": "39589aa45f2550ade579b40fa783674c3f4f636062d867fb1117b2507b62fb21"
     }
   ],
   "excluded": [
