@@ -6,7 +6,7 @@ const providers=[{id:'ltx-vfx',model:'LTX',execution:'local',featured:{execution
 test('Every portable graph belongs to one distinct task and local/hosted provider graphs keep their input roles',()=>{
  const keys=OUTCOMES.flatMap(t=>t.variants);assert.equal(new Set(keys).size,keys.length);
  for(const w of WORKFLOWS)assert.equal(keys.filter(k=>k===w.id).length,1,w.id);
- const all=outcomeCatalog(WORKFLOWS,providers);assert.equal(all.length,22);
+ const all=outcomeCatalog(WORKFLOWS,providers);assert.equal(all.length,42);
  assert.ok(all.find(t=>t.id==='animate-image').options.some(v=>v.key==='provider:flux3-video:default'));
  assert.ok(!all.find(t=>t.id==='text-video').options.some(v=>v.key.startsWith('provider:flux3')));
  assert.deepEqual(all.find(t=>t.id==='atmosphere-vfx').options[0].verification,{model:'LTX'});
@@ -22,4 +22,13 @@ test('Search finds model names inside their task and strict filtering retains lo
 });
 test('Configured processors lead to real image/video tool IDs instead of claiming standalone graphs',()=>{
  for(const t of Object.values(TOOL_VARIANTS)){const u=new URL(t.url,'http://localhost');if(u.pathname==='/images')assert.ok(IMAGE_TOOLS.some(x=>x.id===u.searchParams.get('tool')));if(u.pathname==='/video-tools')assert.ok(VIDEO_TOOLS.some(x=>x.id===u.searchParams.get('tool')));}
+});
+
+test('Existing local tools are discoverable without paid-only task cards, and unfinished 3D is not advertised',()=>{
+ const local=outcomeCatalog(WORKFLOWS,providers,{location:'local'});
+ for(const id of ['text-video','keyframes','reference-video','edit-video','extend-video','make-film','voice-conversion','track-edit','style-board','cinematic-still'])assert.ok(local.some(t=>t.id===id),id);
+ assert.ok(!OUTCOMES.some(t=>/trellis|3d scene/i.test(t.title)));
+ const strict=outcomeCatalog(WORKFLOWS,providers,{openOnly:true});
+ for(const id of ['text-video','keyframes','make-film'])assert.ok(strict.some(t=>t.id===id),id);
+ for(const id of ['reference-video','edit-video','extend-video','voice-conversion','track-edit'])assert.ok(!strict.some(t=>t.id===id),id);
 });

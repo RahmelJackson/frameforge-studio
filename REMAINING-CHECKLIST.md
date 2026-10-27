@@ -259,6 +259,12 @@ Evidence: STYLE-BOARD-WORKFLOWS.md, ACCEPTANCE-STYLE-BOARD.md and evidence/style
 
 ## Latest completed work
 
+- [x] Shared Images/Video/Audio workbench with independently scrolling settings and a pinned main action; desktop preview remains alongside it.
+- [x] Wrapped image tool groups, compact single descriptions and header padding; SAM masks excluded from recent image results.
+- [x] One main Video tab row, Takes & clip tools beside the preview, and four working Audio tabs.
+- [x] Real saved-audio waveform, clickable transcript timing and eight recent audio/transcript cards titled by first words.
+- [x] Library expanded to 42 distinct task cards, including 20 previously unlisted tools and five existing local alternatives to Cloud-only task choices. Shared guide/MCP task discovery updated.
+- [x] Explicit Wan / LTX / H3 / Cloud selector on Video. LTX/H3 currently hand off to native ComfyUI; they do not submit from the Studio form.
 - [x] SAM 3.1 image selection by text, keep/exclude clicks and box, with a lossless PNG mask, native graph export and shared catalog/setup/MCP discovery.
 - [x] Canvas brush and eraser refinement before applying the mask to a protected Qwen edit.
 SAM object/edge acceptance remains open: text and clicks selected the product knob; the box case selected its outer ring and needs refinement. Missing-object false positives remain possible. The 15 broader creative-quality goals remain open.

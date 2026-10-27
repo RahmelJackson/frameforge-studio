@@ -50,7 +50,7 @@ Library → Create an atmospheric VFX shot contains an LTX effects selector. The
 
 ## Video project handoffs
 
-The five main steps are always in the same order: Generate, Edit & finish, Story, Director and Timeline. Saved clips, Compare takes, Make variations, References, Checks and other creation utilities are below them on Generate. Edit & finish exposes its own edited clips and narrated storyboard. Existing deep links and panel controls remain supported.
+The five main steps are always in the same order: Generate, Edit & finish, Story, Director and Timeline. Takes & clip tools is a disclosure beside the preview for saved clips, comparison, references and checks. Manage variations is in Generate; Story exposes script breakdown and film collections. Existing deep links remain supported.
 
 Opening a saved film shows its name, working storyboard shot and next incomplete stage in the project bar. Selecting a working shot carries that context into the main steps. Single clip mode leaves the film context.
 
@@ -71,6 +71,22 @@ Old /explore links redirect to Home's inspiration section and preserve filter pa
 ## Verification scope
 
 Source tests cover distinct workflow grouping, legacy redirects, five-step navigation, valid project/shot context, non-mutating take selection, saved-story persistence and stale-tab rejection. Browser checks cover instant guide search, guided planning without inference, a plan surviving a tool handoff, the inspiration browser and a saved shot brief opening in Generate. No new paid Cloud run or creative-quality acceptance is implied by these interface checks.
+
+## Shared creation layout and Library coverage
+
+Images, Generate, Edit & finish and Audio use the same bounded desktop workbench. The controls scroll independently above a pinned main action; the preview stays alongside them. On smaller windows the settings have a bounded scroll area and the result follows the form. Tool groups wrap instead of hiding Labs. Creation-page introductions start collapsed and remain available through About this workspace. Header padding keeps labels inside the card.
+
+Audio has Voice, Dialogue, Transcribe & dub and Lip sync tabs. Its preview decodes the selected recording into a real waveform, shows timed transcript segments and lets a timestamp seek the recording. Transcription previews use the original source when no new audio was generated. The eight-item recent strip uses first words where available; See all saved work opens the full saved library. SAM selection masks remain saved but do not appear as completed pictures in Images' recent strip.
+
+Technical checks appear in an expandable count beside the result. They do not grant creative approval; existing report downloads, review notes and actions remain available.
+
+The Library now contains **42 task cards**, with model alternatives inside each task. These are not 42 independently tested neural models or 42 standalone ComfyUI graphs. Twenty added cards expose already implemented tools, including film assembly, cinematic stills, reference/face/prop/viewpoint tools, video finishing/tracking/recolor/upscale, expressive speech, conversion, dialogue, separation, lip sync and captioned video. The new distinct tasks are also discoverable in the shared Studio guide/MCP task catalog.
+
+Text-to-video has a local Wan option; keyframes have local Fun Inpaint; reference motion, prompt video edits and continuation have experimental local VACE options. Unreviewed pipelines remain excluded from the strict open-weights profile. The current LTX starter graph requires an input image; a supported LTX text-only graph has not been added.
+
+Video's model/location picker distinguishes Wan generation in Studio from LTX/H3 native-editor handoffs and external Cloud choices. Native choices expose the exact graph, model setup and compatible local editor link. Selecting them never submits a job, never routes the request into Wan, and does not transfer the Wan form's current inputs into that graph. Direct Studio submission for these LTX/H3 choices remains follow-up work. Cloud runs use the visitor's own account externally.
+
+This pass adds no new model weights and performs no paid generation. Wan general 14B, Wan Animate, 3D, music and other missing model pipelines remain below.
 
 ## Suggested workflows: current coverage
 

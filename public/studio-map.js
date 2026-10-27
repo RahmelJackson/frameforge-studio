@@ -9,7 +9,7 @@ export function workspaceFor(page){return WORKSPACES.find(g=>g.pages.includes(pa
 const uuid=/^[a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}$/i;
 export function filmTabURL(url,context={}){const u=new URL(url,'http://localhost');for(const key of ['project','plan','shot']){u.searchParams.delete(key);if(uuid.test(context[key]??''))u.searchParams.set(key,context[key]);}return u.pathname+u.search;}
 export function workspaceTab(page,params=new URLSearchParams()){
- const group=workspaceFor(page),view=params.get('view');
+ const group=workspaceFor(page),view=params.get('view');if(page==='audio'){const tool=params.get('tool')??'speech';return group.tabs.find(t=>t.tools?.includes(tool))?.id??'voice';}
  return group?.tabs.find(t=>t.page===page&&t.panel===view)?.id??group?.tabs.find(t=>t.page===page&&t.view===view)?.id??page;
 }
 
@@ -41,7 +41,13 @@ WORKSPACES.find(g=>g.id==='video').tabs=[
  {id:'director',url:'/director',label:'Director',hint:'Detailed production shot plans',aria:'Director'},
  {id:'film',url:'/film',label:'Timeline',hint:'Trims, transitions, sound and export'}
 ];
-export const IMAGE_TOOL_GROUPS=[
+WORKSPACES.find(g=>g.id==='audio').tabs=[
+ {id:'voice',page:'audio',audioGroup:'voice',tools:['speech','expressive','convert'],url:'/audio?tool=speech',label:'Voice',hint:'Narration, expression and conversion'},
+ {id:'dialogue',page:'audio',audioGroup:'dialogue',tools:['dialogue'],url:'/audio?tool=dialogue',label:'Dialogue',hint:'Assign voices and pauses'},
+ {id:'words',page:'audio',audioGroup:'words',tools:['transcribe','dub','separate','caption'],url:'/audio?tool=transcribe',label:'Transcribe & dub',hint:'Words, subtitles and translation'},
+ {id:'lips',page:'audio',audioGroup:'lips',tools:['lipsync'],url:'/audio?tool=lipsync',label:'Lip sync',hint:'Match face footage to speech'}
+ ];
+ export const IMAGE_TOOL_GROUPS=[
  {label:'Make',ids:['create','cinema']},
  {label:'Change',ids:['edit','select','inpaint','upscale','relight']},
  {label:'Characters & references',ids:['character','continuity','face-anchor','prop-place']},
@@ -50,4 +56,4 @@ export const IMAGE_TOOL_GROUPS=[
 export function groupedImageTools(tools){const used=new Set();const groups=IMAGE_TOOL_GROUPS.map(g=>({label:g.label,tools:g.ids.flatMap(id=>{const t=tools.find(t=>t.id===id);if(t)used.add(id);return t?[t]:[];})}));const extra=tools.filter(t=>!used.has(t.id));if(extra.length)groups.push({label:'More tools',tools:extra});return groups.filter(g=>g.tools.length);}
 
 export const VIDEO_STEPS=['create','video-tools','short-film','director','film'];
-export function workspaceTabGroups(group,page,params=new URLSearchParams()){if(group.id!=='video')return [{label:group.name+' tools',tabs:group.tabs}];const main=VIDEO_STEPS.map(id=>group.tabs.find(t=>t.id===id));return [{label:'Video steps',tabs:main},{label:'Clip library & utilities',secondary:true,tabs:group.tabs.filter(t=>!VIDEO_STEPS.includes(t.id)&&(t.page===page||t.id===workspaceTab(page,params)))}].filter(g=>g.tabs.length);}
+export function workspaceTabGroups(group,page,params=new URLSearchParams()){if(group.id!=='video')return [{label:group.name+' tools',tabs:group.tabs}];const main=VIDEO_STEPS.map(id=>group.tabs.find(t=>t.id===id));return [{label:'Video steps',tabs:main}];}

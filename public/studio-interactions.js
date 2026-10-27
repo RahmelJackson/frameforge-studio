@@ -2,7 +2,7 @@ import {mountToolPicker} from './tool-picker.js';
 import {readMediaDrop} from './my-work.js';
 const groups={
  'video-tool':[{label:'Finish',ids:['finish','shorts','upscale','interpolate','reframe','recolor']},{label:'Generate edits',ids:['restyle','relight','masked','motion','extend','outpaint']},{label:'Guides & stories',ids:['story','pose-guide','segment']}],
- 'audio-tool':[{label:'Create voices',ids:['speech','expressive','dialogue','convert']},{label:'Speech to text',ids:['transcribe','dub','separate']},{label:'Video & voice',ids:['caption','lipsync']}]
+ 'audio-tool':[{label:'Voice',ids:['speech','expressive','convert']},{label:'Dialogue',ids:['dialogue']},{label:'Transcribe & dub',ids:['transcribe','dub','separate','caption']},{label:'Lip sync',ids:['lipsync']}]
 };
 if(typeof document!=='undefined'){
 for(const [id,g] of Object.entries(groups)){const select=document.getElementById(id);if(select)mountToolPicker(select,{groups:g});}

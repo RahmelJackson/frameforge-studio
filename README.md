@@ -127,3 +127,5 @@ See [review follow-up](REVIEW-FIXES.md) for the completed usability fixes, plus 
 **Select before editing:** Image Canvas supports native SAM 3.1 selection by text, box or keep/exclude points, plus brush/eraser touch-ups. It saves a lossless PNG mask for protected Qwen edits. One checkpoint is listed with its model download/source link; no model is bundled. Inspect selections, especially box edges and absent-object prompts. [Workflow and acceptance scope](WORKSPACE-GUIDE.md#sam-image-selection).
 
 Workflow availability is tracked in the [suggested-workflow audit](WORKSPACE-GUIDE.md#suggested-workflows-current-coverage). 3D generation, generated music, LoRA training and other planned capabilities are not advertised as working tools.
+
+The Library groups 42 creative tasks with local/Cloud options inside each card. Images, Video and Audio share visible creation controls and a result preview; Audio adds real waveforms and timed transcript navigation. See [layout, task coverage and native-editor handoff limits](WORKSPACE-GUIDE.md#shared-creation-layout-and-library-coverage).

@@ -1,3 +1,4 @@
+import {readFile} from 'node:fs/promises';
 import test from 'node:test';import assert from 'node:assert/strict';
 import {WORKSPACES,workspaceFor,workspaceTab,filmTabURL} from '../public/studio-map.js';
 import {workflowOptions,recommendWorkflow} from '../public/studio-match.js';
@@ -6,14 +7,14 @@ import {groupedImageTools} from '../public/studio-map.js';
 import {IMAGE_TOOLS} from '../lib/images.mjs';
 const id='3b9f96a0-77cb-471e-bffb-614eabe4ed6c',plan='4b9f96a0-77cb-471e-bffb-614eabe4ed6c';
 
-test('Every image and video panel has one labelled tab, with navigation and local execution controls available in either layout',()=>{
+test('Every image and video panel has one labelled tab, with navigation and local execution controls available in either layout',async()=>{
  const raw='<head></head><body><aside class="rail"><button data-view="old">Old hidden menu</button></aside><header>Old breadcrumb</header><main></main></body>';
  const images=renderWorkspacePage(raw,'images','http://localhost/images?view=sets');
  for(const label of ['Create &amp; edit','Saved images','Moodboards','Characters','Photo sets','Scene references'])assert.ok(images.includes(label),label);
  assert.ok(!images.includes('Old hidden menu'));assert.ok(!images.includes('workspace-tools'));assert.equal((images.match(/data-open-weights-toggle/g)??[]).length,2);assert.equal((images.match(/data-navigation-layout/g)??[]).length,2);assert.match(images,/Local only/);assert.ok(!images.includes('id="navigation-layout"'));
- const video=renderWorkspacePage(raw,'create','http://localhost/create?view=queue');
- for(const view of ['studio','gallery','compare','queue','assets','checks','story','projects','guide'])assert.equal((video.match(new RegExp('data-view="'+view+'"','g'))??[]).length,1,view);
- assert.match(video,/data-workspace-tab="queue" aria-current="page"/);assert.match(video,/id="library-count"/);
+ const video=renderWorkspacePage(await readFile(new URL('../public/index.html',import.meta.url),'utf8'),'create','http://localhost/create?view=queue');
+ for(const view of ['studio','gallery','compare','queue','assets','checks','projects','guide'])assert.equal((video.match(new RegExp('data-view="'+view+'"','g'))??[]).length,1,view);
+ assert.match(video,/Takes & clip tools/);assert.match(video,/id="view-story"/);assert.match(video,/id="library-count"/);
  assert.equal(workspaceTab('images',new URLSearchParams('view=collection')),'image-library');assert.equal(workspaceTab('video-tools',new URLSearchParams('view=story')),'storyboard');
  const setup=renderWorkspacePage('<head></head><body><header>Setup</header><main><div class="setup-columns"></div></main></body>','setup');
  assert.equal((setup.match(/id="navigation-layout"/g)??[]).length,1);assert.equal((setup.match(/data-open-weights-toggle/g)??[]).length,3);

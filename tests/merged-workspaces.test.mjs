@@ -6,7 +6,7 @@ const project='3b9f96a0-77cb-471e-bffb-614eabe4ed6c',shot='4b9f96a0-77cb-471e-bf
 test('Five primary destinations retain all clip tools and present the same five video steps in order',()=>{
  assert.deepEqual(WORKSPACES.map(w=>w.name),['Home','Library','Images','Video','Audio']);assert.equal(workspaceFor('explore').id,'home');
  for(const page of ['create','video-tools','short-film','director','film']){const rows=workspaceTabGroups(workspaceFor(page),page);assert.deepEqual(rows[0].tabs.map(t=>t.id),['create','video-tools','short-film','director','film']);assert.equal(new Set(rows.flatMap(r=>r.tabs.map(t=>t.id))).size,rows.reduce((n,r)=>n+r.tabs.length,0));}
- const utilities=workspaceTabGroups(workspaceFor('create'),'create')[1].tabs;for(const id of ['queue','compare','checks','assets','projects','story-plan'])assert.ok(utilities.some(t=>t.id===id));
+ assert.equal(workspaceTabGroups(workspaceFor('create'),'create').length,1);const utilities=workspaceFor('create').tabs;for(const id of ['queue','compare','checks','assets','projects','story-plan'])assert.ok(utilities.some(t=>t.id===id));
  assert.equal(filmTabURL('/video-tools?sourceJob='+take,{project,shot}),'/video-tools?sourceJob='+take+'&project='+project+'&shot='+shot);
  assert.equal(filmTabURL('/create?project='+project+'&shot='+shot,{project:null,shot:'../bad'}),'/create');
 });
