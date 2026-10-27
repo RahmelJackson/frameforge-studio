@@ -40,7 +40,11 @@ def check(raw, request, assets, directory):
         expected=source.size
     elif request['tool']=='upscale': expected=tuple(x*request['scale'] for x in source.size)
     else: expected=tuple(request.get('size') or {'square':[768,768],'landscape':[1024,576],'portrait':[576,1024]}[request['aspect']])
-    record('Dimensions',image.size==expected,f'{image.width} × {image.height}; expected {expected[0]} × {expected[1]}')
+    if request.get('providerWorkflow')=='flux3-image':
+        # The official reference-latent node selects aspect-preserving model grid dimensions.
+        area=image.width*image.height
+        record('Dimensions',800000<=area<=1200000 and image.width%16==0 and image.height%16==0 and abs(image.width/image.height-source.width/source.height)<0.08,f'{image.width} × {image.height}; one-megapixel aspect-preserving profile')
+    else: record('Dimensions',image.size==expected,f'{image.width} × {image.height}; expected {expected[0]} × {expected[1]}')
     record('Full decode',True,'All image pixels decoded.')
     pixels=np.asarray(image);record('Non-flat pixels',pixels.std()>1,'Blank or uniform outputs fail this check.')
     selection=None

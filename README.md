@@ -1,5 +1,7 @@
 # Frameforge
 
+Release **0.7.0** adds direct local LTX/H3/FLUX execution, reviewed model downloads, early dependency lists, per-assistant setup and a native ComfyUI image bridge. See [the integration guide](INTEGRATION-UPGRADE.md) for tested profiles and remaining work.
+
 **An open-source creative studio inspired by Higgsfield, built around ComfyUI workflows.**
 
 Frameforge is a local creative studio over your own ComfyUI. Turn an idea into images, moving shots, voice and a short film through a guided browser interface. Inspect the actual workflow graph, understand its inputs, find the required models, and choose where to create.

@@ -1,4 +1,7 @@
 import {assertOpenProvider} from './lib/provider-policy.mjs';
+import {providerRecipe,providerSetup,assertProviderPlan,executableProvider,providerCanvas} from './lib/provider-execution.mjs';
+import {ModelDownloads} from './lib/model-downloads.mjs';
+import {toolRequirements,checkProcessorFiles} from './lib/tool-requirements.mjs';
 import {setupReport,mediaRuntime,discoverComfy} from './lib/studio-setup.mjs';
 import {StudioAssistant,assistantModels,createAssistantTools,ASSISTANT_TOOLS} from './lib/studio-assistant.mjs';
 import {AssistantConnection,ASSISTANT_PROVIDERS,detectAssistantServers,agentMCPConfig} from './lib/assistant-connection.mjs';
@@ -6,7 +9,7 @@ import {CommunityGallery} from './lib/explore.mjs';
 import {explainPlan} from './lib/workflow-explanations.mjs';
 import {WorkflowPlans} from './lib/workflow-plans.mjs';
 import {applyWorkflowSettings} from './lib/workflow-expectations.mjs';
-import {WorkflowExports} from './lib/workflow-exports.mjs';
+import {WorkflowExports,writeZip} from './lib/workflow-exports.mjs';
 import {WORKFLOWS,workflowPacket,modelDependencies} from './lib/workflow-catalog.mjs';
 import {imageToolSetup} from './lib/image-tool-setup.mjs';
 import {providerCatalog,providerPacket,providerReadiness,providerRunPackage,providerVerification} from './lib/provider-workflows.mjs';
@@ -50,8 +53,12 @@ const DATA = process.env.STUDIO_DATA ?? path.join(ROOT, 'data');
 const executionPolicy=await new ExecutionPolicy({file:path.join(DATA,'execution-policy.json'),locked:process.env.FRAMEFORGE_OPEN_WEIGHTS_ONLY==='1'}).open();
 const policyModels=JSON.parse(await readFile(path.join(ROOT,'workflows/models.json'),'utf8'));
 const PORT = Number(process.env.PORT ?? config.port);
+let lastMCPRequest=null;
 const HOSTED_MODE=process.env.FRAMEFORGE_HOSTED_MODE==='1';
 const comfy = new ComfyClient(process.env.COMFY_URL ?? config.comfyUrl);
+const providerEngines=[...new Set([comfy.url,...(config.providerEngines??[]),'http://127.0.0.1:8189'])];
+const jobEngine=job=>job.engineUrl?new ComfyClient(job.engineUrl):comfy;
+let modelRoot=config.modelRoot??(config.storageRoot&&process.platform==='win32'?'D:/FrameforgeModels/storybuilder':null);
 const jobs = new Map();
 const saves = new Map();
 const processors=new Map();
@@ -236,10 +243,11 @@ async function tick() {
       if (job.status === 'verifying') { try { await verify(job); } catch (e) { job.status = 'verification-blocked'; job.error = e.message; await save(job); } continue; }
       if (!['submitted', 'running', 'cancelling'].includes(job.status)) continue;
       try {
-        const history = await comfy.json('/history/' + encodeURIComponent(job.promptId));
+        const engine=jobEngine(job);
+        const history = await engine.json('/history/' + encodeURIComponent(job.promptId));
         const record = history[job.promptId];
         if (!record) {
-          const queue = await comfy.json('/queue');
+          const queue = await engine.json('/queue');
           const running = (queue.queue_running ?? []).some(x => x[1] === job.promptId);
           const pending = (queue.queue_pending ?? []).some(x => x[1] === job.promptId);
           if (job.status === 'cancelling') {
@@ -258,7 +266,7 @@ async function tick() {
         const refs = isImage?findImages(record.outputs):findVideos(record.outputs);
         if (!refs.length && record.status?.completed) { job.status = 'failed'; job.error = 'Workflow completed without saved media.'; await save(job); continue; }
         if (!refs.length) continue;
-        const response = await comfy.output(refs[0]);
+        const response = await engine.output(refs[0]);
         const output=isImage?'raw.png':job.request.kind==='video-tool'?'raw.mp4':'output'+path.extname(refs[0].filename).toLowerCase();
         if(!isImage&&job.request.kind!=='video-tool')job.video=output;
         await writeFile(path.join(jobDir(job.id), output + '.tmp'), Buffer.from(await response.arrayBuffer()));
@@ -274,7 +282,34 @@ async function tick() {
 }
 const timer = setInterval(tick, 2500); timer.unref();
 
+async function submitProviderPlan(plan,graph,requestId,openOnly){
+ if(!/^[a-f0-9-]{36}$/.test(requestId??''))throw Error('A valid request ID is required.');
+ const existing=[...jobs.values()].find(j=>j.requestId===requestId);
+ if(existing){if(existing.planId!==plan.id)throw Error('This request ID belongs to another workflow.');return {code:200,body:existing};}
+ assertProviderPlan(plan);await executableProvider(ROOT,plan.providerWorkflow);
+ const active=()=>audioStudio.busy()||[...jobs.values()].some(j=>['processing','uploading','submitting','submitted','running','cancelling','verifying'].includes(j.status));
+ if(active())return {code:409,body:{error:'One local render at a time. Wait for the current shot.'}};
+ if(!(await mediaRuntime(config.python)).available)throw Error('Install the Studio media helpers before running.');
+ // Recheck after the asynchronous preflight, then reserve the same shared job queue.
+ const duplicate=[...jobs.values()].find(j=>j.requestId===requestId);if(duplicate){if(duplicate.planId!==plan.id)throw Error('This request ID belongs to another workflow.');return {code:200,body:duplicate};}
+ if(active())return {code:409,body:{error:'One local render at a time. Wait for the current shot.'}};
+ const job={id:randomUUID(),requestId,planId:plan.id,createdAt:new Date().toISOString(),status:'uploading',request:structuredClone(plan.request),engineUrl:plan.engineUrl,review:null,...(openOnly?{executionPolicy:{profile:'open-weights-only',openWeightsOnly:true,reviewedProvider:plan.providerWorkflow}}:{})};
+ jobs.set(job.id,job);await save(job);
+ try{
+  const {ready}=await providerSetup({root:ROOT,id:plan.providerWorkflow,engines:[plan.engineUrl]});if(!ready.ready)throw Error(ready.message);
+  const engine=jobEngine(job),info=await engine.json('/object_info');
+  for(const n of Object.values(graph))if(info[n.class_type]?.api_node)throw Error('Partner nodes cannot run through the local provider route.');
+  for(const url of providerEngines){const e=new ComfyClient(url);let q;try{q=await e.json('/queue');}catch{if(url===engine.url)throw Error('Selected engine is offline.');continue;}if(q.queue_running?.length||q.queue_pending?.length)throw Error('Another ComfyUI job is running. Wait for it to finish.');await e.releaseIdle();}
+  const upload=await engine.upload(path.join(DATA,'assets',plan.request.asset),plan.request.asset),name=[upload.subfolder,upload.name].filter(Boolean).join('/');
+  const api=structuredClone(graph);for(const node of Object.values(api)){if(node.class_type==='LoadImage')node.inputs.image=name;if(['SaveImage','SaveVideo'].includes(node.class_type))node.inputs.filename_prefix='frameforge/'+job.id;}
+  await writeFile(path.join(jobDir(job.id),'workflow.json'),JSON.stringify(api,null,2));job.status='submitting';await save(job);
+  const result=await engine.json('/prompt',{prompt:api,prompt_id:job.id,client_id:job.id});if(!result.prompt_id)throw Error('The engine did not acknowledge this request. Inspect before retrying.');
+  job.promptId=result.prompt_id;job.status='submitted';await save(job);await audit(job,'provider-submitted');return {code:202,body:job};
+ }catch(error){job.error=error.message;job.status=job.status==='submitting'?'needs-attention':'failed';await save(job);return {code:502,body:{error:error.message,job}};}
+}
+
 async function submitJob(input,retriedFrom=null,workflowOverride=null) {
+  if(input.providerWorkflow)throw Error('Prepare this provider recipe, inspect its graph, then run the prepared workflow. Direct jobs do not substitute a Wan or Qwen model.');
   const openOnly=executionPolicy.enabled||input.openWeightsOnly===true;
   if(openOnly){assertOpenInput(input.kind==='image'?'images':input.kind==='video-tool'?'video-tools':'create',input);if(workflowOverride)assertOpenGraph(workflowOverride,policyModels);}
   if (typeof input.requestId !== 'string' || !/^[a-f0-9-]{36}$/.test(input.requestId)) throw new Error('A valid request ID is required.');
@@ -386,11 +421,26 @@ const audioStudio=await new AudioStudio({root:ROOT,data:DATA,resolveVideo:resolv
 async function preparePortableVideo(id,request){
  const source=await resolveVideoSource(request),directory=path.join(DATA,'workflow-plans',id,'stage');await mkdir(directory,{recursive:true});const manifest={request:{...request,narration:'',audio:null},visionPython,source,assets:path.join(DATA,'assets'),audioPath:null};await writeFile(path.join(directory,'manifest.json'),JSON.stringify(manifest));await runPython('process-video.py',[directory,'--phase','prepare'],300000);const prepared=JSON.parse(await readFile(path.join(directory,'prepared.json'),'utf8'));await pythonJson('inspect-video.py',[path.join(directory,'input.mp4'),'--poster',path.join(directory,'poster.jpg')]);const files=[];for(const [filename,name] of [['input.mp4','prepared-input.mp4'],...(prepared.hasMaskVideo?[['mask.mp4','prepared-mask.mp4']]:[])]){const file=path.join(directory,filename);files.push({name,path:file,bytes:(await stat(file)).size,sha256:await fileDigest(file),contentType:'video/mp4',url:'/workflow-plan-inputs/'+id+'/'+filename,previewUrl:'/workflow-plan-inputs/'+id+'/poster.jpg'});}return {prepared,files};
 }
-const workflowPlans=await new WorkflowPlans({root:ROOT,data:DATA,comfy,resolveVideo:resolveVideoSource,inspectImage,prepareVideo:preparePortableVideo,resolveKeyframe:async id=>{const frame=jobs.get(id);if(!frame?.image||!frame.report?.technicalPass||frame.review?.verdict==='rejected')throw Error('Choose a checked appearance still.');const file=path.join(jobDir(id),frame.image);if(await fileDigest(file)!==frame.report.sha256)throw Error('Appearance keyframe changed.');const name=randomUUID()+'.png';await copyFile(file,path.join(DATA,'assets',name));return name;}}).open();
+const workflowPlans=await new WorkflowPlans({root:ROOT,data:DATA,comfy,providerEngines,resolveVideo:resolveVideoSource,inspectImage,prepareVideo:preparePortableVideo,resolveKeyframe:async id=>{const frame=jobs.get(id);if(!frame?.image||!frame.report?.technicalPass||frame.review?.verdict==='rejected')throw Error('Choose a checked appearance still.');const file=path.join(jobDir(id),frame.image);if(await fileDigest(file)!==frame.report.sha256)throw Error('Appearance keyframe changed.');const name=randomUUID()+'.png';await copyFile(file,path.join(DATA,'assets',name));return name;}}).open();
+async function selectedSetup(selection={}){
+ const workflow=selection.workflow??'wan-i2v';let packet,engine=comfy;
+ if(selection.context&&selection.tool){packet=await toolRequirements(ROOT,selection);packet=await checkProcessorFiles(packet,{root:ROOT,modelRoot});}
+ else if(selection.imageTool)packet=await toolRequirements(ROOT,{context:'images',tool:selection.imageTool});
+ else if(selection.plan){packet=workflowPlans.public(await workflowPlans.read(selection.plan));if(packet.engineUrl)engine=new ComfyClient(packet.engineUrl);}
+ else if(providerRecipe(workflow)){const checked=await providerSetup({root:ROOT,id:workflow,engines:providerEngines});packet=checked.packet;engine=new ComfyClient(checked.ready.engineUrl);}
+ else if(executionPolicy.enabled)assertOpenWorkflow(workflow);
+ const report=await setupReport({root:ROOT,comfy:engine,workflow,packet,studioMedia:await mediaRuntime(config.python)});
+ return {...report,setupUrl:'/setup?'+new URLSearchParams(Object.fromEntries(Object.entries(selection).filter(([key])=>['workflow','plan','imageTool','context','tool'].includes(key))))};
+}
+const modelDownloads=await new ModelDownloads({directory:path.join(DATA,'model-downloads'),roots:{models:modelRoot,runtime:path.join(ROOT,'runtime')},resolveModels:async selection=>{
+ if(!selection||typeof selection!=='object'||Array.isArray(selection)||Object.keys(selection).some(k=>!['workflow','plan','imageTool','context','tool','input'].includes(k)))throw Error('Choose a catalog workflow or tool.');
+ const report=await selectedSetup(selection);if(report.execution!=='local')throw Error('Cloud models are managed by their provider.');
+ return [...new Map(report.models.filter(m=>m.state!=='available').map(m=>[m.destination,m])).values()];
+}}).init();
 const workflowExports=await new WorkflowExports({data:DATA,plans:workflowPlans}).open();
 
 const communityGallery=new CommunityGallery();
-const assistantTools=createAssistantTools({root:ROOT,comfy,policy:executionPolicy});
+const assistantTools=createAssistantTools({root:ROOT,comfy,policy:executionPolicy,setup:selectedSetup});
 const assistantConnection=await new AssistantConnection(path.join(DATA,'assistant-connection.json')).open();
 const studioAssistant=new StudioAssistant({tools:assistantTools,getConnection:()=>assistantConnection.value});
 const server = http.createServer(async (req, res) => {
@@ -413,18 +463,25 @@ const server = http.createServer(async (req, res) => {
     if(route==='/api/assistant/connection'&&req.method==='GET')return json(res,200,{connection:assistantConnection.describe(),providers:ASSISTANT_PROVIDERS,inferenceEnabled:!openOnly});
     if(route==='/api/assistant/connection'&&req.method==='POST'){if(studioAssistant.busy)throw Error('Wait for the current assistant answer before changing its connection.');return json(res,200,{connection:await assistantConnection.set(await readJson(req,2000))});}
     if(route==='/api/assistant/detect'&&req.method==='GET')return json(res,200,await detectAssistantServers());
+    if(!HOSTED_MODE&&(req.headers['x-frameforge-client']==='mcp'||route==='/api/assistant/tools')&&route.startsWith('/api/'))lastMCPRequest=new Date().toISOString();
+    if(route==='/api/assistant/agent-status'&&req.method==='GET')return json(res,200,{lastRequestAt:lastMCPRequest,connected:!!lastMCPRequest&&Date.now()-Date.parse(lastMCPRequest)<120000,verification:'A recent MCP tool request reached this Studio. This is activity, not proof that the client remains open.'});
     if(route==='/api/assistant/mcp-config'&&req.method==='GET')return json(res,200,agentMCPConfig({client:url.searchParams.get('client'),root:ROOT,base:'http://127.0.0.1:'+PORT,writes:url.searchParams.get('writes')==='1',openWeightsOnly:openOnly||url.searchParams.get('open')==='1'}));
     if(route==='/api/assistant/models'&&req.method==='GET')return json(res,200,{...await assistantModels(fetch,assistantConnection.value),inferenceEnabled:!openOnly});
     if(route==='/api/assistant/chat'&&req.method==='POST'){const input=await readJson(req,16000);return json(res,200,await studioAssistant.ask(openOnly||HOSTED_MODE?{...input,model:null}:input));}
     if(route==='/api/assistant/tools'&&req.method==='GET')return json(res,200,ASSISTANT_TOOLS);
     if(route==='/api/assistant/tools'&&req.method==='POST'){const input=await readJson(req,4000);return json(res,200,await assistantTools(input.name,input.arguments));}
     if(route==='/api/setup/detect'&&req.method==='GET')return json(res,200,await discoverComfy());
-    if(route==='/api/setup'&&req.method==='GET'){
-      if(openOnly&&url.searchParams.has('workflow'))assertOpenWorkflow(url.searchParams.get('workflow'));
-      const planId=url.searchParams.get('plan');let packet;if(url.searchParams.has('imageTool'))packet=await imageToolSetup(ROOT,url.searchParams.get('imageTool'));
-      if(planId){if(!/^[a-f0-9-]{36}$/.test(planId))throw Error('Choose a saved prepared workflow.');packet=workflowPlans.public(await workflowPlans.read(planId));}
-      return json(res,200,await setupReport({root:ROOT,comfy,workflow:url.searchParams.get('workflow')??'wan-i2v',packet,studioMedia:await mediaRuntime(config.python)}));
+    if(route==='/api/setup'&&req.method==='GET')return json(res,200,await selectedSetup(Object.fromEntries(url.searchParams)));
+    if(route==='/api/comfy-bridge/download'&&req.method==='GET'){
+     const directory=path.join(DATA,'bridge-packages');await mkdir(directory,{recursive:true});const file=path.join(directory,randomUUID()+'.zip');await writeZip(['__init__.py','web/frameforge.js','README.md'].map(name=>({name:'comfyui-frameforge/'+name,path:path.join(ROOT,'assets/comfyui-frameforge',name)})),file);res.setHeader('Content-Disposition','attachment; filename="comfyui-frameforge.zip"');return await serveFile(req,res,file);
     }
+    if(route==='/api/model-downloads/storage'&&req.method==='POST'){
+     if(HOSTED_MODE)return json(res,403,{error:'Only the GPU owner can change model storage.'});if(modelDownloads.running)throw Error('Wait for the model download to finish before changing storage.');
+     const input=await readJson(req,5000);if(typeof input.models!=='string'||!path.isAbsolute(input.models)||path.parse(input.models).root===path.resolve(input.models))throw Error('Choose an existing absolute model folder, not a drive root.');
+     const folder=await realpath(input.models);if(!(await stat(folder)).isDirectory())throw Error('Choose a model folder.');modelRoot=folder;modelDownloads.roots.models=folder;config.modelRoot=folder;await writeFile(path.join(ROOT,'config.local.json'),JSON.stringify(config,null,2));return json(res,200,modelDownloads.describe());
+    }
+    if(route==='/api/model-downloads'&&req.method==='GET'){if(HOSTED_MODE)return json(res,403,{error:'Model installation belongs to the owner of this GPU.'});return json(res,200,modelDownloads.describe());}
+    if(route==='/api/model-downloads'&&req.method==='POST'){if(HOSTED_MODE)return json(res,403,{error:'Model installation belongs to the owner of this GPU.'});if(!modelRoot)throw Error('Set modelRoot in config.local.json to your ComfyUI model storage folder, then restart.');return json(res,202,await modelDownloads.enqueue(await readJson(req,20000)));}
     if(route==='/api/setup/connection'&&req.method==='POST'){
       const input=await readJson(req,2000),next=new ComfyClient(input.url);
       if(next.url!==comfy.url&&(audioStudio.busy()||[...jobs.values()].some(j=>['processing','uploading','submitting','submitted','running','cancelling','verifying'].includes(j.status))))throw Error('Finish or resolve existing generation jobs before changing the engine connection.');
@@ -594,14 +651,14 @@ const server = http.createServer(async (req, res) => {
       return json(res,200,{...packet,verification,generationVerified:!!verification,status:verification?'Local preview completed; creative approval pending':packet.status});
     }
     if(route==='/api/workflows'&&req.method==='GET')return json(res,200,openOnly||url.searchParams.get('openWeightsOnly')==='true'?WORKFLOWS.filter(w=>OPEN_WORKFLOW_IDS.includes(w.id)):WORKFLOWS);
-    if(route==='/api/workflow-plans'&&req.method==='POST'){const input=await readJson(req,1000000);if(openOnly)assertOpenInput(input.context,{...input.input,provider:input.provider});const prepared=await workflowPlans.prepare(input);if(openOnly&&prepared.graph)prepared.openWeightsAudit=assertOpenGraph(prepared.graph,policyModels);return json(res,201,prepared);}
+    if(route==='/api/workflow-plans'&&req.method==='POST'){const input=await readJson(req,1000000);if(openOnly)assertOpenInput(input.context,{...input.input,provider:input.provider});const prepared=await workflowPlans.prepare(input);if(openOnly&&prepared.graph&&!prepared.providerWorkflow)prepared.openWeightsAudit=assertOpenGraph(prepared.graph,policyModels);return json(res,201,prepared);}
     const draftRoute=route.match(/^\/api\/workflow-plans\/([a-f0-9-]{36})$/);
-    if(draftRoute&&req.method==='GET'){const plan=await workflowPlans.read(draftRoute[1]);if(openOnly){assertOpenInput(plan.context,{...plan.rawInput,provider:plan.provider});if(plan.graph)assertOpenGraph(plan.graph,policyModels);}return json(res,200,workflowPlans.public(plan));}
+    if(draftRoute&&req.method==='GET'){const plan=await workflowPlans.read(draftRoute[1]);if(openOnly&&!plan.providerWorkflow){assertOpenInput(plan.context,{...plan.rawInput,provider:plan.provider});if(plan.graph)assertOpenGraph(plan.graph,policyModels);}return json(res,200,workflowPlans.public(plan));}
     const runDraft=route.match(/^\/api\/workflow-plans\/([a-f0-9-]{36})\/run$/);
-    if(runDraft&&req.method==='POST'){const body=await readJson(req,2000000),{plan,api:graph}=await workflowPlans.compile(runDraft[1],body.graph);if(openOnly){assertOpenInput(plan.context,{...plan.rawInput,provider:plan.provider});assertOpenGraph(graph,policyModels);}if(plan.provider==='cloud')return json(res,409,{error:'Open this prepared workflow in Comfy Cloud. Paid submission is handled there.'});if(plan.execution==='processor')throw Error('Run this complete pipeline with the tool controls, or export its ComfyUI stage.');const result=await submitJob({...plan.rawInput,requestId:body.requestId,openWeightsOnly:openOnly},null,graph);return json(res,result.code,result.body);}
+    if(runDraft&&req.method==='POST'){const body=await readJson(req,2000000),{plan,api:graph}=await workflowPlans.compile(runDraft[1],body.graph);if(plan.providerWorkflow){const result=await submitProviderPlan(plan,graph,body.requestId,openOnly);return json(res,result.code,result.body);}if(openOnly){assertOpenInput(plan.context,{...plan.rawInput,provider:plan.provider});assertOpenGraph(graph,policyModels);}if(plan.provider==='cloud')return json(res,409,{error:'Open this prepared workflow in Comfy Cloud. Paid submission is handled there.'});if(plan.execution==='processor')throw Error('Run this complete pipeline with the tool controls, or export its ComfyUI stage.');const result=await submitJob({...plan.rawInput,requestId:body.requestId,openWeightsOnly:openOnly},null,graph);return json(res,result.code,result.body);}
     if(route.startsWith('/api/cloud/'))return json(res,410,{error:'Cloud runs open in Comfy Cloud. This studio does not collect API keys or submit paid requests.'});
     const workflowExport=route.match(/^\/api\/workflow-plans\/([a-f0-9-]{36})\/export$/);
-    if(workflowExport&&req.method==='POST'){const body=await readJson(req,2000000);if(openOnly){const {plan,api}=await workflowPlans.compile(workflowExport[1],body.graph);assertOpenInput(plan.context,{...plan.rawInput,provider:plan.provider});assertOpenGraph(api,policyModels);}return json(res,201,await workflowExports.create(workflowExport[1],body));}
+    if(workflowExport&&req.method==='POST'){const body=await readJson(req,2000000);if(openOnly){const {plan,api}=await workflowPlans.compile(workflowExport[1],body.graph);if(!plan.providerWorkflow){assertOpenInput(plan.context,{...plan.rawInput,provider:plan.provider});assertOpenGraph(api,policyModels);}}return json(res,201,await workflowExports.create(workflowExport[1],body));}
     const exportFile=route.match(/^\/workflow-exports\/([a-f0-9-]{36})\/(bundle\.zip|workflow\.json)$/);
     if(exportFile&&req.method==='GET'){res.setHeader('Content-Disposition','attachment; filename="frameforge-'+exportFile[2]+'"');return await serveFile(req,res,path.join(DATA,'workflow-exports',exportFile[1],exportFile[2]));}
     const planInput=route.match(/^\/workflow-plan-inputs\/([a-f0-9-]{36})\/(input\.mp4|mask\.mp4|poster\.jpg)$/);
@@ -616,15 +673,16 @@ const server = http.createServer(async (req, res) => {
     if(jobCanvas&&req.method==='GET'){
       const job=jobs.get(jobCanvas[1]);if(!job)return json(res,404,{error:'Take not found.'});
       const api=JSON.parse(await readFile(path.join(jobDir(job.id),'workflow.json'),'utf8'));
-      const graph=apiToCanvas(api,await comfy.json('/object_info')),previews={};
+      const graph=job.request.providerWorkflow?providerCanvas(api):apiToCanvas(api,await jobEngine(job).json('/object_info')),previews={};
       for(const node of graph.nodes){const filename=node.widgets_values?.[0];if(node.type==='LoadImage'&&typeof filename==='string'&&/^[a-f0-9-]{36}\.(png|jpg|webp)$/.test(path.basename(filename)))previews[node.id]={url:'/assets/'+path.basename(filename),label:'Saved input'};if(job.report&&['SaveImage','SaveVideo'].includes(node.type))previews[node.id]={url:'/outputs/'+job.id+(node.type==='SaveImage'?'/output.png':'/poster.jpg'),label:'Saved output · edits do not regenerate it',output:'/outputs/'+job.id+(node.type==='SaveImage'?'/output.png':'/output.mp4')};}
       const downloads=JSON.parse(await readFile(path.join(ROOT,'workflows','models.json'),'utf8'));
-      return json(res,200,{id:job.id,previews,name:'Saved take · '+job.id.slice(0,8),explanation:explainPlan({context:job.request.kind==='image'?'images':job.request.kind==='video-tool'?'video-tools':'create',request:job.request}),execution:'local',status:'Exact saved graph · input filenames belong to its original engine',requirements:'Download the original API prompt too. Upload source files in your own ComfyUI and reselect Load Image inputs. Local processor records cannot be converted.',graph,...modelDependencies(graph,downloads),apiUrl:'/outputs/'+job.id+'/workflow.json'});
+      if(job.request.providerWorkflow)downloads.push(...(await executableProvider(ROOT,job.request.providerWorkflow)).models);
+      return json(res,200,{id:job.id,providerWorkflow:job.request.providerWorkflow,previews,name:'Saved take · '+job.id.slice(0,8),explanation:explainPlan({context:job.request.kind==='image'?'images':job.request.kind==='video-tool'?'video-tools':'create',request:job.request}),execution:'local',status:'Exact saved graph · input filenames belong to its original engine',requirements:'Download the original API prompt too. Upload source files in your own ComfyUI and reselect Load Image inputs. Local processor records cannot be converted.',graph,...modelDependencies(graph,downloads),apiUrl:'/outputs/'+job.id+'/workflow.json'});
     }
     if(route==='/api/batches'&&req.method==='GET')return json(res,200,batchQueue.list());
     if(route==='/api/batches'&&req.method==='POST'){
       const input=await readJson(req);if(!Array.isArray(input.requests)||input.requests.length<1||input.requests.length>4)throw new Error('Choose 1–4 shots for this batch.');
-      const requests=input.requests.map(r=>{if(openOnly)assertOpenInput(r.kind==='image'?'images':'create',r);return {...(r.kind==='image'?normalizeImage(r):normalizeRequest(r)),...(openOnly?{openWeightsOnly:true}:{})};});
+      const requests=input.requests.map(r=>{if(r.providerWorkflow)throw Error('Provider previews run as individually prepared graphs.');if(openOnly)assertOpenInput(r.kind==='image'?'images':'create',r);return {...(r.kind==='image'?normalizeImage(r):normalizeRequest(r)),...(openOnly?{openWeightsOnly:true}:{})};});
       for(const request of requests){for(const key of ['asset','endAsset','reference','mask'])if(request[key])await stat(path.join(DATA,'assets',request[key]));}
       return json(res,201,await batchQueue.add(requests,input.requestId));
     }
@@ -733,12 +791,13 @@ const server = http.createServer(async (req, res) => {
         if(['video-tool','image'].includes(job.request.kind)&&job.status==='processing'){job.status='cancelling';await save(job);processors.get(job.id)?.kill();await audit(job,'local-cancel-requested');return json(res,202,job);}
         if(!['submitted','running'].includes(job.status)||!job.promptId)return json(res,409,{error:'Only an acknowledged queued or running render can be cancelled.'});
         job.status='cancelling';job.cancelRequestedAt=new Date().toISOString();await save(job);
-        try{await comfy.cancel(job.promptId);await audit(job,'cancel-requested');return json(res,202,job);}
+        try{await jobEngine(job).cancel(job.promptId);await audit(job,'cancel-requested');return json(res,202,job);}
         catch(e){job.status='needs-attention';job.error='Cancellation could not be confirmed: '+e.message;await save(job);return json(res,502,{error:job.error,job});}
       }
       if(!['cancelled','failed','technical-failed','verification-blocked'].includes(job.status))return json(res,409,{error:'Inspect this shot before retrying; only a confirmed stopped or failed render can be retried.'});
       const body=await readJson(req);
       if(body.requestId===job.requestId)throw new Error('A retry needs its own request ID.');
+      if(job.planId&&job.request.providerWorkflow){const {plan,api}=await workflowPlans.compile(job.planId);const result=await submitProviderPlan(plan,api,body.requestId,openOnly);return json(res,result.code,result.body);}
       const result=await submitJob({...job.request,quality:job.request.kind==='image'?(job.request.quality??'preview'):job.request.steps===12?'draft':'standard',requestId:body.requestId},job.id);
       return json(res,result.code,result.body);
     }
@@ -765,8 +824,8 @@ const server = http.createServer(async (req, res) => {
     Object.assign(publicFiles,{'/short-film':'short-film.html','/short-film.js':'short-film.js','/short-film.css':'short-film.css','/video-playback.js':'video-playback.js'});
     Object.assign(publicFiles,{'/workflows':'workflows.html','/workflows.js':'workflows.js','/workflows.css':'workflows.css','/workflow-graph.js':'workflow-graph.js','/provider-workflows.js':'provider-workflows.js','/provider-workflows.css':'provider-workflows.css'});
     Object.assign(publicFiles,{'/library':'saved-library.html','/saved-library.js':'saved-library.js','/saved-library-page.js':'saved-library-page.js','/saved-library.css':'saved-library.css','/workflow-help.js':'workflow-help.js'});
-    Object.assign(publicFiles,{'/online':'online.html','/online.js':'online.js','/online.css':'online.css','/online-handoff.js':'online-handoff.js','/setup':'setup.html','/setup.js':'setup.js','/setup-prompt.js':'setup-prompt.js','/setup.css':'setup.css','/assistant.js':'assistant.js','/assistant-connection.js':'assistant-connection.js','/assistant.css':'assistant.css','/workspace-art.css':'workspace-art.css'});
-    Object.assign(publicFiles,{'/execution-policy.js':'execution-policy.js','/execution-policy.css':'execution-policy.css','/mcp-app':'mcp-app.html','/mcp-app.js':'mcp-app.js','/mcp-app.css':'mcp-app.css'});
+    Object.assign(publicFiles,{'/online':'online.html','/online.js':'online.js','/online.css':'online.css','/online-handoff.js':'online-handoff.js','/setup':'setup.html','/model-downloads.js':'model-downloads.js','/setup.js':'setup.js','/setup-prompt.js':'setup-prompt.js','/setup.css':'setup.css','/assistant.js':'assistant.js','/assistant-connection.js':'assistant-connection.js','/assistant.css':'assistant.css','/workspace-art.css':'workspace-art.css'});
+    Object.assign(publicFiles,{'/execution-policy.js':'execution-policy.js','/execution-policy.css':'execution-policy.css','/mcp-app':'mcp-app.html','/mcp-workflow-inputs.js':'mcp-workflow-inputs.js','/mcp-app.js':'mcp-app.js','/mcp-app.css':'mcp-app.css'});
     Object.assign(publicFiles,{'/workflow-panel.js':'workflow-panel.js','/workflow-panel.css':'workflow-panel.css'});
     for(const name of ['compass','moon','character','knight','robot','bicycle'])publicFiles['/explore-art/'+name+'.svg']='explore-art/'+name+'.svg';
     for(const name of ['observatory-preview','portrait-preview','product-preview'])publicFiles['/explore-art/'+name+'.jpg']='explore-art/'+name+'.jpg';

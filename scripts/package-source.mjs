@@ -5,7 +5,7 @@ import path from 'node:path';
 import {writeZip} from '../lib/workflow-exports.mjs';
 const root=fileURLToPath(new URL('../',import.meta.url));
 const roots=['lib','public','scripts','setup','workflows','tests','skills','assets'];
-const top=['server.mjs','package.json','plugin.json','mcp.json','.agents/plugins/marketplace.json','LICENSE','.gitignore','.gitattributes','config.example.json','DISTRIBUTION-README.md','GITHUB-SETUP.md','THIRD-PARTY-NOTICES.md','BUILD-LOOP.md','REMAINING-CHECKLIST.md','REVIEW-FIXES.md','MCP-GUIDE.md','OPEN-WEIGHTS.md','CHALLENGE-CHECKLIST.md','COMFY-HUB-COMPARISON.md','DEMO-SCRIPT.md','MCP-CLIENT-ACCEPTANCE.md','ASSISTANT-CONNECTIONS.md','WORKSPACE-GUIDE.md','PLUGIN-GUIDE.md','PLUGIN-ACCEPTANCE.md'];
+const top=['INTEGRATION-UPGRADE.md','server.mjs','package.json','plugin.json','mcp.json','.agents/plugins/marketplace.json','LICENSE','.gitignore','.gitattributes','config.example.json','DISTRIBUTION-README.md','GITHUB-SETUP.md','THIRD-PARTY-NOTICES.md','BUILD-LOOP.md','REMAINING-CHECKLIST.md','REVIEW-FIXES.md','MCP-GUIDE.md','OPEN-WEIGHTS.md','CHALLENGE-CHECKLIST.md','COMFY-HUB-COMPARISON.md','DEMO-SCRIPT.md','MCP-CLIENT-ACCEPTANCE.md','ASSISTANT-CONNECTIONS.md','WORKSPACE-GUIDE.md','PLUGIN-GUIDE.md','PLUGIN-ACCEPTANCE.md'];
 const allowedArt=new Set(['observatory-preview.jpg','portrait-preview.jpg','product-preview.jpg','observatory-concept.png','portrait-concept.png','product-concept.png','compass.svg','moon.svg','character.svg','knight.svg','robot.svg','bicycle.svg','mcp-observatory.png','mcp-portrait.png','mcp-product.png','observatory-motion.mp4','observatory-motion.json']);
 export async function sourceInventory(directory=root){
  const files=[];

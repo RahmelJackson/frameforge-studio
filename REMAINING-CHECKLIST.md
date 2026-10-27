@@ -1,5 +1,20 @@
 # Workflow acceptance checklist
 
+## Setup and MCP integration · release 0.7.0
+
+- [x] LTX 2.5, FLUX 3 Image Klein and MiniMax H3 check, prepare, inspect, export and run through Studio/MCP. Three real local jobs passed technical checks and appear in the normal library; creative review remains pending.
+- [x] Eight local starter graphs in the shared catalog, including the three additional reviewed provider adapters. Fixed preview profiles, explicit request IDs and one local render at a time.
+- [x] Owner-only Download all missing queue, selected ComfyUI model folder, resumed transfers, disk checks and size/SHA-256 verification. Gated sources keep manual sign-in/agreement; processor environments remain separate.
+- [x] Model lists shown before input uploads for image/video/audio tools, with additional processor lock metadata and manual setup notes where needed.
+- [x] Per-assistant Copy setup buttons for Codex, Claude, LM Studio, Hermes and Antigravity, plus recent real MCP-request status.
+- [x] Cloud/Civitai result drop zone, recorded as imported media in the local library.
+- [x] Native ComfyUI image-output bridge: actual saved PNG imported into Studio with identical bytes. Video/audio bridge nodes remain open.
+- [ ] Custom Comfy Cloud App Mode share URLs published and tested in an authorized Cloud account.
+- [ ] Complete automatic installation of every advanced processor and finish the video/audio native bridge.
+
+Read [the integration release guide](INTEGRATION-UPGRADE.md) for exact recipe IDs, tested profiles and remaining limits. The creative-quality goals below are unchanged.
+
+
 ## Suggested workflow coverage
 
 Not every requested workflow is built. **Image-to-3D objects, editable 3D scenes and 3D camera handoffs are missing.** SAM image selection, Canvas masked edits/outpainting and local LTX/FLUX/H3 graph packages are present. See [the complete coverage audit](WORKSPACE-GUIDE.md#suggested-workflows-current-coverage) for available, partial and missing capabilities. The 15 quality goals below remain separate.
@@ -264,7 +279,7 @@ Evidence: STYLE-BOARD-WORKFLOWS.md, ACCEPTANCE-STYLE-BOARD.md and evidence/style
 - [x] One main Video tab row, Takes & clip tools beside the preview, and four working Audio tabs.
 - [x] Real saved-audio waveform, clickable transcript timing and eight recent audio/transcript cards titled by first words.
 - [x] Library expanded to 42 distinct task cards, including 20 previously unlisted tools and five existing local alternatives to Cloud-only task choices. Shared guide/MCP task discovery updated.
-- [x] Explicit Wan / LTX / H3 / Cloud selector on Video. LTX/H3 currently hand off to native ComfyUI; they do not submit from the Studio form.
+- [x] Explicit Wan / LTX / H3 / Cloud selector on Video. LTX/H3 now prepare and run their fixed local profiles inside Studio, with native graph export retained.
 - [x] SAM 3.1 image selection by text, keep/exclude clicks and box, with a lossless PNG mask, native graph export and shared catalog/setup/MCP discovery.
 - [x] Canvas brush and eraser refinement before applying the mask to a protected Qwen edit.
 SAM object/edge acceptance remains open: text and clicks selected the product knob; the box case selected its outer ring and needs refinement. Missing-object false positives remain possible. The 15 broader creative-quality goals remain open.

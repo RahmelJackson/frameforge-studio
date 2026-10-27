@@ -1,5 +1,7 @@
 # Bring your own AI
 
+Release **0.7.0** adds direct local LTX/H3/FLUX execution, reviewed model downloads, early dependency lists, per-assistant setup and a native ComfyUI image bridge. See [the integration guide](INTEGRATION-UPGRADE.md) for tested profiles and remaining work.
+
 **Ollama is optional.** Frameforge has two independent connection paths. Neither requires downloading another model if you already have a suitable model or agent.
 
 ## Power the website guide

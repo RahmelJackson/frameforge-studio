@@ -1,10 +1,12 @@
 # Frameforge in Codex and Claude
 
+Release **0.7.0** adds direct local LTX/H3/FLUX execution, reviewed model downloads, early dependency lists, per-assistant setup and a native ComfyUI image bridge. See [the integration guide](INTEGRATION-UPGRADE.md) for tested profiles and remaining work.
+
 Want a named plugin entry with an icon, starter prompts and setup guidance? [Install the Frameforge Studio plugin](PLUGIN-GUIDE.md). It bundles this same MCP server. Avoid keeping duplicate standalone and plugin Frameforge studio connections active. The separate ComfyUI engine connector is independent.
 
 Use the website normally, or connect its **local STDIO MCP server** to an agent. Both use the same ComfyUI connection, saved jobs, graph compiler and review gates. No Frameforge account, hosted MCP endpoint or Cloud key is required. This is a source checkout, not a published npm package.
 
-## Native visual studio — 0.6.2
+## Native visual studio · 0.7.0
 
 The global entrypoint declares `header: { enabled: false }` to suppress the surrounding Codex title strip. This changes host presentation metadata, not the studio layout or the plugin’s name in the directory.
 

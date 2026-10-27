@@ -1,5 +1,7 @@
 # Find a workflow and follow it through the studio
 
+Release **0.7.0** adds direct local LTX/H3/FLUX execution, reviewed model downloads, early dependency lists, per-assistant setup and a native ComfyUI image bridge. See [the integration guide](INTEGRATION-UPGRADE.md) for tested profiles and remaining work.
+
 Updated October 27, 2026. The main navigation has five destinations. Top bar and Side bar remain mutually exclusive, and both expose the navigation switch, Local only control and My work link.
 
 | Workspace | Purpose | Start here |
