@@ -4,7 +4,7 @@ Updated October 27, 2026. The main navigation has five destinations. Top bar and
 
 | Workspace | Purpose | Start here |
 | --- | --- | --- |
-| Home | Start, continue and discover inspiration | Describe an idea in the guide box, use a quick start, reopen recent work or browse community examples. |
+| Home | Start and discover inspiration | Describe an idea in the guide box, use a quick start or browse community examples. Saved results are available in My work and the saved library. |
 | Library | Different tasks and their model options | Choose a task, compare model/run-location options, inspect the exact graph and get setup/downloads. My work is the separate saved-results view. |
 | Images | Stills, a selective-edit Canvas and reference organization | Create & edit, Canvas, saved images, moodboards, characters, photo sets and scene references. |
 | Video | Clips and film projects | Generate, Edit & finish, Story, Director and Timeline. A secondary row holds the current page's clip utilities. |
@@ -62,7 +62,7 @@ Director still has a separate production plan. Its approved-take assembly create
 
 ## Home and inspiration
 
-Home is ordered as Start, Continue, local model examples and Inspiration. The short getting-started explanation appears on the first visit and can be dismissed. New installations without saved work get a setup starting point in Continue.
+Home is ordered as Start, local model examples and Inspiration. The short getting-started explanation appears on the first visit and can be dismissed. Saved results live in My work and the saved library rather than a second recent-work section on Home. Home does not fetch the personal job, audio or project lists on load.
 
 The full Civitai browser includes image/video and sort filters, shared prompts, creator/model links and prompt handoffs into the guide or a tool. It requests community metadata when the section enters view. Local only disables the external feed. Remote pictures and playback depend on the source and the browser's independent media policy; source links remain available.
 

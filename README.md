@@ -25,7 +25,7 @@ Images now includes a Canvas for paint/box edits, protected edge extension, orig
 
 | Workspace | What it helps you make |
 | --- | --- |
-| **Home** | Start with an idea, continue recent work, inspect actual local model results and explore Civitai examples, prompts and sources. |
+| **Home** | Start with an idea, inspect actual local model results and explore Civitai examples, prompts and sources. |
 | **Library** | Browse 20 distinct tasks, choose a model inside its task, and inspect graphs and downloads. My work holds saved results separately. |
 | **Images** | Create and edit stills, paint masks, upscale, and organize character, scene and style references. |
 | **Video** | Generate or edit a clip, then carry a film through Story, Director and Timeline. A project bar retains the working film and shot. |

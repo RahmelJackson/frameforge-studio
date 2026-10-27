@@ -1,6 +1,6 @@
 {
   "version": 1,
-  "created": "2026-10-27T09:01:33.345Z",
+  "created": "2026-10-27T09:09:23.631Z",
   "files": [
     {
       "name": ".agents/plugins/marketplace.json",
@@ -569,13 +569,13 @@
     },
     {
       "name": "public/home.html",
-      "bytes": 6041,
-      "sha256": "c515df4ec2ad77daa6893f4b9f9824b307e85edf4eb7e8026f3acdd097c3aead"
+      "bytes": 5628,
+      "sha256": "4b78d1d54ea7c74d3a9561f61e3eaafb5948e42bdaf0ec26ee3439f4c4aa270f"
     },
     {
       "name": "public/home.js",
-      "bytes": 3992,
-      "sha256": "7c859fd48df577a4e38781fd258f083d9423009bad7b6a0e9956bd0dc7e3b33a"
+      "bytes": 1688,
+      "sha256": "232f096f0d70d0cf67a1fc53176731e4cc9742336903bb4006de95d30878ef87"
     },
     {
       "name": "public/image-canvas.js",
@@ -769,8 +769,8 @@
     },
     {
       "name": "public/studio-map.js",
-      "bytes": 7426,
-      "sha256": "aae590065a31926bfdf910a55e5ae5fe1c50769765b7ca69fa912ae66c4f7522"
+      "bytes": 7408,
+      "sha256": "4d19f5d8a2e6d522ec16261cfb7189c84955639a357acf9a3b560dcf4dfb765b"
     },
     {
       "name": "public/studio-match.js",
@@ -899,8 +899,8 @@
     },
     {
       "name": "README.md",
-      "bytes": 11479,
-      "sha256": "2b94de0ccbdcdf0de631598db52becdadad4aa5fafda90035c481a6f1dc70cfc"
+      "bytes": 11457,
+      "sha256": "420f28b54f17aa670a176976f9d3c1e13001e77dbd82eb9cd17366bfe49fe783"
     },
     {
       "name": "REMAINING-CHECKLIST.md",
@@ -2209,8 +2209,8 @@
     },
     {
       "name": "tests/merged-workspaces.test.mjs",
-      "bytes": 5969,
-      "sha256": "74b2c3cd185c77767c6b838b11036762af60eb8c19e67afd7f0e57462842a9c2"
+      "bytes": 6154,
+      "sha256": "6215c987906123262475f14a94e38995ff12df6f2ef88172cfc45208daf44960"
     },
     {
       "name": "tests/online-generation.test.mjs",
@@ -2619,8 +2619,8 @@
     },
     {
       "name": "WORKSPACE-GUIDE.md",
-      "bytes": 9846,
-      "sha256": "39589aa45f2550ade579b40fa783674c3f4f636062d867fb1117b2507b62fb21"
+      "bytes": 9963,
+      "sha256": "9985fea1d12a2332520dc702c5ee5e851999e08db31561a658b14fb170f10386"
     }
   ],
   "excluded": [

@@ -32,8 +32,8 @@ test('Take handoffs persist on the chosen project and reject a stale second-tab 
 });
 test('Home has one starting box and the complete inspiration browser; all help entry points use one non-modal panel',async()=>{
  const home=await readFile(new URL('../public/home.html',import.meta.url),'utf8'),assistant=await readFile(new URL('../public/assistant.js',import.meta.url),'utf8'),shell=await readFile(new URL('../lib/workspace.mjs',import.meta.url),'utf8');
- for(const id of ['home-guide-form','recent-work','provider-workflows','inspiration','community-type','community-sort','community-detail'])assert.ok(home.includes('id="'+id+'"'),id);
- assert.ok(home.indexOf('class="home-resume"')<home.indexOf('id="provider-workflows"'));assert.ok(home.indexOf('id="provider-workflows"')<home.indexOf('id="inspiration"'));
+ for(const id of ['home-guide-form','provider-workflows','inspiration','community-type','community-sort','community-detail'])assert.ok(home.includes('id="'+id+'"'),id);
+ assert.ok(!home.includes('class="home-resume"'));assert.ok(!home.includes('id="recent-work"'));const homeScript=await readFile(new URL('../public/home.js',import.meta.url),'utf8');for(const route of ['/api/jobs','/api/audio-jobs','/api/projects'])assert.ok(!homeScript.includes(route));assert.ok(home.indexOf('id="provider-workflows"')<home.indexOf('id="inspiration"'));
  assert.ok(!home.includes('id="start-choices"'));assert.ok(!shell.includes('id="tool-finder"'));assert.ok(!shell.includes('class="workspace-find"'));
  assert.match(assistant,/aria-modal','false/);assert.match(assistant,/searchTasks\(query\)/);assert.match(assistant,/frameforge:open-guide/);assert.match(assistant,/frameforge.guideOpen/);
 });
