@@ -532,6 +532,8 @@ const server = http.createServer(async (req, res) => {
       const item=sounds.list().find(s=>s.id===soundUse[1]);if(!item)throw new Error('Choose a saved sound.');
       if(createHash('sha256').update(await readFile(path.join(DATA,'audio',item.audio+'.wav'))).digest('hex')!==item.sha256)throw new Error('This WAV changed after it entered the sound library.');return json(res,200,item);
     }
+    const audioProvenance=route.match(/^\/api\/audio-jobs\/([a-f0-9-]{36})\/provenance$/);
+    if(audioProvenance&&req.method==='GET'){const job=audioStudio.list().find(j=>j.id===audioProvenance[1]);if(!job)return json(res,404,{error:'Saved audio job not found.'});const packet=await toolRequirements(ROOT,{context:'audio',tool:job.request.tool,input:job.request}),result=resultProvenance(job,null,[]);return json(res,200,{...result,recipe:[job.request.tool,job.request.voice,job.request.language].filter(Boolean).join(' · '),models:(packet.models??[]).map(m=>({name:m.name,url:m.url,licenseUrl:m.licenseUrl,sha256:m.sha256})),note:'Declared model requirements for the selected audio processor. The saved audio report records the actual runtime/file checks; this list does not certify voice quality.'});}
     if(route==='/api/audio-jobs'&&req.method==='GET')return json(res,200,audioStudio.list());
     if(route==='/api/audio-jobs'&&req.method==='POST'){const input=await readJson(req,150000);if(openOnly)assertOpenInput('audio',input);return json(res,202,await audioStudio.submit(input));}
     const audioControl=route.match(/^\/api\/audio-jobs\/([a-f0-9-]{36})\/(review|cancel|reverify|audio-asset|video-footage)$/);

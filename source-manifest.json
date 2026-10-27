@@ -1,6 +1,6 @@
 {
   "version": 1,
-  "created": "2026-10-27T20:10:49.999Z",
+  "created": "2026-10-27T20:20:48.163Z",
   "files": [
     {
       "name": ".agents/plugins/marketplace.json",
@@ -85,7 +85,7 @@
     {
       "name": "INTEGRATION-UPGRADE.md",
       "bytes": 6739,
-      "sha256": "b17ecdadf2772a1629616c6dae4eda615b25745ac714bb0ed93b95b66718af7c"
+      "sha256": "45fe3e835e6b04683e06f127903bfd9f914ffdb09f969127ec1eb4bd99e062d5"
     },
     {
       "name": "lib/assistant-connection.mjs",
@@ -249,8 +249,8 @@
     },
     {
       "name": "lib/studio-assistant.mjs",
-      "bytes": 12349,
-      "sha256": "34247f28ad54f327574350c1d007062cc4340bf976618144514af8bddd4e19cc"
+      "bytes": 12872,
+      "sha256": "9338c2d4c5b0c3356d35f0231453f60e8a6b6d382653f5ebb636d00373da1b69"
     },
     {
       "name": "lib/studio-embed.mjs",
@@ -324,8 +324,8 @@
     },
     {
       "name": "lib/workspace.mjs",
-      "bytes": 11123,
-      "sha256": "2c71a40171727f81a9881ddc035e58866167a4e440c1ce599b193131ba4f93fd"
+      "bytes": 11159,
+      "sha256": "61c805c9414c36847dc2502aebba9b9d6127c3c0cde40597488c021e22a5c585"
     },
     {
       "name": "LICENSE",
@@ -340,7 +340,7 @@
     {
       "name": "MCP-GUIDE.md",
       "bytes": 12940,
-      "sha256": "2a4a7ed778e1187591e80ef19ec1b0223867b86b1ba131cfeda4e1b5832d71e5"
+      "sha256": "d671f4ce9b622f08a3780bf98d990f9a8aebff993486ef599facb88c394476c6"
     },
     {
       "name": "mcp.json",
@@ -355,7 +355,7 @@
     {
       "name": "package.json",
       "bytes": 933,
-      "sha256": "7f05ac9e9b34744c1c5f18ec04cb5073f436c662600cc4349de029d4f65e6b4d"
+      "sha256": "11c2d60db5697cebdca69e3881a4c833d7f938e2353fc9e5661f4ade39e7edad"
     },
     {
       "name": "PLUGIN-ACCEPTANCE.md",
@@ -365,12 +365,12 @@
     {
       "name": "PLUGIN-GUIDE.md",
       "bytes": 7807,
-      "sha256": "6dd96185fe68dfed6e73d51a7109ff6137c71a5dc25cdf678026cba025e23d96"
+      "sha256": "bfe8bf1f4ec4c95f6c89c8d02c06ca434dd7493c592c36af9e7d27a3ce03c73f"
     },
     {
       "name": "plugin.json",
       "bytes": 2478,
-      "sha256": "602c51f68a47a918fb6975ded1d805759896e28faa49386886405e69b44f5149"
+      "sha256": "9521e2579b0c701d008751002e2b928440662fcc5f903a601fe859e17a2fcc0b"
     },
     {
       "name": "public/app.js",
@@ -669,8 +669,8 @@
     },
     {
       "name": "public/mcp-app.js",
-      "bytes": 43754,
-      "sha256": "553efcce3ed7fa1bd347c5f370431a63938b1e97407db9359a19f78c2bef1629"
+      "bytes": 44001,
+      "sha256": "23da447dda1fe6dac2f6ca24d0902628c2540cd18bed32c3cdfd9ff6c9968f58"
     },
     {
       "name": "public/mcp-studio.css",
@@ -749,8 +749,8 @@
     },
     {
       "name": "public/result-details.js",
-      "bytes": 1962,
-      "sha256": "ddcbce86952231c280f2d7b528f2aed325d8245c5f8139ea941ada3edfe90474"
+      "bytes": 2161,
+      "sha256": "954d76bc588ac8273df636e76f651c436222b21daec49a9c059d976ad88b89bd"
     },
     {
       "name": "public/sam-selection.js",
@@ -834,8 +834,8 @@
     },
     {
       "name": "public/studio-journeys.js",
-      "bytes": 17576,
-      "sha256": "78549536eb6b9769ae2559ebdc3d5c9431e6829b676c4f31a625c8edea215c5f"
+      "bytes": 18723,
+      "sha256": "a084e1acb86316391074079ea915d89055df544480fa4dd6a7d7615a557cad88"
     },
     {
       "name": "public/studio-map.js",
@@ -985,12 +985,12 @@
     {
       "name": "README.md",
       "bytes": 13110,
-      "sha256": "fe70281a1ab317b8b04824bca707a364d52f60f3ce0377ba0b2f6747ecce338d"
+      "sha256": "22a80ccbc8f7e0d06856fa36d678a6484be72c2cbc0c2097f5f24bb063585d24"
     },
     {
       "name": "REMAINING-CHECKLIST.md",
       "bytes": 48615,
-      "sha256": "558650bc5292035ca5a6de6861ecd8be9cdc4f6ae2914f0b2301e51e7d5011e2"
+      "sha256": "c0930e4c25f8d83881b76d53be4012488212224068aebcc97affa9a9e6529059"
     },
     {
       "name": "REVIEW-FIXES.md",
@@ -1205,7 +1205,7 @@
     {
       "name": "scripts/frameforge-mcp.mjs",
       "bytes": 7415,
-      "sha256": "0bc205791756de7de4955081a06443d67b7cfe4f81ea49c841c153857b261839"
+      "sha256": "c4f067953b221d8ab46ac2dde0a36e1f025da1e6bf41f388882b588f0196dcd2"
     },
     {
       "name": "scripts/human_pose.py",
@@ -1754,8 +1754,8 @@
     },
     {
       "name": "server.mjs",
-      "bytes": 114505,
-      "sha256": "b8181f4fa3bf36c30d855d68d25e1510b34e16b8f5aad04da1b9a6094b46a3ce"
+      "bytes": 115313,
+      "sha256": "127a03ebcfa2f9bef1acf44a7117673584afcd2251f8ba5f9d18a6a5af8be8a2"
     },
     {
       "name": "setup/advanced-models.lock.json",
@@ -2520,7 +2520,7 @@
     {
       "name": "tests/workspace-map.test.mjs",
       "bytes": 6239,
-      "sha256": "762b9ccd51775efc7a63c2cc5cfc82e7f1b0f44762848a625fbdf5dd248fe511"
+      "sha256": "3fd2aa083d90306648b5b60f08bf56ae432ecd5d06bd72331e9fa9311a617f06"
     },
     {
       "name": "THIRD-PARTY-NOTICES.md",

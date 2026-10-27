@@ -1,4 +1,4 @@
-## Follow-up release 0.7.1
+## Follow-up release 0.7.2
 
 Validation: 216 public tests and 9 private recovery/gateway tests passed. Actual native ComfyUI MP4/WAV handoffs preserved file SHA-256 bytes and created My work records. A 7.375-second two-clip rough cut exported with a replay returning the same export. Browser Proof view on a saved masked edit measured 36,488 changed RGB pixels out of 589,824 (6.19%), and retained its original comparison after reopening. Technical checks do not approve creative quality.
 
@@ -24,7 +24,7 @@ Still open: account-published custom Cloud App Mode links, automatic installatio
 - [x] Model lists shown before input uploads for image/video/audio tools, with additional processor lock metadata and manual setup notes where needed.
 - [x] Per-assistant Copy setup buttons for Codex, Claude, LM Studio, Hermes and Antigravity, plus recent real MCP-request status.
 - [x] Cloud/Civitai result drop zone, recorded as imported media in the local library.
-- [x] Native ComfyUI image-output bridge: actual saved PNG imported into Studio with identical bytes. Video/audio bridge nodes added in 0.7.1.
+- [x] Native ComfyUI image-output bridge: actual saved PNG imported into Studio with identical bytes. Video/audio bridge nodes added in 0.7.2.
 - [ ] Custom Comfy Cloud App Mode share URLs published and tested in an authorized Cloud account.
 - [ ] Complete automatic installation of every advanced processor and finish every advanced processor installation.
 

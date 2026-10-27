@@ -1,4 +1,4 @@
-## Follow-up release 0.7.1
+## Follow-up release 0.7.2
 
 - [x] Explicit per-workflow downloads with missing-file count and size. Other workflows are not downloaded.
 - [x] Website Explore shortcuts for Civitai and Guide; native plugin Explore has a credited Civitai gallery, separate Library and LLM/guided workflow helper.
@@ -43,7 +43,7 @@ Setup has individual **Copy setup** buttons for Codex, Claude Desktop, LM Studio
 
 ## Native ComfyUI image bridge
 
-Download the bridge from Setup, or copy `assets/comfyui-frameforge` into your ComfyUI's active `custom_nodes` folder. If ComfyUI runs with a separate `--base-directory`, use that base directory's `custom_nodes` folder. Restart when idle. Add **Frameforge · send image to Studio** after an `IMAGE` output, run the graph, and explicitly send its saved PNG into Studio. Both applications must run on the same machine. The node imports an image; it does not automatically generate or approve anything. Video/audio bridge nodes added in 0.7.1.
+Download the bridge from Setup, or copy `assets/comfyui-frameforge` into your ComfyUI's active `custom_nodes` folder. If ComfyUI runs with a separate `--base-directory`, use that base directory's `custom_nodes` folder. Restart when idle. Add **Frameforge · send image to Studio** after an `IMAGE` output, run the graph, and explicitly send its saved PNG into Studio. Both applications must run on the same machine. The node imports an image; it does not automatically generate or approve anything. Video/audio bridge nodes added in 0.7.2.
 
 The included Windows launcher allows only this bridge when it is installed, keeping other custom nodes disabled. `comfyPython` may select a separate complete engine environment; `python` remains the Studio media-helper environment.
 
@@ -56,6 +56,6 @@ Official template links stay available. A result drop zone brings downloaded Clo
 ## Still open
 
 - Publish and test custom Cloud App Mode share links in an authorized Cloud account.
-- Finish cross-platform installation of advanced local processors. Native media return nodes are present in 0.7.1.
+- Finish cross-platform installation of advanced local processors. Native media return nodes are present in 0.7.2.
 - Integrate the separately listed 3D, Wan Animate, SeedVR2, generated music/Foley and identity-training pipelines.
 - Continue the fifteen parked creative-quality goals only with new, bounded comparisons and explicit review. This release does not close them.

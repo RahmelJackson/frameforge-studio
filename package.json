@@ -1,6 +1,6 @@
 {
   "name": "frameforge-local",
-  "version": "0.7.1",
+  "version": "0.7.2",
   "private": true,
   "license": "MIT",
   "description": "An open-source creative studio inspired by Higgsfield, built around ComfyUI workflows.",

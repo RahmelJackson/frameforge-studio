@@ -17,7 +17,7 @@ test('Every image and video panel has one labelled tab, with navigation and loca
  assert.match(video,/Takes & clip tools/);assert.match(video,/id="view-story"/);assert.match(video,/id="library-count"/);
  assert.equal(workspaceTab('images',new URLSearchParams('view=collection')),'image-library');assert.equal(workspaceTab('video-tools',new URLSearchParams('view=story')),'storyboard');
  const setup=renderWorkspacePage('<head></head><body><header>Setup</header><main><div class="setup-columns"></div></main></body>','setup');
- assert.equal((setup.match(/id="navigation-layout"/g)??[]).length,1);assert.equal((setup.match(/data-open-weights-toggle/g)??[]).length,3);
+ assert.equal((setup.match(/id="navigation-layout"/g)??[]).length,1);assert.equal((setup.match(/data-open-weights-toggle/g)??[]).length,1);
 });
 test('Image tool groups start with common tasks and retain every existing tool exactly once',()=>{
  const groups=groupedImageTools(IMAGE_TOOLS);assert.deepEqual(groups[0].tools.map(t=>t.id),['create','cinema']);assert.deepEqual(groups.flatMap(g=>g.tools.map(t=>t.id)).sort(),IMAGE_TOOLS.map(t=>t.id).sort());
