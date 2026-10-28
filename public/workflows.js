@@ -1,3 +1,4 @@
+import {mountComfyHandoff} from './comfy-handoff.js';
 import {mountModelDownloads} from './model-downloads.js';
 import {outcomeCatalog,TOOL_VARIANTS} from './workflow-outcomes.js';
 import {RECIPES} from './explore-recipes.js';
@@ -59,6 +60,7 @@ new ResizeObserver(()=>{if(graph)fit();}).observe($('#canvas'));
 $('#undo').onclick=()=>{if(!history.length)return;graph=JSON.parse(history.pop());$('#undo').disabled=!history.length;draw();inspect();};
 $('#save').onclick=run(()=>{localStorage.setItem('frameforge.workflow.'+packet.id,JSON.stringify({graph,view}));notice('Draft saved in this browser. Download JSON to keep a portable copy.');});
 $('#restore').onclick=run(()=>{const s=JSON.parse(localStorage.getItem('frameforge.workflow.'+packet.id)??'null');if(!s)throw Error('No saved draft for this workflow.');validateGraph(s.graph);remember();graph=s.graph;draw();inspect();fit();notice('Saved draft restored.');});
+mountComfyHandoff($('#download').parentElement,{getPayload:()=>{if(!packet||!graph)throw Error('Choose a graph first.');validateGraph(graph);return {graph:packet.recipe||packet.providerWorkflow?canvasToApi(graph):graph,name:packet.name??'Library workflow',files:packet.files??[],execution:packet.execution,scope:packet.graphScope};},onStatus:notice});
 $('#download').onclick=run(()=>{validateGraph(graph);const url=URL.createObjectURL(new Blob([JSON.stringify(packet.recipe||packet.providerWorkflow?canvasToApi(graph):graph,null,2)],{type:'application/json'})),a=document.createElement('a');a.href=url;a.download=(packet.id??'workflow')+'.json';a.click();setTimeout(()=>URL.revokeObjectURL(url),1000);notice('Workflow downloaded. Drag it into ComfyUI, select your media and review settings before running.');});
 $('#apply-json').onclick=run(()=>{const next=JSON.parse($('#json').value);validateGraph(next);remember();graph=rebuildLinks(next);selected=null;pending=null;draw();inspect();fit();notice('Imported canvas. Unknown node metadata preserved; execution is checked by ComfyUI.');});
 $('#workflow-choice').onchange=run(()=>{const id=$('#workflow-choice').value;const u=new URL(location.href);u.searchParams.delete('job');u.searchParams.delete('providerWorkflow');u.searchParams.delete('providerVariant');u.searchParams.set('workflow',id);window.history.replaceState(null,'',u);return load('/api/workflows/'+id);});

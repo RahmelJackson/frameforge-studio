@@ -24,3 +24,11 @@ Run the connected graph, then explicitly press **Send saved image/video/audio �
 The normal Studio retains its anti-framing policy. A separate loopback view permits only this exact local ComfyUI origin; ComfyUI's frame policy adds only that view's exact address. Unrelated origins, redirects, environment proxies and remote Studio addresses are refused. Upload handoffs accept only existing files inside this ComfyUI's output directory: PNG up to 20 MiB, video 100 MiB, WAV 25 MiB.
 
 Comfy Cloud and Civitai remain external services with their own sign-in and payment. External links appear in a visible **Open website** banner. Opening Studio does not upload to them, spend credits, run a workflow or download models. Individual tools retain their existing hardware, model and processor requirements.
+
+## Quick tools and graph handoff
+
+The compact **F↗ Quick tools** toolbar stays available on the graph. Pick Video, Images or Audio to jump to the matching editor. **Full Studio** returns to the complete interface; **Export graph** downloads the current native graph JSON. The same quick menu is available from the embedded mode bar and the Frameforge sidebar.
+
+Beside the selected workflow’s model check, **Open graph in ComfyUI** prepares the current settings, checks input hashes, uploads inputs using unique filenames and opens the graph in a separate ComfyUI tab. It refreshes the native file picker first. Existing graph tabs remain available. Review missing nodes/models and press Run yourself. Library graphs and the local LTX/FLUX/H3 sample details have the same handoff. Starter graphs without prepared files still need their placeholder media selected. A generation-stage graph does not include Studio’s later protected-pixel, timing or audio finalization.
+
+Direct handoff supports native canvas and API-format graphs up to 4 MiB and 500 nodes, with up to 20 PNG/JPEG/WebP/MP4/WebM/WAV inputs, 80 MiB per input and 100 MiB total. Larger or nonportable pipelines retain the download package or their Studio controls. In the regular website, the adjacent **Workflow + inputs** button downloads the current graph, inputs and model list as a package. No render or model download starts from an export or handoff.

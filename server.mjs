@@ -486,7 +486,7 @@ const server = http.createServer(async (req, res) => {
      return json(res,200,await comfyStudioViews.open({base:'http://127.0.0.1:'+listeningPort,ancestor:input.ancestor}));
     }
     if(route==='/api/comfy-bridge/download'&&req.method==='GET'){
-     const directory=path.join(DATA,'bridge-packages');await mkdir(directory,{recursive:true});const file=path.join(directory,randomUUID()+'.zip');await writeZip(['__init__.py','web/frameforge.js','web/studio.js','web/studio.css','README.md'].map(name=>({name:'comfyui-frameforge/'+name,path:path.join(ROOT,'assets/comfyui-frameforge',name)})),file);res.setHeader('Content-Disposition','attachment; filename="comfyui-frameforge.zip"');return await serveFile(req,res,file);
+     const directory=path.join(DATA,'bridge-packages');await mkdir(directory,{recursive:true});const file=path.join(directory,randomUUID()+'.zip');await writeZip(['__init__.py','web/frameforge.js','web/studio.js','web/studio.css','web/quick-tools.js','web/workflow-transfer.js','README.md'].map(name=>({name:'comfyui-frameforge/'+name,path:path.join(ROOT,'assets/comfyui-frameforge',name)})),file);res.setHeader('Content-Disposition','attachment; filename="comfyui-frameforge.zip"');return await serveFile(req,res,file);
     }
     if(route==='/api/model-downloads/storage'&&req.method==='POST'){
      if(HOSTED_MODE)return json(res,403,{error:'Only the GPU owner can change model storage.'});if(modelDownloads.running)throw Error('Wait for the model download to finish before changing storage.');
@@ -700,8 +700,8 @@ const server = http.createServer(async (req, res) => {
       const variant=url.searchParams.get('variant')??'default';
       return json(res,200,providerSetup[2]==='readiness'?await providerReadiness({root:ROOT,id:providerSetup[1],variant,engines:[comfy.url,'http://127.0.0.1:8189']}):await providerRunPackage({root:ROOT,data:DATA,id:providerSetup[1],variant,effect:url.searchParams.get('effect')??'original'}));
     }
-    const providerExport=route.match(/^\/provider-exports\/([a-f0-9-]{36})\/bundle\.zip$/);
-    if(providerExport&&req.method==='GET'){if(openOnly){const manifest=JSON.parse(await readFile(path.join(DATA,'provider-exports',providerExport[1],'manifest.json'),'utf8'));assertOpenProvider(await providerPacket(ROOT,manifest.workflow,manifest.variant));}res.setHeader('Content-Disposition','attachment; filename="frameforge-run-package.zip"');return await serveFile(req,res,path.join(DATA,'provider-exports',providerExport[1],'bundle.zip'));}
+    const providerExport=route.match(/^\/provider-exports\/([a-f0-9-]{36})\/(bundle\.zip|workflow\.json)$/);
+    if(providerExport&&req.method==='GET'){if(openOnly){const manifest=JSON.parse(await readFile(path.join(DATA,'provider-exports',providerExport[1],'manifest.json'),'utf8'));assertOpenProvider(await providerPacket(ROOT,manifest.workflow,manifest.variant));}res.setHeader('Content-Disposition','attachment; filename="'+(providerExport[2]==='bundle.zip'?'frameforge-run-package.zip':'workflow.json')+'"');return await serveFile(req,res,path.join(DATA,'provider-exports',providerExport[1],providerExport[2]));}
     const providerPreview=route.match(/^\/api\/provider-workflows\/([a-z0-9-]+)\/(preview|poster)$/);
     if(providerPreview&&req.method==='GET'){
       if(openOnly)assertOpenProvider(await providerPacket(ROOT,providerPreview[1],url.searchParams.get('variant')??'default'));
@@ -893,7 +893,7 @@ const server = http.createServer(async (req, res) => {
     Object.assign(publicFiles,{'/library':'saved-library.html','/saved-library.js':'saved-library.js','/saved-library-page.js':'saved-library-page.js','/saved-library.css':'saved-library.css','/workflow-help.js':'workflow-help.js'});
     Object.assign(publicFiles,{'/frameforge.svg':'../assets/frameforge.svg','/online':'online.html','/online.js':'online.js','/online.css':'online.css','/online-handoff.js':'online-handoff.js','/setup':'setup.html','/workspace-intros.js':'workspace-intros.js','/model-downloads.js':'model-downloads.js','/setup.js':'setup.js','/setup-prompt.js':'setup-prompt.js','/setup.css':'setup.css','/assistant.js':'assistant.js','/assistant-connection.js':'assistant-connection.js','/assistant.css':'assistant.css','/workspace-art.css':'workspace-art.css'});
     Object.assign(publicFiles,{'/execution-policy.js':'execution-policy.js','/execution-policy.css':'execution-policy.css','/mcp-app':'mcp-app.html','/mcp-workflow-inputs.js':'mcp-workflow-inputs.js','/mcp-app.js':'mcp-app.js','/mcp-app.css':'mcp-app.css'});
-    Object.assign(publicFiles,{'/workflow-panel.js':'workflow-panel.js','/workflow-panel.css':'workflow-panel.css'});
+    Object.assign(publicFiles,{'/comfy-handoff.js':'comfy-handoff.js','/workflow-panel.js':'workflow-panel.js','/workflow-panel.css':'workflow-panel.css'});
     for(const name of ['compass','moon','character','knight','robot','bicycle'])publicFiles['/explore-art/'+name+'.svg']='explore-art/'+name+'.svg';
     for(const name of ['observatory-preview','portrait-preview','product-preview'])publicFiles['/explore-art/'+name+'.jpg']='explore-art/'+name+'.jpg';
     for(const name of ['observatory-concept','portrait-concept','product-concept'])publicFiles['/explore-art/'+name+'.png']='explore-art/'+name+'.png';

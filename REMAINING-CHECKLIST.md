@@ -1,3 +1,13 @@
+## Seamless ComfyUI tools & graph handoff · release 0.8.6
+
+- [x] Compact Quick tools toolbar on the graph, with Video / Images / Audio choices, direct links to controls, Full Studio and one-click current-graph JSON export.
+- [x] Per-workflow quick export beside its file/model check. The regular website downloads a graph + inputs + model-list package; the embedded Studio sends the graph and checked media to a separate native ComfyUI tab.
+- [x] Direct handoff for the Library graph inspector and local LTX / FLUX / H3 sample workflows, preserving each selected sample/effect and original input.
+- [x] Input checksum validation, unique filenames, native media-picker refresh, safe loader-path remapping and no automatic execution. Original graph tabs stay available.
+- [x] Browser acceptance: a real 12-node Wan graph plus one image opened in a new ComfyUI tab without a missing-media warning. Current graph JSON export and regular website ZIP export also passed. No generation, paid call or model download used for this acceptance.
+
+Limits: direct inputs are capped at 80 MiB each / 100 MiB total / 20 files. Graphs are capped at 4 MiB / 500 nodes. Larger handoffs use the existing package. Starter placeholders and missing custom nodes/models still need selection/setup. Prepared generation-stage graphs retain their Studio finalization caveats.
+
 ## Full Studio inside ComfyUI · release 0.8.5
 
 - [x] Complete running Studio in a native ComfyUI sidebar entry: Home, Images, Video, Audio, Library, Guide, saved work and settings share the same local app and files.
@@ -6,7 +16,7 @@
 - [x] Existing image/video/audio output nodes open their imported results in the embedded editor instead of redirecting to a browser.
 - [x] Actual ComfyUI browser acceptance: embedded workspace navigation, local engine/file readiness, Video sample upload and a real 3.96-second Kokoro narration created inside the Audio editor. No Cloud credits or model downloads used.
 
-Both local apps must be running. External provider sign-in opens on that provider. Downloaded graphs still require explicit import into ComfyUI; switching to Graph never replaces a workflow. Native file-chooser automation was unavailable for the cross-origin iframe; the upload route was exercised with the editor’s bundled sample.
+Both local apps must be running. External provider sign-in opens on that provider. Historical 0.8.5 used explicit file import; release 0.8.6 adds a separate-tab handoff above. Switching layout alone never replaces a workflow. Native file-chooser automation was unavailable for the cross-origin iframe; the upload route was exercised with the editor’s bundled sample.
 
 ## Guided workspace openings · release 0.8.4
 
