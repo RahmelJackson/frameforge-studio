@@ -1,5 +1,9 @@
 // Each graph appears once. Model and draft variants belong to a task, not another card.
 export const OUTCOMES=[
+ {id:'performance-takes',title:'Compare performance takes',category:'video',summary:'Keep a character still and shared direction across three sequential takes.',input:'A character still + action notes',output:'Takes to compare',variants:['tool:performance-takes']},
+ {id:'product-campaign',title:'Build a product campaign',category:'image',summary:'Three product scene edits with connected animation and speech handoffs.',input:'A product photo + campaign brief',output:'Campaign stills and next steps',variants:['tool:product-campaign']},
+ {id:'reference-shot-plan',title:'Reference video to shot plan',category:'video',summary:'Extract real source frames and save your shot notes in Director.',input:'A reference clip + shot notes',output:'An editable Director plan',variants:['tool:reference-shot-plan']},
+ {id:'motion-library',title:'Save and reuse a motion',category:'video',summary:'Reuse a short driving clip with framing and visibility notes.',input:'A motion clip + appearance still',output:'A guided motion preview',variants:['tool:motion-library']},
  {id:'select-object',title:'Select an object',category:'image',symbol:'⊡',summary:'Click, box or name an object with SAM, then refine its mask before editing.',input:'An image + a selection hint',output:'A PNG mask',variants:['sam-image']},
  {id:'create-image',title:'Create an image',category:'image',symbol:'◇',summary:'Turn a written idea into a still, concept or first storyboard frame.',input:'A prompt',output:'A new image',variants:['z-image','seedream-create']},
  {id:'edit-image',title:'Edit an image',category:'image',symbol:'◐',summary:'Change a picture with words. Compare the edited copy with your original.',input:'An image + a change request',output:'An edited image',variants:['qwen-edit','flux3-image','seedream-edit']},
@@ -44,6 +48,10 @@ export const OUTCOMES=[
  {"id":"make-film","title":"Make a complete short film","category":"video","symbol":"▷","summary":"Save a story, select takes, arrange the timeline, add sound/captions and export. Every take still needs your review.","input":"A story, images/clips and sound","output":"A saved film project, MP4 and subtitles","variants":["tool:film"]}
 ];
 export const TOOL_VARIANTS={
+ 'performance-takes':{label:'Wan 2.2 · sequential local takes',url:'/recipes?recipe=performance',reviewed:true},
+ 'product-campaign':{label:'Qwen Edit · shared product reference',url:'/recipes?recipe=campaign',reviewed:true},
+ 'reference-shot-plan':{label:'Local frame extraction → Director',url:'/recipes?recipe=reference-story',reviewed:true},
+ 'motion-library':{label:'Saved motion → VACE preview',url:'/recipes?recipe=motion-remix',reviewed:true},
  'vace-relight':{label:'VACE · experimental video relighting',url:'/video-tools?tool=relight'},
  'identity-pose':{label:'PhotoMaker · identity with pose guide',url:'/images?tool=identity-pose'},
  'character-replace':{label:'Qwen · experimental character replacement',url:'/images?tool=character-swap'},

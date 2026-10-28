@@ -23,7 +23,7 @@ test('Reviewed provider plans bind image, prompt, seed and reject graph mutation
   const bad=structuredClone(p.graph);bad.nodes[0].widgets_values[0]='Changed';assert.throws(()=>assertProviderPlan(p,bad),/new provider workflow/);
   assert.ok(p.models.every(m=>m.url&&m.destination&&m.licenseUrl&&m.sha256));
   assert.deepEqual(mcpNativePrompt(p.graph),p.api);
-  await assert.rejects(()=>prepareProviderPlan({root,data:directory,input:{asset,prompt:'Edit',seed:42,mask:asset},workflow,context,engines:[],inspectImage:async()=>({width:1024,height:768})}),/one starting image/);
+  await assert.rejects(()=>prepareProviderPlan({root,data:directory,input:{asset,prompt:'Edit',seed:42,mask:asset},workflow,context,engines:[],inspectImage:async()=>({width:1024,height:768})}),workflow==='flux3-image'?/valid mask/:/one starting image/);
  }
  await assert.rejects(()=>executableProvider(root,'not-a-model'),/supported/);
  }finally{await rm(directory,{recursive:true,force:true});}

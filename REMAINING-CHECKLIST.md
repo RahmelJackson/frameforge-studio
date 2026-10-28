@@ -1,3 +1,19 @@
+## Connected creative recipes · release 0.8.1
+
+- [x] Picture-led creative recipes: performance takes, product campaign, reference video to Director plan, and saved-motion remix. Reach them through Video → Creative recipes, Library, the Guide and the native plugin.
+- [x] Shared saved subjects, driving clips, fixed source checksums, frozen direction and explicit per-take seeds. Website and MCP use the same data.
+- [x] Actual graph preparation and per-recipe workflow/input export; explicit sequential local variations, duplicate-request replay, take comparison and stop-remaining action. A two-image campaign completed serially and replay returned the same batch.
+- [x] Original sample subject and motion inputs. Sample artwork is labelled; it is not evidence of successful generation.
+- [x] Reference clip → three actual source frames → saved Director plan. Repeated frame extraction and Director creation reuse saved handoffs. Shot descriptions are supplied by the user; automatic vision analysis is not claimed.
+- [x] FLUX protected Canvas edits: native crop → model → resize → masked composite graph, with an original-grid preservation check. A real 1536 × 1024 local edit passed every unmasked RGB pixel exactly, including the native graph's raw composite. All input files and model sources remain available. Visual seam quality still depends on selection and generation.
+- [x] SAM boxes send a center keep-point; text defaults to a higher confidence threshold. A real box job passed mask-file checks. Its broad object selection still needed refinement; semantic accuracy and reliable absent-object rejection remain open.
+- [x] Main image/video/audio controls use document scrolling, with picture-led starting points and no internal controls scrollbar.
+- [x] MCP shared recipe discovery, capability readiness, saved subjects/motions/plans and opt-in production tools. Native plugin includes creative recipes and actual saved-take playback.
+- [ ] Broader performance, motion-transfer and campaign creative acceptance. These connected flows do not close the parked identity, swap, motion or lighting quality goals.
+- [ ] Optional vision-LLM analysis of reference clips, followed by user review. The current recipe extracts frames and uses your notes.
+
+Next model work is tracked in [the model/workflow research plan](MODEL-WORKFLOW-PLAN.md). The organizer-question draft was left untouched. No engine upgrade, new model download or paid run was made in this release.
+
 ## Follow-up release 0.7.4
 
 Validation: 218 public tests and 9 private recovery/gateway tests passed. Actual native ComfyUI MP4/WAV handoffs preserved file SHA-256 bytes and created My work records. A 7.375-second two-clip rough cut exported with a replay returning the same export. Browser Proof view on a saved masked edit measured 36,488 changed RGB pixels out of 589,824 (6.19%), and retained its original comparison after reopening. Technical checks do not approve creative quality.
@@ -13,7 +29,7 @@ Validation: 218 public tests and 9 private recovery/gateway tests passed. Actual
 - [x] Exact-result model/source details and native graph remix links where saved graphs exist.
 - [x] Isolated CPU media/vision software check/install commands. Advanced GPU environments remain separate.
 
-Still open: account-published custom Cloud App Mode links, automatic installation of all advanced GPU processors, FLUX protected Canvas masking, the larger 3D/animation/music pipelines, and the fifteen parked creative-quality goals. No paid Cloud run or new model download was made in this follow-up.
+Still open: account-published custom Cloud App Mode links, automatic installation of all advanced GPU processors, the larger 3D/animation/music pipelines, and the fifteen parked creative-quality goals. No paid Cloud run or new model download was made in this follow-up.
 
 # Workflow acceptance checklist
 

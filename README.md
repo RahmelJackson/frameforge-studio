@@ -133,3 +133,14 @@ See [review follow-up](REVIEW-FIXES.md) for the completed usability fixes, plus 
 Workflow availability is tracked in the [suggested-workflow audit](WORKSPACE-GUIDE.md#suggested-workflows-current-coverage). 3D generation, generated music, LoRA training and other planned capabilities are not advertised as working tools.
 
 The Library groups 42 creative tasks with local/Cloud options inside each card. Images, Video and Audio share visible creation controls and a result preview; Audio adds real waveforms and timed transcript navigation. See [layout, task coverage and native-editor handoff limits](WORKSPACE-GUIDE.md#shared-creation-layout-and-library-coverage).
+
+
+## Creative recipes (0.8.0)
+
+Open **Video → Creative recipes** (`/recipes`) for performance variations, a product campaign, source-video shot planning or saved-motion remix. Save a subject and shared direction, inspect the actual workflows, then explicitly render a preview or sequential variations. Sources and seed choices are frozen in the saved plan. Use the original samples to try the interface without finding files first.
+
+`studio_recipe_library` reads the same subjects, motions, plans and batch states; `capabilities: true` reports supported recipes and current readiness. `studio_recipe` provides opt-in save, prepare, frame extraction, Director handoff and sequential queue operations. The MCP connection still defaults to read-only. A queue requires a saved-plan signature and a request ID; reuse the request after an ambiguous result. No result is automatically creatively approved.
+
+Canvas offers Qwen and installed FLUX 3 Image Klein. The FLUX masked graph crops the selection, generates the edit, resizes it to the crop and composites through the mask on the source grid. Native graph downloads include both image inputs and the mask. Proof measures actual changed pixels, not identity or visual quality.
+
+The source-reference recipe uses real decoded frames and your shot notes. It does not automatically understand video. Character/performance and motion-transfer quality remain subject to review.

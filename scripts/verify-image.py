@@ -21,6 +21,11 @@ def check(raw, request, assets, directory):
         if mask.size!=source.size: raise ValueError('Mask and source dimensions differ')
         values=np.asarray(mask)
         if not np.any(values>0) or not np.any(values==0): raise ValueError('Paint part of the image; leave some pixels unmasked')
+        if request.get('providerCrop'):
+            record('Graph composite dimensions',image.size==source.size,'Native FLUX composite keeps the original source dimensions.')
+            if image.size!=source.size: raise ValueError('FLUX composite must match the original grid')
+            native_delta=np.abs(np.asarray(image).astype(int)-np.asarray(source).astype(int))
+            record('Native graph outside-mask preservation',np.max(native_delta[values==0])==0,'The ComfyUI graph itself preserves every unmasked pixel.')
         edited=image.resize(source.size,Image.Resampling.LANCZOS)
         if request.get('blend')=='boundary':
             # Estimate an illumination/color offset only from corresponding editable skin; retain neutral eyes/teeth with a soft skin weight.
@@ -33,14 +38,14 @@ def check(raw, request, assets, directory):
             edited=Image.fromarray(np.clip(candidate+offset*skin_weight[:,:,None],0,255).round().astype('uint8'))
             blending={'method':'paired-editable-skin-offset-v2','samples':samples,'rgbOffset':offset.tolist(),'applied':samples>=32}
             record('Boundary color estimate',np.isfinite(offset).all(),'Bounded skin-color offset from '+str(samples)+' editable skin pixels; appearance still needs review.')
-        image=Image.composite(edited,source,mask)
+        image=edited if request.get('providerCrop') else Image.composite(edited,source,mask)
         outside=values==0;delta=np.abs(np.asarray(image).astype(int)-np.asarray(source).astype(int))
         record('Outside-mask preservation',np.max(delta[outside])==0,'Every unmasked RGB pixel equals the source.')
         record('Inside-mask change',np.any(delta[values>0]>0),'At least one painted pixel changed; visual review is still required.')
         expected=source.size
     elif request['tool']=='upscale': expected=tuple(x*request['scale'] for x in source.size)
     else: expected=tuple(request.get('size') or {'square':[768,768],'landscape':[1024,576],'portrait':[576,1024]}[request['aspect']])
-    if request.get('providerWorkflow')=='flux3-image':
+    if request.get('providerWorkflow')=='flux3-image' and not request.get('providerCrop'):
         # The official reference-latent node selects aspect-preserving model grid dimensions.
         area=image.width*image.height
         record('Dimensions',800000<=area<=1200000 and image.width%16==0 and image.height%16==0 and abs(image.width/image.height-source.width/source.height)<0.08,f'{image.width} × {image.height}; one-megapixel aspect-preserving profile')

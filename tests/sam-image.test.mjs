@@ -17,9 +17,9 @@ test('Text, point and box graphs preserve native selection inputs through the ed
  for(const extra of [{segmentMethod:'text'},{segmentMethod:'points',segmentPoints:[{x:1,y:0,label:1},{x:0,y:1,label:0}]},{segmentMethod:'box',segmentBox:{x:.25,y:.125,width:.5,height:.5}}]){
   const request={...normalizeImage({tool:'select',asset,prompt:'the green knob',...extra}),size:[1024,512]},api=buildImageWorkflow(request,{asset},'test/selection');
   const canvas=apiToCanvas(api,info),round=canvasToApi(canvas),detect=Object.values(round).find(n=>n.class_type==='SAM3_Detect');
-  assert.equal(detect.inputs.refine_iterations,1);assert.equal(detect.inputs.individual_masks,false);assert.equal(detect.inputs.threshold,.5);
+  assert.equal(detect.inputs.refine_iterations,1);assert.equal(detect.inputs.individual_masks,false);assert.equal(detect.inputs.threshold,extra.segmentMethod==='text'?.65:.5);
   if(extra.segmentMethod==='points'){assert.equal(round[detect.inputs.positive_coords[0]].inputs.value,'[{"x":1023,"y":0}]');assert.equal(round[detect.inputs.negative_coords[0]].inputs.value,'[{"x":0,"y":511}]');}
-  if(extra.segmentMethod==='box')assert.deepEqual(round[detect.inputs.bboxes[0]].inputs,{x:256,y:64,width:512,height:256});
+  if(extra.segmentMethod==='box'){assert.equal(round[detect.inputs.positive_coords[0]].inputs.value,'[{"x":512,"y":192}]');}if(extra.segmentMethod==='box')assert.deepEqual(round[detect.inputs.bboxes[0]].inputs,{x:256,y:64,width:512,height:256});
   if(extra.segmentMethod==='text')assert.equal(round[detect.inputs.conditioning[0]].inputs.text,'the green knob');
   assertOpenInput('images',request);assertOpenGraph(round,models);
  }

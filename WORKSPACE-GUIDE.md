@@ -143,3 +143,14 @@ October 27 local acceptance: text and point prompts selected the visible green p
 Completed: SAM image selection and editable PNG masks. Already present: still outpainting, image-version comparison, local model download metadata and the LTX effect-prompt pack. Broader remaining proposals include four-path onboarding, external Cloud App Mode publishing and result import, action buttons on errors, larger accessibility text, Wan 14B / Animate, SeedVR2, generated Foley/music, training and 3D/depth guides. These remain follow-up work, not additional quality goals checked off. Wan dimension recommendations and any model/license claims need source-specific validation before changing existing measured profiles. The 15 broad creative-quality goals remain open.
 
 The SAM → Canvas → Qwen handoff was also run through the browser: the knob changed to cobalt blue, the final image retained its original 1280 × 853 grid, and the independent report confirmed every pixel outside the selected mask equals the original. This is narrow product-edit evidence, not broad segmentation or semantic-edit acceptance.
+
+
+## Creative recipes (0.8.0)
+
+Open **Video → Creative recipes** (`/recipes`) for performance variations, a product campaign, source-video shot planning or saved-motion remix. Save a subject and shared direction, inspect the actual workflows, then explicitly render a preview or sequential variations. Sources and seed choices are frozen in the saved plan. Use the original samples to try the interface without finding files first.
+
+`studio_recipe_library` reads the same subjects, motions, plans and batch states; `capabilities: true` reports supported recipes and current readiness. `studio_recipe` provides opt-in save, prepare, frame extraction, Director handoff and sequential queue operations. The MCP connection still defaults to read-only. A queue requires a saved-plan signature and a request ID; reuse the request after an ambiguous result. No result is automatically creatively approved.
+
+Canvas offers Qwen and installed FLUX 3 Image Klein. The FLUX masked graph crops the selection, generates the edit, resizes it to the crop and composites through the mask on the source grid. Native graph downloads include both image inputs and the mask. Proof measures actual changed pixels, not identity or visual quality.
+
+The source-reference recipe uses real decoded frames and your shot notes. It does not automatically understand video. Character/performance and motion-transfer quality remain subject to review.

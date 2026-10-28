@@ -123,3 +123,14 @@ The current v4 resource avoids old UI caches, with previous v1-v3 addresses reta
 
 
 The 0.5.2 release passes all 175 regression tests and live ComfyUI readiness after restarting the existing engine. The owner's session was reconnected from the clean plugin-cache backend to the original configured studio and D-drive storage; the cache copy's files were preserved. No new render, download or creative approval was performed. Native nested-frame interaction remains unverified because the inspection tool rejected that action.
+
+
+## Creative recipes (0.8.0)
+
+Open **Video → Creative recipes** (`/recipes`) for performance variations, a product campaign, source-video shot planning or saved-motion remix. Save a subject and shared direction, inspect the actual workflows, then explicitly render a preview or sequential variations. Sources and seed choices are frozen in the saved plan. Use the original samples to try the interface without finding files first.
+
+`studio_recipe_library` reads the same subjects, motions, plans and batch states; `capabilities: true` reports supported recipes and current readiness. `studio_recipe` provides opt-in save, prepare, frame extraction, Director handoff and sequential queue operations. The MCP connection still defaults to read-only. A queue requires a saved-plan signature and a request ID; reuse the request after an ambiguous result. No result is automatically creatively approved.
+
+Canvas offers Qwen and installed FLUX 3 Image Klein. The FLUX masked graph crops the selection, generates the edit, resizes it to the crop and composites through the mask on the source grid. Native graph downloads include both image inputs and the mask. Proof measures actual changed pixels, not identity or visual quality.
+
+The source-reference recipe uses real decoded frames and your shot notes. It does not automatically understand video. Character/performance and motion-transfer quality remain subject to review.

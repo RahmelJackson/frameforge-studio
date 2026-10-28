@@ -1,3 +1,4 @@
+import {CreativeStore,CREATIVE_RECIPES,recipeRequests,motionAdvice} from './lib/creative-recipes.mjs';
 import {assertOpenProvider} from './lib/provider-policy.mjs';
 import {providerRecipe,providerSetup,assertProviderPlan,executableProvider,providerCanvas} from './lib/provider-execution.mjs';
 import {recordComfyImport,listMediaImports} from './lib/media-imports.mjs';
@@ -77,6 +78,7 @@ const sounds=await new SoundLibrary(DATA).open();
 const imageLibrary=await new ImageLibrary(DATA).open();
 const continuityStore=await new ContinuityStore(DATA).open();
 const director=await new DirectorStore(DATA).open();
+const creativeStore=await new CreativeStore(DATA).open();
 const jobDir = id => path.join(DATA, 'jobs', id);
 async function fileDigest(file){const hash=createHash('sha256');for await(const chunk of createReadStream(file))hash.update(chunk);return hash.digest('hex');}
 async function save(job) {
@@ -302,8 +304,8 @@ async function submitProviderPlan(plan,graph,requestId,openOnly,createdVia='Stud
   const engine=jobEngine(job),info=await engine.json('/object_info');
   for(const n of Object.values(graph))if(info[n.class_type]?.api_node)throw Error('Partner nodes cannot run through the local provider route.');
   for(const url of providerEngines){const e=new ComfyClient(url);let q;try{q=await e.json('/queue');}catch{if(url===engine.url)throw Error('Selected engine is offline.');continue;}if(q.queue_running?.length||q.queue_pending?.length)throw Error('Another ComfyUI job is running. Wait for it to finish.');await e.releaseIdle();}
-  const upload=await engine.upload(path.join(DATA,'assets',plan.request.asset),plan.request.asset),name=[upload.subfolder,upload.name].filter(Boolean).join('/');
-  const api=structuredClone(graph);for(const node of Object.values(api)){if(node.class_type==='LoadImage')node.inputs.image=name;if(['SaveImage','SaveVideo'].includes(node.class_type))node.inputs.filename_prefix='frameforge/'+job.id;}
+  const uploaded=new Map();for(const filename of [...new Set(Object.values(graph).filter(n=>n.class_type==='LoadImage').map(n=>n.inputs.image))]){if(!assetName(filename))throw Error('Choose a bound local image.');const value=await engine.upload(path.join(DATA,'assets',filename),filename);uploaded.set(filename,[value.subfolder,value.name].filter(Boolean).join('/'));}
+  const api=structuredClone(graph);for(const node of Object.values(api)){if(node.class_type==='LoadImage')node.inputs.image=uploaded.get(node.inputs.image);if(['SaveImage','SaveVideo'].includes(node.class_type))node.inputs.filename_prefix='frameforge/'+job.id;}
   await writeFile(path.join(jobDir(job.id),'workflow.json'),JSON.stringify(api,null,2));job.status='submitting';await save(job);
   const result=await engine.json('/prompt',{prompt:api,prompt_id:job.id,client_id:job.id});if(!result.prompt_id)throw Error('The engine did not acknowledge this request. Inspect before retrying.');
   job.promptId=result.prompt_id;job.status='submitted';await save(job);await audit(job,'provider-submitted');return {code:202,body:job};
@@ -403,7 +405,7 @@ async function submitJob(input,retriedFrom=null,workflowOverride=null,createdVia
   }catch(e){job.error=e.message;job.status=job.status==='submitting'?'needs-attention':'failed';await save(job);return {code:502,body:{error:e.message,job}};}
 }
 
-const batchQueue=await new BatchQueue(DATA,{getJobs:()=>[...jobs.values()],submit:submitJob}).open();
+const batchQueue=await new BatchQueue(DATA,{getJobs:()=>[...jobs.values()],submit:input=>submitJob(input,null,null,input.createdVia??'Studio')}).open();
 const batchTimer=setInterval(()=>batchQueue.tick().catch(error=>console.error('Batch monitor:',error.message)),3000);batchTimer.unref();
 
 const thumbnails=new Map();let thumbnailGate=Promise.resolve();
@@ -423,7 +425,7 @@ const audioStudio=await new AudioStudio({root:ROOT,data:DATA,resolveVideo:resolv
 async function preparePortableVideo(id,request){
  const source=await resolveVideoSource(request),directory=path.join(DATA,'workflow-plans',id,'stage');await mkdir(directory,{recursive:true});const manifest={request:{...request,narration:'',audio:null},visionPython,source,assets:path.join(DATA,'assets'),audioPath:null};await writeFile(path.join(directory,'manifest.json'),JSON.stringify(manifest));await runPython('process-video.py',[directory,'--phase','prepare'],300000);const prepared=JSON.parse(await readFile(path.join(directory,'prepared.json'),'utf8'));await pythonJson('inspect-video.py',[path.join(directory,'input.mp4'),'--poster',path.join(directory,'poster.jpg')]);const files=[];for(const [filename,name] of [['input.mp4','prepared-input.mp4'],...(prepared.hasMaskVideo?[['mask.mp4','prepared-mask.mp4']]:[])]){const file=path.join(directory,filename);files.push({name,path:file,bytes:(await stat(file)).size,sha256:await fileDigest(file),contentType:'video/mp4',url:'/workflow-plan-inputs/'+id+'/'+filename,previewUrl:'/workflow-plan-inputs/'+id+'/poster.jpg'});}return {prepared,files};
 }
-const workflowPlans=await new WorkflowPlans({root:ROOT,data:DATA,comfy,providerEngines,resolveVideo:resolveVideoSource,inspectImage,prepareVideo:preparePortableVideo,resolveKeyframe:async id=>{const frame=jobs.get(id);if(!frame?.image||!frame.report?.technicalPass||frame.review?.verdict==='rejected')throw Error('Choose a checked appearance still.');const file=path.join(jobDir(id),frame.image);if(await fileDigest(file)!==frame.report.sha256)throw Error('Appearance keyframe changed.');const name=randomUUID()+'.png';await copyFile(file,path.join(DATA,'assets',name));return name;}}).open();
+const workflowPlans=await new WorkflowPlans({root:ROOT,data:DATA,comfy,providerEngines,resolveVideo:resolveVideoSource,inspectImage,inspectMaskRegion:(source,mask)=>pythonJson('mask-region.py',[source,mask]),prepareVideo:preparePortableVideo,resolveKeyframe:async id=>{const frame=jobs.get(id);if(!frame?.image||!frame.report?.technicalPass||frame.review?.verdict==='rejected')throw Error('Choose a checked appearance still.');const file=path.join(jobDir(id),frame.image);if(await fileDigest(file)!==frame.report.sha256)throw Error('Appearance keyframe changed.');const name=randomUUID()+'.png';await copyFile(file,path.join(DATA,'assets',name));return name;}}).open();
 async function selectedSetup(selection={}){
  if(typeof selection.input==='string'){if(selection.input.length>2000)throw Error('Setup options are too long.');selection={...selection,input:JSON.parse(selection.input)};}if(selection.input!=null&&(typeof selection.input!=='object'||Array.isArray(selection.input)))throw Error('Choose valid workflow setup options.');
  if(selection.context==='audio'&&selection.tool==='dub'&&/^[a-f0-9-]{36}$/.test(selection.input?.transcriptJob??'')&&(!selection.input.sourceLanguage||selection.input.sourceLanguage==='auto')){const job=audioStudio.list().find(j=>j.id===selection.input.transcriptJob);if(job?.report?.technicalPass){try{const transcript=JSON.parse(await readFile(audioStudio.file(job.id,'transcript.json'),'utf8'));if(['en','es'].includes(transcript.language))selection={...selection,input:{...selection.input,sourceLanguage:transcript.language}};}catch{}}}
@@ -590,6 +592,53 @@ const server = http.createServer(async (req, res) => {
       const directory=path.join(ROOT,'runtime','frame-cache');await mkdir(directory,{recursive:true});const frame=path.join(directory,source.sha256+'-'+Math.round(time*1000000)+'.jpg');
       try{await stat(frame);}catch{await runPython('video-frame.py',[source.path,String(time),frame],30000);}
       return await serveFile(req,res,frame);
+    }
+    if(route==='/api/creative-library'&&req.method==='GET')return json(res,200,{recipes:CREATIVE_RECIPES,...creativeStore.list(),batches:batchQueue.list().filter(b=>creativeStore.list().plans.some(p=>p.handoffs?.batchId===b.id))});
+    if(route==='/api/creative-capabilities'&&req.method==='GET'){const status=await health();return json(res,200,{recipes:CREATIVE_RECIPES,readiness:{performance:{ready:!!status.ready,workflow:'wan-i2v'},campaign:{ready:!!status.images?.edit?.ready,workflow:'qwen-edit'},'motion-remix':status.videoTools?.temporal??{ready:false},'reference-story':{ready:(await mediaRuntime(config.python)).available}},limits:{variations:3,motionPreviewSeconds:3.1,concurrentRenders:1},execution:'Explicit local preview runs only. Prepare is free of generation. Downloads are per workflow.',workflows:(await assistantTools('studio_workflows',{})).workflows.filter(w=>!openOnly||OPEN_WORKFLOW_IDS.includes(w.id))});}
+    if(route==='/api/creative-subjects'&&req.method==='POST'){
+      const input=await readJson(req);if(!assetName(input.asset))throw Error('Choose a saved subject image.');return json(res,201,await creativeStore.saveSubject(input,await fileDigest(path.join(DATA,'assets',input.asset))));
+    }
+    if(route==='/api/creative-motions'&&req.method==='POST'){
+      const input=await readJson(req),source=await resolveVideoSource(input);return json(res,201,await creativeStore.saveMotion(input,source));
+    }
+    if(route==='/api/creative-plans'&&req.method==='POST')return json(res,201,await creativeStore.savePlan(await readJson(req)));
+    const creativeAction=route.match(/^\/api\/creative-plans\/([a-f0-9-]{36})(?:\/(prepare|queue|frames|director))?$/);
+    if(creativeAction){
+      const plan=creativeStore.get(creativeAction[1]),action=creativeAction[2];
+      if(req.method==='GET'&&!action)return json(res,200,{...plan,requests:recipeRequests(plan),advice:plan.motion?motionAdvice(plan.motion,plan.framing):null});
+      if(req.method==='POST'&&action){
+        const input=await readJson(req);
+        if(input.signature!==plan.signature)throw Error('Reopen this saved plan before continuing.');
+        if(plan.subject&&await fileDigest(path.join(DATA,'assets',plan.subject.asset))!==plan.subject.sha256)throw Error('The saved subject image changed. Save a new subject before continuing.');
+        if(plan.motion){const source=await resolveVideoSource(plan.motion);if(source.sha256!==plan.motion.sha256)throw Error('The saved driving clip changed. Save a new motion.');}
+        if(action==='prepare'){
+          const requests=recipeRequests(plan),prepared=[];
+          if(!requests.length)throw Error('Extract reference frames, then open the Director plan to prepare its shots.');
+          for(const request of requests){const context=request.kind==='image'?'images':request.kind==='video-tool'?'video-tools':'create';if(openOnly)assertOpenInput(context,request);prepared.push(await workflowPlans.prepare({context,provider:'local',input:request}));}
+          return json(res,201,{planId:plan.id,signature:plan.signature,prepared,advice:plan.motion?motionAdvice(plan.motion,plan.framing):null});
+        }
+        if(action==='queue'){
+          if(HOSTED_MODE)return json(res,403,{error:'For the shared judge GPU, prepare the recipes and run one preview at a time. Each accepted preview uses one demo try.'});
+          const requests=recipeRequests(plan).map(r=>{const context=r.kind==='image'?'images':r.kind==='video-tool'?'video-tools':'create';if(openOnly)assertOpenInput(context,r);return {...(r.kind==='image'?normalizeImage(r):r.kind==='video-tool'?normalizeVideoTool(r):normalizeRequest(r)),...(openOnly?{openWeightsOnly:true}:{}),createdVia:req.headers['x-frameforge-client']==='mcp'?'MCP':'Studio'};});
+          if(!requests.length)throw Error('This recipe uses a Director plan, not a variation batch.');
+          const batch=await batchQueue.add(requests,input.requestId);await creativeStore.attach(plan.id,{batchId:batch.id});return json(res,201,batch);
+        }
+        if(plan.recipe!=='reference-story')throw Error('Choose the reference-to-shot-plan recipe.');
+        if(action==='frames'){
+          if(plan.handoffs?.frames)return json(res,200,plan.handoffs.frames);
+          const source=await resolveVideoSource(plan.motion),frames=[];
+          for(let i=0;i<plan.variants.length;i++){const time=plan.motion.start+(plan.motion.end-plan.motion.start)*(i+.5)/plan.variants.length,name=randomUUID()+'.png',file=path.join(DATA,'assets',name);await runPython('video-frame.py',[source.path,String(time),file],30000);frames.push({name,time,sha256:await fileDigest(file),sourceSha256:source.sha256,title:plan.variants[i]});}
+          if(await fileDigest(source.path)!==source.sha256)throw Error('The reference clip changed while extracting frames.');
+          await creativeStore.attach(plan.id,{frames});return json(res,201,frames);
+        }
+        if(action==='director'){
+          if(plan.handoffs?.directorId)return json(res,200,{id:plan.handoffs.directorId,url:'/director?plan='+plan.handoffs.directorId});
+          const frames=plan.handoffs?.frames;if(!frames?.length)throw Error('Extract the reference frames first.');
+          for(const f of frames)if(await fileDigest(path.join(DATA,'assets',f.name))!==f.sha256)throw Error('A reference frame changed. Save a new plan.');
+          const value=await director.save({name:plan.name,aspect:plan.aspect,bible:{scene:plan.brief.slice(0,300),character:'',location:'',prop:'',style:'',lighting:''},shots:frames.map((f,i)=>({id:randomUUID(),title:'Shot '+(i+1),action:plan.variants[i].slice(0,400),start:'Use the saved source frame as the opening reference.',end:'',notes:'Reference frame at '+f.time.toFixed(2)+'s. Review before generating; no automatic video understanding was performed.',recipe:'locked',pace:'slow',length:'preview',screenDirection:'neutral',asset:f.name,seed:plan.seed+i}))});
+          await creativeStore.attach(plan.id,{directorId:value.id});return json(res,201,{id:value.id,url:'/director?plan='+value.id});
+        }
+      }
     }
     if(route==='/api/continuity'&&req.method==='GET')return json(res,200,continuityStore.list());
     if(route==='/api/continuity/packs'&&req.method==='POST'){
@@ -845,6 +894,7 @@ const server = http.createServer(async (req, res) => {
     for(const name of ['workbench.js','workbench.css','video-model-routes.js','proof-view.js','result-details.js','canvas-state.js','sam-selection.js','image-canvas.js','tool-picker.js','studio-tools.css','my-work.js','my-work.css','studio-interactions.js'])publicFiles['/'+name]=name;
     publicFiles['/video-project.js']='video-project.js';publicFiles['/studio-recipes.js']='studio-recipes.js';publicFiles['/workflow-outcomes.js']='workflow-outcomes.js';
     publicFiles['/explore-art/observatory-motion.mp4']='explore-art/observatory-motion.mp4';
+    Object.assign(publicFiles,{'/recipes':'creative-recipes.html','/creative-recipes.js':'creative-recipes.js','/creative-recipes.css':'creative-recipes.css','/visual-workspaces.js':'visual-workspaces.js','/visual-workspaces.css':'visual-workspaces.css'});
     if(route==='/mcp-app'&&req.method==='GET')return await serveFile(req,res,path.join(ROOT,'public','mcp-app.html'));
     if(publicFiles[route] && req.method==='GET') {
       if(route==='/explore'){const params=new URLSearchParams(url.search),recipes=params.get('collection')==='recipes';params.delete('collection');if(recipes)params.set('collection','workflows');res.writeHead(302,{Location:(recipes?'/library':'/')+(params.size?'?'+params:'')+(recipes?'#workflow-cards':'#inspiration'),'Cache-Control':'no-store'});res.end();return;}
