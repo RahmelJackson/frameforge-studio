@@ -1,3 +1,15 @@
+## Workspace guidance & setup · release 0.8.3
+
+- [x] One expressive title and short creative brief in Images, Video, editing and Audio, with a compact original-art tile. Library, Story, Director and Timeline use the same title hierarchy.
+- [x] Images → Video → Audio → Library order after Explore, in both navigation layouts. Native MCP workspaces use that same primary order.
+- [x] Visible, per-workflow model/download strip beside the selected local model. File links and bulk missing-file downloads are available before source media or graph preparation. Storage and terms controls remain explicit.
+- [x] First/last-frame mode checks the actual Wan Fun Inpaint graph's three model dependencies, rather than listing ordinary Wan generation weights.
+- [x] Prominent Get set up action, choice of existing/install/Cloud/Civitai routes first, and a three-step introduction. Navigation preferences follow the essential connection/model steps.
+- [x] Settings section bar measures the active navigation height, wraps on small screens, highlights the current section and keeps anchor targets clear of its sticky area.
+- [x] Small workspace entrances, saved-result arrivals, hover/press feedback and progressive page transitions. Reduced-motion preferences disable these effects. No simulated generation progress is shown.
+
+The larger editing-window, Library list/detail, full-canvas and live intermediate generation-preview work remains open. No new weights or paid generations were needed for this interface update.
+
 ## Compact visual opening · release 0.8.2
 
 - [x] Combined cinematic hero, three actual local-result previews, Proof/Rough cut/MCP shortcuts and recipe access into one opening. Community now immediately follows it.

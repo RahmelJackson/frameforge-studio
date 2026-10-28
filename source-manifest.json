@@ -1,6 +1,6 @@
 {
   "version": 1,
-  "created": "2026-10-28T04:23:17.308Z",
+  "created": "2026-10-28T05:55:47.547Z",
   "files": [
     {
       "name": ".agents/plugins/marketplace.json",
@@ -190,7 +190,7 @@
     {
       "name": "lib/mcp-ui.mjs",
       "bytes": 2876,
-      "sha256": "8e67063b052570ce82c6213faa23d5eaff06a6fcbbc4c36bd5e27d20199d0dad"
+      "sha256": "d5f1a0685c0a42f7fe20906e23ae8a5c1c7f9a8d160382c66f7253ad38108809"
     },
     {
       "name": "lib/media-imports.mjs",
@@ -284,8 +284,8 @@
     },
     {
       "name": "lib/tool-requirements.mjs",
-      "bytes": 7612,
-      "sha256": "810f683b190f9c1a94d0817d8c5d6a76849d03ed3b7508a8a0c275bfc2264463"
+      "bytes": 8296,
+      "sha256": "eb6b8a65710a1c11f89b1e9d0c08f5d52fe23582699bc9d4b1cc10ebe36c70a3"
     },
     {
       "name": "lib/video-tools.mjs",
@@ -329,8 +329,8 @@
     },
     {
       "name": "lib/workspace.mjs",
-      "bytes": 11366,
-      "sha256": "9942e4b98be3c943c947dce67008f273cd03d1d5c434245ddd6e0bfcf9173b4f"
+      "bytes": 11568,
+      "sha256": "842d126fdf2343fcab1ac14078c4e6ef4239cf9f37e4cfc6401ab505beb8b040"
     },
     {
       "name": "LICENSE",
@@ -365,7 +365,7 @@
     {
       "name": "package.json",
       "bytes": 933,
-      "sha256": "b62f3f0c5d97188f8a03fcf6d6431a870a18350196f376f7bccf93f8b339e72c"
+      "sha256": "83c5380b458a84fb79c096260e133983e918bfc887448cc695dc58a0e03673bd"
     },
     {
       "name": "PLUGIN-ACCEPTANCE.md",
@@ -380,7 +380,7 @@
     {
       "name": "plugin.json",
       "bytes": 2478,
-      "sha256": "47657e96e26496f6f71c4fd7bc1eabab3d2a2aab0b5d998312cba3c57eb29816"
+      "sha256": "a1c6f2bec6d7b9fe5ff12dad59ee8b1e564f7e804a843af18118ea0230d655df"
     },
     {
       "name": "public/app.js",
@@ -700,12 +700,12 @@
     {
       "name": "public/mcp-app.html",
       "bytes": 8229,
-      "sha256": "bed04007ab187152a44395bcdd3ded42feb031f1b5f4d6ce61c343abd74daf5b"
+      "sha256": "d0e58e75df84dedaae840ce8417e0b5109ace3563b078c99c327b17a8ed0d9c5"
     },
     {
       "name": "public/mcp-app.js",
       "bytes": 51868,
-      "sha256": "3f1ad0a09bb4af2501d5fda0fe86012aff4604cf6c8995023e1662d53bf70233"
+      "sha256": "b13097b7bee96d8b6e35f5aee74c48350a5377fd8d44882dcb414e0cca3b22fa"
     },
     {
       "name": "public/mcp-studio.css",
@@ -729,8 +729,8 @@
     },
     {
       "name": "public/model-downloads.js",
-      "bytes": 3252,
-      "sha256": "57def31c8ef160db4cf343ae0f2dbe5bba1e5a01afe362838a6daac1a8245ebc"
+      "bytes": 3422,
+      "sha256": "af9f7921a8052d82274058f18af10f799194d25cfd0afd9d35af6426ed2e43c9"
     },
     {
       "name": "public/my-work.css",
@@ -824,18 +824,18 @@
     },
     {
       "name": "public/setup.css",
-      "bytes": 4101,
-      "sha256": "5ae9a36cfde666f5bfb12865938fa196bea3df9921c9c6227f283d70a1c90fa4"
+      "bytes": 5887,
+      "sha256": "2f216ec934d93cea40a48c4a17aa8d6d1ced21abed76054d03628e3d557d4892"
     },
     {
       "name": "public/setup.html",
-      "bytes": 7295,
-      "sha256": "7348e790ff24ba6ec12126639e9833e2693f4d6683e1df78773f111121ff0502"
+      "bytes": 7355,
+      "sha256": "b40df6b88105b9545b0dab1a999621029620cb8b4ad6f14fb97b2f1738b0af4f"
     },
     {
       "name": "public/setup.js",
-      "bytes": 7204,
-      "sha256": "bfb2839099d9ca5086537fb8554722e0275b005a352afbc0e3f9b82c8c8a58d8"
+      "bytes": 8721,
+      "sha256": "e9a343b6549fa9326c0b950d4ce9fd2437470109a26a0b7e4f51d0bbfd53b79c"
     },
     {
       "name": "public/short-film.css",
@@ -874,8 +874,8 @@
     },
     {
       "name": "public/studio-map.js",
-      "bytes": 8212,
-      "sha256": "7b13f6bf21bc05655291c8c5cd5f1fdd76716eccc4e4490c3abc7f40dcda167a"
+      "bytes": 8354,
+      "sha256": "1e05185db123aff76e4d9cb272ee60c1ca6ec62365ea48cd974183e196ac1cb7"
     },
     {
       "name": "public/studio-match.js",
@@ -954,13 +954,13 @@
     },
     {
       "name": "public/visual-workspaces.css",
-      "bytes": 3151,
-      "sha256": "73c2332559fc943a44421908456c13377d4b55a5b71a20b339f14465afaf3600"
+      "bytes": 8923,
+      "sha256": "9d9134e59746058127ae666c19480fb36d8246710903cd4415a61e7e3d84d6f7"
     },
     {
       "name": "public/visual-workspaces.js",
-      "bytes": 4102,
-      "sha256": "6a85a5d921955c422e44b36bc728d04438f2343e0aee75b060bbf0284f8f08be"
+      "bytes": 5410,
+      "sha256": "9726ae480a905ac35322403e3d9be65212048431585f38ca944eb33cbf972fe4"
     },
     {
       "name": "public/workbench.css",
@@ -994,8 +994,8 @@
     },
     {
       "name": "public/workflow-panel.js",
-      "bytes": 20511,
-      "sha256": "d15e2b64fdee5b755ae73247f2f930ce23e4e7e94b6f76843601f621133e33bd"
+      "bytes": 22032,
+      "sha256": "c4c88ef6d2e8098bf364deebd72306aaf7d291111806a033ae36db7f5c068187"
     },
     {
       "name": "public/workflows.css",
@@ -1019,8 +1019,8 @@
     },
     {
       "name": "public/workspace.css",
-      "bytes": 31221,
-      "sha256": "f235132feef5333593f664d0524c24f7579558067c55207b7e6ec3bd74adaa84"
+      "bytes": 31360,
+      "sha256": "f7364d0cb2b35d2f4ff56d2ba5a8564baf2ccffe60ae3f5b1595724417c022ff"
     },
     {
       "name": "public/workspace.js",
@@ -1034,8 +1034,8 @@
     },
     {
       "name": "REMAINING-CHECKLIST.md",
-      "bytes": 52347,
-      "sha256": "bceab29067fff8ecb068b36fd5177f7a4cb3a9ebdf5a4d883d9ecbea2cbcaa53"
+      "bytes": 53878,
+      "sha256": "d1262404e93328c2295aa926b90a4cd36402e5b48ed7003e71b91ea602ea5f0e"
     },
     {
       "name": "REVIEW-FIXES.md",
@@ -1249,8 +1249,8 @@
     },
     {
       "name": "scripts/frameforge-mcp.mjs",
-      "bytes": 7481,
-      "sha256": "353dccf5564245c74fa281a4a5fb50961d47b3b81874c406d5db3945533fda92"
+      "bytes": 7515,
+      "sha256": "14a1967c09746194b11fa481c29cf32d8254599cf7b4fda95e5e57d2bc43188f"
     },
     {
       "name": "scripts/human_pose.py",
@@ -2089,8 +2089,8 @@
     },
     {
       "name": "tests/api.test.mjs",
-      "bytes": 8944,
-      "sha256": "01b7c85a67a94eb884f9df5053f75ceb4213f37304565c532f3d2eb30efff5d1"
+      "bytes": 8917,
+      "sha256": "01c4e20a84989ab28bec2958edce230feb1af20debbd2fa15f0b8b08fc6d01ec"
     },
     {
       "name": "tests/assistant-connection-http.test.mjs",
@@ -2254,8 +2254,8 @@
     },
     {
       "name": "tests/followup-experience.test.mjs",
-      "bytes": 5227,
-      "sha256": "3aa74dda76aa0a6a76794a2dfbb82b73a370f05f8cf1c81668611eb26619214a"
+      "bytes": 5854,
+      "sha256": "76db8a2414ada6ac5a4ea64d54fbaf2ce13dad54a4ffa4591996c33f96a9e2a9"
     },
     {
       "name": "tests/illumination_check.py",
@@ -2325,7 +2325,7 @@
     {
       "name": "tests/mcp-studio-ui.test.mjs",
       "bytes": 11245,
-      "sha256": "2b4630b0b5d6710f1f11a253525a71379e13f545d34e4779cd6cb8054dc3acce"
+      "sha256": "5e05cc102d0c13f3ec9ecb3b5002b2caef3a80e4e8f79af7a4d915d1ff51be10"
     },
     {
       "name": "tests/media_check.py",
@@ -2345,7 +2345,7 @@
     {
       "name": "tests/merged-workspaces.test.mjs",
       "bytes": 6219,
-      "sha256": "f9f56f5efee92af0e412b19ad5ab37e8b2843135249a522707d4829be6fd2a18"
+      "sha256": "2a11c25d2ee638ce8efa4a4aff4cfd1357ceff04b87fffd9ffba897d23e51326"
     },
     {
       "name": "tests/online-generation.test.mjs",
@@ -2579,8 +2579,8 @@
     },
     {
       "name": "tests/workspace-map.test.mjs",
-      "bytes": 6239,
-      "sha256": "3fd2aa083d90306648b5b60f08bf56ae432ecd5d06bd72331e9fa9311a617f06"
+      "bytes": 6213,
+      "sha256": "c5292b33d045a117ef634a5847d49575daf4ff916d2d0e84dd134a333cc474a8"
     },
     {
       "name": "THIRD-PARTY-NOTICES.md",

@@ -5,6 +5,7 @@ export const WORKSPACES=[
  {id:'video',url:'/create',icon:'▷',name:'Video',hint:'Shots, edits & films',pages:['create','video-tools','short-film','director','film','recipes'],summary:'Create a single shot or carry a film from its story through generation, review and the final edit.',start:'For one clip, start with Generate or Edit & finish. For a film, begin with Story, direct its shots, then arrange them in Timeline.',tabs:[{id:'create',url:'/create',label:'Generate',hint:'Words or a still → a moving shot'},{id:'video-tools',url:'/video-tools',label:'Edit & finish',hint:'Footage → a refined clip'}]},
  {id:'audio',url:'/audio',icon:'♪',name:'Audio',hint:'Voice, subtitles & dialogue',pages:['audio'],summary:'Create speech, transcribe recordings, translate dialogue and prepare lip sync.',start:'Choose a task below. Use a short script for narration or bring a recording for transcription and dubbing.',tabs:[]}
 ];
+WORKSPACES.sort((a,b)=>['home','images','video','audio','library'].indexOf(a.id)-['home','images','video','audio','library'].indexOf(b.id));
 export function workspaceFor(page){return WORKSPACES.find(g=>g.pages.includes(page))??null;}
 const uuid=/^[a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}$/i;
 export function filmTabURL(url,context={}){const u=new URL(url,'http://localhost');for(const key of ['project','plan','shot']){u.searchParams.delete(key);if(uuid.test(context[key]??''))u.searchParams.set(key,context[key]);}return u.pathname+u.search;}
