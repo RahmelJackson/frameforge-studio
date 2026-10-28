@@ -1,6 +1,6 @@
 {
   "version": 1,
-  "created": "2026-10-28T11:08:50.852Z",
+  "created": "2026-10-28T20:28:24.806Z",
   "files": [
     {
       "name": ".agents/plugins/marketplace.json",
@@ -19,18 +19,28 @@
     },
     {
       "name": "assets/comfyui-frameforge/__init__.py",
-      "bytes": 7466,
-      "sha256": "1c11df6f5f208269d9fae75c580b334e724a3ddc9209f31d0a66fe5c898061fa"
+      "bytes": 11098,
+      "sha256": "d69c8d4ceb96af29ec996a5af4a5c78eaa08491f52c83d678bc96aa563c94865"
     },
     {
       "name": "assets/comfyui-frameforge/README.md",
-      "bytes": 1118,
-      "sha256": "15d0de4910e04429265d7124083d218a798ae8dd0b31f72750227df16d97553c"
+      "bytes": 2821,
+      "sha256": "dc8a7f71acb0e16f26c647d14b53b3a10922faa3e53019f2ea94df55350d2a5e"
     },
     {
       "name": "assets/comfyui-frameforge/web/frameforge.js",
-      "bytes": 3438,
-      "sha256": "17c5b6c36abfd9ba22a5f3ab04dc8fdc760dce01bcaa4c64001e733f1a158e73"
+      "bytes": 2966,
+      "sha256": "6255009fa691472391f4565585c4836a523fd54fc4f5ee4b5a0bf4911c16dab4"
+    },
+    {
+      "name": "assets/comfyui-frameforge/web/studio.css",
+      "bytes": 3870,
+      "sha256": "57b2414afb3d877ceecbd18eb5a1e15e9f8d42dea7f5b7ef34595cb7a0cb65d8"
+    },
+    {
+      "name": "assets/comfyui-frameforge/web/studio.js",
+      "bytes": 8725,
+      "sha256": "4401ab2627c081c52c91216ccd144941d56d6cf5aff50bf8063062fa91f5cdae"
     },
     {
       "name": "assets/frameforge.svg",
@@ -116,6 +126,11 @@
       "name": "lib/cloud-workflow.mjs",
       "bytes": 7859,
       "sha256": "85464c443b551a253391f13469096103a4aec9ac96290b114e12746aaaba39cf"
+    },
+    {
+      "name": "lib/comfy-studio.mjs",
+      "bytes": 1337,
+      "sha256": "7bcb8d79d4aa94c050b069c806bf0f89fdfe006d6ddce95f7c5984518e912cd6"
     },
     {
       "name": "lib/comfy.mjs",
@@ -253,14 +268,19 @@
       "sha256": "e9c1de02eca61ba25c1a9b2309dccdca1a9c6ee5baa0f697278a057fb48dfeda"
     },
     {
+      "name": "lib/studio-address.mjs",
+      "bytes": 316,
+      "sha256": "0cd624750c2fdbef786ee3d609c11ac192b9a96e9863d42b78c0fde4dad59f17"
+    },
+    {
       "name": "lib/studio-assistant.mjs",
       "bytes": 12872,
       "sha256": "9338c2d4c5b0c3356d35f0231453f60e8a6b6d382653f5ebb636d00373da1b69"
     },
     {
       "name": "lib/studio-embed.mjs",
-      "bytes": 5936,
-      "sha256": "40942f0db8eb5cd86373a2ee70990d4c549954da1cc23b17f2fb0b5923bbc3c1"
+      "bytes": 5931,
+      "sha256": "8dd216b182b606a0ad4a82c3992a44e236c0d4d2d4c5552c2f4f0ab3310fba73"
     },
     {
       "name": "lib/studio-mcp-tools.mjs",
@@ -365,7 +385,7 @@
     {
       "name": "package.json",
       "bytes": 933,
-      "sha256": "ab69b8ba8afe8db14d6dd3a2ea265e4f9855290bc9da5ad0d792157ea74d333d"
+      "sha256": "afd3b0e8062f8ccfca31cf36293dc6a74b7b1a5e2a2a574b2359f4f48daea920"
     },
     {
       "name": "PLUGIN-ACCEPTANCE.md",
@@ -380,7 +400,7 @@
     {
       "name": "plugin.json",
       "bytes": 2478,
-      "sha256": "3b496fe255dd57ce10813f37bd9cc5a30a8fee4a1c4339af435c402607622bd3"
+      "sha256": "28361e5989094561e6f5ad3a3c61c6d8f7740cda603b3f8ddfa1b27fc54950d9"
     },
     {
       "name": "public/app.js",
@@ -705,7 +725,7 @@
     {
       "name": "public/mcp-app.js",
       "bytes": 51868,
-      "sha256": "4947b9ac25340904be9b7ffe3276ca88c7ec5698c19efe12093373008d63aab9"
+      "sha256": "782aef528535ed53113e032a26470209247f2478559900f76a528fdf68aa15b8"
     },
     {
       "name": "public/mcp-studio.css",
@@ -829,8 +849,8 @@
     },
     {
       "name": "public/setup.html",
-      "bytes": 7355,
-      "sha256": "b40df6b88105b9545b0dab1a999621029620cb8b4ad6f14fb97b2f1738b0af4f"
+      "bytes": 7716,
+      "sha256": "32cba1c4b2163180dda3d180b689fcf986f8f8adf8a1eabfb8c57c79d5b0f3be"
     },
     {
       "name": "public/setup.js",
@@ -1034,13 +1054,13 @@
     },
     {
       "name": "README.md",
-      "bytes": 14542,
-      "sha256": "f1b522a78c1ac6035c4028ae46eff1b60c615c09505841a5e5cca8fc4ad2cea4"
+      "bytes": 15033,
+      "sha256": "b4dccebf06a7c3fe4e2c84e79263001c54c75b76448cd7033ffb0f8ce044898c"
     },
     {
       "name": "REMAINING-CHECKLIST.md",
-      "bytes": 55418,
-      "sha256": "c33fea738bd1d81059133b23ca26dc0626acb4e0efc63352eaf7c66438a2b811"
+      "bytes": 56666,
+      "sha256": "52919f8d8d8b2f6c7b7b37d377fe6316c8bd7e43f65aead34c8876b23304e435"
     },
     {
       "name": "REVIEW-FIXES.md",
@@ -1255,7 +1275,7 @@
     {
       "name": "scripts/frameforge-mcp.mjs",
       "bytes": 7515,
-      "sha256": "4c0cd7a2096d826e85079ca8d00d50b4743c6a78764eb43c1a428fc6de7bd40d"
+      "sha256": "dd0e47444fa7d55489ac6587face11c5ba288d92181aebbbf7db2edf9091654a"
     },
     {
       "name": "scripts/human_pose.py",
@@ -1564,8 +1584,8 @@
     },
     {
       "name": "scripts/studio-mcp.mjs",
-      "bytes": 2816,
-      "sha256": "1ff2eb051f0a95bbd478b5ad9a2e30360e2bd1f11dae8b8a45382f059e16460c"
+      "bytes": 2581,
+      "sha256": "2efd99b1ecfe2e9a4eff29a20e137fa174b31dc2ff74da19d8a69bd916d29291"
     },
     {
       "name": "scripts/style_image.py",
@@ -1809,8 +1829,8 @@
     },
     {
       "name": "server.mjs",
-      "bytes": 123491,
-      "sha256": "5348d3ec322a9f3ff3eb519f5fdb1313f060668d7d6ec2d9769cc64bd9494901"
+      "bytes": 124178,
+      "sha256": "dc0bf37e8209cc2cfc4fb80a3709e6be2db5b16f8c60fe3c3c853776fe452a4e"
     },
     {
       "name": "setup/advanced-models.lock.json",
@@ -2094,8 +2114,8 @@
     },
     {
       "name": "tests/api.test.mjs",
-      "bytes": 8917,
-      "sha256": "01c4e20a84989ab28bec2958edce230feb1af20debbd2fa15f0b8b08fc6d01ec"
+      "bytes": 9727,
+      "sha256": "394e1187af8c9dab0094f3365fcb7e3dc267b74e5555c9f0cb1d8b7b4c33121b"
     },
     {
       "name": "tests/assistant-connection-http.test.mjs",
@@ -2148,9 +2168,19 @@
       "sha256": "0ab1c05b93860e21e0b4aa184d957c1104dad2c7c35db0c7fa093e8371873544"
     },
     {
+      "name": "tests/comfy_studio_check.py",
+      "bytes": 3041,
+      "sha256": "784df3a5a218e9571d667c06c3ddccbc2927ac9e5198c77f492e90df6fbc5c80"
+    },
+    {
       "name": "tests/comfy-release.test.mjs",
       "bytes": 1037,
       "sha256": "886e13d22210f5f6ef0135a5b8892f178b65d3a4490aedd6984c3975d051c022"
+    },
+    {
+      "name": "tests/comfy-studio.test.mjs",
+      "bytes": 4412,
+      "sha256": "56ae107bd8ed9cd4a9f421dfc06780a16e198a39ceb3807b33c9e4878cb2fe51"
     },
     {
       "name": "tests/continuity_check.py",

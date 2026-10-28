@@ -1,3 +1,4 @@
+import {ComfyStudioViews} from './lib/comfy-studio.mjs';
 import {CreativeStore,CREATIVE_RECIPES,recipeRequests,motionAdvice} from './lib/creative-recipes.mjs';
 import {assertOpenProvider} from './lib/provider-policy.mjs';
 import {providerRecipe,providerSetup,assertProviderPlan,executableProvider,providerCanvas} from './lib/provider-execution.mjs';
@@ -449,6 +450,7 @@ const communityGallery=new CommunityGallery();
 const assistantTools=createAssistantTools({root:ROOT,comfy,policy:executionPolicy,setup:selectedSetup});
 const assistantConnection=await new AssistantConnection(path.join(DATA,'assistant-connection.json')).open();
 const studioAssistant=new StudioAssistant({tools:assistantTools,getConnection:()=>assistantConnection.value});
+const comfyStudioViews=new ComfyStudioViews();
 const server = http.createServer(async (req, res) => {
   try {
     const listeningPort=server.address()?.port??PORT;
@@ -478,8 +480,13 @@ const server = http.createServer(async (req, res) => {
     if(route==='/api/assistant/tools'&&req.method==='POST'){const input=await readJson(req,4000);return json(res,200,await assistantTools(input.name,input.arguments));}
     if(route==='/api/setup/detect'&&req.method==='GET')return json(res,200,await discoverComfy());
     if(route==='/api/setup'&&req.method==='GET')return json(res,200,await selectedSetup(Object.fromEntries(url.searchParams)));
+    if(route==='/api/comfyui/embed'&&req.method==='POST'){
+     if(HOSTED_MODE)return json(res,403,{error:'The full ComfyUI integration is available only in your own local Studio.'});
+     const input=await readJson(req,1000);if(!input||typeof input!=='object'||Object.keys(input).some(k=>k!=='ancestor'))throw Error('Choose the local ComfyUI connection.');
+     return json(res,200,await comfyStudioViews.open({base:'http://127.0.0.1:'+listeningPort,ancestor:input.ancestor}));
+    }
     if(route==='/api/comfy-bridge/download'&&req.method==='GET'){
-     const directory=path.join(DATA,'bridge-packages');await mkdir(directory,{recursive:true});const file=path.join(directory,randomUUID()+'.zip');await writeZip(['__init__.py','web/frameforge.js','README.md'].map(name=>({name:'comfyui-frameforge/'+name,path:path.join(ROOT,'assets/comfyui-frameforge',name)})),file);res.setHeader('Content-Disposition','attachment; filename="comfyui-frameforge.zip"');return await serveFile(req,res,file);
+     const directory=path.join(DATA,'bridge-packages');await mkdir(directory,{recursive:true});const file=path.join(directory,randomUUID()+'.zip');await writeZip(['__init__.py','web/frameforge.js','web/studio.js','web/studio.css','README.md'].map(name=>({name:'comfyui-frameforge/'+name,path:path.join(ROOT,'assets/comfyui-frameforge',name)})),file);res.setHeader('Content-Disposition','attachment; filename="comfyui-frameforge.zip"');return await serveFile(req,res,file);
     }
     if(route==='/api/model-downloads/storage'&&req.method==='POST'){
      if(HOSTED_MODE)return json(res,403,{error:'Only the GPU owner can change model storage.'});if(modelDownloads.running)throw Error('Wait for the model download to finish before changing storage.');
@@ -905,4 +912,5 @@ const server = http.createServer(async (req, res) => {
     json(res,404,{error:'Not found.'});
   } catch(e) { if(!res.headersSent) json(res,e.statusCode??(e.code==='ENOENT'?404:400),{error:e.message}); else res.destroy(); }
 });
+server.on('close',()=>{void comfyStudioViews.close();});
 server.listen(PORT,'127.0.0.1',()=>console.log(`Frameforge studio: http://127.0.0.1:${server.address().port}`));

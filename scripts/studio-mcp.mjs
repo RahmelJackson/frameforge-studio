@@ -1,6 +1,7 @@
 // Read-only stdio MCP adapter. It never launches a shell or generation job.
 import {createInterface} from 'node:readline';
-export function studioAddress(value='http://127.0.0.1:4317'){const url=new URL(value);if(url.protocol!=='http:'||!['127.0.0.1','localhost','[::1]'].includes(url.hostname)||url.username||url.password||url.pathname!=='/'||url.search||url.hash)throw Error('STUDIO_URL must be a local HTTP origin.');return url.origin;}
+import {studioAddress} from '../lib/studio-address.mjs';
+export {studioAddress};
 export async function handleMCP(message,{base=studioAddress(process.env.STUDIO_URL),fetcher=fetch}={}){
  if(message?.jsonrpc!=='2.0'||typeof message.method!=='string')return {jsonrpc:'2.0',id:message?.id??null,error:{code:-32600,message:'Invalid JSON-RPC request.'}};
  if(!Object.hasOwn(message,'id'))return null;

@@ -1,3 +1,13 @@
+## Full Studio inside ComfyUI · release 0.8.5
+
+- [x] Complete running Studio in a native ComfyUI sidebar entry: Home, Images, Video, Audio, Library, Guide, saved work and settings share the same local app and files.
+- [x] Studio / Split / Graph modes, keyboard-resizable divider, responsive layout, persistent graph and embedded app while switching. The Frameforge launch sidebar folds away in Split so the graph has room.
+- [x] Exact-origin loopback view and parent frame policy, with reconnect/reload guidance if Studio starts later. The regular website retains its anti-framing policy.
+- [x] Existing image/video/audio output nodes open their imported results in the embedded editor instead of redirecting to a browser.
+- [x] Actual ComfyUI browser acceptance: embedded workspace navigation, local engine/file readiness, Video sample upload and a real 3.96-second Kokoro narration created inside the Audio editor. No Cloud credits or model downloads used.
+
+Both local apps must be running. External provider sign-in opens on that provider. Downloaded graphs still require explicit import into ComfyUI; switching to Graph never replaces a workflow. Native file-chooser automation was unavailable for the cross-origin iframe; the upload route was exercised with the editor’s bundled sample.
+
 ## Guided workspace openings · release 0.8.4
 
 - [x] Images, Video, Audio and Workflows open with an original-art introduction, three short starting steps, visual workflow suggestions and a Guide shortcut. Starting ideas can be collapsed while working.
@@ -6,7 +16,7 @@
 - [x] The same inventory is available in Settings, the Library graph inspector, and the local LTX / FLUX / H3 workflow details. Completed downloads refresh the file check.
 - [x] ComfyUI handoff nodes have wider controls, brief instructions, an Open Studio button and saved-result feedback. A real LoadImage → Frameforge output → Studio import round trip passed with bundled artwork and no generative model. The image, video and audio nodes are registered in the primary local engine.
 
-The full Studio remains a separate interface opened from ComfyUI. The bridge brings saved media between them. This update does not claim a full Studio embedded in the ComfyUI canvas or new creative-quality acceptance.
+Historical scope of 0.8.4: the full Studio opened separately. Release 0.8.5 above adds the complete embedded website. Creative-quality limits remain unchanged.
 
 ## Workspace guidance & setup · release 0.8.3
 

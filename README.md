@@ -50,6 +50,8 @@ Use the navigation **Local only** toggle (the reviewed open-weights profile) to 
 
 This entry is being prepared for the Comfy Open Source Higgsfield challenge. [Submission requirements and remaining owner actions](CHALLENGE-CHECKLIST.md) include a two-minute demo, social link, signup and entry form. The profile is not an organizer eligibility certification.
 
+**Inside ComfyUI:** install the bundled [ComfyUI extension](assets/comfyui-frameforge/README.md), start both apps and open the Frameforge sidebar entry. The complete running website works in Studio or beside your graph in Split view. Images, Video, Audio, Library, Guide and model checks use the same local Studio and saved work. Three output nodes send saved IMAGE, VIDEO or AUDIO results straight into its embedded editors. External Cloud/Civitai sign-in stays on the provider website.
+
 ## Four ways to start
 
 | Your setup | How it works |

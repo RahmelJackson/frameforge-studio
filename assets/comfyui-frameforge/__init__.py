@@ -7,7 +7,7 @@ import ipaddress
 import wave
 import uuid
 from pathlib import Path
-from urllib.parse import urlsplit
+from urllib.parse import urlsplit, quote
 
 import folder_paths
 from aiohttp import web
@@ -142,6 +142,73 @@ async def frameforge_send(request):
         return web.json_response(value)
     except Exception as error:
         return web.json_response({'error': str(error)}, status=400)
+
+
+def create_studio(payload, ancestor):
+    if not isinstance(payload, dict) or any(key != 'studio' for key in payload):
+        raise ValueError('Choose your local Frameforge address.')
+    base = studio_address(payload.get('studio', 'http://127.0.0.1:4317'))
+    request = urllib.request.Request(base + '/api/comfyui/embed', data=json.dumps({'ancestor': ancestor}).encode(), headers={'Content-Type': 'application/json'}, method='POST')
+    class NoRedirect(urllib.request.HTTPRedirectHandler):
+        def redirect_request(self, req, fp, code, msg, headers, newurl):
+            raise ValueError('Use the local Studio directly, without a redirect.')
+    with urllib.request.build_opener(urllib.request.ProxyHandler({}), NoRedirect()).open(request, timeout=3) as response:
+        value = json.loads(response.read(16384))
+    studio_address(value.get('url', ''))
+    return value
+
+
+# ComfyUI keeps frame-src self by default. Permit only the specific local
+# connection-owned Studio origin, before serving the outer ComfyUI document.
+_STUDIO_BASE = 'http://127.0.0.1:4317'
+
+
+async def frameforge_prepare(request, response):
+    if request.method != 'GET' or request.path != '/' or not str(response.headers.get('Content-Type', '')).startswith('text/html'):
+        return
+    ancestor = 'http://' + request.host
+    if urlsplit(ancestor).hostname not in ('localhost', '127.0.0.1'):
+        return
+    view = ''
+    try:
+        value = await asyncio.to_thread(create_studio, {'studio': _STUDIO_BASE}, ancestor)
+        view = studio_address(value['url'])
+        policy = response.headers.get('Content-Security-Policy', "default-src 'self'")
+        if re.search(r'(?:^|;)\s*frame-src\s', policy):
+            policy = re.sub(r'((?:^|;)\s*frame-src)([^;]*)', lambda match: match.group(1) + match.group(2).replace("'none'", '').rstrip() + ' ' + view, policy)
+        else:
+            policy += "; frame-src 'self' " + view
+        response.headers['Content-Security-Policy'] = policy
+    except Exception:
+        # ComfyUI remains available when the companion Studio is stopped.
+        pass
+    response.headers.add('Set-Cookie', 'frameforge_comfy_view=' + quote(view, safe='') + '; Path=/; SameSite=Strict')
+
+
+PromptServer.instance.app.on_response_prepare.append(frameforge_prepare)
+
+
+@PromptServer.instance.routes.post('/frameforge/studio')
+async def frameforge_studio(request):
+    global _STUDIO_BASE
+    if not request.remote or not ipaddress.ip_address(request.remote).is_loopback:
+        return web.json_response({'error': 'Open the Studio from your local ComfyUI.'}, status=403)
+    if request.content_length is None or request.content_length > 1024:
+        return web.json_response({'error': 'Invalid Studio connection request.'}, status=400)
+    origin = request.headers.get('Origin')
+    if origin and origin != 'http://' + request.host:
+        return web.json_response({'error': 'Use the ComfyUI page on this server.'}, status=403)
+    ancestor = 'http://' + request.host
+    parsed = urlsplit(ancestor)
+    if parsed.hostname not in ('localhost', '127.0.0.1') or parsed.username or parsed.password:
+        return web.json_response({'error': 'Use a local ComfyUI address.'}, status=403)
+    try:
+        payload = await request.json()
+        value = await asyncio.to_thread(create_studio, payload, ancestor)
+        _STUDIO_BASE = studio_address(payload.get('studio', 'http://127.0.0.1:4317'))
+        return web.json_response(value)
+    except Exception as error:
+        return web.json_response({'error': 'Could not open Frameforge. Check that the updated Studio is running. ' + str(error)}, status=400)
 
 
 NODE_CLASS_MAPPINGS = {'FrameforgeStudioOutput': FrameforgeStudioOutput, 'FrameforgeStudioVideoOutput': FrameforgeStudioVideoOutput, 'FrameforgeStudioAudioOutput': FrameforgeStudioAudioOutput}
