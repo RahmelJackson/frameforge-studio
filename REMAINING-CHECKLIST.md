@@ -1,3 +1,13 @@
+## Guided workspace openings · release 0.8.4
+
+- [x] Images, Video, Audio and Workflows open with an original-art introduction, three short starting steps, visual workflow suggestions and a Guide shortcut. Starting ideas can be collapsed while working.
+- [x] Workspace introductions render with the initial page HTML. The old title no longer flashes before being replaced. Navigation uses a gentle 520 ms page fade without sliding or an experimental cross-document transition; in-page tool changes use one fade. Reduced-motion preferences remain respected.
+- [x] One model inventory beside the workflow shows installed, missing and unchecked files, exact destinations, source/terms links and the download size. One button installs only that workflow’s missing files. Installed files and unrelated workflows are skipped.
+- [x] The same inventory is available in Settings, the Library graph inspector, and the local LTX / FLUX / H3 workflow details. Completed downloads refresh the file check.
+- [x] ComfyUI handoff nodes have wider controls, brief instructions, an Open Studio button and saved-result feedback. A real LoadImage → Frameforge output → Studio import round trip passed with bundled artwork and no generative model. The image, video and audio nodes are registered in the primary local engine.
+
+The full Studio remains a separate interface opened from ComfyUI. The bridge brings saved media between them. This update does not claim a full Studio embedded in the ComfyUI canvas or new creative-quality acceptance.
+
 ## Workspace guidance & setup · release 0.8.3
 
 - [x] One expressive title and short creative brief in Images, Video, editing and Audio, with a compact original-art tile. Library, Story, Director and Timeline use the same title hierarchy.
