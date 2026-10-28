@@ -1,3 +1,12 @@
+## Compact visual opening · release 0.8.2
+
+- [x] Combined cinematic hero, three actual local-result previews, Proof/Rough cut/MCP shortcuts and recipe access into one opening. Community now immediately follows it.
+- [x] Accessible muted playback buttons and hover previews for the Home video tiles, with offscreen/background pausing and reduced-motion support. Product preview has a keyboard-accessible before/after slider.
+- [x] Bundled official Inter Variable font and OFL license for offline typography; exact font files also served in the private deployment.
+- [x] Fixed missing recipe symbols and expanded the film Library entry to a full-width banner. Native ComfyUI graphs and tool routes are retained.
+- [ ] Larger editing-window, list/detail Library and full-canvas redesign from the design notes. This release focuses on Home and the small Library fixes above.
+- [ ] Live intermediate ComfyUI render previews. The new Home clips are saved results, not live previews.
+
 ## Connected creative recipes · release 0.8.1
 
 - [x] Picture-led creative recipes: performance takes, product campaign, reference video to Director plan, and saved-motion remix. Reach them through Video → Creative recipes, Library, the Guide and the native plugin.

@@ -11,3 +11,9 @@ Frameforge's original interface and adapters are licensed under the MIT License 
 - Civitai is an external discovery source. Creator credit, original-page links and any displayed prompt/model information accompany community examples. Media are loaded from the provider rather than redistributed in the repository. Upstream licenses and API/site terms still apply.
 
 This file records provenance. It does not relicense third-party code, models, hosted services or community media.
+
+## Inter typeface
+
+Inter Variable is bundled locally from the official distribution at https://rsms.me/inter/font-files/InterVariable.woff2. Copyright Rasmus Andersson. SIL Open Font License 1.1; full license: public/fonts/Inter-LICENSE.txt. Original project: https://github.com/rsms/inter. The font is not covered by Frameforge's MIT license.
+
+Bundled InterVariable.woff2 SHA-256: `693b77d4f32ee9b8bfc995589b5fad5e99adf2832738661f5402f9978429a8e3`.

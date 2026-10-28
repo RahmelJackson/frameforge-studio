@@ -1,6 +1,6 @@
 {
   "version": 1,
-  "created": "2026-10-28T03:42:16.905Z",
+  "created": "2026-10-28T04:23:17.308Z",
   "files": [
     {
       "name": ".agents/plugins/marketplace.json",
@@ -365,7 +365,7 @@
     {
       "name": "package.json",
       "bytes": 933,
-      "sha256": "d22e9b85f67facbef6b331d51dfed27b2a007f678de240a31d468a8e8a415c34"
+      "sha256": "b62f3f0c5d97188f8a03fcf6d6431a870a18350196f376f7bccf93f8b339e72c"
     },
     {
       "name": "PLUGIN-ACCEPTANCE.md",
@@ -380,7 +380,7 @@
     {
       "name": "plugin.json",
       "bytes": 2478,
-      "sha256": "7d3b1d944b10af190e4fb24f4759ec1e8fe6cb9ec5aaf63a7e6e5377e26e221d"
+      "sha256": "47657e96e26496f6f71c4fd7bc1eabab3d2a2aab0b5d998312cba3c57eb29816"
     },
     {
       "name": "public/app.js",
@@ -633,19 +633,29 @@
       "sha256": "1c768c288b7e904a7c826cda7478f2de4155a7961dc17b2f33bfaebd2f4a8e7c"
     },
     {
+      "name": "public/fonts/Inter-LICENSE.txt",
+      "bytes": 4380,
+      "sha256": "262481e844521b326f5ecd053e59b98c8b2da78c8ee1bdbb6e8174305e54935a"
+    },
+    {
+      "name": "public/fonts/InterVariable.woff2",
+      "bytes": 352240,
+      "sha256": "693b77d4f32ee9b8bfc995589b5fad5e99adf2832738661f5402f9978429a8e3"
+    },
+    {
       "name": "public/home.css",
-      "bytes": 21487,
-      "sha256": "3e50f26607f231ff621caf5404f919f8e155ef4013533d4f349e7523bf3440db"
+      "bytes": 11161,
+      "sha256": "36275b0654b398114aa2fd58381e7e48f21a8d4f10f84bf1d1be3e02bf37b112"
     },
     {
       "name": "public/home.html",
-      "bytes": 6704,
-      "sha256": "e00af5b1dc70fc8602199a7c665f3a1dff5a5c22227ce6b4d2a15609c1c8abb2"
+      "bytes": 5866,
+      "sha256": "5186711fb288550c0ed6baaa9106319aecf95a717b1b495e6826a95790b0fac0"
     },
     {
       "name": "public/home.js",
-      "bytes": 2076,
-      "sha256": "da04455d45edef2f3c2653ef08278dcf5be35f59646cfdfbfb965aa64f0e9f3d"
+      "bytes": 1838,
+      "sha256": "69b24fc82ceefe96a6f2f21ab4270e877a60270c05a051561f1e69793d7eadd3"
     },
     {
       "name": "public/image-canvas.js",
@@ -695,7 +705,7 @@
     {
       "name": "public/mcp-app.js",
       "bytes": 51868,
-      "sha256": "9d70414b34d80446bd64644ec4ebab8140d91c8255c60d33b8682b2c9187f23f"
+      "sha256": "3f1ad0a09bb4af2501d5fda0fe86012aff4604cf6c8995023e1662d53bf70233"
     },
     {
       "name": "public/mcp-studio.css",
@@ -764,8 +774,8 @@
     },
     {
       "name": "public/provider-workflows.js",
-      "bytes": 10910,
-      "sha256": "5a23263ededb7ac128dace4597a7fe328dbf660d60fd9c710dababbec112595e"
+      "bytes": 14461,
+      "sha256": "d080b82f4e631742a2371583d4d44b4b2e3226c3486031265a772ceaff5aee0a"
     },
     {
       "name": "public/queue.js",
@@ -894,8 +904,8 @@
     },
     {
       "name": "public/style.css",
-      "bytes": 16584,
-      "sha256": "561cec44628fed189a88057572c39baa033d5fb195371210ea0ff7664956f2ab"
+      "bytes": 16723,
+      "sha256": "f99d95d27fad9a2becb850c4e1792e85a6c7eb97e3f70dfa06423cbe4011551f"
     },
     {
       "name": "public/text-frame.svg",
@@ -974,8 +984,8 @@
     },
     {
       "name": "public/workflow-outcomes.js",
-      "bytes": 19380,
-      "sha256": "3f70729eb0d94bd52e24ca1c5ca1dbb166b721108979b1812b6397e099ef582d"
+      "bytes": 19432,
+      "sha256": "4755dd73332224c54b23036a025aa281a7981d0ff0d76f3dc48ad360269bd212"
     },
     {
       "name": "public/workflow-panel.css",
@@ -989,8 +999,8 @@
     },
     {
       "name": "public/workflows.css",
-      "bytes": 9549,
-      "sha256": "d7ea8048ce6f8e7b327f15ec1d3e888abd653ada5f7471a08f1aaccf6ac1308c"
+      "bytes": 10367,
+      "sha256": "efa717a3a85595aa71636ccf3dfac8e3119c8cd04ecc0f3b5e8bed5f4c893188"
     },
     {
       "name": "public/workflows.html",
@@ -999,8 +1009,8 @@
     },
     {
       "name": "public/workflows.js",
-      "bytes": 24299,
-      "sha256": "30bffd7215ea53b19fac15e7d58c50b2f91ed5cce7ecc5718dd12be2f3b7166d"
+      "bytes": 24311,
+      "sha256": "4bb1890f8fc114a2039941cab7ae19ddfaae4166ea32febf6cb077f2ff9897c2"
     },
     {
       "name": "public/workspace-art.css",
@@ -1024,8 +1034,8 @@
     },
     {
       "name": "REMAINING-CHECKLIST.md",
-      "bytes": 51359,
-      "sha256": "12f88d225a8da40b9c3f7aaad768221136bca73903aa129cb962a6628e59f3d3"
+      "bytes": 52347,
+      "sha256": "bceab29067fff8ecb068b36fd5177f7a4cb3a9ebdf5a4d883d9ecbea2cbcaa53"
     },
     {
       "name": "REVIEW-FIXES.md",
@@ -1240,7 +1250,7 @@
     {
       "name": "scripts/frameforge-mcp.mjs",
       "bytes": 7481,
-      "sha256": "81ad0373e1de4652036a2cd27a5da81b4afaea228f8aaa7b0631f4add9b99e28"
+      "sha256": "353dccf5564245c74fa281a4a5fb50961d47b3b81874c406d5db3945533fda92"
     },
     {
       "name": "scripts/human_pose.py",
@@ -1334,8 +1344,8 @@
     },
     {
       "name": "scripts/package-source.mjs",
-      "bytes": 5651,
-      "sha256": "35cc3a9aea7b89a9aa8f833790986f28ddd91b04abe21f1494c703a128f34f6e"
+      "bytes": 5781,
+      "sha256": "a9f203d464eadbc82c4eb2d7988cf38c9f4a814641f29b5268b6e37f2fd8041d"
     },
     {
       "name": "scripts/pose_retarget.py",
@@ -1794,8 +1804,8 @@
     },
     {
       "name": "server.mjs",
-      "bytes": 123314,
-      "sha256": "5984b6feae21a6ff0043c3378e86f61f7244a3e4530c6fcc69591d61311bbc9f"
+      "bytes": 123446,
+      "sha256": "1547a2669bb80954a9c3c326212d498b743c0bbe666744221238a06aa1a866f9"
     },
     {
       "name": "setup/advanced-models.lock.json",
@@ -2574,8 +2584,8 @@
     },
     {
       "name": "THIRD-PARTY-NOTICES.md",
-      "bytes": 2137,
-      "sha256": "4bc9962bdcc790fb86941f70681b61d036ad5eabac1cee43f71d4e93a75a7fcc"
+      "bytes": 2588,
+      "sha256": "8faf382312eaa49f682ba29a6f21c20a33df025c5e42c6cab0d92afc609bb325"
     },
     {
       "name": "workflows/bonus/api_bfl_flux3_i2v.json",
@@ -2781,5 +2791,5 @@
   ],
   "license": "MIT for original project code; third-party files retain their own licenses.",
   "destination": "RahmelJackson/frameforge-studio",
-  "publication": "Clean source snapshot for the public repository. See GITHUB-SETUP.md and third-party notices."
+  "publication": "Reviewed source snapshot. See REVIEW-FIXES.md for validation and remaining limits."
 }

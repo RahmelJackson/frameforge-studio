@@ -6,6 +6,27 @@ if(!compact&&!detailOnly)document.body.classList.add('provider-featured');
 window.addEventListener('frameforge:provider-workflow',event=>{section.hidden=false;show(event.detail.id,event.detail.variant,true,true);});
 const esc=s=>String(s??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
 const link=(url,text)=>`<a href="${esc(url)}" target="_blank" rel="noopener">${esc(text)} ↗</a>`;
+// Home keeps actual results beside the opening. Full instructions live in Library.
+function homeResult(w,f,v,url){
+ const title=({'ltx-vfx':'Atmosphere in motion','flux3-video':'A focused product edit','minimax-h3':'A still comes to life'})[w.id]??f.title;
+ const comparison=w.id==='flux3-video'&&v?.mediaType==='image';
+ const media=comparison?`<img src="/explore-art/product-preview.jpg" alt="Original product with a green control knob" loading="lazy"><img class="home-result-wipe" src="${esc(v.posterUrl??v.imageUrl)}" alt="Actual FLUX edit with a blue control knob" loading="lazy"><span class="home-result-divider"></span><label class="home-result-compare"><span>Compare</span><input type="range" min="0" max="100" value="75" aria-label="Compare original product and FLUX edit"></label>`:v?.videoUrl?`<video muted loop playsinline preload="metadata" ${v.posterUrl?`poster="${esc(v.posterUrl)}"`:''} src="${esc(v.videoUrl)}#t=2" aria-label="Actual ${esc(f.model)} local video result"></video><button type="button" data-home-play aria-label="Play ${esc(f.model)} result" aria-pressed="false">▷</button>`:`<img src="${esc(v?.posterUrl??v?.imageUrl??w.art)}" alt="${v?'Actual local result':'Original sample input'} for ${esc(f.model)}" loading="lazy">`;
+ return `<article class="home-local-result"><div class="home-result-media">${media}</div><div class="home-result-copy"><span class="home-result-model">${esc(f.model)}</span><h3>${esc(title)}</h3><a href="${esc(url)}" aria-label="Open ${esc(f.model)} workflow and graph">Open workflow ↗</a><p class="home-result-note">${v?'Actual local result':'Original sample input'}</p></div></article>`;
+}
+function homePlayback(){
+ const reduced=matchMedia('(prefers-reduced-motion: reduce)'),hover=matchMedia('(hover: hover) and (pointer: fine)');
+ const players=[...section.querySelectorAll('.home-result-media video')];
+ for(const video of players){const tile=video.closest('.home-result-media'),button=tile.querySelector('[data-home-play]');let pinned=false,hovering=false,visible=true;
+  function paint(){const active=pinned&&!video.paused;button.setAttribute('aria-pressed',String(active));button.textContent=active?'Ⅱ':'▷';button.setAttribute('aria-label',(active?'Pause ':'Play ')+video.getAttribute('aria-label').replace(/^Actual /,'').replace(/ local video result$/,' result'));}
+  async function update(){if(document.hidden||!visible||!(pinned||hovering&&!reduced.matches)){video.pause();paint();return;}try{await video.play();if(document.hidden||!visible||!(pinned||hovering&&!reduced.matches))video.pause();}catch{}paint();}
+  button.onclick=()=>{pinned=!pinned;hovering=false;update();};
+  tile.addEventListener('pointerenter',()=>{hovering=hover.matches;update();});tile.addEventListener('pointerleave',()=>{hovering=false;update();});
+  video.addEventListener('play',paint);video.addEventListener('pause',paint);video.addEventListener('error',()=>{button.hidden=true;});
+  new IntersectionObserver(entries=>{visible=entries[0]?.isIntersecting??false;update();},{threshold:.15}).observe(tile);
+  document.addEventListener('visibilitychange',update);reduced.addEventListener('change',update);
+ }
+ for(const slider of section.querySelectorAll('.home-result-compare input'))slider.oninput=()=>{const tile=slider.closest('.home-result-media');tile.querySelector('.home-result-wipe').style.clipPath=`inset(0 ${100-Number(slider.value)}% 0 0)`;tile.querySelector('.home-result-divider').style.left=slider.value+'%';};
+}
 function resultView(v,sample){
  if(!v)return '';
  const dimensions=v.size.map(esc).join(' × ');
@@ -64,10 +85,12 @@ try{
  else{
   if(!detailOnly)section.querySelector('[data-provider-cards]').innerHTML=data.map(w=>{
    const f=w.featured??w,v=f.verification,variant=f.variant??'default',url='/library?'+new URLSearchParams({collection:'workflows',providerWorkflow:w.id,providerVariant:variant})+'#provider-workflows';
+   if(compact)return homeResult(w,f,v,url);
    const media=v?.mediaType==='image'?`<img src="${esc(v.posterUrl??v.imageUrl)}" alt="Actual ${esc(f.model)} local result" loading="lazy">`:v?.videoUrl?`<video controls muted loop playsinline preload="metadata" ${v.posterUrl?`poster="${esc(v.posterUrl)}"`:""} src="${esc(v.videoUrl)}#t=2" aria-label="Actual ${esc(f.model)} local video result"></video>`:`<img src="${esc(w.art)}" alt="Original sample input for ${esc(f.model)}" loading="lazy">`;
    const primary=compact?`<a class="provider-primary" href="${esc(url)}">Open local workflow →</a>`:`<button data-provider="${esc(w.id)}" data-variant="${esc(variant)}">Open local workflow →</button>`;
    return `<article class="workflow-card">${media}<small>${v?'ACTUAL LOCAL RESULT':'ORIGINAL SAMPLE INPUT'}</small><span class="badge">${esc(f.model)}</span><h3>${esc(f.title)}</h3><p>${esc(f.summary)}</p><p class="provider-readiness" data-readiness="${esc(w.id)}">${v?'Local render completed · review the result':'Local graph + model downloads'}</p><div class="provider-card-actions">${primary}${compact?'':link(f.cloudUrl??w.cloudUrl,'Cloud alternative')}</div></article>`;
   }).join('');
+  if(compact)homePlayback();
   if(!compact){
    section.querySelectorAll('[data-provider]').forEach(b=>b.addEventListener('click',()=>show(b.dataset.provider,b.dataset.variant,true,true)));
    const params=new URLSearchParams(location.search),id=params.get('providerWorkflow'),entry=data.find(w=>w.id===id);

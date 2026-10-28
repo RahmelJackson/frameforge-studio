@@ -13,3 +13,8 @@ body.no-workflow-matches .choose,body.no-workflow-matches .workflow-info,body.no
 #workflow-cards{max-height:none;overflow:visible}.outcome-card{border:1px solid #354338;border-radius:14px}.outcome-card [data-outcome-preview]{width:100%}.outcome-card [data-outcome-preview] img,.outcome-card [data-outcome-preview] video{width:100%;height:150px;object-fit:cover;border-radius:8px}.outcome-card [data-outcome-preview] small{font-size:10px}
 
 .workflow-category-heading{grid-column:1/-1;font:600 24px system-ui;margin:24px 0 4px}.featured-outcome{border:1px solid #d6ff00!important;background:linear-gradient(135deg,#27391f,#151c17)!important}
+
+/* The film entry is a full-width starting point, rather than an isolated card. */
+.featured-outcome{grid-column:1/-1;display:grid!important;grid-template-columns:auto minmax(0,1fr) minmax(220px,.7fr);column-gap:24px;align-items:center}.featured-outcome .outcome-symbol{grid-row:1/5;margin:0}.featured-outcome :is(.badge,h3,p,.workflow-card-io){grid-column:2}.featured-outcome h3{margin:8px 0}.featured-outcome label,.featured-outcome button{grid-column:3}.featured-outcome label{grid-row:1/4}.featured-outcome button{grid-row:4}.featured-outcome [data-outcome-preview]{display:none}@media(max-width:750px){.featured-outcome{display:flex!important;gap:12px}.featured-outcome .outcome-symbol{display:none}}
+
+.featured-outcome .badge{justify-self:start;width:auto}.featured-outcome .outcome-proof{margin-bottom:0}
