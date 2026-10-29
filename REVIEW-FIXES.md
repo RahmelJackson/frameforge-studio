@@ -1,3 +1,11 @@
+## Consolidated workspaces · release 0.8.9
+
+- [x] Website and native MCP panel share six destinations: Explore, Images, Video, Audio, Library and Advanced. Settings remains a utility action.
+- [x] Films lives inside Video; Library contains Workflows, Creative recipes and Saved results. Existing project URLs and media stay available.
+- [x] Advanced provides visual 3D, SAM & precision and LoRA training sections. Image selection and video tracking also have direct entries in their own workspaces.
+- [x] Larger illustrated workspace openings, guided next steps and restrained, reduced-motion-aware animation. Native 3D recipes expose graph inspection/export and native controls rather than an unsupported generic Run form.
+- [ ] LoRA training runner, dataset export/caption controls and held-out evaluation. Advanced → LoRA training shows this status and the currently available reference tools; it does not claim training is installed.
+
 ## Local 3D props enabled · release 0.8.8
 
 The 66-node prop graph now starts with a bounded TRELLIS.2 preview: 1024 shape and texture resolution, 50,000 target faces, 256 remesh resolution and smaller normal/AO bakes. Original upstream bytes and provenance stay pinned. Pixal3D remains an editable alternative, with its own generation acceptance pending. Quick edits update both widget encodings used by current ComfyUI.
@@ -44,3 +52,5 @@ These changes organize the existing studio. They do not remove the Python requir
 
 
 Image Canvas now supports native SAM 3.1 text, box and keep/exclude-point masks, brush/eraser refinement and PNG download. Three real selection runs and a browser-based Qwen edit were checked. Text/click masks selected the green knob; the box mask selected its outer ring, requiring review/touch-up. The Qwen edit changed the knob to blue and independently retained every outside-mask source pixel. SAM appeared through the running MCP catalog as well as the site. Fifteen broad quality goals remain open.
+
+Acceptance for 0.8.9: all 238 project checks pass, including the actual bundled native MCP script and nested workspace switching. Browser checks cover the shared six-destination navigation, working Library recipes, Video sections and a labelled narrow-screen menu without horizontal overflow. No model download or generation was needed for this navigation update.

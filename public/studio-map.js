@@ -1,16 +1,17 @@
 export const WORKSPACES=[
  {id:'home',url:'/',icon:'⌂',name:'Explore',hint:'Home & Civitai inspiration',pages:['home','explore'],summary:'Choose a result, find a workflow or explore inspiration.',start:'Pick a starting point below. Nothing generates until you review the controls.',tabs:[]},
- {id:'library',url:'/library',icon:'▦',name:'Library',hint:'Distinct tasks & model choices',pages:['library','workflows'],summary:'Choose a task, compare its models and inspect the exact ComfyUI graph.',start:'Start with what you want to make. Each task contains its local and Cloud model options. My work holds your saved creations.',tabs:[{id:'workflows',url:'/library',label:'Workflows',hint:'Different tasks, model options, graphs and downloads'},{id:'library',url:'/library?collection=saved',label:'My work',hint:'Find, review and reuse saved results'}]},
+ {id:'library',url:'/library',icon:'▦',name:'Library',hint:'Distinct tasks & model choices',pages:['library','workflows','recipes'],summary:'Choose a task, compare its models and inspect the exact ComfyUI graph.',start:'Start with what you want to make. Each task contains its local and Cloud model options. My work holds your saved creations.',tabs:[{id:'workflows',url:'/library',label:'Workflows',hint:'Different tasks, model options, graphs and downloads'},{id:'recipes',url:'/recipes',label:'Creative recipes',hint:'Connected productions, reusable subjects and motions'},{id:'library',url:'/library?collection=saved',label:'Saved results',hint:'Find, review and reuse saved results'}]},
  {id:'images',url:'/images',icon:'◇',name:'Images',hint:'Create, edit & keep references',pages:['images','continuity'],summary:'Make a still, edit an image or organize references for the next shot.',start:'Bring a prompt or a picture. Start with one image, inspect the result, then animate it in Video.',tabs:[{id:'images',url:'/images',label:'Create & edit',hint:'Generate, change, relight or enlarge'},{id:'boards',url:'/images?view=boards',label:'Moodboards',hint:'Collect a visual direction'},{id:'characters',url:'/images?view=characters',label:'Characters',hint:'Save original identity references'},{id:'continuity',url:'/continuity',label:'Scene references',hint:'Keep people, places and props together'}]},
- {id:'video',url:'/create',icon:'▷',name:'Video',hint:'Shots, edits & films',pages:['create','video-tools','short-film','director','film','recipes'],summary:'Create a single shot or carry a film from its story through generation, review and the final edit.',start:'For one clip, start with Generate or Edit & finish. For a film, begin with Story, direct its shots, then arrange them in Timeline.',tabs:[{id:'create',url:'/create',label:'Generate',hint:'Words or a still → a moving shot'},{id:'video-tools',url:'/video-tools',label:'Edit & finish',hint:'Footage → a refined clip'}]},
+ {id:'video',url:'/create',icon:'▷',name:'Video',hint:'Shots, edits & films',pages:['create','video-tools','short-film','director','film'],summary:'Create a single shot or carry a film from its story through generation, review and the final edit.',start:'For one clip, start with Generate or Edit & finish. For a film, begin with Story, direct its shots, then arrange them in Timeline.',tabs:[{id:'create',url:'/create',label:'Generate',hint:'Words or a still → a moving shot'},{id:'video-tools',url:'/video-tools',label:'Edit & finish',hint:'Footage → a refined clip'}]},
  {id:'audio',url:'/audio',icon:'♪',name:'Audio',hint:'Voice, subtitles & dialogue',pages:['audio'],summary:'Create speech, transcribe recordings, translate dialogue and prepare lip sync.',start:'Choose a task below. Use a short script for narration or bring a recording for transcription and dubbing.',tabs:[]}
 ];
-WORKSPACES.sort((a,b)=>['home','images','video','audio','library'].indexOf(a.id)-['home','images','video','audio','library'].indexOf(b.id));
+WORKSPACES.push({id:'advanced',url:'/advanced',icon:'◇',name:'Advanced',hint:'3D, SAM & LoRA training',pages:['advanced'],summary:'Specialist tools for geometry, precision selection and future model training.',start:'Choose a 3D graph, find SAM image/video tools or review the LoRA training setup.',tabs:[{id:'3d',url:'/advanced?section=3d',label:'3D workspace',hint:'Props, multiview and scene geometry'},{id:'selection',url:'/advanced?section=selection',label:'SAM & precision',hint:'Image selection, Canvas and tracked video masks'},{id:'training',url:'/advanced?section=training',label:'LoRA training',hint:'References now; training runner planned'}]});
+WORKSPACES.sort((a,b)=>['home','images','video','audio','library','advanced'].indexOf(a.id)-['home','images','video','audio','library','advanced'].indexOf(b.id));
 export function workspaceFor(page){return WORKSPACES.find(g=>g.pages.includes(page))??null;}
 const uuid=/^[a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}$/i;
 export function filmTabURL(url,context={}){const u=new URL(url,'http://localhost');for(const key of ['project','plan','shot']){u.searchParams.delete(key);if(uuid.test(context[key]??''))u.searchParams.set(key,context[key]);}return u.pathname+u.search;}
 export function workspaceTab(page,params=new URLSearchParams()){
- const group=workspaceFor(page),view=params.get('view');if(page==='audio'){const tool=params.get('tool')??'speech';return group.tabs.find(t=>t.tools?.includes(tool))?.id??'voice';}
+ const group=workspaceFor(page),view=params.get('view');if(page==='images'&&params.get('tool')==='select')return 'image-select';if(page==='video-tools'&&params.get('tool')==='segment')return 'video-select';if(page==='advanced')return ['3d','selection','training'].includes(params.get('section'))?params.get('section'):'3d';if(page==='audio'){const tool=params.get('tool')??'speech';return group.tabs.find(t=>t.tools?.includes(tool))?.id??'voice';}
  return group?.tabs.find(t=>t.page===page&&t.panel===view)?.id??group?.tabs.find(t=>t.page===page&&t.view===view)?.id??page;
 }
 
@@ -18,6 +19,7 @@ export function workspaceTab(page,params=new URLSearchParams()){
 // in the tabs, breadcrumbs and links, and every legacy panel remains reachable.
 WORKSPACES.find(g=>g.id==='images').tabs=[
  {id:'images',page:'images',panel:'make',url:'/images',label:'Create & edit',hint:'Generate or change a still'},
+ {id:'image-select',url:'/images?tool=select',label:'SAM selection',hint:'Select with text, clicks or a box'},
  {id:'canvas',page:'images',panel:'canvas',url:'/images?view=canvas',label:'Canvas',hint:'Paint, box or extend an image'},
  {id:'image-library',page:'images',panel:'collection',url:'/images?view=collection',label:'Saved images',hint:'Review and reuse your stills'},
  {id:'boards',page:'images',panel:'boards',url:'/images?view=boards',label:'Moodboards',hint:'Arrange visual references'},
@@ -29,6 +31,7 @@ WORKSPACES.find(g=>g.id==='video').tabs=[
  {id:'recipes',url:'/recipes',label:'Creative recipes',hint:'Connected productions, subjects, motions and variations'},
  {id:'create',page:'create',view:'studio',url:'/create',label:'Generate',hint:'Words or a still into a moving shot'},
  {id:'video-tools',page:'video-tools',view:'edit',url:'/video-tools',label:'Edit & finish',hint:'Trim, crop, captions and sound'},
+ {id:'video-select',url:'/video-tools?tool=segment',label:'SAM tracking',hint:'Select and follow a subject through footage'},
  {id:'video-library',page:'create',view:'gallery',url:'/create?view=gallery',label:'Saved clips',hint:'Generated takes and saved results'},
  {id:'edited-clips',page:'video-tools',view:'library',url:'/video-tools?view=library',label:'Edited clips',hint:'Your processed footage'},
  {id:'compare',page:'create',view:'compare',url:'/create?view=compare',label:'Compare takes',hint:'Review clips side by side'},
@@ -39,7 +42,7 @@ WORKSPACES.find(g=>g.id==='video').tabs=[
  {id:'story-plan',page:'create',view:'story',url:'/create?view=story',label:'Story planner',hint:'Plan a sequence of shots'},
  {id:'projects',page:'create',view:'projects',url:'/create?view=projects',label:'All film projects',hint:'Your saved film collections'},
  {id:'guide',page:'create',view:'guide',url:'/create?view=guide',label:'Video help',hint:'Learn the generation controls'},
- {id:'short-film',url:'/short-film',label:'Story',hint:'Script, storyboard and selected takes'},
+ {id:'short-film',url:'/short-film',label:'Films',hint:'Script, storyboard, direction and timeline'},
  {id:'director',url:'/director',label:'Director',hint:'Detailed production shot plans',aria:'Director'},
  {id:'film',url:'/film',label:'Timeline',hint:'Trims, transitions, sound and export'}
 ];
@@ -57,5 +60,5 @@ WORKSPACES.find(g=>g.id==='audio').tabs=[
 ];
 export function groupedImageTools(tools){const used=new Set();const groups=IMAGE_TOOL_GROUPS.map(g=>({label:g.label,tools:g.ids.flatMap(id=>{const t=tools.find(t=>t.id===id);if(t)used.add(id);return t?[t]:[];})}));const extra=tools.filter(t=>!used.has(t.id));if(extra.length)groups.push({label:'More tools',tools:extra});return groups.filter(g=>g.tools.length);}
 
-export const VIDEO_STEPS=['recipes','create','video-tools','short-film','director','film'];
-export function workspaceTabGroups(group,page,params=new URLSearchParams()){if(group.id!=='video')return [{label:group.name+' tools',tabs:group.tabs}];const main=VIDEO_STEPS.map(id=>group.tabs.find(t=>t.id===id));return [{label:'Video steps',tabs:main}];}
+export const VIDEO_STEPS=['create','video-tools','video-select','short-film'];
+export function workspaceTabGroups(group,page,params=new URLSearchParams()){if(group.id!=='video')return [{label:group.name+' tools',tabs:group.tabs}];const main=VIDEO_STEPS.map(id=>group.tabs.find(t=>t.id===id));return [{label:'Video steps',tabs:main},...(['short-film','director','film'].includes(page)?[{label:'Film stages',secondary:true,tabs:[{id:'film-story',url:'/short-film',label:'Story',hint:'Script, storyboard and chosen takes'},...['director','film'].map(id=>group.tabs.find(t=>t.id===id))]}]:[])];}

@@ -19,3 +19,5 @@ For a film, use saved source IDs and current revision/signature values from proj
 
 
 For connected productions, use `studio_recipe_library` to read shared subjects, motions, frozen plans and batch states. `capabilities: true` reports recipe readiness; still inspect individual requirements and graphs. `studio_recipe` saves references/plans and prepares graphs. `queue` explicitly starts sequential variations and requires the saved signature and requestId; reuse that ID after an ambiguous response. A reference-story extracts source frames and uses user-written shot actions, not automatic video interpretation. Never describe technical mask/graph checks as approval of character consistency or motion quality.
+
+The main destinations are Explore, Images, Video, Audio, Library and Advanced. Films is inside Video. Library contains Workflows, Creative recipes and Saved results. Advanced contains 3D, SAM & precision and LoRA training. The training section currently shows reference preparation and planned setup; do not claim that a trainer is installed. SAM selection and tracking are also directly available in Images and Video.

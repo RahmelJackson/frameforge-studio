@@ -1,3 +1,11 @@
+## Consolidated workspaces · release 0.8.9
+
+- [x] Website and native MCP panel share six destinations: Explore, Images, Video, Audio, Library and Advanced. Settings remains a utility action.
+- [x] Films lives inside Video; Library contains Workflows, Creative recipes and Saved results. Existing project URLs and media stay available.
+- [x] Advanced provides visual 3D, SAM & precision and LoRA training sections. Image selection and video tracking also have direct entries in their own workspaces.
+- [x] Larger illustrated workspace openings, guided next steps and restrained, reduced-motion-aware animation. Native 3D recipes expose graph inspection/export and native controls rather than an unsupported generic Run form.
+- [ ] LoRA training runner, dataset export/caption controls and held-out evaluation. Advanced → LoRA training shows this status and the currently available reference tools; it does not claim training is installed.
+
 ## Seamless ComfyUI tools & graph handoff · release 0.8.6
 
 - [x] Compact Quick tools toolbar on the graph, with Video / Images / Audio choices, direct links to controls, Full Studio and one-click current-graph JSON export.
