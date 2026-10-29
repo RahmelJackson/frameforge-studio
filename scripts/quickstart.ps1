@@ -1,5 +1,6 @@
 param([switch]$NoBrowser,[switch]$StopStudio,[switch]$PortableRuntime)
 $ErrorActionPreference = 'Stop'
+$ProgressPreference = 'SilentlyContinue'
 $studioRoot = Split-Path -Parent $PSScriptRoot
 function Get-ArchiveHash([string]$File) {
     $algorithm = [Security.Cryptography.SHA256]::Create()

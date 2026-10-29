@@ -1,0 +1,7 @@
+const esc=value=>String(value??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+for(const button of document.querySelectorAll('[data-setup-doctor]'))button.addEventListener('click',async()=>{
+ const target=document.querySelector('[data-doctor-result]');if(!target)return;target.hidden=false;target.textContent='Checking your runtime, storage, media helpers and local connection…';button.disabled=true;
+ try{const workflow=document.querySelector('#setup-workflow')?.value,query=new URLSearchParams({mode:'browse'});if(workflow&&workflow!=='prepared')query.set('workflow',workflow);const response=await fetch('/api/setup/doctor?'+query),report=await response.json();if(!response.ok)throw Error(report.error??'Setup checks could not finish.');
+ target.innerHTML='<h3>Your setup at a glance</h3><p>You can browse and prepare online handoffs without a local GPU or model weights.</p><ul>'+report.checks.map(check=>'<li><span class="doctor-state" data-state="'+esc(check.state)+'">'+({ready:'Ready',optional:'Optional',missing:'Action needed'}[check.state]??'Check')+'</span><div><strong>'+esc(check.label)+'</strong><p>'+esc(check.detail)+'</p>'+(check.href?'<a href="'+esc(check.href)+'">Show this step →</a>':'')+'</div></li>').join('')+'</ul>'+(report.selected?.missingNodes.length?'<p>Missing nodes: '+report.selected.missingNodes.map(esc).join(', ')+'. Open the workflow’s source guide for installation.</p>':'')+'<p>'+esc(report.actions)+'</p>';
+ }catch(error){target.textContent=error.message;}finally{button.disabled=false;}
+});

@@ -33,8 +33,8 @@ test('Runtime downloads are pinned per platform and the source release includes 
 });
 
 test('A clean launcher avoids foreign ports, opens the full onboarding and reuses its own Studio',async()=>{
- let legacy=false;
- const directory=await mkdtemp(path.join(tmpdir(),'ff-quickstart spaced-')),foreign=http.createServer((req,res)=>res.end(legacy&&req.url==='/api/catalog'?JSON.stringify({images:{},presets:[]}):'different app'));
+ let legacy=false,foreignStudio=false;
+ const directory=await mkdtemp(path.join(tmpdir(),'ff-quickstart spaced-')),foreign=http.createServer((req,res)=>res.end(foreignStudio&&req.url==='/api/quickstart'?JSON.stringify({app:'frameforge',pid:1,installationId:'another-installation',quickstartComplete:true}):legacy&&req.url==='/api/catalog'?JSON.stringify({images:{},presets:[]}):'different app'));
  foreign.listen(0,'127.0.0.1');await once(foreign,'listening');const port=foreign.address().port;let started;
  try{
   for(const file of await sourceInventory()){const target=path.join(directory,file.name);await mkdir(path.dirname(target),{recursive:true});await copyFile(file.file,target);}
@@ -49,6 +49,7 @@ test('A clean launcher avoids foreign ports, opens the full onboarding and reuse
   const config=await(await fetch(base+'/api/assistant/mcp-config?client=claude&writes=1')).json();assert.ok(config.text.includes(base));assert.match(config.text,/--allow-writes/);
   const recordFile=path.join(directory,'runtime/launcher.json'),record=await readFile(recordFile,'utf8');await writeFile(recordFile,JSON.stringify({...JSON.parse(record),pid:1}));await assert.rejects(()=>stopStudio({root:directory}),/different installation/);await writeFile(recordFile,record);
   assert.equal((await stopStudio({root:directory})).stopped,true);started=null;
+  foreignStudio=true;started=await launchStudio({root:directory,port,openPage:false});assert.notEqual(new URL(started.url).port,String(port));assert.equal(started.installationId,installationId(directory));await stopStudio({root:directory});started=null;foreignStudio=false;
   legacy=true;await assert.rejects(()=>launchStudio({root:directory,port,openPage:false}),/older Frameforge/);
  }finally{
   if(started)try{await stopStudio({root:directory});}catch{}

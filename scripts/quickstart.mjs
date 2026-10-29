@@ -16,7 +16,14 @@ export async function launchStudio({root=defaultRoot,port,openPage=true}={}){
  let selected;
  for(let candidate=preferred;candidate<preferred+20;candidate++){
   const existing=await probe(candidate);
-  if(existing){const url='http://127.0.0.1:'+candidate+(existing.quickstartComplete?'/':'/welcome');if(openPage)openBrowser(url);return {url,reused:true,pid:existing.pid,installationId:existing.installationId};}
+  if(existing){
+   if(existing.installationId!==installationId(root))continue;
+   // A manually restarted instance can have a new PID. Adopt only a server
+   // identifying this exact installation, never another copy's workspace.
+   await mkdir(path.join(root,'runtime'),{recursive:true});
+   await writeFile(path.join(root,'runtime/launcher.json'),JSON.stringify({pid:existing.pid,port:candidate,installationId:existing.installationId},null,2));
+   const url='http://127.0.0.1:'+candidate+(existing.quickstartComplete?'/':'/welcome');if(openPage)openBrowser(url);return {url,reused:true,pid:existing.pid,installationId:existing.installationId};
+  }
   if(await available(candidate)){selected=candidate;break;}
   try{const response=await fetch('http://127.0.0.1:'+candidate+'/api/catalog',{signal:AbortSignal.timeout(1000)}),catalog=await response.json();if(catalog.images&&Array.isArray(catalog.presets))throw Error('An older Frameforge is already running on port '+candidate+'. Finish its jobs and restart that Studio before using the new launcher.');}catch(error){if(error.message.startsWith('An older Frameforge'))throw error;}
  }
@@ -28,7 +35,8 @@ export async function launchStudio({root=defaultRoot,port,openPage=true}={}){
   child=spawn(process.execPath,[path.join(root,'server.mjs')],{cwd:root,env:{...process.env,PORT:String(selected)},detached:true,windowsHide:true,stdio:['ignore',out.fd,err.fd]});
   await new Promise((resolve,reject)=>{child.once('spawn',resolve);child.once('error',reject);});child.unref();
  }finally{await out.close();await err.close();}
- for(let attempt=0;attempt<60;attempt++){
+ for(let attempt=0;attempt<240;attempt++){
+  if(attempt===40||attempt===120)console.log('Still starting. First-launch security checks can take a minute...');
   const status=await probe(selected);
   if(status?.installationId===installationId(root)){
    const latest=await settings(root);latest.port=selected;

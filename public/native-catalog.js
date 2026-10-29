@@ -90,7 +90,7 @@ export const NATIVE_WORKFLOWS=[
     "nativeEditorRequired": true,
     "openWeightsReviewed": true,
     "requirements": "Use a current compatible ComfyUI. Review per-workflow files, original model terms and hardware fit. Prepare here, then Run in ComfyUI; no models download automatically.",
-    "status": "Official native graph · generation not tested here",
+    "status": "Local RGBA cutout and mask checked with original product artwork",
     "source": "https://raw.githubusercontent.com/Comfy-Org/workflow_templates/14220b8bd3e86baa852959f17039613191e66656/templates/utility_birefnet_remove_background.json",
     "upstreamCommit": "14220b8bd3e86baa852959f17039613191e66656"
   },
@@ -261,7 +261,7 @@ export const NATIVE_WORKFLOWS=[
     "nativeEditorRequired": true,
     "openWeightsReviewed": true,
     "requirements": "Use a current compatible ComfyUI. Review per-workflow files, original model terms and hardware fit. Prepare here, then Run in ComfyUI; no models download automatically.",
-    "status": "Official native graph · generation not tested here",
+    "status": "Local reference/layout product edit rendered with direct prompts",
     "source": "https://raw.githubusercontent.com/Comfy-Org/workflow_templates/14220b8bd3e86baa852959f17039613191e66656/templates/image_flux3_klein_distilled_image_edit.json",
     "upstreamCommit": "14220b8bd3e86baa852959f17039613191e66656"
   },
@@ -279,7 +279,7 @@ export const NATIVE_WORKFLOWS=[
     "execution": "local",
     "nativeEditorRequired": true,
     "openWeightsReviewed": false,
-    "requirements": "Use a current compatible ComfyUI. Review per-workflow files, original model terms and hardware fit. Prepare here, then Run in ComfyUI; no models download automatically.",
+    "requirements": "Use a current compatible ComfyUI. Review per-workflow files, original model terms and hardware fit. Prepare here, then Run in ComfyUI; no models download automatically. Local export uses the int8 diffusion/text weights and direct local prompts; no API key or extra prompt-enhancer model. Each specialized adapter still needs its own render check.",
     "status": "Official native graph · generation not tested here",
     "source": "https://raw.githubusercontent.com/Lightricks/ComfyUI-LTXVideo/220e1d45aa0469f518e982102fca4dca92a61862/example_workflows/2.5/LTX-2.5_ICLoRA_Ingredients_Single_Stage_Distilled.json",
     "upstreamCommit": "220e1d45aa0469f518e982102fca4dca92a61862"
@@ -298,7 +298,7 @@ export const NATIVE_WORKFLOWS=[
     "execution": "local",
     "nativeEditorRequired": true,
     "openWeightsReviewed": false,
-    "requirements": "Use a current compatible ComfyUI. Review per-workflow files, original model terms and hardware fit. Prepare here, then Run in ComfyUI; no models download automatically.",
+    "requirements": "Use a current compatible ComfyUI. Review per-workflow files, original model terms and hardware fit. Prepare here, then Run in ComfyUI; no models download automatically. Local export uses the int8 diffusion/text weights and direct local prompts; no API key or extra prompt-enhancer model. Each specialized adapter still needs its own render check.",
     "status": "Official native graph · generation not tested here",
     "source": "https://raw.githubusercontent.com/Lightricks/ComfyUI-LTXVideo/220e1d45aa0469f518e982102fca4dca92a61862/example_workflows/2.5/LTX-2.5_ICLoRA_Motion_Track_Distilled.json",
     "upstreamCommit": "220e1d45aa0469f518e982102fca4dca92a61862"
@@ -317,7 +317,7 @@ export const NATIVE_WORKFLOWS=[
     "execution": "local",
     "nativeEditorRequired": true,
     "openWeightsReviewed": false,
-    "requirements": "Use a current compatible ComfyUI. Review per-workflow files, original model terms and hardware fit. Prepare here, then Run in ComfyUI; no models download automatically.",
+    "requirements": "Use a current compatible ComfyUI. Review per-workflow files, original model terms and hardware fit. Prepare here, then Run in ComfyUI; no models download automatically. Local export uses the int8 diffusion/text weights and direct local prompts; no API key or extra prompt-enhancer model. Each specialized adapter still needs its own render check.",
     "status": "Official native graph · generation not tested here",
     "source": "https://raw.githubusercontent.com/Lightricks/ComfyUI-LTXVideo/220e1d45aa0469f518e982102fca4dca92a61862/example_workflows/2.5/LTX-2.5_ICLoRA_Outpaint_Two_Stage_Distilled.json",
     "upstreamCommit": "220e1d45aa0469f518e982102fca4dca92a61862"
@@ -336,7 +336,7 @@ export const NATIVE_WORKFLOWS=[
     "execution": "local",
     "nativeEditorRequired": true,
     "openWeightsReviewed": false,
-    "requirements": "Use a current compatible ComfyUI. Review per-workflow files, original model terms and hardware fit. Prepare here, then Run in ComfyUI; no models download automatically.",
+    "requirements": "Use a current compatible ComfyUI. Review per-workflow files, original model terms and hardware fit. Prepare here, then Run in ComfyUI; no models download automatically. Local export uses the int8 diffusion/text weights and direct local prompts; no API key or extra prompt-enhancer model. Each specialized adapter still needs its own render check.",
     "status": "Official native graph · generation not tested here",
     "source": "https://raw.githubusercontent.com/Lightricks/ComfyUI-LTXVideo/220e1d45aa0469f518e982102fca4dca92a61862/example_workflows/2.5/LTX-2.5_ICLoRA_Union_Control_Distilled.json",
     "upstreamCommit": "220e1d45aa0469f518e982102fca4dca92a61862"
@@ -355,7 +355,7 @@ export const NATIVE_WORKFLOWS=[
     "execution": "local",
     "nativeEditorRequired": true,
     "openWeightsReviewed": false,
-    "requirements": "Use a current compatible ComfyUI. Review per-workflow files, original model terms and hardware fit. Prepare here, then Run in ComfyUI; no models download automatically.",
+    "requirements": "Use a current compatible ComfyUI. Review per-workflow files, original model terms and hardware fit. Prepare here, then Run in ComfyUI; no models download automatically. Local export uses the int8 diffusion/text weights and direct local prompts; no API key or extra prompt-enhancer model. Each specialized adapter still needs its own render check.",
     "status": "Official native graph · generation not tested here",
     "source": "https://raw.githubusercontent.com/Lightricks/ComfyUI-LTXVideo/220e1d45aa0469f518e982102fca4dca92a61862/example_workflows/2.5/LTX-2.5_T2A_Single_Stage_Distilled.json",
     "upstreamCommit": "220e1d45aa0469f518e982102fca4dca92a61862"
@@ -374,7 +374,7 @@ export const NATIVE_WORKFLOWS=[
     "execution": "local",
     "nativeEditorRequired": true,
     "openWeightsReviewed": false,
-    "requirements": "Use a current compatible ComfyUI. Review per-workflow files, original model terms and hardware fit. Prepare here, then Run in ComfyUI; no models download automatically.",
+    "requirements": "Use a current compatible ComfyUI. Review per-workflow files, original model terms and hardware fit. Prepare here, then Run in ComfyUI; no models download automatically. Local export uses the int8 diffusion/text weights and direct local prompts; no API key or extra prompt-enhancer model. Each specialized adapter still needs its own render check.",
     "status": "Official native graph · generation not tested here",
     "source": "https://raw.githubusercontent.com/Lightricks/ComfyUI-LTXVideo/220e1d45aa0469f518e982102fca4dca92a61862/example_workflows/2.5/LTX-2.5_T2V_I2V_Single_Stage_Distilled.json",
     "upstreamCommit": "220e1d45aa0469f518e982102fca4dca92a61862"
@@ -393,7 +393,7 @@ export const NATIVE_WORKFLOWS=[
     "execution": "local",
     "nativeEditorRequired": true,
     "openWeightsReviewed": false,
-    "requirements": "Use a current compatible ComfyUI. Review per-workflow files, original model terms and hardware fit. Prepare here, then Run in ComfyUI; no models download automatically.",
+    "requirements": "Use a current compatible ComfyUI. Review per-workflow files, original model terms and hardware fit. Prepare here, then Run in ComfyUI; no models download automatically. Local export uses the int8 diffusion/text weights and direct local prompts; no API key or extra prompt-enhancer model. Each specialized adapter still needs its own render check.",
     "status": "Official native graph · generation not tested here",
     "source": "https://raw.githubusercontent.com/Lightricks/ComfyUI-LTXVideo/220e1d45aa0469f518e982102fca4dca92a61862/example_workflows/2.5/LTX-2.5_V2V_ICLoRA_Single_Stage_Distilled.json",
     "upstreamCommit": "220e1d45aa0469f518e982102fca4dca92a61862"
@@ -412,7 +412,7 @@ export const NATIVE_WORKFLOWS=[
     "execution": "local",
     "nativeEditorRequired": true,
     "openWeightsReviewed": false,
-    "requirements": "Use a current compatible ComfyUI. Review per-workflow files, original model terms and hardware fit. Prepare here, then Run in ComfyUI; no models download automatically.",
+    "requirements": "Use a current compatible ComfyUI. Review per-workflow files, original model terms and hardware fit. Prepare here, then Run in ComfyUI; no models download automatically. Local export uses the int8 diffusion/text weights and direct local prompts; no API key or extra prompt-enhancer model. Each specialized adapter still needs its own render check.",
     "status": "Official native graph · generation not tested here",
     "source": "https://raw.githubusercontent.com/Lightricks/ComfyUI-LTXVideo/220e1d45aa0469f518e982102fca4dca92a61862/example_workflows/2.5/LTX-2.5_V2V_TiledFusion_Upscale.json",
     "upstreamCommit": "220e1d45aa0469f518e982102fca4dca92a61862"
@@ -431,10 +431,22 @@ export const NATIVE_WORKFLOWS=[
     "execution": "local",
     "nativeEditorRequired": true,
     "openWeightsReviewed": false,
-    "requirements": "Use a current compatible ComfyUI. Review per-workflow files, original model terms and hardware fit. Prepare here, then Run in ComfyUI; no models download automatically.",
+    "requirements": "Use a current compatible ComfyUI. Review per-workflow files, original model terms and hardware fit. Prepare here, then Run in ComfyUI; no models download automatically. Local export uses the int8 diffusion/text weights and direct local prompts; no API key or extra prompt-enhancer model. Each specialized adapter still needs its own render check.",
     "status": "Prepared adapter variant · generation not tested here",
     "source": "https://raw.githubusercontent.com/Lightricks/ComfyUI-LTXVideo/220e1d45aa0469f518e982102fca4dca92a61862/example_workflows/2.5/LTX-2.5_V2V_ICLoRA_Single_Stage_Distilled.json",
     "upstreamCommit": "220e1d45aa0469f518e982102fca4dca92a61862",
+    "adapter": {
+      "name": "ltx-2.5-22b-ic-lora-alpha-gen-0.9.safetensors",
+      "url": "https://huggingface.co/Lightricks/LTX-2.5-22b-IC-LoRA-Alpha-Gen/resolve/4cc554f7f8dd858b50e80f1d37d70ce0103f5c94/ltx-2.5-22b-ic-lora-alpha-gen-0.9.safetensors",
+      "directory": "loras",
+      "destination": "models/loras/ltx-2.5-22b-ic-lora-alpha-gen-0.9.safetensors",
+      "repo": "Lightricks/LTX-2.5-22b-IC-LoRA-Alpha-Gen",
+      "revision": "4cc554f7f8dd858b50e80f1d37d70ce0103f5c94",
+      "bytes": 1308787472,
+      "sha256": "d9e143f979e0756f0c83d772e6a8890f4c6b933db1f7d93fc06e25c179f3fd36",
+      "licenseUrl": "https://huggingface.co/Lightricks/LTX-2.5-22b-IC-LoRA-Alpha-Gen",
+      "terms": "other"
+    },
     "derivation": "Official single-stage V2V graph with task-specific LTX 2.5 adapter at strength 1. Original model cards define the intended conditioning."
   },
   {
@@ -451,10 +463,22 @@ export const NATIVE_WORKFLOWS=[
     "execution": "local",
     "nativeEditorRequired": true,
     "openWeightsReviewed": false,
-    "requirements": "Use a current compatible ComfyUI. Review per-workflow files, original model terms and hardware fit. Prepare here, then Run in ComfyUI; no models download automatically.",
+    "requirements": "Use a current compatible ComfyUI. Review per-workflow files, original model terms and hardware fit. Prepare here, then Run in ComfyUI; no models download automatically. Local export uses the int8 diffusion/text weights and direct local prompts; no API key or extra prompt-enhancer model. Each specialized adapter still needs its own render check.",
     "status": "Prepared adapter variant · generation not tested here",
     "source": "https://raw.githubusercontent.com/Lightricks/ComfyUI-LTXVideo/220e1d45aa0469f518e982102fca4dca92a61862/example_workflows/2.5/LTX-2.5_V2V_ICLoRA_Single_Stage_Distilled.json",
     "upstreamCommit": "220e1d45aa0469f518e982102fca4dca92a61862",
+    "adapter": {
+      "name": "ltx-2.5-22b-ic-lora-clean-plate-1.0.safetensors",
+      "url": "https://huggingface.co/Lightricks/LTX-2.5-22b-IC-LoRA-Clean-Plate/resolve/5cdacad3ee33574ecb11120b873dec320de79b37/ltx-2.5-22b-ic-lora-clean-plate-1.0.safetensors",
+      "directory": "loras",
+      "destination": "models/loras/ltx-2.5-22b-ic-lora-clean-plate-1.0.safetensors",
+      "repo": "Lightricks/LTX-2.5-22b-IC-LoRA-Clean-Plate",
+      "revision": "5cdacad3ee33574ecb11120b873dec320de79b37",
+      "bytes": 327318439,
+      "sha256": "27f4f7ba552d3bf7273dd817291123a5934f17e7698ca9cd8945b079a5358393",
+      "licenseUrl": "https://huggingface.co/Lightricks/LTX-2.5-22b-IC-LoRA-Clean-Plate",
+      "terms": "other"
+    },
     "derivation": "Official single-stage V2V graph with task-specific LTX 2.5 adapter at strength 1. Original model cards define the intended conditioning."
   },
   {
@@ -471,10 +495,22 @@ export const NATIVE_WORKFLOWS=[
     "execution": "local",
     "nativeEditorRequired": true,
     "openWeightsReviewed": false,
-    "requirements": "Use a current compatible ComfyUI. Review per-workflow files, original model terms and hardware fit. Prepare here, then Run in ComfyUI; no models download automatically.",
+    "requirements": "Use a current compatible ComfyUI. Review per-workflow files, original model terms and hardware fit. Prepare here, then Run in ComfyUI; no models download automatically. Local export uses the int8 diffusion/text weights and direct local prompts; no API key or extra prompt-enhancer model. Each specialized adapter still needs its own render check.",
     "status": "Prepared adapter variant · generation not tested here",
     "source": "https://raw.githubusercontent.com/Lightricks/ComfyUI-LTXVideo/220e1d45aa0469f518e982102fca4dca92a61862/example_workflows/2.5/LTX-2.5_V2V_ICLoRA_Single_Stage_Distilled.json",
     "upstreamCommit": "220e1d45aa0469f518e982102fca4dca92a61862",
+    "adapter": {
+      "name": "ltx-2.5-22b-ic-lora-day-to-night-0.9.safetensors",
+      "url": "https://huggingface.co/Lightricks/LTX-2.5-22b-IC-LoRA-Day-To-Night/resolve/16a69fe6c88de9e349246789d0c18803560881f5/ltx-2.5-22b-ic-lora-day-to-night-0.9.safetensors",
+      "directory": "loras",
+      "destination": "models/loras/ltx-2.5-22b-ic-lora-day-to-night-0.9.safetensors",
+      "repo": "Lightricks/LTX-2.5-22b-IC-LoRA-Day-To-Night",
+      "revision": "16a69fe6c88de9e349246789d0c18803560881f5",
+      "bytes": 327318440,
+      "sha256": "2212838ea446628a07eddb57734427b2150e9cf159b19360cda28365a30b275b",
+      "licenseUrl": "https://huggingface.co/Lightricks/LTX-2.5-22b-IC-LoRA-Day-To-Night",
+      "terms": "other"
+    },
     "derivation": "Official single-stage V2V graph with task-specific LTX 2.5 adapter at strength 1. Original model cards define the intended conditioning."
   },
   {
@@ -491,10 +527,22 @@ export const NATIVE_WORKFLOWS=[
     "execution": "local",
     "nativeEditorRequired": true,
     "openWeightsReviewed": false,
-    "requirements": "Use a current compatible ComfyUI. Review per-workflow files, original model terms and hardware fit. Prepare here, then Run in ComfyUI; no models download automatically.",
+    "requirements": "Use a current compatible ComfyUI. Review per-workflow files, original model terms and hardware fit. Prepare here, then Run in ComfyUI; no models download automatically. Local export uses the int8 diffusion/text weights and direct local prompts; no API key or extra prompt-enhancer model. Each specialized adapter still needs its own render check.",
     "status": "Prepared adapter variant · generation not tested here",
     "source": "https://raw.githubusercontent.com/Lightricks/ComfyUI-LTXVideo/220e1d45aa0469f518e982102fca4dca92a61862/example_workflows/2.5/LTX-2.5_V2V_ICLoRA_Single_Stage_Distilled.json",
     "upstreamCommit": "220e1d45aa0469f518e982102fca4dca92a61862",
+    "adapter": {
+      "name": "ltx-2.5-22b-ic-lora-water-simulation-0.9.safetensors",
+      "url": "https://huggingface.co/Lightricks/LTX-2.5-22b-IC-LoRA-Water-Simulation/resolve/7a458d0c206d6f80ee7bae2f46e21e959f6fc42e/ltx-2.5-22b-ic-lora-water-simulation-0.9.safetensors",
+      "directory": "loras",
+      "destination": "models/loras/ltx-2.5-22b-ic-lora-water-simulation-0.9.safetensors",
+      "repo": "Lightricks/LTX-2.5-22b-IC-LoRA-Water-Simulation",
+      "revision": "7a458d0c206d6f80ee7bae2f46e21e959f6fc42e",
+      "bytes": 906080568,
+      "sha256": "58c244d24a4381858749e66fae9fd1b91aec6b546f83f3f81a7a10b4934a7857",
+      "licenseUrl": "https://huggingface.co/Lightricks/LTX-2.5-22b-IC-LoRA-Water-Simulation",
+      "terms": "other"
+    },
     "derivation": "Official single-stage V2V graph with task-specific LTX 2.5 adapter at strength 1. Original model cards define the intended conditioning."
   },
   {
@@ -511,10 +559,22 @@ export const NATIVE_WORKFLOWS=[
     "execution": "local",
     "nativeEditorRequired": true,
     "openWeightsReviewed": false,
-    "requirements": "Use a current compatible ComfyUI. Review per-workflow files, original model terms and hardware fit. Prepare here, then Run in ComfyUI; no models download automatically.",
+    "requirements": "Use a current compatible ComfyUI. Review per-workflow files, original model terms and hardware fit. Prepare here, then Run in ComfyUI; no models download automatically. Local export uses the int8 diffusion/text weights and direct local prompts; no API key or extra prompt-enhancer model. Each specialized adapter still needs its own render check.",
     "status": "Prepared adapter variant · generation not tested here",
     "source": "https://raw.githubusercontent.com/Lightricks/ComfyUI-LTXVideo/220e1d45aa0469f518e982102fca4dca92a61862/example_workflows/2.5/LTX-2.5_V2V_ICLoRA_Single_Stage_Distilled.json",
     "upstreamCommit": "220e1d45aa0469f518e982102fca4dca92a61862",
+    "adapter": {
+      "name": "ltx-2.5-22b-ic-lora-colorization-0.9.safetensors",
+      "url": "https://huggingface.co/Lightricks/LTX-2.5-22b-IC-LoRA-Colorization/resolve/bbc638634b7850d1808f0563fe511fbd753114ba/ltx-2.5-22b-ic-lora-colorization-0.9.safetensors",
+      "directory": "loras",
+      "destination": "models/loras/ltx-2.5-22b-ic-lora-colorization-0.9.safetensors",
+      "repo": "Lightricks/LTX-2.5-22b-IC-LoRA-Colorization",
+      "revision": "bbc638634b7850d1808f0563fe511fbd753114ba",
+      "bytes": 906080571,
+      "sha256": "0fe109f249778531442ddca35251e1eed0e44c98a7d7f4344e353b878ed98b6f",
+      "licenseUrl": "https://huggingface.co/Lightricks/LTX-2.5-22b-IC-LoRA-Colorization",
+      "terms": "other"
+    },
     "derivation": "Official single-stage V2V graph with task-specific LTX 2.5 adapter at strength 1. Original model cards define the intended conditioning."
   },
   {
@@ -531,10 +591,22 @@ export const NATIVE_WORKFLOWS=[
     "execution": "local",
     "nativeEditorRequired": true,
     "openWeightsReviewed": false,
-    "requirements": "Use a current compatible ComfyUI. Review per-workflow files, original model terms and hardware fit. Prepare here, then Run in ComfyUI; no models download automatically.",
+    "requirements": "Use a current compatible ComfyUI. Review per-workflow files, original model terms and hardware fit. Prepare here, then Run in ComfyUI; no models download automatically. Local export uses the int8 diffusion/text weights and direct local prompts; no API key or extra prompt-enhancer model. Each specialized adapter still needs its own render check.",
     "status": "Prepared adapter variant · generation not tested here",
     "source": "https://raw.githubusercontent.com/Lightricks/ComfyUI-LTXVideo/220e1d45aa0469f518e982102fca4dca92a61862/example_workflows/2.5/LTX-2.5_V2V_ICLoRA_Single_Stage_Distilled.json",
     "upstreamCommit": "220e1d45aa0469f518e982102fca4dca92a61862",
+    "adapter": {
+      "name": "ltx-2.5-22b-ic-lora-decompression-0.9.safetensors",
+      "url": "https://huggingface.co/Lightricks/LTX-2.5-22b-IC-LoRA-Decompression/resolve/0cdc45deea0118e3e1250f55ac6f0d7ba49fdabb/ltx-2.5-22b-ic-lora-decompression-0.9.safetensors",
+      "directory": "loras",
+      "destination": "models/loras/ltx-2.5-22b-ic-lora-decompression-0.9.safetensors",
+      "repo": "Lightricks/LTX-2.5-22b-IC-LoRA-Decompression",
+      "revision": "0cdc45deea0118e3e1250f55ac6f0d7ba49fdabb",
+      "bytes": 906080571,
+      "sha256": "dd42b8fb53e2fb004bc36479ce4f1ea977ec5ba2160aba51e0fbfdcce00db0b1",
+      "licenseUrl": "https://huggingface.co/Lightricks/LTX-2.5-22b-IC-LoRA-Decompression",
+      "terms": "other"
+    },
     "derivation": "Official single-stage V2V graph with task-specific LTX 2.5 adapter at strength 1. Original model cards define the intended conditioning."
   },
   {
@@ -551,10 +623,22 @@ export const NATIVE_WORKFLOWS=[
     "execution": "local",
     "nativeEditorRequired": true,
     "openWeightsReviewed": false,
-    "requirements": "Use a current compatible ComfyUI. Review per-workflow files, original model terms and hardware fit. Prepare here, then Run in ComfyUI; no models download automatically.",
+    "requirements": "Use a current compatible ComfyUI. Review per-workflow files, original model terms and hardware fit. Prepare here, then Run in ComfyUI; no models download automatically. Local export uses the int8 diffusion/text weights and direct local prompts; no API key or extra prompt-enhancer model. Each specialized adapter still needs its own render check.",
     "status": "Prepared adapter variant · generation not tested here",
     "source": "https://raw.githubusercontent.com/Lightricks/ComfyUI-LTXVideo/220e1d45aa0469f518e982102fca4dca92a61862/example_workflows/2.5/LTX-2.5_V2V_ICLoRA_Single_Stage_Distilled.json",
     "upstreamCommit": "220e1d45aa0469f518e982102fca4dca92a61862",
+    "adapter": {
+      "name": "ltx-2.5-22b-ic-lora-deblur-0.9.safetensors",
+      "url": "https://huggingface.co/Lightricks/LTX-2.5-22b-IC-LoRA-Deblur/resolve/c122ce9224a6002bdb44efc55b882c903387dca6/ltx-2.5-22b-ic-lora-deblur-0.9.safetensors",
+      "directory": "loras",
+      "destination": "models/loras/ltx-2.5-22b-ic-lora-deblur-0.9.safetensors",
+      "repo": "Lightricks/LTX-2.5-22b-IC-LoRA-Deblur",
+      "revision": "c122ce9224a6002bdb44efc55b882c903387dca6",
+      "bytes": 906080571,
+      "sha256": "62dce32f671429c0ca98fdba997cabb9925fcfe79bbf788c5aa62a3a4c4a5a93",
+      "licenseUrl": "https://huggingface.co/Lightricks/LTX-2.5-22b-IC-LoRA-Deblur",
+      "terms": "other"
+    },
     "derivation": "Official single-stage V2V graph with task-specific LTX 2.5 adapter at strength 1. Original model cards define the intended conditioning."
   },
   {
@@ -571,10 +655,22 @@ export const NATIVE_WORKFLOWS=[
     "execution": "local",
     "nativeEditorRequired": true,
     "openWeightsReviewed": false,
-    "requirements": "Use a current compatible ComfyUI. Review per-workflow files, original model terms and hardware fit. Prepare here, then Run in ComfyUI; no models download automatically.",
+    "requirements": "Use a current compatible ComfyUI. Review per-workflow files, original model terms and hardware fit. Prepare here, then Run in ComfyUI; no models download automatically. Local export uses the int8 diffusion/text weights and direct local prompts; no API key or extra prompt-enhancer model. Each specialized adapter still needs its own render check.",
     "status": "Prepared adapter variant · generation not tested here",
     "source": "https://raw.githubusercontent.com/Lightricks/ComfyUI-LTXVideo/220e1d45aa0469f518e982102fca4dca92a61862/example_workflows/2.5/LTX-2.5_V2V_ICLoRA_Single_Stage_Distilled.json",
     "upstreamCommit": "220e1d45aa0469f518e982102fca4dca92a61862",
+    "adapter": {
+      "name": "ltx-2.5-22b-ic-lora-restore-1.0.safetensors",
+      "url": "https://huggingface.co/Lightricks/LTX-2.5-22b-IC-LoRA-Restore/resolve/79245e197a6cd3251e77d178dc380b0e9f2d6563/ltx-2.5-22b-ic-lora-restore-1.0.safetensors",
+      "directory": "loras",
+      "destination": "models/loras/ltx-2.5-22b-ic-lora-restore-1.0.safetensors",
+      "repo": "Lightricks/LTX-2.5-22b-IC-LoRA-Restore",
+      "revision": "79245e197a6cd3251e77d178dc380b0e9f2d6563",
+      "bytes": 1711643914,
+      "sha256": "357728bc704b3f56e59c5f09cf0540ef3b3fb88a93bbd0b050dbfacd5e05c8b0",
+      "licenseUrl": "https://huggingface.co/Lightricks/LTX-2.5-22b-IC-LoRA-Restore",
+      "terms": "other"
+    },
     "derivation": "Official single-stage V2V graph with task-specific LTX 2.5 adapter at strength 1. Original model cards define the intended conditioning."
   }
 ];

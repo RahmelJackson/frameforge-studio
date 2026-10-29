@@ -1,3 +1,13 @@
+## Usability and first-run audit · release 0.8.13
+
+- [x] Unified 32 px navigation controls, bundled SVG icons, Search/Ctrl+K, Open weights mode pill and live engine status. Navigation layout belongs in Settings only.
+- [x] Welcome and Settings include Check my setup; missing optional dependencies are distinguished from local-run blockers. The terminal equivalent is npm run doctor.
+- [x] Local BiRefNet cutout/mask and FLUX reference/layout edit rendered with installed weights. ACE-Step, talking-photo and H3 references remain blocked by missing weights; new LTX adapters also need their listed node types.
+- [x] Local LTX native exports use the pinned int8 diffusion/text weights, direct prompts and no API/prompt-enhancer branch. Imported adapter recipes still require their own render checks.
+- [x] Windows ZIP extraction guidance, quiet runtime download, a longer startup window and a visible fallback URL. Desktop user folders containing custom_nodes are accepted by the extension installer.
+- [x] Plugin startup honors the selected port in its local config; explicit STUDIO_URL wins. Copy connection uses the actual runtime/address and is recommended for launcher-only users.
+- [ ] Native macOS/Linux install acceptance and paid provider account-side generation remain untested. No blanket quality or hardware-fit claim is made for imported recipes.
+
 ## Model storage and ComfyUI reuse · release 0.8.12
 
 - [x] The workflow download panel explicitly offers the ComfyUI models folder or a shared model folder. It remembers the choice and disables downloads while an edited destination remains unsaved.

@@ -1,157 +1,83 @@
-> **0.8.12:** Model downloads visibly offer the ComfyUI models folder or a shared folder, with exact destinations and a shared-path configuration export. Quick launch remains available.
-
-# Frameforge
-
-Release **0.8.12** includes per-workflow downloads, local LTX/H3/FLUX execution, SAM selection, Quick and full ComfyUI views, and a tested 3D prop pipeline. See [the integration guide](INTEGRATION-UPGRADE.md) for tested profiles and remaining work.
+# Frameforge Studio
 
 **An open-source creative studio inspired by Higgsfield, built around ComfyUI workflows.**
 
-Frameforge is a local creative studio over your own ComfyUI. Turn an idea into images, moving shots, voice and a short film through a guided browser interface. Inspect the actual workflow graph, understand its inputs, find the required models, and choose where to create.
+Frameforge is a local creative studio over your own ComfyUI. Make images, video, voice and short films, inspect the graphs behind them, and reuse your work across tools. Connect through a browser, a ComfyUI toolbar, or a visual MCP panel in a supported assistant.
 
-![Frameforge Studio with its original locally generated observatory video cover](assets/studio-cover.png)
+## Start here
 
-*Actual browser screenshot of the studio. The cover uses original artwork and a short local Wan motion study; it is not a model-quality benchmark.*
+1. [Download the source ZIP](https://github.com/RahmelJackson/frameforge-studio/archive/refs/heads/main.zip) and **extract the entire folder**.
+2. **Windows:** double-click **Start Frameforge.cmd**. **macOS/Linux:** open **Start Frameforge.command**, or run `sh 'Start Frameforge.command'`.
+3. Choose **I have ComfyUI**, **I'm starting fresh**, or **I'll create online**. Click **Check my setup** for a readable dependency report.
 
-## Why this exists
+Keep the extracted folder. The launcher reuses Node.js 22+ or downloads a pinned, checksum-verified private Node runtime. No admin access, global npm installation or model download is required to open Studio. If the browser does not open, use the address printed in the launcher window.
 
-Creative AI tools offer an exciting path from an idea to a finished story. Setting up models, finding a compatible graph and connecting the results can make that path difficult to follow.
+**macOS:** downloaded command files may require right-click → Open. If the OS still blocks the file, use the terminal command above after reviewing the source. Windows has been tested locally; native macOS/Linux acceptance remains open.
 
-Frameforge brings those steps together: explained recipes, setup checks, editable ComfyUI graphs, saved media and a film workspace. It is an independent implementation inspired by Higgsfield's creative workflow. It is not affiliated with Higgsfield and does not include its source code, proprietary models or hosted service.
+![Frameforge Studio with original observatory artwork and a locally generated motion cover](assets/studio-cover.png)
 
-Built as an open-source Higgsfield-inspired creative studio submission.
+An actual Studio screenshot. The cover is original artwork with a short local Wan motion study, not a quality benchmark.
 
+## Choose your way to create
 
-### Canvas and connected workspaces
+| Use it through | What to do | What is required |
+| --- | --- | --- |
+| **Your ComfyUI** | Start your engine, then Settings → Find running ComfyUI | Compatible nodes, model files and hardware for the selected workflow |
+| **Comfy Cloud** | Open the linked official template, or download/import a prepared graph | Your own provider account and credits; destination node/model support |
+| **Civitai** | Explore a credited example, prepare a prompt/reference brief and open its generator | Your own account, a supported model and Buzz; this is an external text handoff |
+| **Claude / Codex / other MCP clients** | Settings → Use from Claude or Codex → Copy connection | A supported MCP client; copied setup uses Studio's actual Node executable and address |
+| **Inside ComfyUI** | Settings → ComfyUI handoff → install the extension | Your existing ComfyUI; Quick tools opens first, with a switch to full Studio |
 
-Images now includes a Canvas for paint/box edits, protected edge extension, original/result comparison and saved versions. A shared My work drawer reuses generated media and saved references across workspaces. Grouped tool cards and compact run/export controls bring the tools into view. The LTX recipe includes five selectable prompt packages; only its original smoke example is claimed as tested. See [Workspace guide and remaining work](WORKSPACE-GUIDE.md) for the complete flow, verification scope and remaining features.
+Cloud and Civitai generation happen in your account on their websites. Frameforge does not store their credentials or spend credits. Opening a link does not silently upload inputs or import an edited graph. Custom published Cloud App Mode links and account-side generation still need provider-side acceptance.
 
-## What you can do
+## What you can make
 
-| Workspace | What it helps you make |
+| Workspace | Start with |
 | --- | --- |
-| **Explore** | Start with an idea, inspect actual local model results and explore Civitai examples, prompts and sources. |
-| **Library** | Browse distinct creative tasks, choose a model inside its task, and inspect graphs and downloads. My work holds saved results separately. |
-| **Images** | Create and edit stills, paint masks, upscale, and organize character, scene and style references. |
-| **Video** | Generate or edit a clip, then carry a film through Story, Director and Timeline. A project bar retains the working film and shot. |
-| **Audio** | Prepare narration, dialogue, transcription and translation; explore experimental lip-sync tools. |
-| **Advanced** | Create a 3D prop or find SAM precision tools. LoRA training is a planned workspace, not an installed trainer. |
-| **Guide & MCP** | Find workflows in the website, or connect Codex/Claude to the same graph, generation and saved-production tools. |
+| **Explore** | An idea, actual local model examples, or credited Civitai inspiration |
+| **Images** | Generate a still, edit on Canvas, select with SAM, extend edges or organize references |
+| **Video** | Animate a still, create/edit a shot, then use Story, Director and Timeline to assemble a film |
+| **Audio** | Narration, dialogue, transcripts and subtitles; additional speech tools have separate requirements |
+| **Library** | Distinct workflow tasks, creative recipes and your saved results |
+| **Advanced** | A textured 3D prop, precision tools or upcoming training features |
 
-The interface has six primary destinations: Explore, Images, Video, Audio, Library and Advanced. Films lives inside Video. Library groups workflows, recipes and saved results. Top bar and Side bar remain mutually exclusive, with a visible navigation switch and Open weights only toggle. [Workspace and handoff guide](WORKSPACE-GUIDE.md).
+- **See the graph:** inspect, edit and export real ComfyUI graphs, with source and model links.
+- **Find the right workflow:** Search / Ctrl+K opens Guide. Catalog matching works without an LLM. Optionally connect your own supported chat endpoint; Ollama is not mandatory. Guide proposes steps and links, and does not start paid or local renders itself.
+- **Keep creating:** My work reuses saved media. Proof view compares actual pixels. Rough cut turns selected clips into a draft film without generating new shots.
+- **Use your assistant:** the STDIO MCP server supports discovery, requirements, graphs, local generation and production tools. Its native MCP Apps panel has visual workflows and saved results; it is not a nested website. Some advanced controls use JSON rather than the website's specialized editors.
+- **Stay with open weights:** the header's Open weights pill restricts execution to reviewed local graphs/processors and hides partner routes. Model licenses still apply. Change the top/side layout in Settings.
 
-**One Studio guide:** Ctrl+K, the Home idea box and help buttons open the same side panel. Typing searches instantly without an LLM. Enter builds a suggested plan using guided matching or your explicitly selected local chat model. The plan stays open when following tool links. Connection settings live in Setup, and the guide cannot start media jobs or spend credits.
+Local LTX 2.5, FLUX 3 Image Klein and H3 samples have saved render evidence. The TRELLIS.2 3D preview, BiRefNet RGBA cutout and FLUX reference/layout edit were also run locally. Other native recipe imports are labelled as needing a render check; graph validity is not proof of output quality. Local LTX recipe exports select the int8 core weights and direct local prompts, without an API branch or an extra prompt-enhancer model.
 
-**A film stays in context:** save shot notes in Story, open Generate this shot, review the loaded brief and source, then render deliberately. Use selected clip for this shot attaches the checked result only to that shot. Stale saves are rejected; selection never grants creative approval. Director keeps a separate production plan until assembly.
+## Dependencies, without guessing
 
-## Website or MCP. Your choice.
+| Component | When you need it | How Studio helps |
+| --- | --- | --- |
+| **Node.js 22+** | Always, to serve the local interface | The launcher can fetch a private verified runtime |
+| **CPU media helpers** | Studio uploads, previews and export checks | Welcome → Install media tools fetches isolated Python 3.12 and pinned packages; it keeps ComfyUI's Python unchanged |
+| **ComfyUI + model weights** | Local graph execution | Check the selected workflow; inspect files, sizes, licenses, existing files and exact destinations before downloading only its missing files |
+| **Custom nodes / advanced processors** | Only for recipes that use them | Requirements list missing node types and sources; advanced GPU Python installers remain Windows-focused |
+| **A chat model** | Optional LLM-backed Guide | Guided catalog search works without one |
+| **MCP host runtime** | Assistant connection | Use Copy connection first if Node is private; the marketplace's static `node` command needs Node on PATH |
 
-The local STDIO MCP server gives Codex, Claude and compatible clients workflow and production tools for workflow discovery, setup, editable graphs, local creation, saved playback, speech and film projects. Discovery and inspection are read-only by default; creation needs `--allow-writes`. The native MCP Apps panel has visual workflows, generation, audio, timelines and saved results without loading a nested website or redirecting to a browser. Advanced audio/video requests and composition layers currently use JSON controls; it does not reproduce every specialized website editor. No paid submissions, automatic model installs or Cloud credentials. Native client acceptance is recorded separately from bridge-fixture checks. See [MCP setup and examples](MCP-GUIDE.md).
+Models can go directly in **ComfyUI's models folder**, or in a **shared folder**. For a shared folder, download the generated `extra_model_paths.yaml`, add it to your ComfyUI configuration and restart the idle engine. ComfyUI can then see the same weights without copying them. Existing files found through registered model paths are reused; switching a destination does not move them. Native ComfyUI graph exports also include missing-model metadata. Gated downloads require accepting the original provider's terms.
 
-Use the navigation **Open weights only** toggle (the reviewed open-weights profile) to limit this studio to reviewed local pipelines. `npm run start:open` locks that profile; `--open-weights-only` does the same for an MCP connection. Partner nodes and unknown model loaders are rejected server-side. [Scope, model terms and limits](OPEN-WEIGHTS.md).
+For a terminal report, run `npm run doctor`. To check one local recipe, run `npm run doctor -- --workflow wan-i2v`. These commands inspect only; they install nothing and run no inference. Missing optional software does not prevent browsing or external handoffs.
 
-This entry is being prepared for the Comfy Open Source Higgsfield challenge. [Submission requirements and remaining owner actions](CHALLENGE-CHECKLIST.md) include a two-minute demo, social link, signup and entry form. The profile is not an organizer eligibility certification.
+## Manual development
 
-**Inside ComfyUI:** install the bundled [ComfyUI extension](assets/comfyui-frameforge/README.md), start both apps and open the Frameforge sidebar entry. The complete running website works in Studio or beside your graph in Split view. Images, Video, Audio, Library, Guide and model checks use the same local Studio and saved work. It opens in Quick view, with focused workflow tools and a button to switch to the full Studio or Split view. Export the current native graph from the compact toolbar, or send a prepared Studio graph and its checked inputs into a separate ComfyUI tab. Three output nodes send saved IMAGE, VIDEO or AUDIO results straight into its embedded editors. External Cloud/Civitai sign-in stays on the provider website.
+```sh
+git clone https://github.com/RahmelJackson/frameforge-studio.git
+cd frameforge-studio
+npm run quickstart
+```
 
-## Four ways to start
+No npm package install is needed for the core server. `npm start` serves it directly. `npm run setup:media` installs isolated CPU helpers. `npm test` runs the checks; optional runtime-dependent checks may skip in a clean source checkout. Stop an idle launcher-owned Studio with **Stop Frameforge.cmd** or `node scripts/quickstart.mjs --stop`; this leaves ComfyUI running.
 
-| Your setup | How it works |
-| --- | --- |
-| **You already use ComfyUI** | Start it, choose **Settings → Find running ComfyUI**, select its address and check the recipe. Existing model folders can stay where they are. |
-| **You want a local installation** | Follow the official ComfyUI install links, then download only the selected workflow's requirements. Native graphs include missing-model download metadata. |
-| **You want Comfy Cloud only** | Choose **Create online**, download a graph and import it into your own Comfy Cloud account. Supported text-only image, video and speech graphs prepare without local ComfyUI, Python or model weights. |
-| **You want Civitai images** | Prepare a prompt/model-reference brief, open Civitai's generator, choose a supported model and review the Buzz cost there. |
+The raw MCP server is read-only unless started with `--allow-writes`. The bundled marketplace plugin explicitly includes that flag so requested local creation works. Your client's tool approvals still apply. Neither connection provides shell execution, automatic model installation, paid submissions or creative approval.
 
-Cloud and Civitai generation happen on those services. Frameforge does not store provider credentials, upload your media or spend credits. Reference-based Cloud starter graphs require replacing example inputs; native graphs require matching nodes/models in the destination environment. A Civitai brief is a text handoff, not an importable ComfyUI graph.
+## Learn more
 
-## Start in a few clicks
+[Quick start and recovery](QUICKSTART.md) · [Detailed setup](GITHUB-SETUP.md) · [Workspace guide](WORKSPACE-GUIDE.md) · [MCP setup](MCP-GUIDE.md) · [Integration scope](INTEGRATION-UPGRADE.md) · [Open weights and terms](OPEN-WEIGHTS.md) · [Remaining checklist](REMAINING-CHECKLIST.md)
 
-1. [Download the source ZIP](https://github.com/RahmelJackson/frameforge-studio/archive/refs/heads/main.zip) and extract the entire folder.
-2. **Windows:** double-click **Start Frameforge.cmd**. **macOS/Linux:** open **Start Frameforge.command**, or run `sh 'Start Frameforge.command'` if executable permissions were not preserved.
-3. Pick **I have ComfyUI**, **I’m starting fresh**, or **I’ll create online** on the welcome page.
-
-The launcher reuses Node.js 22+ or downloads a pinned, checksum-verified private runtime. It does not require admin access or global npm packages. Keep the extracted folder for future launches. Windows is locally tested; the macOS/Linux launchers and dependency paths still need native-system acceptance.
-
-For uploads, previews and export checks, click **Install media tools**. If Python is missing, setup fetches a private managed Python and the pinned CPU packages. A completed in-app install becomes available without restarting Studio. No model weights, Torch, CUDA or ComfyUI packages are included. Model downloads stay beside the selected workflow and require their own review.
-
-Use **Stop Frameforge.cmd** to close an idle Studio started by this folder. It refuses while generation or setup is running and leaves ComfyUI alone. For manual Node installations:
-
-    git clone https://github.com/RahmelJackson/frameforge-studio.git
-    cd frameforge-studio
-    npm run quickstart
-
-`npm start` remains available for a plain local server. `npm run setup:media` installs isolated media helpers from a terminal; restart an already-running Studio afterward. Advanced GPU speech, segmentation and finishing processors retain their separate platform and hardware requirements.
-
-Read [Quick start and recovery](QUICKSTART.md) or [the detailed setup guide](GITHUB-SETUP.md). Runtime download sources are pinned in `setup/quickstart-runtime.lock.json`. Private runtime files, model weights and personal settings stay out of GitHub.
-
-## How the pieces fit
-
-    Idea / reference / clip
-             ↓
-    Guided tool + explained recipe
-             ↓
-    Inspect / edit / export the workflow
-             ↓
-    Local ComfyUI  OR  external Comfy Cloud / Civitai
-             ↓
-    Save and review the result
-             ↓
-    Edit / assemble / add sound and captions / export
-
-Some tasks are ComfyUI graphs; others use local Python media processors. Where a tool has several stages, the studio shows their roles instead of representing the whole pipeline as a single portable graph. Suggested chains still require choosing, running and reviewing each stage.
-
-## Current state and limits
-
-This is a working prototype. Run `npm test` for the current application regression checks. Local image/video workflows, graph export, saved projects, media checks and a demonstration film export have retained verification records. A separate empty-model ComfyUI instance verifies that importing the Z-Image graph exposes its three dependencies and download controls.
-
-Technical checks do not guarantee a convincing creative result. Fifteen broader quality goals remain parked, including difficult character consistency, swaps, motion/occlusion, advanced relighting and speech/lip realism. Some tools have narrow acceptance or remain experimental; the [saved checklist](REMAINING-CHECKLIST.md) records those limits.
-
-Provider account-side Cloud imports/runs and Civitai generation still need acceptance checks. API/node/model availability can change. Civitai media may be blocked by the browser; original source links remain available. There are no model weights, personal outputs, Python environments or provider keys in this repository.
-
-## Development and verification
-
-    npm test                # Application regression tests
-    npm run verify          # Running studio + installed local engine readiness; no render
-    npm run package:source  # Clean source archive and SHA-256 inventory
-
-The readiness check needs the studio and configured engine running and is not expected to pass before local model setup. Media integration tests explicitly skip when their optional Python runtime is absent. They run, and must pass, when that runtime is installed. A passing source-only suite does not prove GPU generation quality. Follow [the verification loop](BUILD-LOOP.md) when changing generation behavior; watch/listen to real outputs separately from automated checks.
-
-The server binds to localhost and is intended for personal local use. Public repository access does not make the running application a hosted multi-user service.
-
-## License and credits
-
-Original project code is [MIT licensed](LICENSE). ComfyUI, custom nodes, optional tools, model weights, hosted services and third-party templates keep their own terms. Preserve the included [third-party notices](THIRD-PARTY-NOTICES.md).
-
-Built around the work of [ComfyUI](https://github.com/Comfy-Org/ComfyUI) and its workflow ecosystem, with optional [Ollama](https://ollama.com/) integration and [Civitai](https://civitai.com/) discovery links. Higgsfield is a product inspiration, not a project dependency or affiliation.
-
-
-**Bring your own AI:** Ollama is optional. Studio guide connects to LM Studio, Ollama, llama.cpp, vLLM and custom local compatible servers. Setup includes server presets, discovery and copy/download configuration for Antigravity, Hermes Agent, LM Studio and Claude MCP clients. [Connection guide and tested scope](ASSISTANT-CONNECTIONS.md).
-
-**Install as a plugin:** Frameforge also packages a branded local/community plugin with starter prompts, onboarding, creative skills and its visual MCP studio. Add the GitHub marketplace, install `frameforge-studio@frameforge-community`, then restart your client. Node.js 22+ is required; models remain separate. [Plugin installation, permissions and public-listing limits](PLUGIN-GUIDE.md).
-
-See [review follow-up](REVIEW-FIXES.md) for the completed usability fixes, plus remaining portability work.
-
-## Select before editing
-
-**Select before editing:** Image Canvas supports native SAM 3.1 selection by text, box or keep/exclude points, plus brush/eraser touch-ups. It saves a lossless PNG mask for protected Qwen edits. One checkpoint is listed with its model download/source link; no model is bundled. Inspect selections, especially box edges and absent-object prompts. [Workflow and acceptance scope](WORKSPACE-GUIDE.md#sam-image-selection).
-
-Workflow availability is tracked in the [suggested-workflow audit](WORKSPACE-GUIDE.md#suggested-workflows-current-coverage). 3D generation, generated music, LoRA training and other planned capabilities are not advertised as working tools.
-
-The Library groups 42 creative tasks with local/Cloud options inside each card. Images, Video and Audio share visible creation controls and a result preview; Audio adds real waveforms and timed transcript navigation. See [layout, task coverage and native-editor handoff limits](WORKSPACE-GUIDE.md#shared-creation-layout-and-library-coverage).
-
-
-## Creative recipes (0.8.0)
-
-Open **Video → Creative recipes** (`/recipes`) for performance variations, a product campaign, source-video shot planning or saved-motion remix. Save a subject and shared direction, inspect the actual workflows, then explicitly render a preview or sequential variations. Sources and seed choices are frozen in the saved plan. Use the original samples to try the interface without finding files first.
-
-`studio_recipe_library` reads the same subjects, motions, plans and batch states; `capabilities: true` reports supported recipes and current readiness. `studio_recipe` provides opt-in save, prepare, frame extraction, Director handoff and sequential queue operations. The MCP connection still defaults to read-only. A queue requires a saved-plan signature and a request ID; reuse the request after an ambiguous result. No result is automatically creatively approved.
-
-Canvas offers Qwen and installed FLUX 3 Image Klein. The FLUX masked graph crops the selection, generates the edit, resizes it to the crop and composites through the mask on the source grid. Native graph downloads include both image inputs and the mask. Proof measures actual changed pixels, not identity or visual quality.
-
-The source-reference recipe uses real decoded frames and your shot notes. It does not automatically understand video. Character/performance and motion-transfer quality remain subject to review.
-
-## Quick inside ComfyUI, 0.8.7
-
-Open Quick tools or press Alt+Shift+F. Use the real image, video and speech controls beside your graph, then expand the same page to Full Studio when needed. Prepared local graphs and their current input media appear in separate ComfyUI tabs. Quick has Controls and Result views, per-workflow downloads and a native workflow selector for 3D props, scene geometry, cutouts, music, H3 references, FLUX layout and LTX adapters.
-
-The thirty additional native workflow choices bundle graphs and file manifests, not model weights or a guarantee of tested output quality. Use their model inventories and original terms, open the graph and explicitly press Run in ComfyUI. Complex timeline, motion path and box controls remain in the native graph. Larger scene editing and LoRA training work is listed in REMAINING-CHECKLIST.md.
+Release **0.8.13**. Original code is MIT licensed. Models, upstream graphs and third-party components retain their own terms; see [notices](THIRD-PARTY-NOTICES.md). The source release excludes model weights, personal media, machine settings, credentials and private judge deployments. Frameforge is independent of Higgsfield and includes none of its proprietary source or hosted service.

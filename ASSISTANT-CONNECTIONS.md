@@ -1,3 +1,5 @@
+> **0.8.13 connection note:** Settings → Use from Claude or Codex → Copy connection uses the running Studio's exact address and Node executable. Prefer this for the quick launcher's private Node runtime. The marketplace configuration uses Node on PATH, honors its installation's saved port when STUDIO_URL is absent, and explicitly includes --allow-writes. The raw MCP server is read-only without that flag. Reconnect the client after updating.
+
 # Bring your own AI
 
 Release **0.7.0** adds direct local LTX/H3/FLUX execution, reviewed model downloads, early dependency lists, per-assistant setup and a native ComfyUI image bridge. See [the integration guide](INTEGRATION-UPGRADE.md) for tested profiles and remaining work.

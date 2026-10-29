@@ -1,140 +1,70 @@
-> **0.7.4:** Explore includes Civitai inspiration; Guide finds/chains workflows in the website and native MCP panel. Canvas Proof view shows actual changed pixels. Rough cut exports selected film clips without new generation. Video/audio ComfyUI return nodes and per-workflow download labels are included. Ten read-only MCP tools plus ten opt-in production tools. No paid generation is submitted automatically.
+# Use Frameforge from your assistant
 
-# Frameforge in Codex and Claude
+Frameforge 0.8.13 provides a local STDIO MCP server and a visual MCP Apps panel. It uses the same task catalog, model requirements, graphs and saved productions as your Studio. It does not require Ollama, a paid Cloud key or a second copy of the model weights.
 
-Release **0.7.4** adds direct local LTX/H3/FLUX execution, reviewed model downloads, early dependency lists, per-assistant setup and a native ComfyUI image/video/audio bridge. See [the integration guide](INTEGRATION-UPGRADE.md) for tested profiles and remaining work.
+## Recommended connection
 
-Want a named plugin entry with an icon, starter prompts and setup guidance? [Install the Frameforge Studio plugin](PLUGIN-GUIDE.md). It bundles this same MCP server. Avoid keeping duplicate standalone and plugin Frameforge studio connections active. The separate ComfyUI engine connector is independent.
+1. Start Frameforge normally with **Start Frameforge.cmd** or the macOS/Linux launcher.
+2. Open **Settings → Use from Claude or Codex** and choose your assistant.
+3. Click **Copy connection** and follow that client's local MCP configuration instructions.
 
-Use the website normally, or connect its **local STDIO MCP server** to an agent. Both use the same ComfyUI connection, saved jobs, graph compiler and review gates. No Frameforge account, hosted MCP endpoint or Cloud key is required. This is a source checkout, not a published npm package.
+The copied configuration uses the running Studio's exact address and Node executable, including a private launcher runtime or a port other than 4317. Restart or reconnect the client after editing its configuration. Do not paste keys or passwords in chat.
 
-## Native visual studio · 0.7.4
+The optional marketplace plugin uses `node` from PATH. Its configuration explicitly includes `--allow-writes`, so requested local creation works with the host's normal tool approvals. Without an explicit `STUDIO_URL`, startup reads its installation's `config.local.json` port. A plugin cache and a separate source download are different installations; use the copied connection to select the Studio holding your work.
 
-The global entrypoint declares `header: { enabled: false }` to suppress the surrounding Codex title strip. This changes host presentation metadata, not the studio layout or the plugin’s name in the directory.
+## Permissions
 
-Calling `studio_workflows` advertises `ui://frameforge/studio-v6.html`. The host renders a self-contained native MCP Apps document with original artwork and a moving cover. **There is no nested website, loopback frame permission or browser redirect.** Every panel operation uses the host's MCP tool bridge. Older v2–v4 resource requests resolve to this native view too.
+The raw server is **read-only by default**. Add `--allow-writes` only to enable local production tools. The bundled marketplace plugin includes that flag deliberately. Read-only tool access and write-enabled plugin behavior are different configurations, rather than an implicit permission change.
 
-The panel includes explained image/video workflows, model download cards, connected graph nodes with editable settings and graph JSON, prepared local graph runs, video finishing, saved images and bounded video/audio playback, narration/transcription, film project creation, clip order/trims, composition saves and draft exports. Open weights only uses the same server enforcement as the website. Advanced audio/video requests and film layers use JSON controls; this is not every specialized website editor reproduced pixel-for-pixel. Personal imports stay inside the deliberately configured media folder. Cloud graphs can be downloaded for an external Comfy Cloud handoff; no paid submission or credentials are collected here.
-
-`studio_media` transfers only fixed saved output routes, up to 12 MiB, for playback/transcript inspection. Larger files remain available in the normal website. Eight tools are read-only; 18 are available with local writes enabled. Opening the panel does not render or change the execution profile. Ambiguous creation retries reuse their request IDs, and film saves retain composition signatures.
-
-The owner reported **content blocked** with the former 0.5 nested website. That implementation is superseded. The 0.6 native view is tested separately in a direct-document MCP bridge fixture; native Codex/Claude rendering still needs its own acceptance check after updating/restarting. Do not infer it from a browser preview. See [client acceptance](MCP-CLIENT-ACCEPTANCE.md). Run `node scripts/preview-mcp-ui.mjs` for the read-only fixture; add `--allow-writes` for creation controls. The fixture has no frames and explicitly labels itself as a test host.
-
-## Install once
-
-1. Clone this repository and install Node.js 22 or newer.
-2. In the repository, run `npm start`, then visit http://127.0.0.1:4317/setup.
-3. Connect your own running ComfyUI. Choose a recipe, install its listed nodes/models in ComfyUI and recheck readiness. Model files are downloaded separately under their own terms. The MCP server does not install them.
-4. Image/video processing and speech also need the documented Python environments. See [setup](GITHUB-SETUP.md). A fresh source clone can browse graphs and prepare supported Cloud handoffs without having local generation ready.
-
-## Connect Codex
-
-Replace the example checkout path with your actual path. This enables local creation; omit `--allow-writes` for a read-only connection.
-
-```sh
-codex mcp add frameforge --env STUDIO_URL=http://127.0.0.1:4317 -- node C:/projects/frameforge-studio/scripts/frameforge-mcp.mjs --start-studio --allow-writes --open-weights-only
-```
-
-Or add to your Codex MCP configuration:
-
-```toml
-[mcp_servers.frameforge]
-command = "node"
-args = ["C:/projects/frameforge-studio/scripts/frameforge-mcp.mjs", "--start-studio", "--allow-writes", "--open-weights-only"]
-env = { STUDIO_URL = "http://127.0.0.1:4317", FRAMEFORGE_IMPORT_ROOT = "C:/projects/my-film-inputs" }
-```
-
-## Connect Claude Code
-
-```sh
-claude mcp add --transport stdio frameforge -- node C:/projects/frameforge-studio/scripts/frameforge-mcp.mjs --start-studio --allow-writes --open-weights-only
-```
-
-For Claude Desktop, merge this entry into its existing MCP configuration, then restart the client:
-
-```json
-{
-  "mcpServers": {
-    "frameforge": {
-      "command": "node",
-      "args": ["C:/projects/frameforge-studio/scripts/frameforge-mcp.mjs", "--start-studio", "--allow-writes", "--open-weights-only"],
-      "env": {
-        "STUDIO_URL": "http://127.0.0.1:4317",
-        "FRAMEFORGE_IMPORT_ROOT": "C:/projects/my-film-inputs"
-      }
-    }
-  }
-}
-```
-
-Use absolute paths and an import folder containing only media you authorize the agent to read. Without `FRAMEFORGE_IMPORT_ROOT`, imports are restricted to the client's working directory. Canonical path checks reject traversal and symlink escapes. Imports support PNG/JPEG/WebP, MP4/WebM and WAV, up to 100 MiB; the studio performs additional media validation. Files and previews go to the connected assistant, so use your client provider's privacy settings.
-
-## Tools and creation loop
-
-| Task | Tools |
+| Read-only tools | Purpose |
 | --- | --- |
-| Discover and understand | `studio_workflows`, `workflow_requirements`, `comfy_status` |
-| Inspect graphs and saved work | `studio_graph`, `studio_library`, `studio_job`, `studio_preview`, `studio_media` |
-| Prepare and generate | `studio_import_asset`, `studio_prepare_workflow`, `studio_run_workflow`, `studio_generate` |
-| Sound and production | `studio_audio`, `studio_project`, `studio_director` |
-| Native editor and recovery | `studio_export_workflow`, `studio_cancel` |
-| Execution profile | `studio_policy` (write enabled; changes the shared studio profile) |
+| `studio_workflows`, `studio_recipe_library` | Find explained tasks, recipes and capabilities |
+| `comfy_status`, `workflow_requirements` | Check engine, node and model availability |
+| `studio_explore`, `studio_guide` | Browse credited inspiration and get workflow guidance |
+| `studio_graph`, `studio_library` | Inspect graphs and saved work |
+| `studio_job`, `studio_preview`, `studio_media` | Poll and inspect bounded saved results |
 
-The first eight are available by default. The other ten require `--allow-writes`; GPU rendering and local file creation can then happen at the assistant's request. Paid generation, shell execution, model installation, deleting assets and approving creative results are not exposed. Tool permission controls in your client still apply. Project/Director list and get operations share their write-enabled tool; use `studio_library` for read-only browsing.
+| Additional tools with `--allow-writes` | Purpose |
+| --- | --- |
+| `studio_prepare_workflow`, `studio_run_workflow` | Prepare an editable graph, then explicitly run a supported adapter |
+| `studio_generate`, `studio_audio` | Create local images/video or audio |
+| `studio_import_asset`, `studio_export_workflow` | Import authorized media and export graph packages |
+| `studio_project`, `studio_director`, `studio_recipe` | Save film plans, selected clips and recipe stages |
+| `studio_cancel`, `studio_policy` | Cancel a known job or change the Studio execution profile |
 
-Ask: **“Find an open-weight workflow for a cinematic product still. Explain the models and check my setup. Prepare the graph, show me what it will do, then make one preview and inspect the result.”**
+There are **11 read-only tools and 11 additional production tools**. A native graph marked **Open in ComfyUI** needs the native editor; the generic run tool does not pretend to execute every imported graph. Model-name checks do not guarantee hardware fit or creative quality.
 
-1. Discover a recipe and check dependencies. Do not substitute a closed model silently.
-2. Import an authorized source if needed. Use the returned filename/ID in the next tool.
-3. Prepare a local plan, inspect its graph and input bindings. A prepared plan is not a completed render.
-4. Run with a new UUID `requestId`. After a timeout, reuse that same ID and inspect saved jobs before retrying. Never invent a new ID just because a response was lost.
-5. Poll `studio_job`. `studio_preview` returns a native image/audio block when small enough. Video previews are posters/contact sheets; watch the actual local video for motion quality.
-6. Keep technical checks distinct from human creative approval. Film exports preserve the existing approval/signature gates.
+No tool provides shell execution, automatic model installation, paid submission or creative approval. Production calls can create files and use your GPU. Client permissions still apply, and local assistants share the selected Studio's saved work and engine. This is a personal local integration, not a public multi-user endpoint.
 
-Some advanced tools combine ComfyUI stages with local Python processing; those are explicitly described as processors. They are not falsely presented as one portable ComfyUI graph. Their complete pipelines use `studio_generate`/`studio_audio`, while `studio_export_workflow` exports supported graph stages and their inputs.
+## Visual panel
 
-`--start-studio` starts the website backend only when no compatible studio is running. It never starts ComfyUI or downloads models. An owned backend stops when the MCP connection closes; an already-running studio is left alone. ComfyUI can continue a submitted render after disconnect. Restart the studio and inspect the same saved job; interrupted submissions become attention items instead of being blindly replayed. Start the website separately for long sessions.
+Ask **“Open Frameforge Studio and show the visual workflow library.”** A supported MCP Apps client can open a self-contained panel with Explore, Images, Video, Audio, Library and Advanced, original artwork and motion, explained tasks, graph controls and saved results. The current UI resource is `ui://frameforge/studio-v13.html`; earlier resource addresses remain compatible.
 
-`--open-weights-only` adds server-enforced restrictions to every request from this connection, even when the website is in ordinary mode. If it starts its own backend, that backend is locked to the strict profile. [Profile scope and limitations](OPEN-WEIGHTS.md).
+The panel uses MCP tool calls, with no nested website, loopback frame exception or browser redirect required for supported operations. Some advanced audio/video and film settings use JSON controls instead of every specialized website editor. The host controls whether the panel appears inline, full-screen or in a plugin page. Clients without MCP Apps still get the text tools.
 
-Four MCP resources contain this guide, the profile specification, the submission checklist and the visual studio. The `make-with-frameforge` prompt supplies a discovery → inspect → generate → verify loop. The older `scripts/studio-mcp.mjs` remains a compatible read-only adapter.
+After updating, close the old panel and reconnect the plugin/server. The new server and resource version do not replace code already running in an old panel. A browser bridge fixture checks protocol behavior; it is not evidence that a specific Codex/Claude version rendered the panel. See [client acceptance](MCP-CLIENT-ACCEPTANCE.md).
 
-Protocol: newline-delimited JSON-RPC over STDIO; diagnostics use stderr. Local HTTP origins only. MCP protocol/tool behavior is tested automatically; client screenshots are not evidence of a live Codex/Claude session unless explicitly recorded.
+## A reliable creation loop
 
-References: [Codex MCP configuration](https://learn.chatgpt.com/docs/extend/mcp), [Claude Code MCP](https://code.claude.com/docs/en/mcp), [MCP tool specification](https://modelcontextprotocol.io/specification/2025-06-18/server/tools).
+1. Describe the result and ask `studio_workflows` for the right recipe.
+2. Check `comfy_status` and `workflow_requirements`. Review missing files and their terms beside that workflow.
+3. With writes enabled, import only media the user authorized, prepare the graph and inspect its inputs/settings.
+4. Run deliberately with a fresh UUID `requestId`. Reuse it after an ambiguous response to avoid duplicate submissions.
+5. Poll `studio_job`, then inspect the preview/report. Distinguish technical completion from visual quality; leave creative approval to the user.
 
-## More agent and model choices
+Saved film edits retain composition signatures. A recipe queue requires a saved-plan signature and a request ID. Media inspection accepts fixed saved-output routes, not arbitrary network/file URLs; larger media stays available in Studio. Open-weights connections enforce their reviewed execution profile server-side.
 
-Ollama is optional. Setup and Studio guide now have local model-server presets and copy/download configuration for Antigravity, Hermes Agent, LM Studio and Claude Desktop. [Bring your own AI](ASSISTANT-CONNECTIONS.md) separates website-chat providers from MCP agent clients and records the tested scope.
+## Your own LLM is optional
 
+Guide works through catalog matching without a model. For LLM-backed planning, connect a supported local chat endpoint in Settings. Existing compatible Ollama, LM Studio or other endpoints can be used without downloading a new LLM. Claude/Codex MCP and website chat endpoints are separate integrations; a desktop agent is not automatically an HTTP inference server. [Connection details](ASSISTANT-CONNECTIONS.md).
 
-### Native Codex origin fix — 0.5.1
+## Troubleshooting
 
-The owner reported that 0.5.0 stopped at the opening screen with “Use exact embed origins only.” Static inspection of installed Codex 26.1007.2314.0 found its local sandbox URL factory: the codex-sandbox scheme with an mcp-app- subdomain containing a 48-character hexadecimal digest, under web-sandbox.oaiusercontent.com. That scheme was missing from the validator. Version 0.5.1 accepts only that precise scheme/host shape, with no custom port, in addition to the original supported origins. Paths, queries, credentials, wildcard hosts and other custom schemes remain rejected. A fresh v3 resource avoids the previous UI cache; v1 and v2 resource addresses still resolve. Tests cover native-origin registration; a successful native full-site render still needs confirmation.
+- **Node not found:** prefer Copy connection, which includes the private runtime's full path, or install Node 22+ for the marketplace route.
+- **Wrong or empty library:** point the client at the running Studio you intend to use with its copied address. Separate installations keep separate data.
+- **Missing nodes/models:** open that workflow's requirements and resolve them in your own ComfyUI. A model visible in another folder must be registered in ComfyUI.
+- **Old visual panel:** reconnect the server and reopen the panel after installing the update.
+- **Read-only controls:** the connection omitted `--allow-writes`, or the client's permissions deny production tools.
+- **Online generation:** Comfy Cloud/Civitai account sign-in, inputs and costs remain on their external websites.
 
-
-### Superseded history: visible editor and link feedback — 0.5.2
-
-The live Codex 0.5.1 panel passed origin registration and assigned its exact local iframe URL, which returned the complete studio with HTTP 200. The splash still covered it because the frame-ready message had not arrived. The resource now declares both standard and documented legacy frame permissions, restricted to the same exact loopback view, plus the local studio as the trusted external-link destination. This adds compatibility metadata; it does not disable client security.
-
-After registration, the full editor is displayed immediately. A missing ready notification creates a small connection notice with a reload control rather than a full-screen cover. This does not certify a blocked or blank frame as successfully rendered. Browser-opening responses that contain isError or opened=false now surface a visible error and a real studio hyperlink instead of silent success.
-
-The current v4 resource avoids old UI caches, with previous v1-v3 addresses retained. Regression tests cover a missing ready notification, untrusted sender messages, denied link results and exact permission aliases. Native nested-frame inspection was blocked by the browser automation URL policy; that action was not bypassed. Human confirmation of the complete editor remains required.
-
-
-The 0.5.2 release passes all 175 regression tests and live ComfyUI readiness after restarting the existing engine. The owner's session was reconnected from the clean plugin-cache backend to the original configured studio and D-drive storage; the cache copy's files were preserved. No new render, download or creative approval was performed. Native nested-frame interaction remains unverified because the inspection tool rejected that action.
-
-
-## Creative recipes (0.8.0)
-
-Open **Video → Creative recipes** (`/recipes`) for performance variations, a product campaign, source-video shot planning or saved-motion remix. Save a subject and shared direction, inspect the actual workflows, then explicitly render a preview or sequential variations. Sources and seed choices are frozen in the saved plan. Use the original samples to try the interface without finding files first.
-
-`studio_recipe_library` reads the same subjects, motions, plans and batch states; `capabilities: true` reports supported recipes and current readiness. `studio_recipe` provides opt-in save, prepare, frame extraction, Director handoff and sequential queue operations. The MCP connection still defaults to read-only. A queue requires a saved-plan signature and a request ID; reuse the request after an ambiguous result. No result is automatically creatively approved.
-
-Canvas offers Qwen and installed FLUX 3 Image Klein. The FLUX masked graph crops the selection, generates the edit, resizes it to the crop and composites through the mask on the source grid. Native graph downloads include both image inputs and the mask. Proof measures actual changed pixels, not identity or visual quality.
-
-The source-reference recipe uses real decoded frames and your shot notes. It does not automatically understand video. Character/performance and motion-transfer quality remain subject to review.
-
-### Native graph additions, 0.8.7
-
-studio_workflows, studio_graph and workflow_requirements include the thirty new native workflow choices and their exact download manifests. nativeEditorRequired means prepare via the Quick native-workflow page and use ComfyUI's Run, rather than studio_prepare/studio_run. The bounded existing Studio generation graphs and media processors retain their usual tools. This release does not grant the MCP access to install models, launch training or run paid jobs automatically.
+[Quick start](QUICKSTART.md) · [Plugin guide](PLUGIN-GUIDE.md) · [Open weights](OPEN-WEIGHTS.md) · [Remaining checklist](REMAINING-CHECKLIST.md)
