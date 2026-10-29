@@ -27,4 +27,5 @@
 .comfy-quick[data-quick-pane=result] .studio-grid>form,.comfy-quick[data-quick-pane=result] .workflow-panel{display:none!important}
 .comfy-quick .stage-column{width:100%!important;min-width:0!important}
 .comfy-quick body[data-navigation] .workspace-topbar,.comfy-quick body[data-navigation] .rail{display:none!important}
+.comfy-quick .stage:has(video[src]){height:300px!important;min-height:0!important;aspect-ratio:auto!important}.comfy-quick .stage video[src]{height:100%!important;width:100%!important;object-fit:contain!important}
 .comfy-quick .presets,.comfy-quick #presets{display:flex!important;flex-wrap:wrap!important;gap:6px!important}.comfy-quick #presets button{font-size:12px!important;min-height:32px!important;padding:6px 10px!important}

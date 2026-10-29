@@ -1,6 +1,6 @@
 {
   "version": 1,
-  "created": "2026-10-29T01:42:38.279Z",
+  "created": "2026-10-29T01:47:32.614Z",
   "files": [
     {
       "name": ".agents/plugins/marketplace.json",
@@ -489,13 +489,13 @@
     },
     {
       "name": "public/comfy-quick.css",
-      "bytes": 4028,
-      "sha256": "8e05aa1fe05f50175204caf4ebf0f38a1f992bcb17de315faf30af2586d770a1"
+      "bytes": 4242,
+      "sha256": "b20a4a901aa2c9e5d072a0951eae01961716a5ce53457380f0e2f71c56e07cdd"
     },
     {
       "name": "public/comfy-quick.js",
-      "bytes": 2220,
-      "sha256": "2284b5c2b7373e9b363bcec1fc07c980752edc583f12b3f8737d80d5acc10d9d"
+      "bytes": 2274,
+      "sha256": "f234f2be882d6263950285ed26016535d3d70e9a84f0d3ddbb65fb51d9e37e42"
     },
     {
       "name": "public/continuity.css",
