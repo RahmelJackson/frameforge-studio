@@ -6,7 +6,7 @@ const providers=[{id:'ltx-vfx',model:'LTX',execution:'local',featured:{execution
 test('Every portable graph belongs to one distinct task and local/hosted provider graphs keep their input roles',()=>{
  const keys=OUTCOMES.flatMap(t=>t.variants);assert.equal(new Set(keys).size,keys.length);
  for(const w of WORKFLOWS)assert.equal(keys.filter(k=>k===w.id).length,1,w.id);
- const all=outcomeCatalog(WORKFLOWS,providers);assert.equal(all.length,46);
+ const all=outcomeCatalog(WORKFLOWS,providers);assert.equal(all.length,OUTCOMES.length);
  assert.ok(all.find(t=>t.id==='animate-image').options.some(v=>v.key==='provider:flux3-video:default'));
  assert.ok(!all.find(t=>t.id==='text-video').options.some(v=>v.key.startsWith('provider:flux3')));
  assert.deepEqual(all.find(t=>t.id==='atmosphere-vfx').options[0].verification,{model:'LTX'});
@@ -14,8 +14,8 @@ test('Every portable graph belongs to one distinct task and local/hosted provide
  assert.ok(all.find(t=>t.id==='animate-image').options.find(v=>v.key==='seedance-draft').label.includes('draft'));
 });
 test('Search finds model names inside their task and strict filtering retains local provider options',()=>{
- assert.deepEqual(outcomeCatalog(WORKFLOWS,providers,{query:'Klein'}).map(t=>t.id),['edit-image']);
- assert.deepEqual(outcomeCatalog(WORKFLOWS,providers,{query:'LTX'}).map(t=>t.id),['atmosphere-vfx']);
+ assert.deepEqual(outcomeCatalog(WORKFLOWS,providers,{query:'Klein'}).map(t=>t.id),['edit-image','flux3-create','flux3-references']);
+ const ltx=outcomeCatalog(WORKFLOWS,providers,{query:'LTX'});assert.ok(ltx.some(t=>t.id==='atmosphere-vfx'));assert.ok(ltx.some(t=>t.id==='ltx-ingredients'));assert.ok(ltx.every(t=>t.options.every(v=>/ltx/i.test(v.search+' '+v.label))));
  const local=outcomeCatalog(WORKFLOWS.filter(w=>w.execution==='local'),providers,{openOnly:true});
  assert.ok(local.every(t=>t.options.every(v=>v.execution==='local')));assert.ok(local.some(t=>t.id==='atmosphere-vfx'));assert.ok(local.some(t=>t.id==='animate-image'));assert.ok(!local.some(t=>t.id==='smooth-video'||t.id==='dub'));
  const cloud=outcomeCatalog(WORKFLOWS,providers,{location:'partner'});assert.ok(cloud.every(t=>t.options.every(v=>v.execution==='partner')));
@@ -24,10 +24,10 @@ test('Configured processors lead to real image/video tool IDs instead of claimin
  for(const t of Object.values(TOOL_VARIANTS)){const u=new URL(t.url,'http://localhost');if(u.pathname==='/images')assert.ok(IMAGE_TOOLS.some(x=>x.id===u.searchParams.get('tool')));if(u.pathname==='/video-tools')assert.ok(VIDEO_TOOLS.some(x=>x.id===u.searchParams.get('tool')));}
 });
 
-test('Existing local tools are discoverable without paid-only task cards, and unfinished 3D is not advertised',()=>{
+test('Existing local tools are discoverable without paid-only task cards, and native 3D graphs have explicit requirements',()=>{
  const local=outcomeCatalog(WORKFLOWS,providers,{location:'local'});
  for(const id of ['text-video','keyframes','reference-video','edit-video','extend-video','make-film','voice-conversion','track-edit','style-board','cinematic-still'])assert.ok(local.some(t=>t.id===id),id);
- assert.ok(!OUTCOMES.some(t=>/trellis|3d scene/i.test(t.title)));
+ assert.ok(local.some(t=>t.id==='prop-3d'));assert.equal(WORKFLOWS.find(w=>w.id==='prop-3d').nativeEditorRequired,true);
  const strict=outcomeCatalog(WORKFLOWS,providers,{openOnly:true});
  for(const id of ['text-video','keyframes','make-film'])assert.ok(strict.some(t=>t.id===id),id);
  for(const id of ['reference-video','edit-video','extend-video','voice-conversion','track-edit'])assert.ok(!strict.some(t=>t.id===id),id);

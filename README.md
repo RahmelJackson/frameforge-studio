@@ -146,3 +146,9 @@ Open **Video → Creative recipes** (`/recipes`) for performance variations, a p
 Canvas offers Qwen and installed FLUX 3 Image Klein. The FLUX masked graph crops the selection, generates the edit, resizes it to the crop and composites through the mask on the source grid. Native graph downloads include both image inputs and the mask. Proof measures actual changed pixels, not identity or visual quality.
 
 The source-reference recipe uses real decoded frames and your shot notes. It does not automatically understand video. Character/performance and motion-transfer quality remain subject to review.
+
+## Quick inside ComfyUI, 0.8.7
+
+Open Quick tools or press Alt+Shift+F. Use the real image, video and speech controls beside your graph, then expand the same page to Full Studio when needed. Prepared local graphs and their current input media appear in separate ComfyUI tabs. Quick has Controls and Result views, per-workflow downloads and a native workflow selector for 3D props, scene geometry, cutouts, music, H3 references, FLUX layout and LTX adapters.
+
+The thirty additional native workflow choices bundle graphs and file manifests, not model weights or a guarantee of tested output quality. Use their model inventories and original terms, open the graph and explicitly press Run in ComfyUI. Complex timeline, motion path and box controls remain in the native graph. Larger scene editing and LoRA training work is listed in REMAINING-CHECKLIST.md.

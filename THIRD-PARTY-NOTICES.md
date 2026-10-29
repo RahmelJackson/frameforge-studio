@@ -17,3 +17,7 @@ This file records provenance. It does not relicense third-party code, models, ho
 Inter Variable is bundled locally from the official distribution at https://rsms.me/inter/font-files/InterVariable.woff2. Copyright Rasmus Andersson. SIL Open Font License 1.1; full license: public/fonts/Inter-LICENSE.txt. Original project: https://github.com/rsms/inter. The font is not covered by Frameforge's MIT license.
 
 Bundled InterVariable.woff2 SHA-256: `693b77d4f32ee9b8bfc995589b5fad5e99adf2832738661f5402f9978429a8e3`.
+
+## Native workflow expansion (0.8.7)
+
+Comfy-Org/workflow_templates graphs in workflows/native are pinned to 14220b8bd3e86baa852959f17039613191e66656. Their source and model provenance are recorded in workflows/native/catalog.json. They retain the upstream MIT license, reproduced in workflows/bonus/LICENSE. Lightricks/ComfyUI-LTXVideo graphs are pinned to 220e1d45aa0469f518e982102fca4dca92a61862; its Apache-2.0 license is reproduced in workflows/native/LTX-LICENSE.txt. Original upstream JSON is retained. nativePacket pins model links, removes the stale T2A link 13811, and derives clearly marked V2V variants by selecting the documented adapter and prompts. Model weights are not bundled and retain their own terms, including LTX, FLUX and MiniMax restrictions.

@@ -1,6 +1,6 @@
 {
   "version": 1,
-  "created": "2026-10-28T21:01:19.283Z",
+  "created": "2026-10-29T01:42:38.279Z",
   "files": [
     {
       "name": ".agents/plugins/marketplace.json",
@@ -24,8 +24,8 @@
     },
     {
       "name": "assets/comfyui-frameforge/README.md",
-      "bytes": 4247,
-      "sha256": "87b5658bad615e5ab5d17c7ac52598b3508093b9dc4a53908ff5ee274c58b407"
+      "bytes": 5798,
+      "sha256": "414573a1c7c77cb0168da55cc975f809a968d27b3fe6957bbd9f3cf2ca0fd879"
     },
     {
       "name": "assets/comfyui-frameforge/web/frameforge.js",
@@ -34,8 +34,8 @@
     },
     {
       "name": "assets/comfyui-frameforge/web/quick-tools.js",
-      "bytes": 5206,
-      "sha256": "8a228689cd059025ef2a7323a91f7d8635764bfe2a94c0e2b67c55d32e919b01"
+      "bytes": 6370,
+      "sha256": "e1e1930a789beb2c5e8413b660032978f65db429cfb58705ea0554eaf3390fd6"
     },
     {
       "name": "assets/comfyui-frameforge/web/studio.css",
@@ -44,8 +44,8 @@
     },
     {
       "name": "assets/comfyui-frameforge/web/studio.js",
-      "bytes": 10254,
-      "sha256": "7862e1541ec274d134be8d5411dbc008fe38d2df85aabd0bc745f10bb102bc46"
+      "bytes": 10919,
+      "sha256": "05e81a290be99e01852d41de8d6a04feffa942a902236ce61124b8c075b49bf2"
     },
     {
       "name": "assets/comfyui-frameforge/web/workflow-transfer.js",
@@ -164,8 +164,8 @@
     },
     {
       "name": "lib/execution-policy.mjs",
-      "bytes": 5396,
-      "sha256": "f0a152c8d09ce3bf1e57cd81395436654f3247a2e8b0bd1678742f133dcb8545"
+      "bytes": 6009,
+      "sha256": "caa6b9a110d8ca75676d3f3cbf9bd51064d019885f63f04174665d283819556f"
     },
     {
       "name": "lib/explore.mjs",
@@ -226,6 +226,11 @@
       "name": "lib/model-downloads.mjs",
       "bytes": 6163,
       "sha256": "2034540e810614f2ab8573d9a9824791b2f6491d878fee57ddf62d82e1aa08a7"
+    },
+    {
+      "name": "lib/native-workflows.mjs",
+      "bytes": 2686,
+      "sha256": "fe5a21bf429a9fa71227c68926feb9ee51173bd056ec817e625484774161786a"
     },
     {
       "name": "lib/pose.mjs",
@@ -289,8 +294,8 @@
     },
     {
       "name": "lib/studio-embed.mjs",
-      "bytes": 6328,
-      "sha256": "d9a101fc2703c03d0012b04bd0b7a215c5a5aa03a94c933c0334c38b65792a1c"
+      "bytes": 6896,
+      "sha256": "7f71d16a0662f6c58ec87d2adb0fdcc84684eaf82e45cfcfbf7185ad4d30b0ba"
     },
     {
       "name": "lib/studio-mcp-tools.mjs",
@@ -324,8 +329,8 @@
     },
     {
       "name": "lib/workflow-catalog.mjs",
-      "bytes": 7423,
-      "sha256": "911b1aedb7e8d036d2796c9a96de197aafcbaf5d1caa387c6e239d75637840bd"
+      "bytes": 7590,
+      "sha256": "684be6bb7603114b8ba1415eafa872f907e17958093766200e204327076eed94"
     },
     {
       "name": "lib/workflow-expectations.mjs",
@@ -374,8 +379,8 @@
     },
     {
       "name": "MCP-GUIDE.md",
-      "bytes": 14372,
-      "sha256": "44da9844b46ad8625dccbba4d3e22fb9707f32aee838a35f8fac5187f3550f5f"
+      "bytes": 14887,
+      "sha256": "f81e76c0db170065bf886f61e90787813503784a493678c32691bc080ef78a4a"
     },
     {
       "name": "mcp.json",
@@ -395,7 +400,7 @@
     {
       "name": "package.json",
       "bytes": 933,
-      "sha256": "fa9e69442133043c6b2bbd06caa448f9d1dc779358b5d58ee086ee5a8f200308"
+      "sha256": "5063785c3dc56c20cb5c6aef56b53b9ecc24fe8e7134c41e8e9dff6b532b2880"
     },
     {
       "name": "PLUGIN-ACCEPTANCE.md",
@@ -410,7 +415,7 @@
     {
       "name": "plugin.json",
       "bytes": 2478,
-      "sha256": "7edcf32242b547ae0a8b30093311d8288a903c53918400c38aa3f03071fe5f5d"
+      "sha256": "2938c1fac547516b7327f1ab21208a48b6001f83f08d44ea27bfc605286296d7"
     },
     {
       "name": "public/app.js",
@@ -479,8 +484,18 @@
     },
     {
       "name": "public/comfy-handoff.js",
-      "bytes": 3309,
-      "sha256": "847429b3f77096e2045da918aba6f6c5266648105ebfa36264d000bf778cad66"
+      "bytes": 3432,
+      "sha256": "c779c54c4b1a0e6d2e92b7693ab5d7f1c577797f78d3feb73a68028334ba94ab"
+    },
+    {
+      "name": "public/comfy-quick.css",
+      "bytes": 4028,
+      "sha256": "8e05aa1fe05f50175204caf4ebf0f38a1f992bcb17de315faf30af2586d770a1"
+    },
+    {
+      "name": "public/comfy-quick.js",
+      "bytes": 2220,
+      "sha256": "2284b5c2b7373e9b363bcec1fc07c980752edc583f12b3f8737d80d5acc10d9d"
     },
     {
       "name": "public/continuity.css",
@@ -740,7 +755,7 @@
     {
       "name": "public/mcp-app.js",
       "bytes": 51868,
-      "sha256": "0ee2dff7b3be421b83c8f49645f8105b6e80111cd1d6f646d7810496908c6bf4"
+      "sha256": "a974e3695b480698c0d3334093e57011ef00e02ead129775ec0413a96c81cf3c"
     },
     {
       "name": "public/mcp-studio.css",
@@ -776,6 +791,26 @@
       "name": "public/my-work.js",
       "bytes": 7979,
       "sha256": "554b500c59f4d09c602ab44493e75516a807f2a396e5d4ab0c5ae64fbd00dc37"
+    },
+    {
+      "name": "public/native-catalog.js",
+      "bytes": 35492,
+      "sha256": "8aeaa56baa573036a108be86f610ddb1b9beda4e7320ea0a964242627586d9b4"
+    },
+    {
+      "name": "public/native-workflows.css",
+      "bytes": 1313,
+      "sha256": "98de9bf6ee335c21f8b3eb3508ebbbb5c288281639bd011466c6315cf9945da3"
+    },
+    {
+      "name": "public/native-workflows.html",
+      "bytes": 1658,
+      "sha256": "7eb3da42771393e53c6f1c2de57c507818f0c720562a7e0869df856936036cbb"
+    },
+    {
+      "name": "public/native-workflows.js",
+      "bytes": 6397,
+      "sha256": "573ca9a2696e0a1c888fd6869e00abb6759ce009ea8c3f4e74e3fef545269217"
     },
     {
       "name": "public/online-handoff.js",
@@ -904,8 +939,8 @@
     },
     {
       "name": "public/studio-journeys.js",
-      "bytes": 20620,
-      "sha256": "1af5f577f67848f04c065ae8c94898817e4cc370ba4c7e6656996bc7fe2e6a29"
+      "bytes": 21175,
+      "sha256": "e62df8f2840e776d58af97839c1f26162275b5c1788a0b870f5e8f19fe633e92"
     },
     {
       "name": "public/studio-map.js",
@@ -1019,8 +1054,8 @@
     },
     {
       "name": "public/workflow-outcomes.js",
-      "bytes": 19432,
-      "sha256": "4755dd73332224c54b23036a025aa281a7981d0ff0d76f3dc48ad360269bd212"
+      "bytes": 19768,
+      "sha256": "091425981639d4f642c1bc80a0c09374b773e0e84c9632e81556d0d08b2ddb28"
     },
     {
       "name": "public/workflow-panel.css",
@@ -1029,8 +1064,8 @@
     },
     {
       "name": "public/workflow-panel.js",
-      "bytes": 23532,
-      "sha256": "b36ab457e36edeaa4e2606403b71a7360f8a3e70baf4645a6edad02c1c54f3ab"
+      "bytes": 24517,
+      "sha256": "047cd6d9b35f643cfa3ef460637b952180a0fae00a29dfc4e11e9e67571b3a4e"
     },
     {
       "name": "public/workflows.css",
@@ -1039,13 +1074,13 @@
     },
     {
       "name": "public/workflows.html",
-      "bytes": 5525,
-      "sha256": "68fbc8adc7a84e4edfb3c467d95579ba28e78a83ad548623be7876dc3f95dd88"
+      "bytes": 5570,
+      "sha256": "d054336bbcde4d082a70481abcce809a173c10d16483e19cbfeeacfc76f0482d"
     },
     {
       "name": "public/workflows.js",
-      "bytes": 25146,
-      "sha256": "ff4db3b5367ce1bca09456b953192ef58070233654e861ab2d5c6f6f3243475b"
+      "bytes": 25186,
+      "sha256": "82a852492a7f12f474192b8e753f15d9c967ad77d567981fdfa23492f0d405cf"
     },
     {
       "name": "public/workspace-art.css",
@@ -1069,13 +1104,13 @@
     },
     {
       "name": "README.md",
-      "bytes": 15237,
-      "sha256": "82c976dae048ed80d997ee2bc36c05098ef2cd0d2db8b758011c6285b609c577"
+      "bytes": 16097,
+      "sha256": "0e7e9ff3d60e37f027dd7088d94ebb32d073c9319443f5ee724f3f1dda84522a"
     },
     {
       "name": "REMAINING-CHECKLIST.md",
-      "bytes": 58062,
-      "sha256": "7cc0a1af12cb494f82a842d8181fd96cbaa25bcbbe75b05581d02f9924ee901c"
+      "bytes": 61004,
+      "sha256": "664e436c8cdeaf5ceee63b999080e7afe7f994aec6a7d7645d3abf246d63d4ec"
     },
     {
       "name": "REVIEW-FIXES.md",
@@ -1290,7 +1325,7 @@
     {
       "name": "scripts/frameforge-mcp.mjs",
       "bytes": 7515,
-      "sha256": "fbbd20d6d22060869966357788861062f603069d92090a3954433ed8bfc28e98"
+      "sha256": "13a213b13844436c8c4038cbcaf1602cd29e7c724bc1e8ed6195173226286479"
     },
     {
       "name": "scripts/human_pose.py",
@@ -1844,8 +1879,8 @@
     },
     {
       "name": "server.mjs",
-      "bytes": 124344,
-      "sha256": "bbd0059a09c33cd3211441cb4350cf604915e2e6bd47a3aaac5dd94d096725a3"
+      "bytes": 124657,
+      "sha256": "e445eac3f703da2297974ec3220ca3419bdfe9cea1b4b9590fdf57344ab5db78"
     },
     {
       "name": "setup/advanced-models.lock.json",
@@ -2129,8 +2164,8 @@
     },
     {
       "name": "tests/api.test.mjs",
-      "bytes": 9775,
-      "sha256": "1d3e47e3b0957b8249fb57b3910a9f76758ab55328925dc425ec24d889a86b90"
+      "bytes": 9845,
+      "sha256": "afe26fbdd4b0ea179c42a865ffaf047f4ee7344b2cbbb6593b65e575376aeace"
     },
     {
       "name": "tests/assistant-connection-http.test.mjs",
@@ -2199,8 +2234,8 @@
     },
     {
       "name": "tests/comfy-transfer.test.mjs",
-      "bytes": 4062,
-      "sha256": "d6cc48092622ca538ecf1153e07cc0cb28c318414c35250a93f4ae7b2081c4cb"
+      "bytes": 4074,
+      "sha256": "7dca817365913e0d50606c4060865efd9156b67324881db4f35cbc86b772cc2f"
     },
     {
       "name": "tests/continuity_check.py",
@@ -2403,6 +2438,11 @@
       "sha256": "2a11c25d2ee638ce8efa4a4aff4cfd1357ceff04b87fffd9ffba897d23e51326"
     },
     {
+      "name": "tests/native-workflows.test.mjs",
+      "bytes": 1954,
+      "sha256": "8e043bb1de1b06c8f2a8e8af5fd7ce21bd4faf9b1cd5298d39fe5d8ab5618345"
+    },
+    {
       "name": "tests/online-generation.test.mjs",
       "bytes": 4662,
       "sha256": "de6a073bc29091a85e5508508e45278b8b3f9895ec1239022521af331154dca7"
@@ -2414,8 +2454,8 @@
     },
     {
       "name": "tests/portable-workspace.test.mjs",
-      "bytes": 6219,
-      "sha256": "b5e868d81d4aac39ed826482a46c830bc2896948da55080335bdae1ff4e87ff1"
+      "bytes": 6650,
+      "sha256": "fbc3fd0ca0c473188d72e5e38627b0990ecce7ba9cd813a1592ffa1589b3dd7e"
     },
     {
       "name": "tests/pose_retarget_check.py",
@@ -2604,8 +2644,8 @@
     },
     {
       "name": "tests/workflow-canvas.test.mjs",
-      "bytes": 3798,
-      "sha256": "813b8978cbfbdd9b4c3341aa1c1cb487b032016d4dfab86f6dc0db7bd7694472"
+      "bytes": 3884,
+      "sha256": "3090a17d7368ef9e65d4c4d5137464849c2eb32646e9948545d88f78920e25f7"
     },
     {
       "name": "tests/workflow-expectations.test.mjs",
@@ -2619,8 +2659,8 @@
     },
     {
       "name": "tests/workflow-outcomes.test.mjs",
-      "bytes": 3463,
-      "sha256": "23b584d36ab7a226f392839a3476bca535d7d0e8fadad82e33b32e50a9935b19"
+      "bytes": 3713,
+      "sha256": "a228c4fc7e1321cac553d174348f8bf5cfb50a9f8f32c19a9eab290a795c6d4d"
     },
     {
       "name": "tests/workflow-plans.test.mjs",
@@ -2644,8 +2684,8 @@
     },
     {
       "name": "THIRD-PARTY-NOTICES.md",
-      "bytes": 2588,
-      "sha256": "8faf382312eaa49f682ba29a6f21c20a33df025c5e42c6cab0d92afc609bb325"
+      "bytes": 3356,
+      "sha256": "9cf81048b2bbfd2d9877c2b515aa063ae9e28dd58d0d511c60166d36ff9ff02b"
     },
     {
       "name": "workflows/bonus/api_bfl_flux3_i2v.json",
@@ -2768,6 +2808,131 @@
       "sha256": "ccb491d1be992ca03e66d8bad767217f9539795bf449f5ad143f6583ae3bba70"
     },
     {
+      "name": "workflows/native/3d_moge_panorama_to_mesh.json",
+      "bytes": 41457,
+      "sha256": "60564578dde34f1233b3e5d09c4f3b4f03dc0ad18ace8978058767403d8fb586"
+    },
+    {
+      "name": "workflows/native/3d_moge_perspective_to_mesh.json",
+      "bytes": 43860,
+      "sha256": "256d2e157acb9e3f51551bdb00f27fcd0dfb7a8d80ec2833b54e054c078410b3"
+    },
+    {
+      "name": "workflows/native/3d_pixal3d_multi_views.json",
+      "bytes": 85059,
+      "sha256": "6a6a42b5d6e40e758ded2cd6aa541281b5bf082a179816daf76466a370d9d252"
+    },
+    {
+      "name": "workflows/native/3d_pixal3d_trellis2_image_to_model.json",
+      "bytes": 80679,
+      "sha256": "df8a1dc4dacac39ba036758f7b4bb7e57e556a607e5391b500e29effd95b2e5d"
+    },
+    {
+      "name": "workflows/native/audio_ace_step_1_5_checkpoint.json",
+      "bytes": 20810,
+      "sha256": "aed2778141720491d408dacde096b88250651b5e9554b123b9f686bfbf507c03"
+    },
+    {
+      "name": "workflows/native/catalog.json",
+      "bytes": 149724,
+      "sha256": "5562c17105313566d4ed113100634006a8e5d39dd0a8906bf9e765530fd3f263"
+    },
+    {
+      "name": "workflows/native/image_flux3_klein_distilled_image_edit.json",
+      "bytes": 38045,
+      "sha256": "75037b9482769ab98f9d00ac304899c48b9b46b9238686eca19ede42c40924cc"
+    },
+    {
+      "name": "workflows/native/image_flux3_klein_distilled_t2i.json",
+      "bytes": 55478,
+      "sha256": "253fa4e783da734acd03b804a8731d0a7a8c564b73961837762800eb5cf85388"
+    },
+    {
+      "name": "workflows/native/LTX-2.5_ICLoRA_Ingredients_Single_Stage_Distilled.json",
+      "bytes": 146063,
+      "sha256": "9884348041cfa3e2425d828e27f6942d06e23ed51f80a614b54826b72a298d30"
+    },
+    {
+      "name": "workflows/native/LTX-2.5_ICLoRA_Motion_Track_Distilled.json",
+      "bytes": 190698,
+      "sha256": "820f03d272be48205970498b14c04fa8b4dc461cb2f9836dfbbab5187882127d"
+    },
+    {
+      "name": "workflows/native/LTX-2.5_ICLoRA_Outpaint_Two_Stage_Distilled.json",
+      "bytes": 255703,
+      "sha256": "b5841393ec072e7f4379fa8a89d0382282dacb3d1f930b6656c1fdae4c11c07f"
+    },
+    {
+      "name": "workflows/native/LTX-2.5_ICLoRA_Union_Control_Distilled.json",
+      "bytes": 218238,
+      "sha256": "739ae7e9b87d55b6cf23b8c17dfc0f83b5c15f8e503e04c32a3dacdd9a8f1184"
+    },
+    {
+      "name": "workflows/native/LTX-2.5_T2A_Single_Stage_Distilled.json",
+      "bytes": 107099,
+      "sha256": "3fbb5fa88a261eba46b8901a6d0438c1583b4d910f7abf03447e74c437509c88"
+    },
+    {
+      "name": "workflows/native/LTX-2.5_T2V_I2V_Single_Stage_Distilled.json",
+      "bytes": 153776,
+      "sha256": "792995b1a0e6cdcf26e9dfb60f2b6d6e54a08f63aaf73090b295f592169080c1"
+    },
+    {
+      "name": "workflows/native/LTX-2.5_V2V_ICLoRA_Single_Stage_Distilled.json",
+      "bytes": 191532,
+      "sha256": "7b04426fd7215bdbb2e5b2207f1974d03d61569f5758161849270692255d202a"
+    },
+    {
+      "name": "workflows/native/LTX-2.5_V2V_TiledFusion_Upscale.json",
+      "bytes": 195641,
+      "sha256": "8336c8fe8dde5f2821b8277e555cc24955c3a25bd056768e273484cd7893d7c0"
+    },
+    {
+      "name": "workflows/native/LTX-LICENSE.txt",
+      "bytes": 21467,
+      "sha256": "7c8ef302fa1444a3a5650c2dfa09c6927a52b233202431023abb32519f354397"
+    },
+    {
+      "name": "workflows/native/open-graphs.json",
+      "bytes": 4862,
+      "sha256": "6e00d92ca011129265688129d46607c41c23ec04b600a534dd16f9d78a8dd5e0"
+    },
+    {
+      "name": "workflows/native/utility_birefnet_remove_background.json",
+      "bytes": 13225,
+      "sha256": "a89e7323957cea65a8809e7c6fd6688d336aaa45be48e071867f2e64abd267d6"
+    },
+    {
+      "name": "workflows/native/video_minimax_h3_fun_controlnet_union.json",
+      "bytes": 91170,
+      "sha256": "8f6c8f1bbc732b9bf88ac574b279dbac2d163818c4b24067e475ef662c8c831e"
+    },
+    {
+      "name": "workflows/native/video_minimax_h3_i2v.json",
+      "bytes": 71812,
+      "sha256": "34ee39544808fd3b0dc8de9df082940d4d41c3771beb80d3988c1ea5531cec0d"
+    },
+    {
+      "name": "workflows/native/video_minimax_h3_multiframe_reference.json",
+      "bytes": 76125,
+      "sha256": "a0526a9f0d67f3fac3ad48bda26c86aa6871c0322a5034534fdfa39d9637e641"
+    },
+    {
+      "name": "workflows/native/video_minimax_h3_r2v.json",
+      "bytes": 45323,
+      "sha256": "afeea99e9fd5a1456df348e0573e289c1243f2f28546fc95c1c963f808d61ddb"
+    },
+    {
+      "name": "workflows/native/video_minimax_h3_t2v.json",
+      "bytes": 68461,
+      "sha256": "8a5eb23b0dd2df9e99b6f7af9684e770f188feca820d241364b729e01dedf3b6"
+    },
+    {
+      "name": "workflows/native/video_wan2_2_14B_s2v.json",
+      "bytes": 175564,
+      "sha256": "9b017cde7f0564968cc7d2d2d3d044741a991e6662674b3913d5d77f92e9af71"
+    },
+    {
       "name": "workflows/node-schemas.json",
       "bytes": 74942,
       "sha256": "c20484596e40cb6049aa0b12049224c30bf1e175c71435d7faa422441577baeb"
@@ -2834,8 +2999,8 @@
     },
     {
       "name": "WORKSPACE-GUIDE.md",
-      "bytes": 20614,
-      "sha256": "91996e4cef246cf80cffcba7fe79b2f73ef6ab9d56b2e3abaab24565f4fe724e"
+      "bytes": 22061,
+      "sha256": "6f45701f571d2b2a4b13baf7e07da853240bc8644775c9d189a698d08c71fd6d"
     }
   ],
   "excluded": [

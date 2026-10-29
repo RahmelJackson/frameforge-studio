@@ -24,5 +24,5 @@ test('Modified files and unexpected upload destinations never reach the native g
  const original={1:{class_type:'LoadVideo',inputs:{file:'source.mp4'}},2:{class_type:'CLIPTextEncode',inputs:{text:'source.mp4'}}},mapped=remapInputs(original,new Map([['source.mp4','frameforge/new/source.mp4']]));assert.equal(mapped[1].inputs.file,'frameforge/new/source.mp4');assert.equal(mapped[2].inputs.text,'source.mp4');
 });
 test('Quick tools point at the existing video, image and audio editors using local page paths',()=>{
- assert.deepEqual([...new Set(QUICK_TOOLS.map(t=>t.group))],['Video','Images','Audio']);assert.equal(new Set(QUICK_TOOLS.map(t=>t.path)).size,QUICK_TOOLS.length);for(const t of QUICK_TOOLS){const url=new URL(t.path,'http://localhost');assert.equal(url.origin,'http://localhost');assert.ok(t.name&&t.hint);}assert.ok(QUICK_TOOLS.some(t=>t.path==='/video-tools?tool=interpolate#video-tool-form'));
+ assert.deepEqual([...new Set(QUICK_TOOLS.map(t=>t.group))].sort(),['3D','Audio','Images','Video']);assert.equal(new Set(QUICK_TOOLS.map(t=>t.path)).size,QUICK_TOOLS.length);for(const t of QUICK_TOOLS){const url=new URL(t.path,'http://localhost');assert.equal(url.origin,'http://localhost');assert.ok(t.name&&t.hint);}assert.ok(QUICK_TOOLS.some(t=>t.path==='/video-tools?tool=interpolate#video-tool-form'));
 });

@@ -367,3 +367,17 @@ Evidence: STYLE-BOARD-WORKFLOWS.md, ACCEPTANCE-STYLE-BOARD.md and evidence/style
 - [x] SAM 3.1 image selection by text, keep/exclude clicks and box, with a lossless PNG mask, native graph export and shared catalog/setup/MCP discovery.
 - [x] Canvas brush and eraser refinement before applying the mask to a protected Qwen edit.
 SAM object/edge acceptance remains open: text and clicks selected the product knob; the box case selected its outer ring and needs refinement. Missing-object false positives remain possible. The 15 broader creative-quality goals remain open.
+
+## ComfyUI Quick and suggested workflows, 0.8.7
+
+- [x] Quick is the default tool view inside ComfyUI, with Full Studio on the same page and preserved inputs. Alt+Shift+F opens the chooser from the graph or embedded workspace.
+- [x] Real Quick forms, upload, generation, model downloads and Controls / Result views. Preparing a supported local graph copies its inputs into a separate native tab. Native graph edits are not synchronized back into Studio.
+- [x] Thirty pinned native workflow choices: TRELLIS.2/Pixal3D prop and multiview generation; MoGe perspective/panorama meshes; BiRefNet cutouts; ACE-Step 1.5 music; Wan S2V talking photo; H3 text, keyframes, references, multiframe timeline and Union control; FLUX 3 creation and reference/layout editing; LTX Ingredients, drawn tracks, Union, outpainting, text-to-audio, native shot controls, generic V2V and Refine Details, plus Alpha, Clean Plate, night, water, colorization, decompression, deblur and Restore adapter variants. Each has exact model sources, hashes, sizes and terms. These are native-editor integrations, with generation acceptance still pending for the new profiles.
+- [ ] Upgrade or configure a separate compatible ComfyUI for the new core nodes. The existing local engine reports 0.22.3 and the 3D import identifies 31 unavailable core node types plus seven model files. Preserve the tested existing environment.
+- [ ] Generate and inspect held-out results for those new profiles after installing their required models/custom nodes. Do not treat graph availability as quality acceptance. The large upstream LTX BF16 graphs are distinct from the existing bounded 4090 preview.
+- [ ] Layout to Render: official guide names a dedicated two-stage graph, but that graph was absent from the pinned public repository. Do not substitute the generic V2V graph. HDR and pixel upscaler need their exact stacks and acceptance too.
+- [ ] An in-Studio 3D asset viewer/scene editor with camera-path previews. Native ComfyUI already provides its own 3D preview for the new prop/mesh graphs.
+- [ ] Isolated AI Toolkit LoRA training, dataset/caption controls, held-out evaluation and safe GPU scheduling. No trainer or large model download started automatically.
+- [ ] LTX 2.3-only Dub-It, sun relighting and Foley; FastH3; integrated region upscale and training presets. Existing alternatives and quality goals retain their prior status.
+
+Acceptance for 0.8.7: an actual two-second Wan shot and a 4.04-second Kokoro narration were created entirely from Quick in ComfyUI. The shot graph and image input appeared in a separate native tab. Full / Quick switching preserved the current prompt; Alt+Shift+F worked from both the canvas and the embedded workspace. The native 3D graph opened 66 nodes, with its missing models and newer-core requirements visible. No new model weights or paid generations were downloaded/run for this acceptance. All 236 project checks passed.

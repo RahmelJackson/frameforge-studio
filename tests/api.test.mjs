@@ -1,3 +1,4 @@
+import {WORKFLOWS} from '../lib/workflow-catalog.mjs';
 import {mediaTestSkip} from './media-runtime.mjs';
 import test from 'node:test';
 import assert from 'node:assert/strict';
@@ -16,7 +17,7 @@ test('HTTP app serves UI, rejects unwanted origins and malformed uploads, persis
     assert.equal((await fetch(base)).status,200);
     assert.equal((await fetch(base+'/workflows')).status,200);
     assert.match(await(await fetch(base+'/workflows')).text(),/Interactive workflow canvas/);
-    const workflows=await(await fetch(base+'/api/workflows')).json();assert.equal(workflows.length,18);
+    const workflows=await(await fetch(base+'/api/workflows')).json();assert.equal(workflows.length,WORKFLOWS.length);
     for(const w of workflows){const response=await fetch(base+'/api/workflows/'+w.id);assert.equal(response.status,200);assert.ok((await response.json()).graph.nodes.length);}
     assert.equal((await fetch(base+'/api/workflows/unknown')).status,404);
     assert.match((await fetch(base+'/workflows?embedded=1')).headers.get('content-security-policy'),/frame-ancestors 'self'/);

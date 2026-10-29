@@ -154,3 +154,11 @@ Open **Video → Creative recipes** (`/recipes`) for performance variations, a p
 Canvas offers Qwen and installed FLUX 3 Image Klein. The FLUX masked graph crops the selection, generates the edit, resizes it to the crop and composites through the mask on the source grid. Native graph downloads include both image inputs and the mask. Proof measures actual changed pixels, not identity or visual quality.
 
 The source-reference recipe uses real decoded frames and your shot notes. It does not automatically understand video. Character/performance and motion-transfer quality remain subject to review.
+
+## Native workflows and Quick, 0.8.7
+
+In ComfyUI choose Quick tools, or Alt+Shift+F. Tools start in Quick. Use Controls and Result to move between the working form and its saved takes. Full Studio expands the same page and preserves inputs. The graph is copied beside Quick when a supported local plan is prepared; native edits are not sent back automatically. Portable processors still expose their limits.
+
+Library and Guide now include thirty additional native workflow choices. Their compact page has media inputs, simple top-level prompt/node settings, per-workflow model inventory and an explicit handoff. Complex tracks, reference timelines, 3D controls and layout boxes remain editable in ComfyUI. Opening a native graph does not run it or download its models. All new graph results still require generation testing. See REMAINING-CHECKLIST.md for the larger training, scene editing and model quality work.
+
+Acceptance for 0.8.7: an actual two-second Wan shot and a 4.04-second Kokoro narration were created entirely from Quick in ComfyUI. The shot graph and image input appeared in a separate native tab. Full / Quick switching preserved the current prompt; Alt+Shift+F worked from both the canvas and the embedded workspace. The native 3D graph opened 66 nodes, with its missing models and newer-core requirements visible. No new model weights or paid generations were downloaded/run for this acceptance. All 236 project checks passed.

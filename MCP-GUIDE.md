@@ -134,3 +134,7 @@ Open **Video → Creative recipes** (`/recipes`) for performance variations, a p
 Canvas offers Qwen and installed FLUX 3 Image Klein. The FLUX masked graph crops the selection, generates the edit, resizes it to the crop and composites through the mask on the source grid. Native graph downloads include both image inputs and the mask. Proof measures actual changed pixels, not identity or visual quality.
 
 The source-reference recipe uses real decoded frames and your shot notes. It does not automatically understand video. Character/performance and motion-transfer quality remain subject to review.
+
+### Native graph additions, 0.8.7
+
+studio_workflows, studio_graph and workflow_requirements include the thirty new native workflow choices and their exact download manifests. nativeEditorRequired means prepare via the Quick native-workflow page and use ComfyUI's Run, rather than studio_prepare/studio_run. The bounded existing Studio generation graphs and media processors retain their usual tools. This release does not grant the MCP access to install models, launch training or run paid jobs automatically.

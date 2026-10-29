@@ -1,3 +1,4 @@
+import {NATIVE_WORKFLOWS} from './native-catalog.js';
 // Each graph appears once. Model and draft variants belong to a task, not another card.
 export const OUTCOMES=[
  {id:'performance-takes',title:'Compare performance takes',category:'video',symbol:'▷',summary:'Keep a character still and shared direction across three sequential takes.',input:'A character still + action notes',output:'Takes to compare',variants:['tool:performance-takes']},
@@ -96,6 +97,7 @@ export const TOOL_VARIANTS={
  transcribe:{label:'Local transcription processor',url:'/audio?tool=transcribe&start=transcribe',reviewed:true},
  dub:{label:'Local dubbing pipeline',url:'/audio?tool=dub&start=dub'}
 };
+for(const w of NATIVE_WORKFLOWS)OUTCOMES.push({id:w.id,category:w.category,title:w.title,summary:w.summary,input:w.input,output:w.output,symbol:w.category==='3d'?'⬡':w.category==='audio'?'♪':'◇',variants:[w.id]});
 export function outcomeCatalog(catalog,providers,{query='',category='all',location='all',openOnly=false}={}){
  const words=query.toLowerCase().trim().split(/\s+/).filter(Boolean);
  return OUTCOMES.map(task=>({...task,options:task.variants.flatMap(key=>{
@@ -104,5 +106,5 @@ export function outcomeCatalog(catalog,providers,{query='',category='all',locati
   const [,id,variant]=key.split(':'),w=providers.find(w=>w.id===id);if(!w)return [];
   const f=variant==='local'||w.execution==='local'?w.featured:w;if(!f||variant==='local'&&f.execution!=='local')return [];
   return [{key,label:f.model,execution:f.execution,search:[f.model,f.title,f.summary,f.input,f.output].filter(Boolean).join(' '),verification:f.execution==='local'?f.verification:null}];
- }).filter(v=>(!openOnly||v.execution==='local')&&(location==='all'||v.execution===location)&&words.every(word=>(task.title+' '+task.summary+' '+v.label+' '+v.search).toLowerCase().includes(word)))})).filter(t=>t.options.length&&(category==='all'||category===t.category));
+ }).filter(v=>(!openOnly||v.execution==='local'&&catalog.find(w=>w.id===v.key)?.openWeightsReviewed!==false)&&(location==='all'||v.execution===location)&&words.every(word=>(task.title+' '+task.summary+' '+v.label+' '+v.search).toLowerCase().includes(word)))})).filter(t=>t.options.length&&(category==='all'||category===t.category));
 }

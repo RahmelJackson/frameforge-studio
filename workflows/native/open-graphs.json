@@ -1,0 +1,143 @@
+[
+  {
+    "id": "prop-3d",
+    "sha256": "33c1d3ec7eb60ac87a47e1c6ff5d80d637bad4276381516859a2c89598720975",
+    "modelNames": [
+      "trellis_2_texture_vae_bf16.safetensors",
+      "dino_v3_L_naf_fp32.safetensors",
+      "trellis_2_shape_vae_bf16.safetensors",
+      "moge_2_vitl_normal_fp16.safetensors",
+      "birefnet.safetensors",
+      "trellis_2_int8_convrot.safetensors",
+      "pixal3d_int8_convrot.safetensors"
+    ]
+  },
+  {
+    "id": "prop-3d-multiview",
+    "sha256": "73ea0630b79b30c3e6525948b8e4c5ebd2e345b6d4ab177a709a8f518398055f",
+    "modelNames": [
+      "trellis_2_texture_vae_bf16.safetensors",
+      "dino_v3_L_naf_fp32.safetensors",
+      "trellis_2_shape_vae_bf16.safetensors",
+      "birefnet.safetensors",
+      "pixal3d_multiview_int8_convrot.safetensors"
+    ]
+  },
+  {
+    "id": "scene-depth",
+    "sha256": "d24f6ffefd383f094c7be07db912585ac817443b16055be4ceebe77c47be8528",
+    "modelNames": [
+      "moge_2_vitl_normal_fp16.safetensors"
+    ]
+  },
+  {
+    "id": "panorama-mesh",
+    "sha256": "1d8af6fc35d3d2026fe03ba55b8374db6f10a097ba46fed196f1d35d307926a0",
+    "modelNames": [
+      "moge_2_vitl_normal_fp16.safetensors"
+    ]
+  },
+  {
+    "id": "background-cutout",
+    "sha256": "d374e8dbb7f715d90600073cdad620a65515c4c12226ea20aedd28bbf91a8778",
+    "modelNames": [
+      "birefnet.safetensors"
+    ]
+  },
+  {
+    "id": "music-ace15",
+    "sha256": "d5ea83bbd5b8401c3ca065827388a8323ae75bc8d697d4663c1075b9bb10faca",
+    "modelNames": [
+      "ace_step_1.5_turbo_aio.safetensors"
+    ]
+  },
+  {
+    "id": "talking-photo",
+    "sha256": "40743a0c4868a13b948d19650845d6c163c860d5387097a043aac73ea7afda8d",
+    "modelNames": [
+      "umt5_xxl_fp8_e4m3fn_scaled.safetensors",
+      "wan_2.1_vae.safetensors",
+      "wav2vec2_large_english_fp16.safetensors",
+      "wan2.2_t2v_lightx2v_4steps_lora_v1.1_high_noise.safetensors",
+      "wan2.2_s2v_14B_fp8_scaled.safetensors"
+    ]
+  },
+  {
+    "id": "h3-text",
+    "sha256": "84c70f3483aba22581316bb18d38bd99ae26c10c6cd63028993f3e21e84c28d5",
+    "modelNames": [
+      "minimax_h3_video_vae_int8_convrot.safetensors",
+      "minimax_h3_audio_vae_fp32.safetensors",
+      "minimax_h3_fl2va_pruned_int8_convrot.safetensors",
+      "qwen3vl_32b_minimax_h3_nvfp4_awq.safetensors",
+      "minimax_h3_fl2v_turbo_8step_v1.0_comfyui_bf16.safetensors"
+    ]
+  },
+  {
+    "id": "h3-keyframes",
+    "sha256": "b205e403ae7bfc40e3a21618504bae007287c73783623df724b90b9284d4913d",
+    "modelNames": [
+      "minimax_h3_video_vae_int8_convrot.safetensors",
+      "minimax_h3_audio_vae_fp32.safetensors",
+      "minimax_h3_fl2va_pruned_int8_convrot.safetensors",
+      "qwen3vl_32b_minimax_h3_nvfp4_awq.safetensors",
+      "minimax_h3_fl2v_turbo_8step_v1.0_comfyui_bf16.safetensors"
+    ]
+  },
+  {
+    "id": "h3-references",
+    "sha256": "59436aa36e1cdfaee83725223cfb805d2842bc0f64697e4e0f771273a4705e9e",
+    "modelNames": [
+      "minimax_h3_video_vae_int8_convrot.safetensors",
+      "minimax_h3_audio_vae_fp32.safetensors",
+      "minimax_h3_ref2va_pruned_int8_convrot.safetensors",
+      "qwen3vl_32b_minimax_h3_nvfp4_awq.safetensors",
+      "minimax_h3_ref2v_turbo_4step_v0.1_comfyui_bf16.safetensors"
+    ]
+  },
+  {
+    "id": "h3-timeline",
+    "sha256": "684228658f0171ea70994f32b25a25ac7be074e57b7158146c2fcc45c67b3c8a",
+    "modelNames": [
+      "minimax_h3_video_vae_int8_convrot.safetensors",
+      "minimax_h3_audio_vae_fp32.safetensors",
+      "minimax_h3_ref2va_pruned_int8_convrot.safetensors",
+      "qwen3vl_32b_minimax_h3_nvfp4_awq.safetensors",
+      "minimax_h3_ref2v_turbo_4step_v0.1_comfyui_bf16.safetensors"
+    ]
+  },
+  {
+    "id": "h3-control",
+    "sha256": "c4a1e9e162be4de5b21b4bdb1dcad44ebca3c8f6022513444cd281f2ba77934b",
+    "modelNames": [
+      "minimax_h3_video_vae_int8_convrot.safetensors",
+      "minimax_h3_audio_vae_fp32.safetensors",
+      "minimax_h3_ref2va_pruned_int8_convrot.safetensors",
+      "qwen3vl_32b_minimax_h3_nvfp4_awq.safetensors",
+      "minimax_h3_ref2v_turbo_4step_v0.1_comfyui_bf16.safetensors",
+      "minimax_h3_fun_controlnet_union_pruned_int8_convrot.safetensors",
+      "sdpose_wholebody_fp16.safetensors",
+      "rt_detr_v4-x-hgnet_fp16.safetensors"
+    ]
+  },
+  {
+    "id": "flux3-create",
+    "sha256": "0d2a18705ee60456b978c42474404381bdf9931183db25d251f83a4533140448",
+    "modelNames": [
+      "qwen3.5_9b_flux3_prompt_upsampler_w4a8.safetensors",
+      "flux3-image-klein-int8-convrot.safetensors",
+      "qwen3vl_4b_int8_convrot.safetensors",
+      "flux2-vae.safetensors"
+    ]
+  },
+  {
+    "id": "flux3-references",
+    "sha256": "71edf7a4874fb7541311fc7cdecd51e9e80feee21833f862b486dfd788e1ef32",
+    "modelNames": [
+      "flux3-image-klein-int8-convrot.safetensors",
+      "qwen3vl_4b_int8_convrot.safetensors",
+      "flux2-vae.safetensors",
+      "qwen3.5_9b_flux3_prompt_upsampler_w4a8.safetensors"
+    ]
+  }
+]
