@@ -1,6 +1,6 @@
 {
   "version": 1,
-  "created": "2026-10-29T07:54:42.899Z",
+  "created": "2026-10-29T08:34:53.059Z",
   "files": [
     {
       "name": ".agents/plugins/marketplace.json",
@@ -99,8 +99,8 @@
     },
     {
       "name": "GITHUB-SETUP.md",
-      "bytes": 10702,
-      "sha256": "7aa4dc7e1e351dfdd61eb72ad6fdab048e43a5d0348d6fc97a343a0f85544e33"
+      "bytes": 10775,
+      "sha256": "87026396323ecff1f79dc308e315291ac9344d94ea710e720ca31dbd1b60b4f0"
     },
     {
       "name": "INTEGRATION-UPGRADE.md",
@@ -268,6 +268,11 @@
       "sha256": "b4c863cefa19f672914d58d8d261952cb85fa4e29ed1f37bf84028c1d41e4928"
     },
     {
+      "name": "lib/setup-installs.mjs",
+      "bytes": 2010,
+      "sha256": "4b433a922f08b0b120ed42f4ca955fdebf9122d8a55df5884dbe64f5366797b4"
+    },
+    {
       "name": "lib/short-film.mjs",
       "bytes": 4594,
       "sha256": "8e00979d796f14aa0ebdf55f222da89944bc2725994f7dd5f4185767206c22a4"
@@ -304,8 +309,8 @@
     },
     {
       "name": "lib/studio-setup.mjs",
-      "bytes": 3906,
-      "sha256": "6a8d965cf873f0035e2972b1b951e7ec9c0fbd15495756b2c096759f53e2796a"
+      "bytes": 3928,
+      "sha256": "ce92dea61ba6559fa95f90fde2fd4b1797176c11facdda1f13b1a49a629c9cbe"
     },
     {
       "name": "lib/style.mjs",
@@ -369,8 +374,8 @@
     },
     {
       "name": "lib/workspace.mjs",
-      "bytes": 12376,
-      "sha256": "6429b3bc18ec2b04ca0ada30b6756bd48529037bdf6ac933bfe99a9d94999869"
+      "bytes": 12402,
+      "sha256": "60045eb4c1b0c40057327501adb3af615cfcc2da420c18b089ff5377d5139ac6"
     },
     {
       "name": "LICENSE",
@@ -404,8 +409,8 @@
     },
     {
       "name": "package.json",
-      "bytes": 934,
-      "sha256": "b96b729ff213f4eb85cd2ac03b762eb43ff2a95f3d4bdab7d78a9d8be98d38d0"
+      "bytes": 1034,
+      "sha256": "60e523b8c38f67d7e9c4fc4aaaaa19987f4cab7ef9d2c777a822df854ad47cba"
     },
     {
       "name": "PLUGIN-ACCEPTANCE.md",
@@ -414,13 +419,13 @@
     },
     {
       "name": "PLUGIN-GUIDE.md",
-      "bytes": 7807,
-      "sha256": "6990b2cac920139184b3dc2ed7ff309b3327754409384032c1e7c6e307cf6a17"
+      "bytes": 8182,
+      "sha256": "f3b5ae686ff902c0619478932c8e276ab1d5c70eefb9c39b91ffa9c5096a2177"
     },
     {
       "name": "plugin.json",
       "bytes": 2479,
-      "sha256": "bafb44e0deeb7db390e15193f5ec8ef96022caf0e982b4622805ef5479e09417"
+      "sha256": "9aaa5622907b32e707f29e98471593321c66cf9850ba78f76c9e3973991cf142"
     },
     {
       "name": "public/advanced-workspaces.js",
@@ -780,7 +785,7 @@
     {
       "name": "public/mcp-app.js",
       "bytes": 55560,
-      "sha256": "23dc7d9dd08dc585251e910da5fa15afbbb27d545d052165f0d3762655d71fc3"
+      "sha256": "82d63d4bcff4a84a4b62aa53853769392e8db467962f46cd5e12420427c062d8"
     },
     {
       "name": "public/mcp-studio.css",
@@ -924,13 +929,13 @@
     },
     {
       "name": "public/setup.html",
-      "bytes": 7945,
-      "sha256": "cf064bc20b2f9545e7ab3338c2a5a96903154b0bc2336b90bcf8f665366a83df"
+      "bytes": 8001,
+      "sha256": "cef4cad12c61d862da715ae654938623bfa905090bb3422605342b19b7452f57"
     },
     {
       "name": "public/setup.js",
-      "bytes": 7987,
-      "sha256": "a3e5eefbb1b3eec79d61c2342e08d1c0b09511c1c010431a5c15e7e293a2bcdd"
+      "bytes": 8071,
+      "sha256": "7992bef6dd9b411f85463ecfabd14949fb9bd33dccd8364942d8ee9220a51178"
     },
     {
       "name": "public/short-film.css",
@@ -1058,6 +1063,21 @@
       "sha256": "c62c222f176b67ec6446633d645d886a34343fc1a1c21cd509f7b5c69ea492c1"
     },
     {
+      "name": "public/welcome.css",
+      "bytes": 4788,
+      "sha256": "285e7ccb99f67a1cce78ca1d363bc0fde0a0581d08bd8a7dbbfec498295dd719"
+    },
+    {
+      "name": "public/welcome.html",
+      "bytes": 6828,
+      "sha256": "11a13f98b21c7e1ddc3c505a5b921917f671f88ac7384b1f917ef320d63cbec2"
+    },
+    {
+      "name": "public/welcome.js",
+      "bytes": 5163,
+      "sha256": "0b8cc8f28a15c690ed6da1a0c23ea3039c47c8797de723a17a7ec0e2630f9747"
+    },
+    {
       "name": "public/workbench.css",
       "bytes": 7610,
       "sha256": "f6d514421be59e3f8d9f7ec83df2c95b4b4ae49fb3f3277f6e5d8801f8c0bc41"
@@ -1128,19 +1148,24 @@
       "sha256": "e531612af75bd1392dd92e9fc5a9b62f1856849e030ba6a4badcd8c2e987d14b"
     },
     {
+      "name": "QUICKSTART.md",
+      "bytes": 5416,
+      "sha256": "db0611591dbf7f11d52f5e6a2d3d2dbf8d7f504788cedcbb8af1b4e2b07b2d2c"
+    },
+    {
       "name": "README.md",
-      "bytes": 16163,
-      "sha256": "4c24243588ff040f8b61bacf8175f83997e30fa495d647d6bb5af0cd63047175"
+      "bytes": 17101,
+      "sha256": "292c0206aac6adc55030b0dce4695b033158eb5ed7ed173ae1c8c35d54d780d3"
     },
     {
       "name": "REMAINING-CHECKLIST.md",
-      "bytes": 63935,
-      "sha256": "28d0d61589114dc9e3303b7eee334546f81c0ff56af53f7245967e5025ee19d7"
+      "bytes": 65228,
+      "sha256": "e9a77ee3cc02e5888807efd6b6afe0ceeaba2aa92abbaadc714eae837bc04450"
     },
     {
       "name": "REVIEW-FIXES.md",
-      "bytes": 9069,
-      "sha256": "0f19b6e09a87e421c6df387e6941e95a032707c8235f82861e25384fc003fe10"
+      "bytes": 11104,
+      "sha256": "42bf051260c9e06a7468507adb6283a3073cd123ffb3c312fab362ef5c4e57af"
     },
     {
       "name": "scripts/acceptance-keyframes.mjs",
@@ -1338,6 +1363,11 @@
       "sha256": "376eb8e4ec3b95c73d7447570c4df7b42a2d08923358905a8b706c3a7eec13d1"
     },
     {
+      "name": "scripts/extract-runtime.ps1",
+      "bytes": 286,
+      "sha256": "29e97f48bf0854e3176981e88dc0d76ef864a62c768ce6b4df14309a8d784f57"
+    },
+    {
       "name": "scripts/face-neural.py",
       "bytes": 5740,
       "sha256": "72b88b52519a8e8c8dbc52673748326a40f7ab0cf01bb953cafecbf89fadb294"
@@ -1350,7 +1380,7 @@
     {
       "name": "scripts/frameforge-mcp.mjs",
       "bytes": 7550,
-      "sha256": "0efa6eb1a85c104e3a4b9d8c9aa52c3bdba8f5c62db55c131bd76a304997f7ed"
+      "sha256": "4086cb18e07726a7a1f9423ae7cb97e5101acbcd3e622fbbd67a8c2653115c3b"
     },
     {
       "name": "scripts/human_pose.py",
@@ -1391,6 +1421,11 @@
       "name": "scripts/lip_holds.py",
       "bytes": 479,
       "sha256": "cbe24910547795e2b8826ee1ac8dc923b1b709916bb1802e231327227f433439"
+    },
+    {
+      "name": "scripts/managed-python.mjs",
+      "bytes": 4636,
+      "sha256": "c9a787a84c2d63965e870e0b10e762d82424ad40f4993a5e6324e1324bd817da"
     },
     {
       "name": "scripts/mask-region.py",
@@ -1434,8 +1469,8 @@
     },
     {
       "name": "scripts/package-source.mjs",
-      "bytes": 5890,
-      "sha256": "e6035ab2ef63423121d19ebf5fefe223fcae9f99129b97f6af5eb9c87a471a0c"
+      "bytes": 5993,
+      "sha256": "8cbe27e0492323cebd92ae6847fac25f14dc1415d7b8e26e5ce6eee04040981e"
     },
     {
       "name": "scripts/pose_retarget.py",
@@ -1486,6 +1521,21 @@
       "name": "scripts/process-video.py",
       "bytes": 20314,
       "sha256": "53fc41afd24904722a591fecc807719525978523446e54312d1b3059c2f9fa84"
+    },
+    {
+      "name": "scripts/quickstart.mjs",
+      "bytes": 5138,
+      "sha256": "59fabaa913554c23c85972f65beffd816da77d87cff3622c273cfd984af26abd"
+    },
+    {
+      "name": "scripts/quickstart.ps1",
+      "bytes": 3819,
+      "sha256": "aeb6e06951988782c6effe6d2bbe685f8043cdc1d995d371be9b22a1e4b6643f"
+    },
+    {
+      "name": "scripts/quickstart.sh",
+      "bytes": 2250,
+      "sha256": "cde375b77b22e231972b0709703999702d8566f9a480bd10b6c887b9a1d139ef"
     },
     {
       "name": "scripts/render-film.py",
@@ -1579,8 +1629,8 @@
     },
     {
       "name": "scripts/setup-processor.mjs",
-      "bytes": 2802,
-      "sha256": "4c1e8bf3702d621e63b7473b84f9cf42e6b59c92b0aea3465e4386a38b9ed43c"
+      "bytes": 3384,
+      "sha256": "9f277688ddad69a8106a7d591e2ebe447cb81b13eec78d51e106473b861c17d5"
     },
     {
       "name": "scripts/setup-separation-model.py",
@@ -1899,8 +1949,8 @@
     },
     {
       "name": "server.mjs",
-      "bytes": 125186,
-      "sha256": "d6a75ca5b324993a85b57e1bafc00f90aabbc380364d4780c930587361b56817"
+      "bytes": 127078,
+      "sha256": "088c4b69fdbc475f7aa2778458fcbdd56beef4a03c3e94444a8e7eb160915a69"
     },
     {
       "name": "setup/advanced-models.lock.json",
@@ -2063,6 +2113,11 @@
       "sha256": "f0985397c99a10ac5960efc885abdd785beabcdc1eef518948b031767236992d"
     },
     {
+      "name": "setup/quickstart-runtime.lock.json",
+      "bytes": 1945,
+      "sha256": "a365455fdb23a030b2056362be67434521d6c29f2e0a4a393e486ef051b5724a"
+    },
+    {
       "name": "setup/requirements-audio.lock.txt",
       "bytes": 885,
       "sha256": "450e9d5b0303aa7734260bd74ca83f30972a6bc43e236bed1f1e4c660dea11d9"
@@ -2176,6 +2231,21 @@
       "name": "skills/setup/SKILL.md",
       "bytes": 2362,
       "sha256": "91d5c86086e9f46b6144bfb017e17e768c5d4878a8b261a190ddfa87c762bb48"
+    },
+    {
+      "name": "Start Frameforge.cmd",
+      "bytes": 142,
+      "sha256": "d218918f1d7902038400cd1532b140bda470b61bbb99e5e2ead9e7d4cda64603"
+    },
+    {
+      "name": "Start Frameforge.command",
+      "bytes": 103,
+      "sha256": "0a66b03af8070374357e7511ad2669b323889d0fac8e90fa2b289b2c95507110"
+    },
+    {
+      "name": "Stop Frameforge.cmd",
+      "bytes": 151,
+      "sha256": "54f95077e29022f65f26147b8f78fb6fdc8970093414c5dda3a83e865a08fbf1"
     },
     {
       "name": "tests/advanced-workflows.test.mjs",
@@ -2484,8 +2554,8 @@
     },
     {
       "name": "tests/portable-workspace.test.mjs",
-      "bytes": 6650,
-      "sha256": "fbc3fd0ca0c473188d72e5e38627b0990ecce7ba9cd813a1592ffa1589b3dd7e"
+      "bytes": 6665,
+      "sha256": "68b6d8b8b4f921be56888ddab1cef0c09321123c9ea74ac6cc0d9f342163fc54"
     },
     {
       "name": "tests/pose_retarget_check.py",
@@ -2506,6 +2576,11 @@
       "name": "tests/provider-workflows.test.mjs",
       "bytes": 14664,
       "sha256": "bff5f3374ef1f64551b7ea96f79cdf1f62ae0e6594099b5dcfaa368af8f0e283"
+    },
+    {
+      "name": "tests/quickstart.test.mjs",
+      "bytes": 6536,
+      "sha256": "060a695735cc0e9f66890e9385777d5774a8cbf0051eb0a56e73a6218c1a7df0"
     },
     {
       "name": "tests/relight_fixture.py",
@@ -2714,8 +2789,8 @@
     },
     {
       "name": "THIRD-PARTY-NOTICES.md",
-      "bytes": 3356,
-      "sha256": "9cf81048b2bbfd2d9877c2b515aa063ae9e28dd58d0d511c60166d36ff9ff02b"
+      "bytes": 3929,
+      "sha256": "347c980ca4b9c9f587b6c8ebe5829905f85fb95ff8dfb00bb74bb91d678d3e4d"
     },
     {
       "name": "workflows/bonus/api_bfl_flux3_i2v.json",

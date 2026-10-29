@@ -1,3 +1,5 @@
+> **Current setup · 0.8.11:** [Quick start](QUICKSTART.md) opens the full Studio without a system Node installation. The welcome page has ready-to-copy MCP connections for this actual folder and port. A client's MCP reconnect or plugin reload may still be needed; installing media tools inside Studio takes effect immediately. Native-panel support depends on the client.
+
 > **0.7.4:** Explore includes Civitai inspiration; Guide finds/chains workflows in the website and native MCP panel. Canvas Proof view shows actual changed pixels. Rough cut exports selected film clips without new generation. Video/audio ComfyUI return nodes and per-workflow download labels are included. Ten read-only MCP tools plus ten opt-in production tools. No paid generation is submitted automatically.
 
 > **0.7.4:** Adds the integrated local model runners and setup flow while retaining the compact visual studio and hidden surrounding client title strip.

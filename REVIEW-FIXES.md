@@ -1,3 +1,13 @@
+## Quick installer and first-run acceptance · 0.8.11
+
+The source now includes Windows Start/Stop files, a POSIX launcher for macOS/Linux and a Node quickstart command. A suitable installed Node is reused; otherwise the shell launcher fetches a version/checksum-pinned official runtime without administrator access or system PATH changes. Studio opens a new illustrated welcome flow with three setup paths and can run without ComfyUI, Python or weights for browsing and supported online graph preparation.
+
+Optional media/vision setup runs only the whitelisted isolated CPU profile after an explicit download click. A pinned uv helper can fetch managed Python. Package setup keeps ComfyUI untouched, reports errors, allows one installer at a time and updates the running Studio’s media interpreter on success. Arbitrary commands/arguments and cross-origin setup requests are refused; hosted mode blocks these setup endpoints. Cloud and Civitai still handle their own sign-in and payments. No keys were introduced.
+
+Actual Windows acceptance used a clean source copy and forced the private Node bootstrap. The official archive checksum passed. Its real in-app media installer downloaded private Python and the pinned packages, and uploads/check helpers became ready with the same server still running. An independent import check confirmed no Torch in that environment. No models, CUDA, ComfyUI installation or paid generation were involved. The first test caught a PowerShell module-discovery incompatibility; hashing and archive extraction now use built-in .NET APIs instead of those optional modules.
+
+245 regression tests passed locally, including clean launch, foreign-port avoidance, owned-process stop, setup-action allowlisting and retry, source packaging and previous MCP compatibility. Existing local generation readiness was preserved. macOS/Linux scripts have reviewed platform pins and paths but need native acceptance; advanced GPU processor installation and provider account-side generation remain outside this claim.
+
 ## GitHub installation and integration audit · 0.8.10
 
 The clean source download now starts with no personal configuration, model files, Python environments or optional storage folders. Tested an exact package copy in a different directory, selected another ComfyUI model folder containing spaces, and verified the choice persisted. The audit did not download weights or start paid generation.

@@ -4,13 +4,13 @@ Frameforge is a local web interface over your own ComfyUI. The source includes w
 
 ## Start the interface
 
-1. Install Node.js 22 or newer from https://nodejs.org/en/download.
-2. Download/extract the source, or clone your published repository.
-3. In the Frameforge folder run `npm start`. There are no npm dependencies to install.
-4. Open http://127.0.0.1:4317 and choose **Setup & models**.
-5. Install/start ComfyUI from https://www.comfy.org/download, or connect your existing local installation. Enter its local address in Setup. Common ports are 8188 and 8000; use the address of your actual installation.
-6. To upload and verify images/video **inside the studio**, install Python 3.12 and run `npm run setup:media`, then restart the studio. This adds only PyAV, NumPy and Pillow; it does not install ComfyUI, Torch or model weights. For another drive set `STUDIO_MEDIA_ENV` to the desired environment folder before running it. Graph downloads and external native-editor/Cloud handoffs work without this helper environment.
-7. Select a workflow. Setup reports the model names and node types advertised by that ComfyUI. Download missing files from the provided sources, read their terms, place them in the listed folders, refresh/restart ComfyUI and check again.
+The easiest route is [Quick start](QUICKSTART.md): extract the source ZIP and open **Start Frameforge.cmd** on Windows, or **Start Frameforge.command** on macOS/Linux. The launcher can fetch a checksum-verified private Node runtime. The welcome page offers existing ComfyUI, fresh ComfyUI installation and online-only paths. No GPU or weights are needed just to browse.
+
+If you already have Node.js 22+, run `npm run quickstart`. `npm start` still serves the plain website. There are no npm dependencies to install.
+
+For local media imports, previews and export checks, use **Install media tools** on the welcome page. This can fetch private Python 3.12 through a pinned uv helper and installs only the CPU media profile. Completion updates the running Studio immediately. The command-line alternative is `npm run setup:media`; restart a previously running Studio after an external installation. Extract Frameforge onto the drive where you want its runtime and saved work to live.
+
+Choose a workflow, review the missing-model list, select the existing model directory your ComfyUI scans, accept its terms and download only that workflow’s required missing files. Installing CPU helpers does not download weights or GPU packages.
 
 The website can browse workflows without a GPU. Generation still depends on the selected model, hardware and installed nodes. Setup checks names, not model hashes, GPU memory fit or creative quality. `workflows/models.json` includes SHA-256 values for manual verification. External model folders, including another drive, are configured inside ComfyUI, not copied into this repository.
 

@@ -1,3 +1,4 @@
+import {SetupInstalls,installationId} from './lib/setup-installs.mjs';
 import {configuredModelRoot,resolveSetupPaths} from './lib/workspace-paths.mjs';
 import {ComfyStudioViews} from './lib/comfy-studio.mjs';
 import {CreativeStore,CREATIVE_RECIPES,recipeRequests,motionAdvice} from './lib/creative-recipes.mjs';
@@ -107,10 +108,11 @@ for (const id of await readdir(path.join(DATA, 'jobs'))) {
     jobs.set(job.id, job);
   } catch { /* Non-job folders are not part of the queue. */ }
 }
-const visionPython=path.join(ROOT,'runtime','vision-env','Scripts','python.exe');
-const facePython=path.join(ROOT,'runtime','facefusion-env','Scripts','python.exe');
+const envPython=name=>path.join(ROOT,'runtime',name,...(process.platform==='win32'?['Scripts','python.exe']:['bin','python']));
+const visionPython=envPython('vision-env');
+const facePython=envPython('facefusion-env');
 async function selectionReady(){try{const models=(await readSetupLock('advanced-models.lock.json')).filter(x=>x.group==='clothing');for(const item of models)await stat(path.join(ROOT,item.path));return {ready:models.length===3,researchOnly:true};}catch{return {ready:false};}}
-const stylePython=path.join(ROOT,'runtime','audio-env','Scripts','python.exe');
+const stylePython=envPython('audio-env');
 async function styleReady(mode='layers'){try{await stat(stylePython);const check=async file=>{const lock=await readSetupLock(file);for(const item of [lock.base,...lock.files])if((await stat(item.path)).size!==item.bytes)throw Error('Pinned style file missing or truncated.');};await check(mode==='subtract'?'style-content-models.lock.json':'style-models.lock.json');let contentReady=false;try{await check('style-content-models.lock.json');contentReady=true;}catch{}return {ready:true,contentReady,cardsLimit:16};}catch{return {ready:false,contentReady:false,error:'Download the local style adapter and encoder for this workflow first.'};}}
 async function startStyleImage(job){
  try{job.status='processing';await save(job);await comfy.releaseIdle();if(job.status==='cancelling')throw Error('Cancelled.');
@@ -143,7 +145,7 @@ function imageExtension(buffer) {
   throw new Error('Upload a PNG, JPEG, or WebP image.');
 }
 async function inspectImage(filename,mask=false){
-  try{await stat(config.python);}catch{throw Error('Studio media tools are missing. Open Setup & models, run npm run setup:media, then restart the studio. You can still download a graph for your own ComfyUI editor.');}
+  try{await stat(config.python);}catch{throw Error('Studio media tools are missing. Open Get started and install the optional media tools. You can still download a graph for your own ComfyUI editor.');}
   return new Promise((resolve,reject)=>{
     const child=spawn(config.python,[path.join(ROOT,'scripts/inspect-image.py'),filename,...(mask?['--mask']:[])],{windowsHide:true});
     let output='';child.stdout.on('data',chunk=>output+=chunk);child.stderr.resume();
@@ -453,6 +455,8 @@ const assistantTools=createAssistantTools({root:ROOT,comfy,policy:executionPolic
 const assistantConnection=await new AssistantConnection(path.join(DATA,'assistant-connection.json')).open();
 const studioAssistant=new StudioAssistant({tools:assistantTools,getConnection:()=>assistantConnection.value});
 const comfyStudioViews=new ComfyStudioViews();
+const quickVersion=JSON.parse(await readFile(path.join(ROOT,'package.json'),'utf8')).version;
+const setupInstalls=new SetupInstalls({root:ROOT,onComplete:async()=>{try{const next=JSON.parse(await readFile(path.join(ROOT,'config.local.json'),'utf8'));if(next.python)config.python=next.python;}catch(error){if(error.code!=='ENOENT')throw error;}}});
 const server = http.createServer(async (req, res) => {
   try {
     const listeningPort=server.address()?.port??PORT;
@@ -466,6 +470,11 @@ const server = http.createServer(async (req, res) => {
     res.setHeader('Content-Security-Policy', "default-src 'self'; img-src 'self' blob:"+communityMedia+"; media-src 'self' blob:"+communityMedia+"; script-src 'self'; style-src 'self'; connect-src 'self'; object-src 'none'; frame-ancestors "+(workflowFrame?"'self'":"'none'"));
     const route = url.pathname;
     if(HOSTED_MODE&&(['/api/setup/connection','/api/setup/detect','/api/storage','/api/assistant/detect','/api/assistant/mcp-config','/api/assistant/tools'].includes(route)||route==='/api/assistant/connection'&&req.method!=='GET'))return json(res,403,{error:'Machine settings are managed by the demo creator. Download Frameforge to connect your own engine and assistant.'});
+    if(route.startsWith('/api/quickstart')&&HOSTED_MODE)return json(res,403,{error:'Software setup belongs to your own local installation.'});
+    if(route==='/api/quickstart'&&req.method==='GET')return json(res,200,{app:'frameforge',version:quickVersion,quickstartComplete:config.quickstartComplete===true,platform:process.platform,arch:process.arch,pid:process.pid,installationId:installationId(ROOT),canStop:!setupInstalls.running&&!audioStudio.busy()&&![...jobs.values()].some(j=>['processing','uploading','submitting','submitted','running','cancelling','verifying'].includes(j.status)),installs:setupInstalls.describe()});
+    if(route==='/api/quickstart/finish'&&req.method==='POST'){const input=await readJson(req,1000);if(input.complete!==true||Object.keys(input).some(key=>key!=='complete'))throw Error('Choose Open my Studio to finish setup.');config.quickstartComplete=true;await writeFile(path.join(ROOT,'config.local.json'),JSON.stringify(config,null,2));return json(res,200,{complete:true});}
+    if(route==='/api/quickstart/check'&&req.method==='GET'){const [media,vision]=await Promise.all([mediaRuntime(config.python),mediaRuntime(visionPython,'cv2,mediapipe,numpy,PIL')]);return json(res,200,{media,vision});}
+    if(route==='/api/quickstart/install'&&req.method==='POST')return json(res,202,{installs:await setupInstalls.start(await readJson(req,2000))});
     const openOnly=executionPolicy.enabled||req.headers['x-frameforge-open-weights-only']==='1';
     if(route==='/api/execution-policy'&&req.method==='GET')return json(res,200,{...executionPolicy.describe(),...(openOnly?{openWeightsOnly:true,profile:'open-weights-only'}:{})});
     if(route==='/api/execution-policy'&&req.method==='POST'){const input=await readJson(req,2000);if([...jobs.values()].some(j=>['processing','uploading','submitting','submitted','running','verifying'].includes(j.status))||audioStudio.busy())throw Error('Wait for the current media job before changing the profile.');return json(res,200,await executionPolicy.set(input.openWeightsOnly));}
@@ -475,7 +484,7 @@ const server = http.createServer(async (req, res) => {
     if(route==='/api/assistant/detect'&&req.method==='GET')return json(res,200,await detectAssistantServers());
     if(!HOSTED_MODE&&(req.headers['x-frameforge-client']==='mcp'||route==='/api/assistant/tools')&&route.startsWith('/api/'))lastMCPRequest=new Date().toISOString();
     if(route==='/api/assistant/agent-status'&&req.method==='GET')return json(res,200,{lastRequestAt:lastMCPRequest,connected:!!lastMCPRequest&&Date.now()-Date.parse(lastMCPRequest)<120000,verification:'A recent MCP tool request reached this Studio. This is activity, not proof that the client remains open.'});
-    if(route==='/api/assistant/mcp-config'&&req.method==='GET')return json(res,200,agentMCPConfig({client:url.searchParams.get('client'),root:ROOT,base:'http://127.0.0.1:'+PORT,writes:url.searchParams.get('writes')==='1',openWeightsOnly:openOnly||url.searchParams.get('open')==='1'}));
+    if(route==='/api/assistant/mcp-config'&&req.method==='GET')return json(res,200,agentMCPConfig({client:url.searchParams.get('client'),root:ROOT,base:'http://127.0.0.1:'+listeningPort,writes:url.searchParams.get('writes')==='1',openWeightsOnly:openOnly||url.searchParams.get('open')==='1'}));
     if(route==='/api/assistant/models'&&req.method==='GET')return json(res,200,{...await assistantModels(fetch,assistantConnection.value),inferenceEnabled:!openOnly});
     if(route==='/api/assistant/chat'&&req.method==='POST'){const input=await readJson(req,16000);return json(res,200,await studioAssistant.ask(openOnly||HOSTED_MODE?{...input,model:null}:input));}
     if(route==='/api/assistant/tools'&&req.method==='GET')return json(res,200,ASSISTANT_TOOLS);
@@ -894,7 +903,7 @@ const server = http.createServer(async (req, res) => {
     Object.assign(publicFiles,{'/short-film':'short-film.html','/short-film.js':'short-film.js','/short-film.css':'short-film.css','/video-playback.js':'video-playback.js'});
     Object.assign(publicFiles,{'/workflows':'workflows.html','/workflows.js':'workflows.js','/workflows.css':'workflows.css','/workflow-graph.js':'workflow-graph.js','/provider-workflows.js':'provider-workflows.js','/provider-workflows.css':'provider-workflows.css'});
     Object.assign(publicFiles,{'/library':'saved-library.html','/saved-library.js':'saved-library.js','/saved-library-page.js':'saved-library-page.js','/saved-library.css':'saved-library.css','/workflow-help.js':'workflow-help.js'});
-    Object.assign(publicFiles,{'/frameforge.svg':'../assets/frameforge.svg','/online':'online.html','/online.js':'online.js','/online.css':'online.css','/online-handoff.js':'online-handoff.js','/setup':'setup.html','/workspace-intros.js':'workspace-intros.js','/model-downloads.js':'model-downloads.js','/setup.js':'setup.js','/setup-prompt.js':'setup-prompt.js','/setup.css':'setup.css','/assistant.js':'assistant.js','/assistant-connection.js':'assistant-connection.js','/assistant.css':'assistant.css','/workspace-art.css':'workspace-art.css'});
+    Object.assign(publicFiles,{'/frameforge.svg':'../assets/frameforge.svg','/online':'online.html','/online.js':'online.js','/online.css':'online.css','/online-handoff.js':'online-handoff.js','/setup':'setup.html','/workspace-intros.js':'workspace-intros.js','/model-downloads.js':'model-downloads.js','/setup.js':'setup.js','/setup-prompt.js':'setup-prompt.js','/setup.css':'setup.css','/welcome':'welcome.html','/welcome.js':'welcome.js','/welcome.css':'welcome.css','/assistant.js':'assistant.js','/assistant-connection.js':'assistant-connection.js','/assistant.css':'assistant.css','/workspace-art.css':'workspace-art.css'});
     Object.assign(publicFiles,{'/execution-policy.js':'execution-policy.js','/execution-policy.css':'execution-policy.css','/mcp-app':'mcp-app.html','/mcp-workflow-inputs.js':'mcp-workflow-inputs.js','/mcp-app.js':'mcp-app.js','/mcp-app.css':'mcp-app.css'});
     Object.assign(publicFiles,{'/comfy-handoff.js':'comfy-handoff.js','/workflow-panel.js':'workflow-panel.js','/workflow-panel.css':'workflow-panel.css'});
     for(const name of ['compass','moon','character','knight','robot','bicycle'])publicFiles['/explore-art/'+name+'.svg']='explore-art/'+name+'.svg';

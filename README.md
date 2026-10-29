@@ -1,8 +1,8 @@
-> **0.8.10:** Portable model locations, fresh-install storage checks and MCP resource compatibility. The website, ComfyUI extension and native MCP panel share the consolidated workspaces.
+> **0.8.11:** Download, extract and click Start Frameforge. Verified private runtime, guided first run, optional one-button Python/media setup and ready-to-copy assistant connections.
 
 # Frameforge
 
-Release **0.8.10** includes per-workflow downloads, local LTX/H3/FLUX execution, SAM selection, Quick and full ComfyUI views, and a tested 3D prop pipeline. See [the integration guide](INTEGRATION-UPGRADE.md) for tested profiles and remaining work.
+Release **0.8.11** includes per-workflow downloads, local LTX/H3/FLUX execution, SAM selection, Quick and full ComfyUI views, and a tested 3D prop pipeline. See [the integration guide](INTEGRATION-UPGRADE.md) for tested profiles and remaining work.
 
 **An open-source creative studio inspired by Higgsfield, built around ComfyUI workflows.**
 
@@ -64,23 +64,25 @@ This entry is being prepared for the Comfy Open Source Higgsfield challenge. [Su
 
 Cloud and Civitai generation happen on those services. Frameforge does not store provider credentials, upload your media or spend credits. Reference-based Cloud starter graphs require replacing example inputs; native graphs require matching nodes/models in the destination environment. A Civitai brief is a text handoff, not an importable ComfyUI graph.
 
-## Quick start
+## Start in a few clicks
 
-Install [Node.js 22 or newer](https://nodejs.org/en/download), then:
+1. [Download the source ZIP](https://github.com/RahmelJackson/frameforge-studio/archive/refs/heads/main.zip) and extract the entire folder.
+2. **Windows:** double-click **Start Frameforge.cmd**. **macOS/Linux:** open **Start Frameforge.command**, or run `sh 'Start Frameforge.command'` if executable permissions were not preserved.
+3. Pick **I have ComfyUI**, **I’m starting fresh**, or **I’ll create online** on the welcome page.
+
+The launcher reuses Node.js 22+ or downloads a pinned, checksum-verified private runtime. It does not require admin access or global npm packages. Keep the extracted folder for future launches. Windows is locally tested; the macOS/Linux launchers and dependency paths still need native-system acceptance.
+
+For uploads, previews and export checks, click **Install media tools**. If Python is missing, setup fetches a private managed Python and the pinned CPU packages. A completed in-app install becomes available without restarting Studio. No model weights, Torch, CUDA or ComfyUI packages are included. Model downloads stay beside the selected workflow and require their own review.
+
+Use **Stop Frameforge.cmd** to close an idle Studio started by this folder. It refuses while generation or setup is running and leaves ComfyUI alone. For manual Node installations:
 
     git clone https://github.com/RahmelJackson/frameforge-studio.git
     cd frameforge-studio
-    npm start
+    npm run quickstart
 
-Open **http://127.0.0.1:4317** and choose a setup path. The interface has no npm dependencies to install. Browse workflows and prepare supported online graphs before connecting a local engine.
+`npm start` remains available for a plain local server. `npm run setup:media` installs isolated media helpers from a terminal; restart an already-running Studio afterward. Advanced GPU speech, segmentation and finishing processors retain their separate platform and hardware requirements.
 
-For uploads and media checks **inside the studio**, install [Python 3.12](https://www.python.org/downloads/) and run:
-
-    npm run setup:media
-
-Restart the studio afterward. This installs only CPU media helpers, not ComfyUI, Torch or model weights. Advanced speech, segmentation and finishing tools have separate setup requirements. Local generation needs the selected recipe's hardware, models and nodes. The full bundled-engine setup scripts target Windows; the Node interface and external handoffs do not require that installation.
-
-See [the detailed setup guide](GITHUB-SETUP.md) for model folders, another drive, optional local AI and MCP configuration.
+Read [Quick start and recovery](QUICKSTART.md) or [the detailed setup guide](GITHUB-SETUP.md). Runtime download sources are pinned in `setup/quickstart-runtime.lock.json`. Private runtime files, model weights and personal settings stay out of GitHub.
 
 ## How the pieces fit
 

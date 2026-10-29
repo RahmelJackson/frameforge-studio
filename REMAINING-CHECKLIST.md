@@ -1,3 +1,12 @@
+## Guided quick installer · release 0.8.11
+
+- [x] Start/Stop launchers, automatic verified private Node bootstrap and guided welcome page. Existing ComfyUI, new ComfyUI and online-only paths are distinct.
+- [x] One-button isolated media/vision CPU profiles with visible progress and a managed Python option. No model weights or GPU packages are installed by these buttons. In-app completion refreshes the media configuration without a Studio restart.
+- [x] Actual fresh Windows copy used the downloaded private Node, downloaded private Python and pinned media packages. CPU imports passed, Torch was absent and the running Studio reported media tools ready without restarting.
+- [x] Ready-to-copy assistant connections, ComfyUI extension download, safe idle stop, occupied-port handling and guarded setup actions. 245 tests passed locally.
+- [ ] Native macOS/Linux launcher and package-wheel acceptance. Cross-platform launchers and environment paths are included, but this machine cannot establish native compatibility.
+- [ ] Advanced GPU processor installers and provider-account acceptance retain their separate requirements. Custom Cloud App Mode links need owner publication; no paid runs were started. Client-side plugin reconnect/reload remains under the client’s control.
+
 ## Fresh-download audit · release 0.8.10
 
 - [x] Optional model paths resolve against the chosen ComfyUI model folder, rather than a developer-specific drive. This computer’s existing storage selection is preserved in ignored configuration.

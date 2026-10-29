@@ -1,10 +1,13 @@
 {
   "name": "frameforge-local",
-  "version": "0.8.10",
+  "version": "0.8.11",
   "private": true,
   "license": "MIT",
   "description": "An open-source creative studio inspired by Higgsfield, built around ComfyUI workflows.",
-  "repository": {"type":"git","url":"https://github.com/RahmelJackson/frameforge-studio.git"},
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/RahmelJackson/frameforge-studio.git"
+  },
   "type": "module",
   "scripts": {
     "start": "node server.mjs",
@@ -12,12 +15,15 @@
     "mcp": "node scripts/frameforge-mcp.mjs",
     "start:open": "node scripts/start-open.mjs",
     "assistant:start": "node scripts/start-assistant.mjs",
-    "setup:media": "node scripts/setup-media.mjs",
+    "setup:media": "node scripts/setup-processor.mjs media --managed --install",
     "test": "node --test tests/*.test.mjs",
     "verify": "node scripts/verify-loop.mjs",
     "verify:images": "node scripts/verify-images.mjs",
     "verify:video": "node scripts/verify-video-workflows.mjs",
-    "verify:continuity": "node scripts/verify-continuity.mjs"
+    "verify:continuity": "node scripts/verify-continuity.mjs",
+    "quickstart": "node scripts/quickstart.mjs"
   },
-  "engines": { "node": ">=22" }
+  "engines": {
+    "node": ">=22"
+  }
 }

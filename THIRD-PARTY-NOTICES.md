@@ -1,3 +1,7 @@
+## Optional quick-launch runtimes
+
+The quick launcher downloads Node.js from its official archive only when a suitable installation is missing. The optional managed CPU setup downloads uv from Astral's official GitHub releases, then uv-managed CPython from python-build-standalone and pinned packages from PyPI. These runtimes are not bundled in the source release. Their licenses and notices remain with the downloaded software. Node.js, uv, CPython and each package retain their own terms; see setup/quickstart-runtime.lock.json and QUICKSTART.md for sources and scope.
+
 # Third-party sources and separate installations
 
 Frameforge's original interface and adapters are licensed under the MIT License in the root `LICENSE` file. Third-party material retains its own license; the root license does not replace the notices listed below.
