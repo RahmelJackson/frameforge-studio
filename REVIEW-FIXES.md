@@ -1,3 +1,10 @@
+## Model storage and ComfyUI reuse · release 0.8.12
+
+- [x] The workflow download panel explicitly offers the ComfyUI models folder or a shared model folder. It remembers the choice and disables downloads while an edited destination remains unsaved.
+- [x] Shared-folder configuration export preserves Windows/macOS/Linux paths and common model folder aliases. It is a mergeable configuration entry; existing ComfyUI settings are never overwritten and choosing a folder does not automatically register it.
+- [x] Each listed file shows its destination for new downloads, while existing ComfyUI models are reused from their current folders. Standalone Python processor weights show their separate runtime location, can download without an unrelated ComfyUI model folder, and are not presented as automatically loadable by ComfyUI.
+- [x] Existing files remain in place. Folder choice, YAML export and download target regressions passed without downloading model weights.
+
 ## Quick installer and first-run acceptance · 0.8.11
 
 The source now includes Windows Start/Stop files, a POSIX launcher for macOS/Linux and a Node quickstart command. A suitable installed Node is reused; otherwise the shell launcher fetches a version/checksum-pinned official runtime without administrator access or system PATH changes. Studio opens a new illustrated welcome flow with three setup paths and can run without ComfyUI, Python or weights for browsing and supported online graph preparation.

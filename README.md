@@ -1,8 +1,8 @@
-> **0.8.11:** Download, extract and click Start Frameforge. Verified private runtime, guided first run, optional one-button Python/media setup and ready-to-copy assistant connections.
+> **0.8.12:** Model downloads visibly offer the ComfyUI models folder or a shared folder, with exact destinations and a shared-path configuration export. Quick launch remains available.
 
 # Frameforge
 
-Release **0.8.11** includes per-workflow downloads, local LTX/H3/FLUX execution, SAM selection, Quick and full ComfyUI views, and a tested 3D prop pipeline. See [the integration guide](INTEGRATION-UPGRADE.md) for tested profiles and remaining work.
+Release **0.8.12** includes per-workflow downloads, local LTX/H3/FLUX execution, SAM selection, Quick and full ComfyUI views, and a tested 3D prop pipeline. See [the integration guide](INTEGRATION-UPGRADE.md) for tested profiles and remaining work.
 
 **An open-source creative studio inspired by Higgsfield, built around ComfyUI workflows.**
 

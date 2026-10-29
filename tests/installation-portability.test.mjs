@@ -46,9 +46,9 @@ test('An exact public source download starts without private files and remembers
   for(const endpoint of ['/','/images','/create','/audio','/library','/advanced','/setup','/api/audio-catalog','/api/model-downloads'])assert.equal((await fetch(base+endpoint)).status,200,endpoint);
   assert.equal((await(await fetch(base+'/api/audio-catalog')).json()).ready,false);
   const models=path.join(directory,'a different ComfyUI','models');await mkdir(models,{recursive:true});
-  response=await fetch(base+'/api/model-downloads/storage',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({models})});assert.equal(response.status,200,await response.text());
+  response=await fetch(base+'/api/model-downloads/storage',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({models,kind:'shared'})});assert.equal(response.status,200,await response.text());
   assert.equal((await(await fetch(base+'/api/storage')).json()).extraModels,models);
-  assert.equal(JSON.parse(await readFile(path.join(directory,'config.local.json'),'utf8')).modelRoot,models);
+  assert.equal(JSON.parse(await readFile(path.join(directory,'config.local.json'),'utf8')).modelRoot,models);assert.equal((await(await fetch(base+'/api/model-downloads')).json()).storageMode,'shared');const invalid=await fetch(base+'/api/model-downloads/storage',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({models,kind:'unsupported'})});assert.equal(invalid.status,400);
  }finally{
   if(child&&child.exitCode===null){const stopped=once(child,'exit');child.kill();await stopped;}
   assert.ok(path.resolve(directory).startsWith(path.resolve(tmpdir())+path.sep));await rm(directory,{recursive:true,force:true});

@@ -1,6 +1,6 @@
 {
   "version": 1,
-  "created": "2026-10-29T08:34:53.059Z",
+  "created": "2026-10-29T09:13:50.133Z",
   "files": [
     {
       "name": ".agents/plugins/marketplace.json",
@@ -99,8 +99,8 @@
     },
     {
       "name": "GITHUB-SETUP.md",
-      "bytes": 10775,
-      "sha256": "87026396323ecff1f79dc308e315291ac9344d94ea710e720ca31dbd1b60b4f0"
+      "bytes": 11326,
+      "sha256": "4487ebd21696d187b9a029241dd405139e81dc94ef33d3116a9178c442a969ad"
     },
     {
       "name": "INTEGRATION-UPGRADE.md",
@@ -410,7 +410,7 @@
     {
       "name": "package.json",
       "bytes": 1034,
-      "sha256": "60e523b8c38f67d7e9c4fc4aaaaa19987f4cab7ef9d2c777a822df854ad47cba"
+      "sha256": "96db95041c198e21f2736416dd772991261828e21bad42dd0002873d5763f1f2"
     },
     {
       "name": "PLUGIN-ACCEPTANCE.md",
@@ -425,7 +425,7 @@
     {
       "name": "plugin.json",
       "bytes": 2479,
-      "sha256": "9aaa5622907b32e707f29e98471593321c66cf9850ba78f76c9e3973991cf142"
+      "sha256": "de47e2dc021970b0038b25991e0e7c03fd5bbb0f441a70767baf0aaaedfcb969"
     },
     {
       "name": "public/advanced-workspaces.js",
@@ -785,7 +785,7 @@
     {
       "name": "public/mcp-app.js",
       "bytes": 55560,
-      "sha256": "82d63d4bcff4a84a4b62aa53853769392e8db467962f46cd5e12420427c062d8"
+      "sha256": "63b5c5d4cf4b760aec2b75b1e049093d2534223634fafc5acd24c5191fc28cf9"
     },
     {
       "name": "public/mcp-studio.css",
@@ -809,8 +809,8 @@
     },
     {
       "name": "public/model-downloads.js",
-      "bytes": 6474,
-      "sha256": "9d4b5fe13105f35bdeaf90e644be9cbc2cc52be2b453fea19395db69b03eb1ff"
+      "bytes": 11549,
+      "sha256": "77f68d2d4f2a588c2ac39ee8600b085b043b1f950dd164439d154df4353e600e"
     },
     {
       "name": "public/my-work.css",
@@ -1054,8 +1054,8 @@
     },
     {
       "name": "public/visual-workspaces.css",
-      "bytes": 17880,
-      "sha256": "2bd1eab9c0118a5ac68d2655dc4e47c2a1936e22e6d84a2158775781d65530b6"
+      "bytes": 18685,
+      "sha256": "2522d4ecf185123d3fbfb3716f07722a280c512c744f75c2532d3d211027daad"
     },
     {
       "name": "public/visual-workspaces.js",
@@ -1149,23 +1149,23 @@
     },
     {
       "name": "QUICKSTART.md",
-      "bytes": 5416,
-      "sha256": "db0611591dbf7f11d52f5e6a2d3d2dbf8d7f504788cedcbb8af1b4e2b07b2d2c"
+      "bytes": 5641,
+      "sha256": "1b7ef44f960162d0cbc3ed2596d693696ca2e30ae121509b85276197448d8348"
     },
     {
       "name": "README.md",
-      "bytes": 17101,
-      "sha256": "292c0206aac6adc55030b0dce4695b033158eb5ed7ed173ae1c8c35d54d780d3"
+      "bytes": 17103,
+      "sha256": "d4f4b320c69ba7d50ac89e5960ce1bb3253523f342fcd527e23d64eafd657339"
     },
     {
       "name": "REMAINING-CHECKLIST.md",
-      "bytes": 65228,
-      "sha256": "e9a77ee3cc02e5888807efd6b6afe0ceeaba2aa92abbaadc714eae837bc04450"
+      "bytes": 66203,
+      "sha256": "d1d405edd0c73fee9533e6d5db7859abef1f47e2d632cb68f510d399ea2a405e"
     },
     {
       "name": "REVIEW-FIXES.md",
-      "bytes": 11104,
-      "sha256": "42bf051260c9e06a7468507adb6283a3073cd123ffb3c312fab362ef5c4e57af"
+      "bytes": 12072,
+      "sha256": "04dfb943a3725681389fac373ffd7b1ab6d4e42e229d4a35da594e83a9adc6e9"
     },
     {
       "name": "scripts/acceptance-keyframes.mjs",
@@ -1380,7 +1380,7 @@
     {
       "name": "scripts/frameforge-mcp.mjs",
       "bytes": 7550,
-      "sha256": "4086cb18e07726a7a1f9423ae7cb97e5101acbcd3e622fbbd67a8c2653115c3b"
+      "sha256": "dbc914691489cbe3804b1f045979303081ee89a9776007840b488b5b7b1b4c8b"
     },
     {
       "name": "scripts/human_pose.py",
@@ -1949,8 +1949,8 @@
     },
     {
       "name": "server.mjs",
-      "bytes": 127078,
-      "sha256": "088c4b69fdbc475f7aa2778458fcbdd56beef4a03c3e94444a8e7eb160915a69"
+      "bytes": 127251,
+      "sha256": "a1d8abc1caa0dfe4eb76b576f16f965edc71742f98a9408ede859cab62319d72"
     },
     {
       "name": "setup/advanced-models.lock.json",
@@ -2469,8 +2469,8 @@
     },
     {
       "name": "tests/installation-portability.test.mjs",
-      "bytes": 6616,
-      "sha256": "e8192325e538aaaca0487bad60375ca1e369289a6f84e20a8a1a55aa09078eb3"
+      "bytes": 6927,
+      "sha256": "8708d8b52d9c4ad135c9186b79ce5421a4449a28816d4a0eec478d633a7a1322"
     },
     {
       "name": "tests/integration-upgrades.test.mjs",
@@ -2536,6 +2536,11 @@
       "name": "tests/merged-workspaces.test.mjs",
       "bytes": 6183,
       "sha256": "78cc1e41c62bd6a9a2dc79b44f1619f4a09bd7e779cd479cdf79ea606f2861c2"
+    },
+    {
+      "name": "tests/model-storage-choice.test.mjs",
+      "bytes": 3122,
+      "sha256": "7a7b4dc45a6570e1618e49340a3563c45cdf06b56da1a7327e7781689c10f2f7"
     },
     {
       "name": "tests/native-workflows.test.mjs",

@@ -18,7 +18,7 @@ With Node already available, `npm run quickstart` works on all supported platfor
 
 ## Choose your path
 
-1. **Already use ComfyUI:** start it, choose **I have ComfyUI**, find the running engine and connect. Existing weights stay in place. Beside your selected workflow, check the model list and download only its missing files into the model folder your ComfyUI scans.
+1. **Already use ComfyUI:** start it, choose **I have ComfyUI**, find the running engine and connect. Existing weights stay in place. Beside your selected workflow, check the model list and choose its visible install location: your ComfyUI models folder or a shared folder. Shared folders include a configuration download to merge into ComfyUI; Comfy Desktop can add them through Storage settings. Download only the workflow’s missing files, then refresh or restart ComfyUI when needed.
 2. **Starting fresh:** choose **I'm starting fresh** and follow the official Comfy Desktop installer for your system. It provisions the engine and GPU dependencies. Frameforge does not silently install CUDA, drivers, Torch or model weights.
 3. **Online only:** choose **I'll create online**. No local ComfyUI, Python, GPU or weights are needed to browse and prepare supported online handoffs. Sign in and approve any paid generation on Comfy Cloud or Civitai itself.
 
