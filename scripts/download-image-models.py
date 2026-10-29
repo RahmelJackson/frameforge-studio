@@ -1,10 +1,11 @@
+from workspace_paths import model_root
 """Install a pinned local model suite; partial downloads are resumed and hashed."""
 import argparse, hashlib, json, pathlib, shutil, time
 import requests
 
 ROOT = pathlib.Path(__file__).resolve().parents[1]
 parser = argparse.ArgumentParser()
-parser.add_argument('--destination', default='D:/FrameforgeModels/storybuilder')
+parser.add_argument('--destination', default=str(model_root()))
 parser.add_argument('--manifest', default='setup/image-models.lock.json')
 parser.add_argument('--record', default='runtime/image-models-manifest.json')
 args = parser.parse_args()

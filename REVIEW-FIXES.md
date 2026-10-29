@@ -1,3 +1,15 @@
+## GitHub installation and integration audit · 0.8.10
+
+The clean source download now starts with no personal configuration, model files, Python environments or optional storage folders. Tested an exact package copy in a different directory, selected another ComfyUI model folder containing spaces, and verified the choice persisted. The audit did not download weights or start paid generation.
+
+Fixed developer-specific D: model paths in optional video, identity, style, speech and transcription tools. Portable model manifests now follow the user’s chosen model folder. Replaced the required Windows caption font with a system-font and Pillow fallback. Optional LatentSync installers no longer demand the original developer’s D: junction. The legacy engine launcher tolerates an absent private model-path YAML. Personal drive migration and saved research scripts are omitted from distribution.
+
+Corrected old README navigation, release details, MCP entrypoint and assistant instructions. The full MCP server supports previous visual resource URLs including v11. ComfyUI installation instructions now start with Quick tools. Normal local ports remain defaults, with configurable Studio/engine connections.
+
+Validation: **242 regression tests passed**, including the exact public-source clean-install test, selected-model-root checks, Python paths/fonts and MCP visual resource compatibility. In the public checkout without private runtimes, 213 tests passed and 29 optional media/runtime tests were skipped. A concurrent-test packaging race was also fixed by keeping temporary project files outside source. No new GPU render was needed for this portability change.
+
+Remaining integration limits: Comfy Cloud and Civitai are external handoffs with account-side sign-in, availability, cost and execution. Custom App Mode URLs require actually publishing those apps in Cloud; exported JSON alone does not create one. The ComfyUI extension connects to a Studio on the same computer and transfers prepared graph snapshots; it does not synchronize arbitrary edits in both directions. Optional advanced Python processors remain Windows-focused, while the lightweight Node website and native graph export do not require those environments. The native MCP panel depends on client support and existing client processes may need a restart to load a plugin update. LoRA training remains planned.
+
 ## Consolidated workspaces · release 0.8.9
 
 - [x] Website and native MCP panel share six destinations: Explore, Images, Video, Audio, Library and Advanced. Settings remains a utility action.

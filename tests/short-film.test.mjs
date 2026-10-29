@@ -1,4 +1,4 @@
-import test from 'node:test';import assert from 'node:assert/strict';import {randomUUID} from 'node:crypto';import {mkdtemp,rm} from 'node:fs/promises';import path from 'node:path';
+import test from 'node:test';import assert from 'node:assert/strict';import {randomUUID} from 'node:crypto';import {mkdtemp,rm} from 'node:fs/promises';import path from 'node:path';import {tmpdir} from 'node:os';
 import {ProjectStore} from '../lib/projects.mjs';import {FilmExportJournal} from '../lib/film-exports.mjs';import {filmSignature,normalizeFilm} from '../lib/film.mjs';import {normalizeShortFilm,shortFilmSignature,shortFilmStatus,storyOrderSignature} from '../lib/short-film.mjs';
 const frame=()=>({id:randomUUID(),title:'Opening',prompt:'A quiet scene',imageJobId:null,takeJobId:randomUUID()}),clip=f=>({id:f.takeJobId,video:'output.mp4',report:{technicalPass:true,sha256:'a'.repeat(64)},review:null});
 test('Film plans validate media IDs and retain scripts without inventing creative approval',()=>{
@@ -18,7 +18,7 @@ test('Muted or out-of-range layers do not complete the sound/caption steps, and 
  assert.equal(shortFilmStatus(p,[video,image]).canExport,false);assert.equal(shortFilmStatus(p,[video,image]).reviewed,false);p.film.tracks[0].volume=1;p.film.texts[0].start=0;p.film.texts[0].end=1;assert.equal(shortFilmStatus(p,[video,image]).canExport,true);image.review={verdict:'approved',sha256:'b'.repeat(64)};assert.equal(shortFilmStatus(p,[video,image]).reviewed,true);
 });
 test('Scripts, selected media and film layers reopen after restart with stale-save protection',async()=>{
- const base=path.join(process.cwd(),'tests'),dir=await mkdtemp(path.join(base,'short-film-'));assert.ok(dir.startsWith(base+path.sep));try{
+ const base=tmpdir(),dir=await mkdtemp(path.join(base,'short-film-'));assert.ok(dir.startsWith(base+path.sep));try{
  let store=await new ProjectStore(dir).open(),p=await store.create({name:'Production'}),f=frame();const initial=shortFilmSignature(p);p=await store.saveStory(p.id,{script:'A new story',frames:[f]},initial);await assert.rejects(store.saveStory(p.id,{script:'Stale',frames:[f]},initial),/changed elsewhere/);
  p=await store.assembleStory(p.id,shortFilmSignature(p),[clip(f)]);p=await store.compose(p.id,{shots:p.shots,film:{texts:[{id:randomUUID(),text:'Hello',start:0,end:1}]}},filmSignature(p));
  store=await new ProjectStore(dir).open();const saved=store.list()[0];assert.equal(saved.story.script,'A new story');assert.equal(saved.story.frames[0].takeJobId,f.takeJobId);assert.equal(saved.film.texts[0].text,'Hello');assert.equal(shortFilmStatus(saved,[clip(f)]).timeline,true);
@@ -26,7 +26,7 @@ test('Scripts, selected media and film layers reopen after restart with stale-sa
  }finally{await rm(dir,{recursive:true,force:true});}
 });
 test('Interrupted film export requests survive a new server instance and refuse duplicate starts',async()=>{
- const base=path.join(process.cwd(),'tests'),dir=await mkdtemp(path.join(base,'film-export-'));assert.ok(dir.startsWith(base+path.sep));try{
+ const base=tmpdir(),dir=await mkdtemp(path.join(base,'film-export-'));assert.ok(dir.startsWith(base+path.sep));try{
  const project=randomUUID(),id=randomUUID();let journal=new FilmExportJournal(dir);await journal.begin(project,id,'saved-edit','draft');journal=new FilmExportJournal(dir);assert.equal((await journal.get(project,id)).status,'processing');await assert.rejects(journal.begin(project,id,'saved-edit','draft'),/exist/i);await journal.finish(project,id,{status:'complete',result:{url:'/film.mp4'}});assert.equal((await new FilmExportJournal(dir).get(project,id)).result.url,'/film.mp4');await assert.rejects(journal.get('../private',id),/identifier/);
  }finally{await rm(dir,{recursive:true,force:true});}
 });

@@ -1,7 +1,8 @@
 """Pin style adapter/configs and reuse the already installed SDXL checkpoint."""
 import concurrent.futures,hashlib,json,urllib.request
+from workspace_paths import model_root, load_json
 from pathlib import Path
-ROOT=Path(__file__).resolve().parents[1];DEST=Path('D:/FrameforgeModels/storybuilder/style');LOCK=ROOT/'setup/style-models.lock.json'
+ROOT=Path(__file__).resolve().parents[1];DEST=(model_root()/'style');LOCK=ROOT/'setup/style-models.lock.json'
 REPOS={'h94/IP-Adapter':'018e402774aeeddd60609b4ecdb7e298259dc729','stabilityai/stable-diffusion-xl-base-1.0':'462165984030d82259a11f4367a4eed129e94a7b'}
 FILES={'h94/IP-Adapter':{'models/image_encoder/config.json':'image_encoder/config.json','models/image_encoder/model.safetensors':'image_encoder/model.safetensors','sdxl_models/ip-adapter_sdxl_vit-h.safetensors':'adapter/ip-adapter_sdxl_vit-h.safetensors'},'stabilityai/stable-diffusion-xl-base-1.0':{p:'sdxl-config/'+p for p in ['LICENSE.md','model_index.json','scheduler/scheduler_config.json','text_encoder/config.json','text_encoder_2/config.json','tokenizer/vocab.json','tokenizer/merges.txt','tokenizer/special_tokens_map.json','tokenizer/tokenizer_config.json','tokenizer_2/vocab.json','tokenizer_2/merges.txt','tokenizer_2/special_tokens_map.json','tokenizer_2/tokenizer_config.json','unet/config.json','vae/config.json']}}
 def digest(p):
@@ -9,9 +10,9 @@ def digest(p):
 def fetch(url):return urllib.request.urlopen(urllib.request.Request(url,headers={'User-Agent':'Frameforge-local-style'}),timeout=60)
 def prepare():
  DEST.mkdir(parents=True,exist_ok=True)
- if LOCK.exists():spec=json.loads(LOCK.read_text(encoding='utf-8'))
+ if LOCK.exists():spec=load_json(LOCK.read_text(encoding='utf-8'))
  else:
-  spec={'schema':1,'method':'instantstyle-up-only-global-mean-v1','base':next(x for x in json.loads((ROOT/'setup/advanced-models.lock.json').read_text(encoding='utf-8')) if x['group']=='sdxl'),'directory':str(DEST),'files':[],'sources':['https://github.com/instantX-research/InstantStyle','https://huggingface.co/docs/diffusers/using-diffusers/ip_adapter'],'weightLicenses':{'IP-Adapter':'Apache-2.0','SDXL':'CreativeML Open RAIL++-M'}}
+  spec={'schema':1,'method':'instantstyle-up-only-global-mean-v1','base':next(x for x in load_json((ROOT/'setup/advanced-models.lock.json').read_text(encoding='utf-8')) if x['group']=='sdxl'),'directory':str(DEST),'files':[],'sources':['https://github.com/instantX-research/InstantStyle','https://huggingface.co/docs/diffusers/using-diffusers/ip_adapter'],'weightLicenses':{'IP-Adapter':'Apache-2.0','SDXL':'CreativeML Open RAIL++-M'}}
   for repo,paths in FILES.items():
    revision=REPOS[repo];metadata=json.load(fetch('https://huggingface.co/api/models/'+repo+'/revision/'+revision+'?blobs=true'));entries={x['rfilename']:x for x in metadata['siblings']}
    for source,local in paths.items():

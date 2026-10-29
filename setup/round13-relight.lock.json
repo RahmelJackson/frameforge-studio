@@ -1,6 +1,6 @@
 {
   "schema": 1,
-  "modelRoot": "D:/FrameforgeModels/storybuilder/relight",
+  "modelRoot": "models/relight",
   "maximumBytes": 5000000000,
   "files": [
     {

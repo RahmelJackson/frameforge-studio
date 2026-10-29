@@ -5,6 +5,7 @@ from pathlib import Path
 import av
 import numpy as np
 from PIL import Image, ImageEnhance, ImageDraw, ImageFont
+from studio_fonts import studio_font
 
 RATE=48000
 SIZES={'landscape':(768,432),'portrait':(432,768),'square':(576,576)}
@@ -114,7 +115,7 @@ def grade_image(image,grade,exposure=1,saturation=1):
 
 def caption_image(image,text):
     if not text:return image
-    draw=ImageDraw.Draw(image);font=ImageFont.truetype('C:/Windows/Fonts/segoeui.ttf',max(14,round(image.width/26)))
+    draw=ImageDraw.Draw(image);font=studio_font(max(14,round(image.width/26)))
     lines=[];line=''
     for word in text.split():
         candidate=(line+' '+word).strip()

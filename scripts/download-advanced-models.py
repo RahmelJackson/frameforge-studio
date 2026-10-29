@@ -1,12 +1,13 @@
 """Resumable, checksummed selected local models; no dependency or engine changes."""
 import concurrent.futures,hashlib,json,urllib.request
+from workspace_paths import model_root, load_json
 from pathlib import Path
 ROOT=Path(__file__).resolve().parents[1]
 def sha(file):
     with file.open('rb') as stream:return hashlib.file_digest(stream,'sha256').hexdigest()
 def download(item):
     target=Path(item['path']);target=target if target.is_absolute() else ROOT/target
-    if not (target.resolve().is_relative_to((ROOT/'runtime').resolve()) or target.resolve().is_relative_to(Path('D:/FrameforgeModels/storybuilder').resolve())):raise ValueError('Model target outside configured roots.')
+    if not (target.resolve().is_relative_to((ROOT/'runtime').resolve()) or target.resolve().is_relative_to(model_root().resolve())):raise ValueError('Model target outside configured roots.')
     target.parent.mkdir(exist_ok=True,parents=True)
     if target.exists():
         if sha(target)!=item['sha256']:raise ValueError('Existing model changed: '+str(target))
@@ -21,6 +22,6 @@ def download(item):
     if partial.stat().st_size!=item['bytes'] or sha(partial)!=item['sha256']:raise ValueError('Model checksum mismatch: '+str(target))
     partial.replace(target);return item['group']+' verified '+target.name
 if __name__=='__main__':
-    lock=json.loads((ROOT/'setup/advanced-models.lock.json').read_text(encoding='utf-8'))
+    lock=load_json((ROOT/'setup/advanced-models.lock.json').read_text(encoding='utf-8'))
     with concurrent.futures.ThreadPoolExecutor(max_workers=3) as pool:
         for task in concurrent.futures.as_completed([pool.submit(download,item) for item in lock]):print(task.result(),flush=True)

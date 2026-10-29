@@ -2,7 +2,7 @@
 import hashlib, json, urllib.request, zipfile
 from pathlib import Path
 root=Path(__file__).resolve().parents[1];runtime=(root/'runtime').resolve()
-if runtime!=Path('D:/Frameforge/storybuilder/runtime'):raise ValueError('D-drive runtime required.')
+runtime.mkdir(parents=True, exist_ok=True)
 generation=json.loads((root/'setup/latentsync.lock.json').read_text());revision=generation['source']['revision']
 archive=runtime/f'latentsync-{revision}.zip'
 def digest(p):

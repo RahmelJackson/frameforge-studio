@@ -4,7 +4,7 @@
   "repo": "microsoft/VibeVoice-ASR-HF",
   "revision": "f22241c2062b3b25272bf117397e03d73381037a",
   "license": "MIT",
-  "modelDirectory": "D:/FrameforgeModels/storybuilder/speech/vibevoice-asr-hf",
+  "modelDirectory": "models/speech/vibevoice-asr-hf",
   "overlayDirectory": "runtime/round13-asr-packages",
   "files": [
     {

@@ -6,6 +6,7 @@ No installed packages are changed. Run --download first, then --render only
 with the team's exclusive GPU slot. Existing started cases are never replayed.
 """
 from __future__ import annotations
+from workspace_paths import model_root, load_json
 
 import argparse
 import hashlib
@@ -21,7 +22,7 @@ import urllib.request
 
 ROOT = Path(__file__).resolve().parents[1]
 LOCK = ROOT / "setup/round13-relight.lock.json"
-MODELS = Path("D:/FrameforgeModels/storybuilder/relight")
+MODELS = (model_root()/"relight")
 EVIDENCE = ROOT / "evidence/round13-relight"
 SOURCE = ROOT / "data/assets/34659372-3bbb-4bbf-87c3-e3fa0a74f791.png"
 POSITIVE = ("portrait photograph of a woman with short black curly hair, brown skin, "
@@ -46,7 +47,7 @@ def save(path, value):
 
 
 def read_lock():
-    spec = json.loads(LOCK.read_text(encoding="utf-8"))
+    spec = load_json(LOCK.read_text(encoding="utf-8"))
     assert sum(f["bytes"] for f in spec["files"]) < 5_000_000_000
     assert MODELS.resolve().as_posix().lower().startswith("d:/frameforgemodels/storybuilder/relight")
     return spec
@@ -103,7 +104,7 @@ def verify():
     import numpy as np
     spec = read_lock()
     models = verify_models(spec)
-    report = json.loads((EVIDENCE / "run.json").read_text(encoding="utf-8"))
+    report = load_json((EVIDENCE / "run.json").read_text(encoding="utf-8"))
     assert digest(SOURCE) == report["source"]["sha256"]
     assert digest(EVIDENCE / "original.png") == report["source"]["copySha256"]
     assert digest(LOCK) == report["lockSha256"]

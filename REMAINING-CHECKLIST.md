@@ -1,3 +1,12 @@
+## Fresh-download audit · release 0.8.10
+
+- [x] Optional model paths resolve against the chosen ComfyUI model folder, rather than a developer-specific drive. This computer’s existing storage selection is preserved in ignored configuration.
+- [x] Fresh-install storage checks tolerate optional folders that do not exist yet. Portable caption/font fallbacks replace a required Windows font.
+- [x] Previous MCP visual-resource addresses remain compatible, including v11. Public setup instructions describe the current consolidated interface and full MCP server.
+- [x] Developer-only drive migration and saved research scripts are excluded from the public source package. Private judge code and credentials remain excluded.
+- [ ] Cloud/Civitai account-side generation and custom published App Mode links still require provider-side acceptance. No paid runs were started during this audit.
+- [ ] Optional advanced Python installers remain Windows-focused; native ComfyUI graphs depend on the destination engine’s nodes, model terms and hardware.
+
 ## Consolidated workspaces · release 0.8.9
 
 - [x] Website and native MCP panel share six destinations: Explore, Images, Video, Audio, Library and Advanced. Settings remains a utility action.

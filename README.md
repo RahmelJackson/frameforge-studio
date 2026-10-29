@@ -1,8 +1,8 @@
-> **0.7.4:** Explore includes Civitai inspiration; Guide finds/chains workflows in the website and native MCP panel. Canvas Proof view shows actual changed pixels. Rough cut exports selected film clips without new generation. Video/audio ComfyUI return nodes and per-workflow download labels are included. Ten read-only MCP tools plus ten opt-in production tools. No paid generation is submitted automatically.
+> **0.8.10:** Portable model locations, fresh-install storage checks and MCP resource compatibility. The website, ComfyUI extension and native MCP panel share the consolidated workspaces.
 
 # Frameforge
 
-Release **0.7.4** adds direct local LTX/H3/FLUX execution, reviewed model downloads, early dependency lists, per-assistant setup and a native ComfyUI image/video/audio bridge. See [the integration guide](INTEGRATION-UPGRADE.md) for tested profiles and remaining work.
+Release **0.8.10** includes per-workflow downloads, local LTX/H3/FLUX execution, SAM selection, Quick and full ComfyUI views, and a tested 3D prop pipeline. See [the integration guide](INTEGRATION-UPGRADE.md) for tested profiles and remaining work.
 
 **An open-source creative studio inspired by Higgsfield, built around ComfyUI workflows.**
 
@@ -29,14 +29,15 @@ Images now includes a Canvas for paint/box edits, protected edge extension, orig
 
 | Workspace | What it helps you make |
 | --- | --- |
-| **Home** | Start with an idea, inspect actual local model results and explore Civitai examples, prompts and sources. |
-| **Library** | Browse 20 distinct tasks, choose a model inside its task, and inspect graphs and downloads. My work holds saved results separately. |
+| **Explore** | Start with an idea, inspect actual local model results and explore Civitai examples, prompts and sources. |
+| **Library** | Browse distinct creative tasks, choose a model inside its task, and inspect graphs and downloads. My work holds saved results separately. |
 | **Images** | Create and edit stills, paint masks, upscale, and organize character, scene and style references. |
 | **Video** | Generate or edit a clip, then carry a film through Story, Director and Timeline. A project bar retains the working film and shot. |
 | **Audio** | Prepare narration, dialogue, transcription and translation; explore experimental lip-sync tools. |
-| **Studio guide & MCP** | Find workflows in the website, or connect Codex/Claude to the same graph, generation and saved-production tools. |
+| **Advanced** | Create a 3D prop or find SAM precision tools. LoRA training is a planned workspace, not an installed trainer. |
+| **Guide & MCP** | Find workflows in the website, or connect Codex/Claude to the same graph, generation and saved-production tools. |
 
-The interface has five primary destinations: Home, Library, Images, Video and Audio. Top bar and Side bar remain mutually exclusive, with a visible navigation switch and Local only toggle. [Workspace and handoff guide](WORKSPACE-GUIDE.md).
+The interface has six primary destinations: Explore, Images, Video, Audio, Library and Advanced. Films lives inside Video. Library groups workflows, recipes and saved results. Top bar and Side bar remain mutually exclusive, with a visible navigation switch and Open weights only toggle. [Workspace and handoff guide](WORKSPACE-GUIDE.md).
 
 **One Studio guide:** Ctrl+K, the Home idea box and help buttons open the same side panel. Typing searches instantly without an LLM. Enter builds a suggested plan using guided matching or your explicitly selected local chat model. The plan stays open when following tool links. Connection settings live in Setup, and the guide cannot start media jobs or spend credits.
 
@@ -44,19 +45,19 @@ The interface has five primary destinations: Home, Library, Images, Video and Au
 
 ## Website or MCP. Your choice.
 
-The local STDIO MCP server gives Codex, Claude and compatible clients **20 tools** for workflow discovery, setup, editable graphs, local creation, saved playback, speech and film projects. Eight tools are read-only by default; creation needs `--allow-writes`. The native MCP Apps panel has visual workflows, generation, audio, timelines and saved results without loading a nested website or redirecting to a browser. Advanced audio/video requests and composition layers currently use JSON controls; it does not reproduce every specialized website editor. No paid submissions, automatic model installs or Cloud credentials. Native client acceptance is recorded separately from bridge-fixture checks. See [MCP setup and examples](MCP-GUIDE.md).
+The local STDIO MCP server gives Codex, Claude and compatible clients workflow and production tools for workflow discovery, setup, editable graphs, local creation, saved playback, speech and film projects. Discovery and inspection are read-only by default; creation needs `--allow-writes`. The native MCP Apps panel has visual workflows, generation, audio, timelines and saved results without loading a nested website or redirecting to a browser. Advanced audio/video requests and composition layers currently use JSON controls; it does not reproduce every specialized website editor. No paid submissions, automatic model installs or Cloud credentials. Native client acceptance is recorded separately from bridge-fixture checks. See [MCP setup and examples](MCP-GUIDE.md).
 
-Use the navigation **Local only** toggle (the reviewed open-weights profile) to limit this studio to reviewed local pipelines. `npm run start:open` locks that profile; `--open-weights-only` does the same for an MCP connection. Partner nodes and unknown model loaders are rejected server-side. [Scope, model terms and limits](OPEN-WEIGHTS.md).
+Use the navigation **Open weights only** toggle (the reviewed open-weights profile) to limit this studio to reviewed local pipelines. `npm run start:open` locks that profile; `--open-weights-only` does the same for an MCP connection. Partner nodes and unknown model loaders are rejected server-side. [Scope, model terms and limits](OPEN-WEIGHTS.md).
 
 This entry is being prepared for the Comfy Open Source Higgsfield challenge. [Submission requirements and remaining owner actions](CHALLENGE-CHECKLIST.md) include a two-minute demo, social link, signup and entry form. The profile is not an organizer eligibility certification.
 
-**Inside ComfyUI:** install the bundled [ComfyUI extension](assets/comfyui-frameforge/README.md), start both apps and open the Frameforge sidebar entry. The complete running website works in Studio or beside your graph in Split view. Images, Video, Audio, Library, Guide and model checks use the same local Studio and saved work. Quick tools jump straight to video, image and audio controls. Export the current native graph from the compact toolbar, or send a prepared Studio graph and its checked inputs into a separate ComfyUI tab. Three output nodes send saved IMAGE, VIDEO or AUDIO results straight into its embedded editors. External Cloud/Civitai sign-in stays on the provider website.
+**Inside ComfyUI:** install the bundled [ComfyUI extension](assets/comfyui-frameforge/README.md), start both apps and open the Frameforge sidebar entry. The complete running website works in Studio or beside your graph in Split view. Images, Video, Audio, Library, Guide and model checks use the same local Studio and saved work. It opens in Quick view, with focused workflow tools and a button to switch to the full Studio or Split view. Export the current native graph from the compact toolbar, or send a prepared Studio graph and its checked inputs into a separate ComfyUI tab. Three output nodes send saved IMAGE, VIDEO or AUDIO results straight into its embedded editors. External Cloud/Civitai sign-in stays on the provider website.
 
 ## Four ways to start
 
 | Your setup | How it works |
 | --- | --- |
-| **You already use ComfyUI** | Start it, choose **Setup & models → Find running ComfyUI**, select its address and check the recipe. Existing model folders can stay where they are. |
+| **You already use ComfyUI** | Start it, choose **Settings → Find running ComfyUI**, select its address and check the recipe. Existing model folders can stay where they are. |
 | **You want a local installation** | Follow the official ComfyUI install links, then download only the selected workflow's requirements. Native graphs include missing-model download metadata. |
 | **You want Comfy Cloud only** | Choose **Create online**, download a graph and import it into your own Comfy Cloud account. Supported text-only image, video and speech graphs prepare without local ComfyUI, Python or model weights. |
 | **You want Civitai images** | Prepare a prompt/model-reference brief, open Civitai's generator, choose a supported model and review the Buzz cost there. |

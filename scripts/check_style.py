@@ -1,5 +1,6 @@
 """Independent style request, reference, attention and whole-board mean checks."""
 import json,hashlib
+from workspace_paths import model_root, load_json
 from pathlib import Path
 import numpy as np
 def digest(path):
@@ -9,7 +10,7 @@ def check_attention(meta,strength):
  if bool(active)!=(strength>0) or meta['inactiveProcessors']<1 or any(not x['name'].startswith('up_blocks.0.attentions.1.') or len(x['scales'])!=1 or abs(x['scales'][0]-strength)>1e-8 or not np.isfinite(x['scales'][0]) for x in active):raise ValueError('Unexpected style/layout attention scales.')
  return len(active)
 def check(directory,request,assets):
- manifest=json.loads((directory/'style-manifest.json').read_text(encoding='utf-8'));meta=json.loads((directory/'style.json').read_text(encoding='utf-8'));completed=json.loads((directory/'completed.json').read_text(encoding='utf-8'))
+ manifest=load_json((directory/'style-manifest.json').read_text(encoding='utf-8'));meta=load_json((directory/'style.json').read_text(encoding='utf-8'));completed=load_json((directory/'completed.json').read_text(encoding='utf-8'))
  if completed['styleMetadataSha256']!=digest(directory/'style.json') or completed['rawSha256']!=digest(directory/'raw.png') or meta['rawSha256']!=completed['rawSha256']:raise ValueError('Style metadata or raw image changed.')
  subtract=request.get('styleMode')=='subtract';method='instantstyle-up-only-content-subtraction-v2' if subtract else 'instantstyle-up-only-global-mean-v1'
  expected={k:request[k] for k in ['styleImages','styleStrength','prompt','seed','size','steps']+(['styleMode','styleContent','styleContentStrength'] if subtract else [])}
@@ -22,7 +23,7 @@ def check(directory,request,assets):
   file=assets/row['asset']
   if Path(row['path']).resolve()!=file.resolve() or saved['asset']!=row['asset'] or saved['sha256']!=row['sha256'] or digest(file)!=row['sha256']:raise ValueError('A saved style card changed.')
   if list(ImageOps.exif_transpose(Image.open(file)).size)!=saved['originalSize']:raise ValueError('Style card dimensions changed.')
- lockfile=Path(__file__).resolve().parents[1]/'setup'/('style-content-models.lock.json' if subtract else 'style-models.lock.json');lock=json.loads(lockfile.read_text(encoding='utf-8'))
+ lockfile=Path(__file__).resolve().parents[1]/'setup'/('style-content-models.lock.json' if subtract else 'style-models.lock.json');lock=load_json(lockfile.read_text(encoding='utf-8'))
  if digest(lockfile)!=meta['modelLockSha256'] or meta['models']!=[lock['base'],*lock['files']]:raise ValueError('Style model lock changed.')
  for item in meta['models']:
   if Path(item['path']).stat().st_size!=item['bytes'] or digest(item['path'])!=item['sha256']:raise ValueError('Style model bytes changed.')

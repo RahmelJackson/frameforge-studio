@@ -1,5 +1,6 @@
 """Local SDXL style-only generation; existing runtimes stay unchanged."""
 import os,json,hashlib,time,argparse,importlib.metadata
+from workspace_paths import model_root, load_json
 from pathlib import Path
 ROOT=Path(__file__).resolve().parents[1]
 os.environ.setdefault('HF_HUB_OFFLINE','1');os.environ.setdefault('TRANSFORMERS_OFFLINE','1');os.environ.setdefault('PYTHONDONTWRITEBYTECODE','1')
@@ -12,7 +13,7 @@ def render(directory,all_blocks=False):
  from diffusers import StableDiffusionXLPipeline,DPMSolverMultistepScheduler
  from transformers import CLIPVisionModelWithProjection,CLIPImageProcessor
  if (directory/'completed.json').exists() or (directory/'raw.png').exists():raise ValueError('A saved/ambiguous output already exists; inspect it before any rerun.')
- manifest=json.loads((directory/'style-manifest.json').read_text(encoding='utf-8'));request=manifest['request'];subtract=request.get('styleMode')=='subtract';lockfile=ROOT/'setup'/('style-content-models.lock.json' if subtract else 'style-models.lock.json');spec=json.loads(lockfile.read_text(encoding='utf-8'));models=[spec['base'],*spec['files']]
+ manifest=load_json((directory/'style-manifest.json').read_text(encoding='utf-8'));request=manifest['request'];subtract=request.get('styleMode')=='subtract';lockfile=ROOT/'setup'/('style-content-models.lock.json' if subtract else 'style-models.lock.json');spec=load_json(lockfile.read_text(encoding='utf-8'));models=[spec['base'],*spec['files']]
  for item in models:
   if Path(item['path']).stat().st_size!=item['bytes'] or digest(item['path'])!=item['sha256']:raise ValueError('Style model changed: '+item['path'])
  if not torch.cuda.is_available():raise ValueError('This style workflow needs the local NVIDIA GPU.')

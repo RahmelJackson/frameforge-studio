@@ -3,7 +3,7 @@ $studioRoot = Split-Path -Parent $PSScriptRoot
 $studioConfig = Get-Content (Join-Path $studioRoot 'config.local.json') | ConvertFrom-Json
 if ($studioConfig.storageRoot) {
     foreach ($storagePart in @('runtime','data','evidence','backups')) {
-        if (!(Test-Path -LiteralPath (Join-Path $studioConfig.storageRoot $storagePart))) { throw ('The D-drive studio storage is unavailable: '+$storagePart+'. Check D: before starting.') }
+        if (!(Test-Path -LiteralPath (Join-Path $studioConfig.storageRoot $storagePart))) { throw ('The configured studio storage is unavailable: '+$storagePart+'. Check storageRoot before starting.') }
     }
 }
 $runtimePath = Join-Path $studioRoot 'runtime'

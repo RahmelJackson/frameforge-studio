@@ -6,8 +6,8 @@ Use the complete running Frameforge website inside ComfyUI, with its Images, Vid
 
 1. Start Frameforge, normally at `http://127.0.0.1:4317`.
 2. Copy this `comfyui-frameforge` folder into the active ComfyUI `custom_nodes` folder. For a separate `--base-directory`, use that base directory. Restart ComfyUI only when idle.
-3. Open ComfyUI on the same computer. Select its Frameforge sparkle icon, then **Open full Studio**.
-4. Choose **Studio** for the full app, **Split** for the app beside your graph, or **Graph** to return to ComfyUI. The graph and embedded app stay in place when switching. Drag the divider, or focus it and use arrow keys, to resize split view. Narrow windows use the full Studio layout.
+3. Open ComfyUI on the same computer. Select its Frameforge sparkle icon, then choose a **Quick tool** or press **Alt+Shift+F**.
+4. Quick opens the selected tool first. Choose **Full Studio** for the full app, **Split** for the app beside your graph, or **Graph** to return to ComfyUI. The graph and embedded app stay in place when switching. Drag the divider, or focus it and use arrow keys, to resize split view. Narrow windows use the full Studio layout.
 
 **Connection** changes the local Studio address. If Studio was stopped when ComfyUI first opened, or Studio restarted on a different view address, the panel offers **Reload ComfyUI & open Studio**. Save unsaved graphs before reloading. Both apps must remain running. No weights or extra Python packages are installed by this extension.
 

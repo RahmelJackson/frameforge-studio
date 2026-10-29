@@ -2,6 +2,7 @@
 import json,hashlib,time
 from pathlib import Path
 from PIL import Image,ImageOps,ImageDraw,ImageFont
+from studio_fonts import studio_font
 import numpy as np
 from check_style import check,digest
 ROOT=Path(__file__).resolve().parents[1];EVIDENCE=ROOT/'evidence/style-board'
@@ -23,7 +24,7 @@ def main():
  # These are labeled inspection sheets, not altered generation candidates.
  def sheet(labels,name,columns):
   size=384;canvas=Image.new('RGB',(columns*size,((len(labels)+columns-1)//columns)*(size+34)),(20,24,20));draw=ImageDraw.Draw(canvas)
-  font=ImageFont.truetype('C:/Windows/Fonts/arial.ttf',17)
+  font=studio_font(17)
   for i,label in enumerate(labels):
    image=ImageOps.contain(Image.open(ROOT/'data/jobs'/state['cases'][label]['jobId']/'output.png').convert('RGB'),(size,size))
    x=(i%columns)*size;y=(i//columns)*(size+34);canvas.paste(image,(x+(size-image.width)//2,y));draw.text((x+8,y+size+7),label,fill=(230,239,218),font=font)

@@ -3,7 +3,7 @@
   "repository": "xinsir/controlnet-openpose-sdxl-1.0",
   "revision": "23f966cd5cfdd3f7729c903e243d87152162d2b7",
   "filename": "diffusion_pytorch_model.safetensors",
-  "path": "D:/FrameforgeModels/storybuilder/controlnet/sdxl_openpose_xinsir_1.0.safetensors",
+  "path": "models/controlnet/sdxl_openpose_xinsir_1.0.safetensors",
   "url": "https://huggingface.co/xinsir/controlnet-openpose-sdxl-1.0/resolve/23f966cd5cfdd3f7729c903e243d87152162d2b7/diffusion_pytorch_model.safetensors",
   "bytes": 2502139104,
   "sha256": "b8524e557a7df60d081f5d4a0eb109967d107df217943bf88c2d99b9ebcc06c5",

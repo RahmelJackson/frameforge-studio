@@ -1,13 +1,14 @@
 """Pinned BigG counterpart for the upstream InstantStyle content subtraction route."""
 import concurrent.futures,json,urllib.request
+from workspace_paths import model_root, load_json
 from pathlib import Path
 from setup_style_shared import digest,fetch,download
 ROOT=Path(__file__).resolve().parents[1]
 def prepare():
- original=json.loads((ROOT/'setup/style-models.lock.json').read_text(encoding='utf-8'))
- dest=Path('D:/FrameforgeModels/storybuilder/style-content');dest.mkdir(parents=True,exist_ok=True)
+ original=load_json((ROOT/'setup/style-models.lock.json').read_text(encoding='utf-8'))
+ dest=(model_root()/'style-content');dest.mkdir(parents=True,exist_ok=True)
  lock=ROOT/'setup/style-content-models.lock.json'
- if lock.exists():spec=json.loads(lock.read_text(encoding='utf-8'))
+ if lock.exists():spec=load_json(lock.read_text(encoding='utf-8'))
  else:
   repo='h94/IP-Adapter';revision='018e402774aeeddd60609b4ecdb7e298259dc729'
   entries={x['rfilename']:x for x in json.load(fetch(f'https://huggingface.co/api/models/{repo}/revision/{revision}?blobs=true'))['siblings']}

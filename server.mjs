@@ -1,3 +1,4 @@
+import {configuredModelRoot,resolveSetupPaths} from './lib/workspace-paths.mjs';
 import {ComfyStudioViews} from './lib/comfy-studio.mjs';
 import {CreativeStore,CREATIVE_RECIPES,recipeRequests,motionAdvice} from './lib/creative-recipes.mjs';
 import {assertOpenProvider} from './lib/provider-policy.mjs';
@@ -50,9 +51,9 @@ import { MODELS, PRESETS, SIZES, LENGTHS, CAMERA_POSES, generationSize, normaliz
 import {ExecutionPolicy,OPEN_WORKFLOW_IDS,assertOpenInput,assertOpenGraph,assertOpenWorkflow,policyError} from './lib/execution-policy.mjs';
 
 const ROOT = path.dirname(fileURLToPath(import.meta.url));
-const configDefaults={comfyUrl:'http://127.0.0.1:8188',port:4317,python:path.join(ROOT,'runtime','engine-env','Scripts','python.exe')};
+const configDefaults={comfyUrl:'http://127.0.0.1:8188',port:4317,python:path.join(ROOT,'runtime','engine-env',...(process.platform==='win32'?['Scripts','python.exe']:['bin','python']))};
 let config={...configDefaults};
-try{Object.assign(config,JSON.parse(await readFile(path.join(ROOT,'config.local.json'),'utf8')));}catch(error){if(error.code!=='ENOENT')throw error;}
+try{Object.assign(config,JSON.parse((await readFile(path.join(ROOT,'config.local.json'),'utf8')).replace(/^\uFEFF/,'')));}catch(error){if(error.code!=='ENOENT')throw error;}
 const DATA = process.env.STUDIO_DATA ?? path.join(ROOT, 'data');
 const executionPolicy=await new ExecutionPolicy({file:path.join(DATA,'execution-policy.json'),locked:process.env.FRAMEFORGE_OPEN_WEIGHTS_ONLY==='1'}).open();
 const policyModels=JSON.parse(await readFile(path.join(ROOT,'workflows/models.json'),'utf8'));
@@ -62,7 +63,8 @@ const HOSTED_MODE=process.env.FRAMEFORGE_HOSTED_MODE==='1';
 const comfy = new ComfyClient(process.env.COMFY_URL ?? config.comfyUrl);
 const providerEngines=[...new Set([comfy.url,...(config.providerEngines??[]),'http://127.0.0.1:8189'])];
 const jobEngine=job=>job.engineUrl?new ComfyClient(job.engineUrl):comfy;
-let modelRoot=config.modelRoot??(config.storageRoot&&process.platform==='win32'?'D:/FrameforgeModels/storybuilder':null);
+let modelRoot=configuredModelRoot(ROOT,config);
+const readSetupLock=async name=>resolveSetupPaths(JSON.parse(await readFile(path.join(ROOT,'setup',name),'utf8')),{root:ROOT,modelRoot});
 const jobs = new Map();
 const saves = new Map();
 const processors=new Map();
@@ -107,9 +109,9 @@ for (const id of await readdir(path.join(DATA, 'jobs'))) {
 }
 const visionPython=path.join(ROOT,'runtime','vision-env','Scripts','python.exe');
 const facePython=path.join(ROOT,'runtime','facefusion-env','Scripts','python.exe');
-async function selectionReady(){try{const models=JSON.parse(await readFile(path.join(ROOT,'setup','advanced-models.lock.json'),'utf8')).filter(x=>x.group==='clothing');for(const item of models)await stat(path.join(ROOT,item.path));return {ready:models.length===3,researchOnly:true};}catch{return {ready:false};}}
+async function selectionReady(){try{const models=(await readSetupLock('advanced-models.lock.json')).filter(x=>x.group==='clothing');for(const item of models)await stat(path.join(ROOT,item.path));return {ready:models.length===3,researchOnly:true};}catch{return {ready:false};}}
 const stylePython=path.join(ROOT,'runtime','audio-env','Scripts','python.exe');
-async function styleReady(mode='layers'){try{await stat(stylePython);const check=async file=>{const lock=JSON.parse(await readFile(path.join(ROOT,'setup',file),'utf8'));for(const item of [lock.base,...lock.files])if((await stat(item.path)).size!==item.bytes)throw Error('Pinned style file missing or truncated.');};await check(mode==='subtract'?'style-content-models.lock.json':'style-models.lock.json');let contentReady=false;try{await check('style-content-models.lock.json');contentReady=true;}catch{}return {ready:true,contentReady,cardsLimit:16};}catch{return {ready:false,contentReady:false,error:'Prepare the local style adapter and encoder on D: first.'};}}
+async function styleReady(mode='layers'){try{await stat(stylePython);const check=async file=>{const lock=await readSetupLock(file);for(const item of [lock.base,...lock.files])if((await stat(item.path)).size!==item.bytes)throw Error('Pinned style file missing or truncated.');};await check(mode==='subtract'?'style-content-models.lock.json':'style-models.lock.json');let contentReady=false;try{await check('style-content-models.lock.json');contentReady=true;}catch{}return {ready:true,contentReady,cardsLimit:16};}catch{return {ready:false,contentReady:false,error:'Download the local style adapter and encoder for this workflow first.'};}}
 async function startStyleImage(job){
  try{job.status='processing';await save(job);await comfy.releaseIdle();if(job.status==='cancelling')throw Error('Cancelled.');
   await new Promise((resolve,reject)=>{const child=spawn(stylePython,['-X','utf8',path.join(ROOT,'scripts/style_image.py'),jobDir(job.id)],{windowsHide:true});processors.set(job.id,child);let errors='';child.stdout.resume();child.stderr.on('data',c=>errors=(errors+c).slice(-8000));const timer=setTimeout(()=>child.kill(),600000);child.once('error',e=>{clearTimeout(timer);processors.delete(job.id);reject(e);});child.once('close',code=>{clearTimeout(timer);processors.delete(job.id);code===0?resolve():reject(Error(errors.slice(-2500)||'Local style processing stopped.'));});});
@@ -190,11 +192,11 @@ async function startVideoTool(job){
       if(job.status==='cancelling')throw new Error('Cancelled.');
       job.status='verifying';await save(job);await verify(job);await audit(job,'lighting-proposal-reused');return;
     }
-    if(job.request.tool==='interpolate'){const lock=job.request.interpolationModel==='rife'?JSON.parse(await readFile(path.join(ROOT,'setup','advanced-models.lock.json'),'utf8')).find(x=>x.group==='rife'):JSON.parse(await readFile(path.join(ROOT,'setup','interpolation-model.lock.json'),'utf8'));if(await fileDigest(path.join(ROOT,lock.path))!==lock.sha256)throw new Error('The interpolation model changed. Restore the pinned weights.');const file=path.join(jobDir(job.id),'manifest.json'),manifest=JSON.parse(await readFile(file,'utf8'));manifest.interpolationModel=lock;await writeFile(file,JSON.stringify(manifest,null,2));}
-    if(job.request.videoModel==='detail'&&['masked','restyle','relight','motion','extend','outpaint'].includes(job.request.tool)){const lock=JSON.parse(await readFile(path.join(ROOT,'setup','advanced-models.lock.json'),'utf8')).find(x=>x.group==='vace14');if(await fileDigest(lock.path)!==lock.sha256)throw new Error('Video edit model changed.');const file=path.join(jobDir(job.id),'manifest.json'),manifest=JSON.parse(await readFile(file,'utf8'));manifest.editModel=lock;await writeFile(file,JSON.stringify(manifest,null,2));}
+    if(job.request.tool==='interpolate'){const lock=job.request.interpolationModel==='rife'?(await readSetupLock('advanced-models.lock.json')).find(x=>x.group==='rife'):JSON.parse(await readFile(path.join(ROOT,'setup','interpolation-model.lock.json'),'utf8'));if(await fileDigest(path.join(ROOT,lock.path))!==lock.sha256)throw new Error('The interpolation model changed. Restore the pinned weights.');const file=path.join(jobDir(job.id),'manifest.json'),manifest=JSON.parse(await readFile(file,'utf8'));manifest.interpolationModel=lock;await writeFile(file,JSON.stringify(manifest,null,2));}
+    if(job.request.videoModel==='detail'&&['masked','restyle','relight','motion','extend','outpaint'].includes(job.request.tool)){const lock=(await readSetupLock('advanced-models.lock.json')).find(x=>x.group==='vace14');if(await fileDigest(lock.path)!==lock.sha256)throw new Error('Video edit model changed.');const file=path.join(jobDir(job.id),'manifest.json'),manifest=JSON.parse(await readFile(file,'utf8'));manifest.editModel=lock;await writeFile(file,JSON.stringify(manifest,null,2));}
     const check=await health(),ready=check.videoTools?.[job.request.tool==='segment'?'segment':job.request.tool==='interpolate'?(job.request.interpolationModel==='rife'?'rife':'interpolate'):job.request.tool==='upscale'?'upscale':job.request.videoModel==='detail'?'detail':'temporal'];if(!ready?.ready)throw new Error('Missing video nodes/models: '+[...(ready?.missingNodes??[]),...(ready?.missingModels??[])].join(', '));
     if(job.request.tool==='segment'){
-      const spec=JSON.parse(await readFile(path.join(ROOT,'setup/round12-models.lock.json'),'utf8')).find(x=>x.directory==='checkpoints'),model={path:path.join('D:/FrameforgeModels/storybuilder',spec.directory,path.basename(spec.path)),sha256:spec.sha256,revision:spec.revision,repo:spec.repo};
+      const spec=JSON.parse(await readFile(path.join(ROOT,'setup/round12-models.lock.json'),'utf8')).find(x=>x.directory==='checkpoints'),model={path:path.join(modelRoot||path.join(ROOT,'models'),spec.directory,path.basename(spec.path)),sha256:spec.sha256,revision:spec.revision,repo:spec.repo};
       if(await fileDigest(model.path)!==model.sha256)throw Error('Segmentation weights changed.');const file=path.join(jobDir(job.id),'manifest.json'),m=JSON.parse(await readFile(file,'utf8'));m.segmentationModel=model;await writeFile(file,JSON.stringify(m,null,2));
     }
     const uploaded=await comfy.upload(path.join(jobDir(job.id),'input.mp4'),job.id+'.mp4'),names={video:uploaded.subfolder?uploaded.subfolder+'/'+uploaded.name:uploaded.name};
@@ -376,14 +378,14 @@ async function submitJob(input,retriedFrom=null,workflowOverride=null,createdVia
     const selected=request.kind==='image'?check.images?.[request.tool==='identity-pose'&&request.poseGuide==='skeleton'?'identity-skeleton':['upscale','inpaint','identity-pose','views','select'].includes(request.tool)?request.tool:['create','cinema'].includes(request.tool)?'create':'edit']:request.engine==='camera'?(request.cameraSampling==='full'?check.cameraFull:check.camera):request.engine==='keyframes'?check.keyframes:check;
     if(!selected?.ready)throw new Error(check.connected?'Missing models or nodes: '+[...(selected?.missingModels??[]),...(selected?.missingNodes??[])].join(', '):'Start the ComfyUI engine first.');
     if(request.kind==='image'&&request.tool==='identity-pose'){
-      const locks=JSON.parse(await readFile(path.join(ROOT,'setup/advanced-models.lock.json'),'utf8')).filter(x=>['photomaker','sdxl',request.poseGuide==='skeleton'?'pose':'canny'].includes(x.group));
-      if(request.poseGuide==='skeleton')locks.push(JSON.parse(await readFile(path.join(ROOT,'setup/pose-model.lock.json'),'utf8')));
-      const derived=JSON.parse(await readFile(path.join(ROOT,'setup/photomaker-derived.lock.json'),'utf8'));locks.push(derived);
+      const locks=(await readSetupLock('advanced-models.lock.json')).filter(x=>['photomaker','sdxl',request.poseGuide==='skeleton'?'pose':'canny'].includes(x.group));
+      if(request.poseGuide==='skeleton')locks.push((await readSetupLock('pose-model.lock.json')));
+      const derived=(await readSetupLock('photomaker-derived.lock.json'));locks.push(derived);
       for(const item of locks)if(await fileDigest(item.path)!==item.sha256)throw new Error('Identity model changed: '+item.path);
       await writeFile(path.join(jobDir(job.id),'identity-models.json'),JSON.stringify(locks,null,2));
     }
     if(request.kind==='image'&&request.tool==='views'){
-      const spec=JSON.parse(await readFile(path.join(ROOT,'setup/round12-models.lock.json'),'utf8')).find(x=>x.directory==='loras'),model={...spec,path:path.join('D:/FrameforgeModels/storybuilder',spec.directory,path.basename(spec.path))};
+      const spec=JSON.parse(await readFile(path.join(ROOT,'setup/round12-models.lock.json'),'utf8')).find(x=>x.directory==='loras'),model={...spec,path:path.join(modelRoot||path.join(ROOT,'models'),spec.directory,path.basename(spec.path))};
       if(await fileDigest(model.path)!==model.sha256)throw Error('Angle adapter changed. Restore the pinned weights.');
       await writeFile(path.join(jobDir(job.id),'angle-model.json'),JSON.stringify(model,null,2));
     }
@@ -494,7 +496,7 @@ const server = http.createServer(async (req, res) => {
      const folder=await realpath(input.models);if(!(await stat(folder)).isDirectory())throw Error('Choose a model folder.');modelRoot=folder;modelDownloads.roots.models=folder;config.modelRoot=folder;await writeFile(path.join(ROOT,'config.local.json'),JSON.stringify(config,null,2));return json(res,200,modelDownloads.describe());
     }
     if(route==='/api/model-downloads'&&req.method==='GET'){if(HOSTED_MODE)return json(res,403,{error:'Model installation belongs to the owner of this GPU.'});return json(res,200,modelDownloads.describe());}
-    if(route==='/api/model-downloads'&&req.method==='POST'){if(HOSTED_MODE)return json(res,403,{error:'Model installation belongs to the owner of this GPU.'});if(!modelRoot)throw Error('Set modelRoot in config.local.json to your ComfyUI model storage folder, then restart.');return json(res,202,await modelDownloads.enqueue(await readJson(req,20000)));}
+    if(route==='/api/model-downloads'&&req.method==='POST'){if(HOSTED_MODE)return json(res,403,{error:'Model installation belongs to the owner of this GPU.'});if(!modelRoot)throw Error('Choose your existing ComfyUI models folder in the download panel first.');return json(res,202,await modelDownloads.enqueue(await readJson(req,20000)));}
     if(route==='/api/setup/connection'&&req.method==='POST'){
       const input=await readJson(req,2000),next=new ComfyClient(input.url);
       if(next.url!==comfy.url&&(audioStudio.busy()||[...jobs.values()].some(j=>['processing','uploading','submitting','submitted','running','cancelling','verifying'].includes(j.status))))throw Error('Finish or resolve existing generation jobs before changing the engine connection.');
@@ -526,8 +528,9 @@ const server = http.createServer(async (req, res) => {
       if(req.method==='POST'&&action==='assemble'){const input=await readJson(req);if(!Number.isSafeInteger(input.revision))throw Error('Reload the saved production revision before assembling.');const plan=director.get(id,input.revision),assembly=productionAssembly(plan,jobs);return json(res,201,await projects.createProduction(assembly));}
     }
     if(route==='/api/storage'&&req.method==='GET'){
-      const paths=Object.fromEntries(await Promise.all(['runtime','data','evidence','backups'].map(async name=>[name,await realpath(name==='data'?DATA:path.join(ROOT,name))])));
-      return json(res,200,{onD:Object.values(paths).every(value=>/^D:[\\/]/i.test(value)),paths,extraModels:'D:/FrameforgeModels/storybuilder'});
+      const entries=await Promise.all(['runtime','data','evidence','backups'].map(async name=>{const folder=name==='data'?DATA:path.join(ROOT,name);try{return [name,{path:await realpath(folder),exists:true}];}catch(error){if(error.code!=='ENOENT')throw error;return [name,{path:folder,exists:false}];}}));
+      const locations=Object.fromEntries(entries),paths=Object.fromEntries(entries.map(([name,info])=>[name,info.path]));
+      return json(res,200,{onD:Object.values(paths).every(value=>/^D:[\\/]/i.test(value)),paths,locations,extraModels:modelRoot});
     }
     if(route==='/api/checklist'&&req.method==='GET')return json(res,200,parseChecklist(await readFile(path.join(ROOT,'REMAINING-CHECKLIST.md'),'utf8')));
     if(route==='/checklist.md'&&req.method==='GET')return await serveFile(req,res,path.join(ROOT,'REMAINING-CHECKLIST.md'));

@@ -2,12 +2,13 @@
 import json,sys,uuid,hashlib,math
 from pathlib import Path
 from PIL import Image,ImageOps,ImageDraw,ImageFont
+from studio_fonts import studio_font
 manifest=Path(sys.argv[1]);data=json.loads(manifest.read_text(encoding='utf-8'));assets=Path(sys.argv[2]);pack=data['pack'];provenance={};result={}
 def sheet(cards,label):
  for name,_ in cards:
   file=assets/name;provenance[name]=hashlib.sha256(file.read_bytes()).hexdigest()
  if len(cards)==1:return cards[0][0]
- columns=2;rows=math.ceil(len(cards)/columns);width=1024;height=rows*512;canvas=Image.new('RGB',(width,height),'#202522');draw=ImageDraw.Draw(canvas);font=ImageFont.truetype('C:/Windows/Fonts/segoeui.ttf',20)
+ columns=2;rows=math.ceil(len(cards)/columns);width=1024;height=rows*512;canvas=Image.new('RGB',(width,height),'#202522');draw=ImageDraw.Draw(canvas);font=studio_font(20)
  for i,(name,role) in enumerate(cards):
   with Image.open(assets/name) as source:image=ImageOps.exif_transpose(source).convert('RGB');image=ImageOps.contain(image,(492,462))
   x=(i%columns)*512;y=(i//columns)*512;canvas.paste(image,(x+(512-image.width)//2,y+36+(464-image.height)//2));draw.text((x+12,y+8),role,fill='white',font=font)

@@ -1,7 +1,7 @@
 {
-  "source": "D:/FrameforgeModels/storybuilder/photomaker/photomaker-v1.bin",
+  "source": "models/photomaker/photomaker-v1.bin",
   "sourceSha256": "529d503fa378bfb3a74e3384ab2064d7269d59f0638324555d22067c31e275bc",
-  "path": "D:/FrameforgeModels/storybuilder/loras/photomaker-v1-lora.safetensors",
+  "path": "models/loras/photomaker-v1-lora.safetensors",
   "sha256": "cb16f42240787a01dc8deaf89e4d3cdecd560b8b053fc9da77187e8091bf3b76",
   "bytes": 185975496
 }

@@ -1,5 +1,6 @@
 """Bounded, isolated VibeVoice-ASR evaluation. Never modifies an existing environment."""
 from __future__ import annotations
+from workspace_paths import model_root, load_json
 
 import argparse
 import concurrent.futures
@@ -18,7 +19,7 @@ import uuid
 import zipfile
 
 ROOT = Path(__file__).resolve().parents[1]
-LOCK = json.loads((ROOT / 'setup/round13-asr.lock.json').read_text(encoding='utf-8'))
+LOCK = load_json((ROOT / 'setup/round13-asr.lock.json').read_text(encoding='utf-8'))
 MODELS = Path(LOCK['modelDirectory'])
 OVERLAY = ROOT / LOCK['overlayDirectory']
 EVIDENCE = ROOT / 'evidence/round13-asr'
@@ -163,7 +164,7 @@ def run(case):
     source = ROOT / 'data/audio' / (identity + '.wav')
     if digest(source) != expected:
         raise ValueError('Frozen source changed')
-    ready = json.loads((EVIDENCE / 'readiness.json').read_text(encoding='utf-8'))
+    ready = load_json((EVIDENCE / 'readiness.json').read_text(encoding='utf-8'))
     if not ready.get('ready') or ready['files'] != {x['path']: x['sha256'] for x in LOCK['files']}:
         raise ValueError('Complete pinned readiness first')
     state = {'id': str(uuid.uuid4()), 'case': case, 'status': 'started', 'startedAt': time.time(), 'source': str(source), 'sourceSha256': expected, 'modelRevision': LOCK['revision'], 'generation': {'do_sample': False, 'max_new_tokens': 512, 'acoustic_tokenizer_chunk_size': 64000, 'attn_implementation': 'eager', 'dtype': 'bfloat16'}, 'prompt': None, 'groundTruthPassedToModel': False, 'creativeApproval': 'pending'}

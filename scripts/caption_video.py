@@ -5,13 +5,14 @@ import numpy as np
 import soundfile as sf
 from scipy.ndimage import uniform_filter1d
 from PIL import Image,ImageDraw,ImageFont
+from studio_fonts import studio_font
 from video_media import digest,audio_samples,sample_images,encode
 
 def captions_at(cues,time):
     return next((c for c in cues if c['start']<=time<c['end']),None)
 
 def caption_tile(size,text,font_size):
-    width,height=size;band=math.floor(height*.65);font=ImageFont.truetype('C:/Windows/Fonts/segoeui.ttf',font_size);draw=ImageDraw.Draw(Image.new('RGB',size));lines=[];line=''
+    width,height=size;band=math.floor(height*.65);font=studio_font(font_size);draw=ImageDraw.Draw(Image.new('RGB',size));lines=[];line=''
     for word in text.split():
         if draw.textlength(word,font=font)>width*.86:raise ValueError('A caption word is too wide. Shorten it or reduce the caption size.')
         candidate=(line+' '+word).strip()

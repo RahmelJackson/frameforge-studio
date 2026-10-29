@@ -1,4 +1,4 @@
-"""Pin and fetch the LatentSync experiment into the relocated D-drive runtime.
+"""Pin and fetch the LatentSync experiment into this installation’s runtime.
 
 Does not modify an existing environment. Shared Torch is read-only; experiment
 dependencies take precedence in a separate environment.
@@ -8,8 +8,7 @@ from pathlib import Path
 
 ROOT = Path(__file__).resolve().parents[1]
 RUNTIME = (ROOT / 'runtime').resolve()
-if RUNTIME != Path('D:/Frameforge/storybuilder/runtime'):
-    raise ValueError('Expected the verified D-drive runtime; no download started.')
+RUNTIME.mkdir(parents=True, exist_ok=True)
 LOCK = ROOT / 'setup/latentsync.lock.json'
 SOURCE = RUNTIME / 'latentsync-source'
 MODELS = RUNTIME / 'latentsync-models'

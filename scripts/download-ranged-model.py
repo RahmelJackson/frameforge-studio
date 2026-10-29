@@ -1,16 +1,17 @@
 """Resume an explicitly pinned large model using verified HTTP byte ranges."""
 import concurrent.futures,hashlib,json,os,sys,threading,time,urllib.request
+from workspace_paths import model_root, load_json
 from pathlib import Path
 ROOT=Path(__file__).resolve().parents[1]
-item=next(x for x in json.loads((ROOT/'setup/advanced-models.lock.json').read_text()) if x['group']==sys.argv[1])
+item=next(x for x in load_json((ROOT/'setup/advanced-models.lock.json').read_text()) if x['group']==sys.argv[1])
 target=Path(item['path']).resolve()
-if not target.is_relative_to(Path('D:/FrameforgeModels/storybuilder').resolve()):raise ValueError('Unexpected model destination.')
+if not target.is_relative_to(model_root().resolve()):raise ValueError('Unexpected model destination.')
 if target.exists() and target.stat().st_size==item['bytes']:
     with target.open('rb') as f:checksum=hashlib.file_digest(f,'sha256').hexdigest()
     if checksum==item['sha256']:print(json.dumps({'alreadyVerified':str(target)}));sys.exit(0)
 target.parent.mkdir(parents=True,exist_ok=True)
 partial=target.with_suffix(target.suffix+'.ranged');state=partial.with_suffix('.ranges.json');chunk=32*1024*1024;lock=threading.Lock()
-done=set(json.loads(state.read_text()) if state.exists() else [])
+done=set(load_json(state.read_text()) if state.exists() else [])
 if not partial.exists():
     done=set()
     with partial.open('wb') as f:f.truncate(item['bytes'])

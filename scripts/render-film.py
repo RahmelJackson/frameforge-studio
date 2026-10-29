@@ -11,6 +11,7 @@ import sys
 sys.path.insert(0,str(Path(__file__).resolve().parent))
 import av
 from PIL import Image, ImageOps, ImageDraw, ImageFont
+from studio_fonts import studio_font
 from video_media import inspect, digest, sample_images, audio_samples, encode, SIZES, RATE
 
 
@@ -115,7 +116,7 @@ def mix_audio(metadata,tracks,total,fps,directory,warnings):
 
 
 def text_layer(image,layer):
-    draw=ImageDraw.Draw(image);font=ImageFont.truetype('C:/Windows/Fonts/segoeui.ttf',int(layer['fontSize']));lines=[];line=''
+    draw=ImageDraw.Draw(image);font=studio_font(int(layer['fontSize']));lines=[];line=''
     for character in layer['text']:
         if character=='\n' or (line and draw.textlength(line+character,font=font)>image.width*.88):lines.append(line);line='' if character=='\n' else character
         else:line+=character

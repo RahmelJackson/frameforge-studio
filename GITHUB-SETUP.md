@@ -26,13 +26,23 @@ Home and Setup offer four choices: connect existing ComfyUI, install ComfyUI, us
 
 **Additional tools:** native ComfyUI image/video graphs are portable. Some speech, segmentation, compositing and finishing tasks use separate Python processors. Their setup scripts/lock manifests are included, but the Python environments and model weights are not. Existing full-engine setup scripts are Windows-specific and can download large files; run only the setup you need. Use `npm start` for the lightweight interface, not the original machine's bundled-engine launcher.
 
+## Model folders on your computer
+
+Beside a workflow, open **Download missing files**, review its file list and choose **Change download folder**. Select the existing `models` directory that your ComfyUI scans. Frameforge saves this machine-only choice as `modelRoot` in ignored `config.local.json`. An engine URL alone cannot reveal its filesystem location. If you use another model folder, configure ComfyUI’s `extra_model_paths.yaml` too. Changing a download directory does not move existing files.
+
+Only the selected workflow’s required missing files are downloaded. Existing verified files are reused. Gated models still require accepting the provider’s terms and, when necessary, a browser download. Optional Python processor setup is separate from model installation; it is not installed by the download button. Manifests use portable `models/` and `runtime/` locations. No D: drive is required.
+
+The lightweight website and external handoffs work without a local GPU. Media imports and export checks need `npm run setup:media`. Advanced processor installers currently target Windows. On other systems, use native ComfyUI graphs with the required nodes and models, or external provider handoffs; do not assume every optional Python processor is supported.
+
 ## Optional local language model
 
-Install/start Ollama (https://ollama.com/download) and install a local chat model in it. Open **Studio guide → Local AI & connections → Refresh models**, then select it. No LLM is selected automatically. Questions, up to four recent messages and a catalog/status snapshot go only to `127.0.0.1:11434`. Chat is kept in page memory and clears on reload. CPU inference and `keep_alive: 0` avoid retaining GPU memory needed by ComfyUI. Cloud-tagged/remote Ollama models are refused. CPU answers may be slow; model size/quality vary.
+No LLM is required. The built-in Guide finds tasks and suggests chains using the local catalog. To use a chat model, open **Settings → Guide & LLM**, choose Ollama, LM Studio, llama.cpp, vLLM or another local compatible server, connect to its API and select an available model. Start the server in that application first. Compatible APIs normally end in `/v1`; Ollama uses its server root. No model is selected or downloaded automatically.
 
-Without Ollama, guided catalog matching remains available and is clearly labeled. This is not an LLM response. Suggested chains are navigation plans: save/review each result and bring it to the next tool. They do not automatically render, approve, download or spend credits.
+Questions and recent chat context go to the selected local endpoint. A local server may itself proxy requests, so review its configuration. If authentication is enabled, set `FRAMEFORGE_ASSISTANT_API_KEY` in the Studio environment; do not put it in source or shared MCP configurations. External agents such as Claude, Codex, Hermes and Antigravity connect through MCP and keep their own model settings. They do not have to power the website’s chat.
 
-`npm run assistant:start` starts the installed Ollama service if it is not already running. It respects `OLLAMA_MODELS`, or an optional `ollamaModels` folder in your ignored `config.local.json`, so you can keep text models on another drive. It does not install or download a model. An already-running Ollama service keeps its own model directory. This machine's tested Qwen3 4B model is about 2.5 GB and is stored on D:, outside the source archive; small models can still make poor suggestions.
+Guided suggestions and LLM plans do not automatically render, approve, download or spend credits. Save and review each result before the next stage.
+
+`npm run assistant:start` starts the installed Ollama service if it is not already running. It respects `OLLAMA_MODELS`, or an optional `ollamaModels` folder in your ignored `config.local.json`, so you can keep text models on another drive. It does not install or download a model. An already-running Ollama service keeps its own model directory. Text model weights stay outside the source archive; small models can still make poor suggestions.
 
 ## Optional MCP for an external agent
 
@@ -43,18 +53,14 @@ Run Frameforge, then register this stdio server in your MCP client (replace the 
   "mcpServers": {
     "frameforge-studio": {
       "command": "node",
-      "args": ["C:/path/to/frameforge/scripts/studio-mcp.mjs"],
+      "args": ["C:/path/to/frameforge/scripts/frameforge-mcp.mjs"],
       "env": {"STUDIO_URL": "http://127.0.0.1:4317"}
     }
   }
 }
 ```
 
-Tools: `studio_workflows`, `comfy_status`, `workflow_requirements`. All are read-only and use the same bounded tool layer as the in-app guide. No shell execution, generation, arbitrary URLs, model installation or paid calls. A separate ComfyUI MCP can be registered in your external agent for generation; it is not silently inherited by the website. Existing Codex/ChatGPT MCP connections are owned by their host application.
-
-## Expanded MCP and open-weight profile
-
-The three-tool adapter above remains compatible. For graph preparation, generation, native previews, speech and production tools, register `scripts/frameforge-mcp.mjs`. It defaults to seven read-only tools. Add `--allow-writes` for the nine local creation tools and `--open-weights-only` to restrict this connection. `--start-studio` can launch the website backend, but never installs or launches ComfyUI. Full Codex/Claude configurations, import permissions and recovery behavior are in [MCP-GUIDE.md](MCP-GUIDE.md).
+Discovery and inspection tools are read-only by default. Add `--allow-writes` for local graph preparation, media creation and saved projects. Add `--open-weights-only` to restrict this connection to the reviewed profile. `--start-studio` can launch the website backend, but never installs or launches ComfyUI. Full configurations, native-panel support and import permissions are in [MCP-GUIDE.md](MCP-GUIDE.md).
 
 The website also has an **Open weights only** toggle. Use `npm run start:open` for a locked demonstration profile. [OPEN-WEIGHTS.md](OPEN-WEIGHTS.md) explains the exact included routes and distinction between open application code, downloadable weights and model licenses.
 

@@ -11,7 +11,7 @@ export async function sourceInventory(directory=root){
  const files=[];
  async function visit(relative){if(relative.split('/').includes('__pycache__')||relative==='scripts/judge-demo'||relative.startsWith('scripts/judge-demo/'))return;const full=path.join(directory,relative),info=await lstat(full);if(info.isSymbolicLink())throw Error('Source package refuses junction/symlink: '+relative);if(info.isDirectory()){for(const name of await readdir(full))await visit(relative+'/'+name);return;}
   // The old demonstration JPEG is not part of the public source release.
-  if(['public/sample.jpg','setup/comfy-engine-source.zip','setup/image-model-paths.yaml'].includes(relative))return;
+  if(['scripts/move-storage-to-d.ps1','scripts/move-desktop-models-to-d.ps1','scripts/research-reference-mode.mjs','public/sample.jpg','setup/comfy-engine-source.zip','setup/image-model-paths.yaml'].includes(relative))return;
   if(!/\.(mjs|js|json|html|css|svg|png|jpg|py|ps1|md|txt|woff2)$/.test(relative)&&!['.gitignore','.gitattributes','LICENSE','setup/latentsync-notices/LICENSE','workflows/upstream/LICENSE','workflows/bonus/LICENSE','public/explore-art/observatory-motion.mp4'].includes(relative)&&!/^tests\/fixtures\/(reference\.(jpg|webp))$/.test(relative))throw Error('Unexpected source file type: '+relative);
   if(/(?:^|\/)(?:node_modules|__pycache__|\.git|data|runtime|evidence|backups|models|dist)(?:\/|$)/i.test(relative))throw Error('Private/runtime directory inside source roots: '+relative);
   if(relative.startsWith('public/explore-art/')&&!allowedArt.has(path.basename(relative)))throw Error('Unreviewed public artwork: '+relative);
