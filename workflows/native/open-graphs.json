@@ -1,7 +1,7 @@
 [
   {
     "id": "prop-3d",
-    "sha256": "33c1d3ec7eb60ac87a47e1c6ff5d80d637bad4276381516859a2c89598720975",
+    "sha256": "1bddadeb2ea44c90899abe81f37cddf9529bef8f3208ec47b83fb27d521751ba",
     "modelNames": [
       "trellis_2_texture_vae_bf16.safetensors",
       "dino_v3_L_naf_fp32.safetensors",

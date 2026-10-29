@@ -1,6 +1,6 @@
 {
   "version": 1,
-  "created": "2026-10-29T01:47:32.614Z",
+  "created": "2026-10-29T02:22:06.597Z",
   "files": [
     {
       "name": ".agents/plugins/marketplace.json",
@@ -229,8 +229,8 @@
     },
     {
       "name": "lib/native-workflows.mjs",
-      "bytes": 2686,
-      "sha256": "fe5a21bf429a9fa71227c68926feb9ee51173bd056ec817e625484774161786a"
+      "bytes": 3273,
+      "sha256": "e5586bb368f9bbbfd1e91ca66c280c84ed2d372d691b91ec6124e8d516acf829"
     },
     {
       "name": "lib/pose.mjs",
@@ -400,7 +400,7 @@
     {
       "name": "package.json",
       "bytes": 933,
-      "sha256": "5063785c3dc56c20cb5c6aef56b53b9ecc24fe8e7134c41e8e9dff6b532b2880"
+      "sha256": "ad1016f10f25f604d6c0219a71c0bce26de813165df4adabb44711c5bb7b770c"
     },
     {
       "name": "PLUGIN-ACCEPTANCE.md",
@@ -415,7 +415,7 @@
     {
       "name": "plugin.json",
       "bytes": 2478,
-      "sha256": "2938c1fac547516b7327f1ab21208a48b6001f83f08d44ea27bfc605286296d7"
+      "sha256": "77a16023dceee0eef3a45ea68e93caa23b4864beb810836fb5af81fff7669e05"
     },
     {
       "name": "public/app.js",
@@ -755,7 +755,7 @@
     {
       "name": "public/mcp-app.js",
       "bytes": 51868,
-      "sha256": "a974e3695b480698c0d3334093e57011ef00e02ead129775ec0413a96c81cf3c"
+      "sha256": "eac4e9fa6dba125f87440e1e821e44bb83a35946581141c7d8e6f3db6622a505"
     },
     {
       "name": "public/mcp-studio.css",
@@ -794,8 +794,8 @@
     },
     {
       "name": "public/native-catalog.js",
-      "bytes": 35492,
-      "sha256": "8aeaa56baa573036a108be86f610ddb1b9beda4e7320ea0a964242627586d9b4"
+      "bytes": 35514,
+      "sha256": "cadd8669c3b1d86ca5c09abbaf4f013e141cfe5580fddd371728fc5dc1684a63"
     },
     {
       "name": "public/native-workflows.css",
@@ -809,8 +809,8 @@
     },
     {
       "name": "public/native-workflows.js",
-      "bytes": 6397,
-      "sha256": "573ca9a2696e0a1c888fd6869e00abb6759ce009ea8c3f4e74e3fef545269217"
+      "bytes": 6655,
+      "sha256": "a5c783e82ede4614f6de94ccec411f74b63f7bdd5cc82b630d4c231d2463f77b"
     },
     {
       "name": "public/online-handoff.js",
@@ -1109,13 +1109,13 @@
     },
     {
       "name": "REMAINING-CHECKLIST.md",
-      "bytes": 61004,
-      "sha256": "664e436c8cdeaf5ceee63b999080e7afe7f994aec6a7d7645d3abf246d63d4ec"
+      "bytes": 61929,
+      "sha256": "aff8243b5c9791b7538e988088e33f9e5da546ed2b182b189f1acb5b078c6af2"
     },
     {
       "name": "REVIEW-FIXES.md",
-      "bytes": 4301,
-      "sha256": "44304ed825e85c0030312b9fb8d126158e0ae07e11f98ec030d8d5b3e1097e5e"
+      "bytes": 5372,
+      "sha256": "4700741a4004827341f3b31f8852f588f5315ef67ede2049950054775a3e896a"
     },
     {
       "name": "scripts/acceptance-keyframes.mjs",
@@ -1325,7 +1325,7 @@
     {
       "name": "scripts/frameforge-mcp.mjs",
       "bytes": 7515,
-      "sha256": "13a213b13844436c8c4038cbcaf1602cd29e7c724bc1e8ed6195173226286479"
+      "sha256": "6eefca90526f3b7073d0ce4b48bd150261a6694197fde2e7e566845af690b1a6"
     },
     {
       "name": "scripts/human_pose.py",
@@ -2439,8 +2439,8 @@
     },
     {
       "name": "tests/native-workflows.test.mjs",
-      "bytes": 1954,
-      "sha256": "8e043bb1de1b06c8f2a8e8af5fd7ce21bd4faf9b1cd5298d39fe5d8ab5618345"
+      "bytes": 1965,
+      "sha256": "ffd543476533e9217d56c6d862cf23933e1a49dcbb0f740c1f4626e2d72e49c0"
     },
     {
       "name": "tests/online-generation.test.mjs",
@@ -2834,8 +2834,8 @@
     },
     {
       "name": "workflows/native/catalog.json",
-      "bytes": 149724,
-      "sha256": "5562c17105313566d4ed113100634006a8e5d39dd0a8906bf9e765530fd3f263"
+      "bytes": 149809,
+      "sha256": "6b34b439af490399e99d71269d9862c1e4ff7b203caba147cd83f0e16349b648"
     },
     {
       "name": "workflows/native/image_flux3_klein_distilled_image_edit.json",
@@ -2895,7 +2895,7 @@
     {
       "name": "workflows/native/open-graphs.json",
       "bytes": 4862,
-      "sha256": "6e00d92ca011129265688129d46607c41c23ec04b600a534dd16f9d78a8dd5e0"
+      "sha256": "fffa6ffa5d1cea4ac659149308054d6050f383dfb9a7ec9f5d8c1f89f82ff1fc"
     },
     {
       "name": "workflows/native/utility_birefnet_remove_background.json",

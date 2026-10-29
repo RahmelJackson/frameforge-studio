@@ -1,3 +1,9 @@
+## Local 3D props enabled · release 0.8.8
+
+The 66-node prop graph now starts with a bounded TRELLIS.2 preview: 1024 shape and texture resolution, 50,000 target faces, 256 remesh resolution and smaller normal/AO bakes. Original upstream bytes and provenance stay pinned. Pixal3D remains an editable alternative, with its own generation acceptance pending. Quick edits update both widget encodings used by current ComfyUI.
+
+Local acceptance used ComfyUI 0.43.0, all seven checksum-verified files on D:, and the included product concept image. The first actual run took 36.24 seconds and produced a GLB with 34,403 vertices, 50,000 triangles, three embedded textures and one material. The native graph subsequently ran through ComfyUI's Run button and its 3D viewer displayed the textured prop. Fit to Viewer corrects an inherited wide camera. Unseen surfaces remain inferred; this is one working preview, not acceptance of all 3D workflows. The previous engine environment remains available as a fallback. Existing Wan video generation also passed on the updated engine.
+
 # Review follow-up
 
 This tracks the source and usability review of commit `24017e5`. The larger creative-quality goals remain in [REMAINING-CHECKLIST.md](REMAINING-CHECKLIST.md).

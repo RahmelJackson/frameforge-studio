@@ -1,4 +1,3 @@
-// Pinned descriptions shared by Quick, Library and the Guide.
 export const NATIVE_WORKFLOWS=[
   {
     "id": "prop-3d",
@@ -14,8 +13,8 @@ export const NATIVE_WORKFLOWS=[
     "execution": "local",
     "nativeEditorRequired": true,
     "openWeightsReviewed": true,
-    "requirements": "Use a current compatible ComfyUI. Review per-workflow files, original model terms and hardware fit. Prepare here, then Run in ComfyUI; no models download automatically.",
-    "status": "Official native graph · generation not tested here",
+    "requirements": "Requires a current ComfyUI with TRELLIS.2/Pixal3D core nodes and the seven listed model files. Starts with the tested TRELLIS.2 preview: 1024 shape/texture, 50,000 faces. Prepare here, then Run in ComfyUI. Models download only when requested.",
+    "status": "TRELLIS.2 preview generated locally · inspect hidden surfaces",
     "source": "https://raw.githubusercontent.com/Comfy-Org/workflow_templates/14220b8bd3e86baa852959f17039613191e66656/templates/3d_pixal3d_trellis2_image_to_model.json",
     "upstreamCommit": "14220b8bd3e86baa852959f17039613191e66656"
   },
