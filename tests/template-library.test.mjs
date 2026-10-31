@@ -21,3 +21,15 @@ test('Templates name real groups, reviewed local graphs, pinned Cloud templates 
  assert.ok(TEMPLATES.filter(t=>t.group==='basics').length>=8);
  assert.ok(TEMPLATES.filter(t=>t.group==='experimental').every(t=>t.format?STORY_FORMATS.find(f=>f.id===t.format).experimental:t.localNote));
 });
+
+import {normalizeScene,layoutPrompt} from '../lib/scenes.mjs';
+import {guidedAdvice} from '../lib/studio-assistant.mjs';
+test('3D scenes validate tagged objects and camera keys, and build a layout prompt with numbered objects',()=>{
+ const scene=normalizeScene({name:'Street',style:'rainy night',objects:[{id:'bakery1',kind:'building',tag:'Bakery',description:'a brick bakery',position:[1,0,2],scale:[6,10,6]},{id:'mira01',kind:'character',tag:'Mira',description:'a woman in a yellow raincoat'}],camera:{keys:[{time:3,position:[0,2,10],target:[0,1,0]},{time:0,position:[2,2,12],target:[0,1,0]}]}});
+ assert.equal(scene.camera.keys[0].time,0);assert.equal(scene.objects[1].scale.join(),'1,1,1');
+ assert.throws(()=>normalizeScene({objects:[{id:'x',kind:'dragon'}],camera:{keys:[{position:[0,0,0],target:[0,0,0]}]}}),/unique ID|supported/);
+ assert.throws(()=>normalizeScene({objects:[],camera:{keys:[]}}),/1–8 camera keys/);
+ const prompt=layoutPrompt(scene,[{desc:'Bakery, a brick bakery'},{desc:'Mira, a woman in a yellow raincoat'}]);
+ assert.match(prompt,/<ref_image_0>/);assert.match(prompt,/<obj_1> is Bakery, a brick bakery\./);assert.match(prompt,/<obj_2> is Mira/);assert.match(prompt,/rainy night/);
+ assert.deepEqual(guidedAdvice('How do I block a shot with dummy buildings and characters?').steps.map(s=>s.id),['scene-3d','ltx-layout']);
+});

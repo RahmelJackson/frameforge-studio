@@ -29,6 +29,13 @@ Eight pinned graphs added to Library and the shared Guide/MCP catalog. Each is p
 - [x] FLUX 3 Klein LoRA dataset profile: Characters can export images with imagefolder `metadata.jsonl` captions, a held-out set and train-flux3-klein.sh/.ps1 for the official diffusers `train_dreambooth_lora_flux3_klein.py` (pinned to diffusers 86ef420). FLUX.1/AI Toolkit stays the default.
 - [ ] Run one FLUX 3 Klein training job and load the result in ComfyUI. diffusers notes FLUX 3 LoRA loading is still being added, so ComfyUI compatibility is unverified.
 
+## 3D scene blocking · October 31, 2026
+
+- [x] Advanced → 3D scene: stand-in buildings, houses, people, cars, trees, walls, box/ball props and imported GLBs; drag to move, R to rotate, size and colour; tag + description per object; 1–8 camera keys with preview; 16:9, 9:16 and 1:1 frames. Scenes save server-side.
+- [x] Make the image: grey render from the shot camera plus tagged objects projected to layout boxes → the local FLUX 3 Klein recipe (CreateBoundingBoxes + Flux3LayoutPrompt, `<obj_N>` per tag) as a normal prepared plan and job.
+- [x] Make the layout clip: real-time WebM of the camera move saved as footage, handed with the rendered image to LTX Layout to Render (native page now accepts `image`/`video` from Studio).
+- [ ] Render a scene end to end on the local GPU and check that FLUX follows the boxes and that Layout to Render accepts the WebM (convert to MP4 if not). Imported GLBs are not stored with the scene yet; they reload as boxes.
+
 ## LoRA training on this PC · October 31, 2026
 
 - [x] Creator → Characters → "Train FLUX 3 LoRA here": exports the dataset, runs the official diffusers FLUX 3 Klein script in an isolated runtime/trainer-env (reusing the engine's CUDA Torch, pinned so it's never replaced), shows step progress and the log, cancels cleanly, and copies the finished LoRA into ComfyUI/models/loras. One run at a time; renders and Produce wait while it trains.

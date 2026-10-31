@@ -1,0 +1,32 @@
+<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Frameforge | 3D scene</title><link rel="stylesheet" href="/style.css"><link rel="stylesheet" href="/scene.css"><script type="module" src="/scene.js"></script></head><body><header><span>Advanced / 3D scene</span></header><main class="scene-page">
+<section class="scene-intro"><div><p class="scene-kicker">BLOCK IT IN 3D → RENDER IT FOR REAL</p><h1>3D scene</h1><p>Place stand-in buildings, people, cars and props, tag what each one is, and frame the shot with a camera. Studio turns the grey layout into a finished image with FLUX 3, and the camera move into a finished shot with LTX Layout to Render.</p></div><div class="scene-pick"><label>Scene<select id="scene-select"></select></label><button type="button" id="scene-new">New</button><button type="button" id="scene-sample">Street sample</button></div></section>
+<div class="scene-app">
+<aside class="scene-side" aria-label="Objects">
+ <h2>Add</h2>
+ <div class="scene-palette" id="scene-palette"></div>
+ <label class="scene-import">Import a GLB model<input type="file" id="scene-glb" accept=".glb,model/gltf-binary"></label>
+ <h2>In this scene</h2>
+ <ol class="scene-outliner" id="scene-outliner"></ol>
+</aside>
+<section class="scene-stage">
+ <div class="scene-toolbar" role="toolbar" aria-label="View">
+  <div class="scene-seg" role="group" aria-label="View"><button type="button" data-view="edit" aria-pressed="true">Edit view</button><button type="button" data-view="camera" aria-pressed="false">Shot camera</button></div>
+  <div class="scene-seg" role="group" aria-label="Frame"><button type="button" data-aspect="landscape" aria-pressed="true">16:9</button><button type="button" data-aspect="portrait" aria-pressed="false">9:16</button><button type="button" data-aspect="square" aria-pressed="false">1:1</button></div>
+  <label class="scene-check"><input type="checkbox" id="scene-labels" checked>Tags</label>
+  <span id="scene-saved" class="scene-saved" role="status"></span>
+ </div>
+ <div class="scene-viewport" id="scene-viewport"><canvas id="scene-canvas" aria-label="3D scene editor. Click an object to select it, drag it to move it, drag empty space to orbit."></canvas><div id="scene-tags" class="scene-tags" aria-hidden="true"></div><div id="scene-frame" class="scene-frame" hidden></div><p class="scene-hint">Drag empty space to orbit · right-drag to pan · scroll to zoom · drag an object to move it · R rotates · Delete removes</p></div>
+ <div class="scene-timeline"><div class="scene-keys" id="scene-keys"></div><div class="scene-key-actions"><button type="button" id="key-add">＋ Camera key from this view</button><button type="button" id="key-play">▶ Preview move</button></div></div>
+</section>
+<aside class="scene-side scene-inspector" aria-label="Inspector">
+ <div id="scene-inspector"><h2>Select an object</h2><p class="scene-note">Click a stand-in to tag it. Tags tell the image model what each shape is.</p></div>
+ <div class="scene-render"><h2>Render</h2>
+  <label>Look for the whole shot<textarea id="scene-style" maxlength="300" rows="2" placeholder="Rainy neon night, cinematic, 35mm film"></textarea></label>
+  <button type="button" class="primary" id="render-still">Make the image</button>
+  <button type="button" id="render-clip">Make the layout clip</button>
+  <p class="scene-note" id="render-status" role="status">The image uses FLUX 3 Klein on your ComfyUI with each tagged object as a layout box. The clip records the grey camera move for LTX Layout to Render.</p>
+  <div id="render-results" class="scene-results"></div>
+ </div>
+</aside>
+</div>
+</main></body></html>
