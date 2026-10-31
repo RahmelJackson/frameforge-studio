@@ -92,3 +92,4 @@
 .run-log{margin-top:22px;font-size:13px;color:var(--muted)}.run-log summary{cursor:pointer}.run-log ol{list-style:none;padding:0;margin:10px 0 0;display:grid;gap:4px;max-height:220px;overflow:auto}.run-log time{color:var(--text);margin-right:6px}
 @media (max-width:1000px){.produce-hero{grid-template-columns:1fr}.produce-layout{grid-template-columns:1fr}.produce-panel+.produce-panel{border-left:0;border-top:1px solid var(--line)}.run-movie{grid-template-columns:1fr}}
 @media (max-width:640px){.produce-pipeline{grid-template-columns:1fr 1fr 1fr}.produce-pipeline li:nth-child(n+4){display:none}.produce-row{grid-template-columns:1fr!important}.produce-panel,.produce-run{padding:20px 16px}.run-steps{grid-template-columns:repeat(5,minmax(0,1fr))}.run-steps li{font-size:11px}}
+.frame-copy small a{color:var(--accent)}

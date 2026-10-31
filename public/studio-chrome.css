@@ -8,3 +8,11 @@
 .workspace-top-navigation .workspace-link.current{box-shadow:none!important;color:#d6ff36!important}
 
 .creator-context-links{display:flex;gap:16px;flex-wrap:wrap;padding:8px 0 16px;font-size:13px}.creator-context-links a{color:#b6cba4;text-underline-offset:4px}.creator-context-links a:hover{color:#d7ff37}
+/* Segmented workspace tabs: one calm control instead of separate boxes. */
+body[data-workspace] .workspace-overview .workspace-tab-group>.workspace-tabs{display:inline-flex;flex-wrap:wrap;gap:2px;margin:12px 0 0!important;padding:4px;border:1px solid #2f3833;border-radius:999px;background:rgba(255,255,255,.025);max-width:100%}
+body[data-workspace] .workspace-overview .workspace-tabs>.workspace-tab{min-height:34px;padding:7px 16px;border:0;border-radius:999px;background:transparent;color:#aeb9b2;box-shadow:none}
+body[data-workspace] .workspace-overview .workspace-tabs>.workspace-tab:hover{background:rgba(214,255,0,.07);color:#f0f4e9}
+body[data-workspace] .workspace-overview .workspace-tabs>.workspace-tab[aria-current=page]{background:#d6ff00;color:#101112;box-shadow:none}
+body[data-workspace] .workspace-overview .workspace-tabs>.workspace-tab[aria-current=page] span{font-weight:650}
+body[data-workspace] .workspace-overview .secondary-tabs .workspace-tabs>.workspace-tab{min-height:30px;padding:6px 12px}
+@media(max-width:760px){body[data-workspace] .workspace-overview .workspace-tab-group>.workspace-tabs{flex-wrap:nowrap;overflow-x:auto;border-radius:16px;display:flex}}

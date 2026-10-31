@@ -1,6 +1,6 @@
 {
   "version": 1,
-  "created": "2026-10-31T22:22:11.788Z",
+  "created": "2026-10-31T22:27:12.388Z",
   "files": [
     {
       "name": ".agents/plugins/marketplace.json",
@@ -929,13 +929,13 @@
     },
     {
       "name": "public/home.css",
-      "bytes": 11359,
-      "sha256": "ae747c9c70ad0c6eeca9db3dabc2acec4ec190f64cb3301bb096f98cdb3a606b"
+      "bytes": 13321,
+      "sha256": "663226b54701e3c024d02cd32bac337772a1c5af0a915881b5c88ad120a4f016"
     },
     {
       "name": "public/home.html",
-      "bytes": 5980,
-      "sha256": "f8c981fcf8c1606ca8abaea5f9558aa9d6ad575e4e886879ac4576868f3d0a12"
+      "bytes": 7207,
+      "sha256": "25d2673ade31ecb61cf2ee870119fcf5891dfc20bc6af07d6d28dd6196b41255"
     },
     {
       "name": "public/home.js",
@@ -1069,8 +1069,8 @@
     },
     {
       "name": "public/produce.css",
-      "bytes": 11417,
-      "sha256": "b917fce97fc824a96c22c2294039546977c51dd34866b6a299dee51b3e960d8a"
+      "bytes": 11458,
+      "sha256": "e55e54ec6d760e2b799615551262c1bf7164841e20794fca6476845d21fc01d2"
     },
     {
       "name": "public/produce.html",
@@ -1079,8 +1079,8 @@
     },
     {
       "name": "public/produce.js",
-      "bytes": 13761,
-      "sha256": "bbf7426f1a25d5bcdb129ad32e7a54f707e2e5897d84e5a08d135a5c89157205"
+      "bytes": 14031,
+      "sha256": "e5e0eff0c13bd4c62437b5ba5f8a1e2ae65f0be899a7a063290dde36a09af4f0"
     },
     {
       "name": "public/proof-view.js",
@@ -1189,8 +1189,8 @@
     },
     {
       "name": "public/studio-chrome.css",
-      "bytes": 7164,
-      "sha256": "1e9b5d573d46ee85c9ebbdad2a895f890f9ec36650082215c7cd4a1fe55f198b"
+      "bytes": 8351,
+      "sha256": "0bffa77be80a56a0a09e719c63cc0f4cbe49f35fd7f1728c5260c66cdd1911f3"
     },
     {
       "name": "public/studio-chrome.js",
@@ -1429,8 +1429,8 @@
     },
     {
       "name": "public/workspace-intros.js",
-      "bytes": 5388,
-      "sha256": "97cd063ce6f80330b0c4924e2f9a0526f015eead02340d9a5fe07eb16ffa72d0"
+      "bytes": 5397,
+      "sha256": "e6e0542d032887c542c8728545d745a80a6d038be4ac1626acf56874a9362fd5"
     },
     {
       "name": "public/workspace.css",
