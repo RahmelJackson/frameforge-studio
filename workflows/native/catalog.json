@@ -2436,5 +2436,36 @@
       "terms": "other"
     },
     "derivation": "Official single-stage V2V graph with task-specific LTX 2.5 adapter at strength 1. Original model cards define the intended conditioning."
+  },
+  {
+    "id": "animated-loops",
+    "file": "native/animate-diff-loops.json",
+    "category": "video",
+    "title": "Generate an animated loop",
+    "input": "One reference still and a motion prompt",
+    "output": "A looping animation through AnimateDiff and VideoHelperSuite",
+    "summary": "The official Animate Diff High Res Loops template. Inspect its three passes, motion adapter, IP-Adapter and output loop controls in native ComfyUI.",
+    "guide": "https://github.com/Comfy-Org/workflow_templates/blob/c067929d7e9cc0f3fd15be348fa1a1d85da15946/templates/template_animate_diff_loops.json",
+    "name": "Generate an animated loop",
+    "task": "Generate an animated loop",
+    "model": "AnimateDiff / SD 1.5 / IP-Adapter",
+    "execution": "local",
+    "nativeEditorRequired": true,
+    "openWeightsReviewed": false,
+    "requirements": "Native upstream template, not generation-tested here. Requires AnimateDiff Evolved, IP-Adapter, VideoHelperSuite, Fill-Nodes and the optional Qwen-VL helper. Required checkpoints/adapters have not all been pinned for bulk download. Install and review them in ComfyUI; no files download automatically from this page. Not included in the locked open-weights profile until reviewed.",
+    "status": "Official graph · manual dependencies · generation not tested",
+    "source": "https://raw.githubusercontent.com/Comfy-Org/workflow_templates/c067929d7e9cc0f3fd15be348fa1a1d85da15946/templates/template_animate_diff_loops.json",
+    "upstreamCommit": "c067929d7e9cc0f3fd15be348fa1a1d85da15946",
+    "sha256": "93cdfadfa1899a660f42c85355dda9327980ffca097f7c869140081e538eda77",
+    "models": [],
+    "manualDependencies": [
+      "realismByStableYogi_v4LCM.safetensors",
+      "AnimateLCM_sd15_t2v.ckpt",
+      "v2_lora_ZoomIn.ckpt",
+      "ip-adapter_sd15.safetensors",
+      "CLIP-ViT-H-14-laion2B-s32B-b79K.safetensors",
+      "4x-ClearRealityV1.pth",
+      "Optional AILab Qwen-VL caption model"
+    ]
   }
 ]

@@ -25,3 +25,8 @@ Bundled InterVariable.woff2 SHA-256: `693b77d4f32ee9b8bfc995589b5fad5e99adf28327
 ## Native workflow expansion (0.8.7)
 
 Comfy-Org/workflow_templates graphs in workflows/native are pinned to 14220b8bd3e86baa852959f17039613191e66656. Their source and model provenance are recorded in workflows/native/catalog.json. They retain the upstream MIT license, reproduced in workflows/bonus/LICENSE. Lightricks/ComfyUI-LTXVideo graphs are pinned to 220e1d45aa0469f518e982102fca4dca92a61862; its Apache-2.0 license is reproduced in workflows/native/LTX-LICENSE.txt. Original upstream JSON is retained. nativePacket pins model links, removes the stale T2A link 13811, and derives clearly marked V2V variants by selecting the documented adapter and prompts. Model weights are not bundled and retain their own terms, including LTX, FLUX and MiniMax restrictions.
+
+## Creative canvas
+Three.js r180 (MIT) is bundled offline in public/vendor/three, including GLTFLoader, OrbitControls and BufferGeometryUtils. Bare imports were changed to local relative imports; the upstream license is included there. Source: https://github.com/mrdoob/three.js/tree/r180.
+The Animate Diff High Res Loops graph retains the Comfy-Org workflow_templates MIT license. Its pinned source commit and checksum are in workflows/native/catalog.json. This recipe is not generation-tested or included in the locked open-weights profile.
+Character dataset configuration follows the AI Toolkit FLUX.1 example: https://github.com/ostris/ai-toolkit/blob/main/config/examples/train_lora_flux_24gb.yaml. AI Toolkit, its dependencies and base weights are separate installations and retain their own terms.

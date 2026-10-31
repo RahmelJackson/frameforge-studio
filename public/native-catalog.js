@@ -1,6 +1,7 @@
 export const NATIVE_WORKFLOWS=[
   {
     "id": "prop-3d",
+    "file": "native/3d_pixal3d_trellis2_image_to_model.json",
     "category": "3d",
     "title": "Make a textured 3D prop",
     "input": "One product or prop photograph",
@@ -16,10 +17,12 @@ export const NATIVE_WORKFLOWS=[
     "requirements": "Requires a current ComfyUI with TRELLIS.2/Pixal3D core nodes and the seven listed model files. Starts with the tested TRELLIS.2 preview: 1024 shape/texture, 50,000 faces. Prepare here, then Run in ComfyUI. Models download only when requested.",
     "status": "TRELLIS.2 preview generated locally · inspect hidden surfaces",
     "source": "https://raw.githubusercontent.com/Comfy-Org/workflow_templates/14220b8bd3e86baa852959f17039613191e66656/templates/3d_pixal3d_trellis2_image_to_model.json",
-    "upstreamCommit": "14220b8bd3e86baa852959f17039613191e66656"
+    "upstreamCommit": "14220b8bd3e86baa852959f17039613191e66656",
+    "sha256": "df8a1dc4dacac39ba036758f7b4bb7e57e556a607e5391b500e29effd95b2e5d"
   },
   {
     "id": "prop-3d-multiview",
+    "file": "native/3d_pixal3d_multi_views.json",
     "category": "3d",
     "title": "Build a prop from several views",
     "input": "Consistent front, side and back photos",
@@ -35,10 +38,12 @@ export const NATIVE_WORKFLOWS=[
     "requirements": "Use a current compatible ComfyUI. Review per-workflow files, original model terms and hardware fit. Prepare here, then Run in ComfyUI; no models download automatically.",
     "status": "Official native graph · generation not tested here",
     "source": "https://raw.githubusercontent.com/Comfy-Org/workflow_templates/14220b8bd3e86baa852959f17039613191e66656/templates/3d_pixal3d_multi_views.json",
-    "upstreamCommit": "14220b8bd3e86baa852959f17039613191e66656"
+    "upstreamCommit": "14220b8bd3e86baa852959f17039613191e66656",
+    "sha256": "6a6a42b5d6e40e758ded2cd6aa541281b5bf082a179816daf76466a370d9d252"
   },
   {
     "id": "scene-depth",
+    "file": "native/3d_moge_perspective_to_mesh.json",
     "category": "3d",
     "title": "Turn a still into scene geometry",
     "input": "A perspective scene photograph",
@@ -54,10 +59,12 @@ export const NATIVE_WORKFLOWS=[
     "requirements": "Use a current compatible ComfyUI. Review per-workflow files, original model terms and hardware fit. Prepare here, then Run in ComfyUI; no models download automatically.",
     "status": "Official native graph · generation not tested here",
     "source": "https://raw.githubusercontent.com/Comfy-Org/workflow_templates/14220b8bd3e86baa852959f17039613191e66656/templates/3d_moge_perspective_to_mesh.json",
-    "upstreamCommit": "14220b8bd3e86baa852959f17039613191e66656"
+    "upstreamCommit": "14220b8bd3e86baa852959f17039613191e66656",
+    "sha256": "256d2e157acb9e3f51551bdb00f27fcd0dfb7a8d80ec2833b54e054c078410b3"
   },
   {
     "id": "panorama-mesh",
+    "file": "native/3d_moge_panorama_to_mesh.json",
     "category": "3d",
     "title": "Build geometry from a panorama",
     "input": "An equirectangular panorama",
@@ -73,10 +80,12 @@ export const NATIVE_WORKFLOWS=[
     "requirements": "Use a current compatible ComfyUI. Review per-workflow files, original model terms and hardware fit. Prepare here, then Run in ComfyUI; no models download automatically.",
     "status": "Official native graph · generation not tested here",
     "source": "https://raw.githubusercontent.com/Comfy-Org/workflow_templates/14220b8bd3e86baa852959f17039613191e66656/templates/3d_moge_panorama_to_mesh.json",
-    "upstreamCommit": "14220b8bd3e86baa852959f17039613191e66656"
+    "upstreamCommit": "14220b8bd3e86baa852959f17039613191e66656",
+    "sha256": "60564578dde34f1233b3e5d09c4f3b4f03dc0ad18ace8978058767403d8fb586"
   },
   {
     "id": "background-cutout",
+    "file": "native/utility_birefnet_remove_background.json",
     "category": "image",
     "title": "Remove an image background",
     "input": "A subject or product photograph",
@@ -92,10 +101,12 @@ export const NATIVE_WORKFLOWS=[
     "requirements": "Use a current compatible ComfyUI. Review per-workflow files, original model terms and hardware fit. Prepare here, then Run in ComfyUI; no models download automatically.",
     "status": "Local RGBA cutout and mask checked with original product artwork",
     "source": "https://raw.githubusercontent.com/Comfy-Org/workflow_templates/14220b8bd3e86baa852959f17039613191e66656/templates/utility_birefnet_remove_background.json",
-    "upstreamCommit": "14220b8bd3e86baa852959f17039613191e66656"
+    "upstreamCommit": "14220b8bd3e86baa852959f17039613191e66656",
+    "sha256": "a89e7323957cea65a8809e7c6fd6688d336aaa45be48e071867f2e64abd267d6"
   },
   {
     "id": "music-ace15",
+    "file": "native/audio_ace_step_1_5_checkpoint.json",
     "category": "audio",
     "title": "Compose music with ACE-Step 1.5",
     "input": "Music direction and optional lyrics",
@@ -111,10 +122,12 @@ export const NATIVE_WORKFLOWS=[
     "requirements": "Use a current compatible ComfyUI. Review per-workflow files, original model terms and hardware fit. Prepare here, then Run in ComfyUI; no models download automatically.",
     "status": "Official native graph · generation not tested here",
     "source": "https://raw.githubusercontent.com/Comfy-Org/workflow_templates/14220b8bd3e86baa852959f17039613191e66656/templates/audio_ace_step_1_5_checkpoint.json",
-    "upstreamCommit": "14220b8bd3e86baa852959f17039613191e66656"
+    "upstreamCommit": "14220b8bd3e86baa852959f17039613191e66656",
+    "sha256": "aed2778141720491d408dacde096b88250651b5e9554b123b9f686bfbf507c03"
   },
   {
     "id": "talking-photo",
+    "file": "native/video_wan2_2_14B_s2v.json",
     "category": "video",
     "title": "Animate a talking photograph",
     "input": "A portrait and a speech recording",
@@ -130,10 +143,12 @@ export const NATIVE_WORKFLOWS=[
     "requirements": "Use a current compatible ComfyUI. Review per-workflow files, original model terms and hardware fit. Prepare here, then Run in ComfyUI; no models download automatically.",
     "status": "Official native graph · generation not tested here",
     "source": "https://raw.githubusercontent.com/Comfy-Org/workflow_templates/14220b8bd3e86baa852959f17039613191e66656/templates/video_wan2_2_14B_s2v.json",
-    "upstreamCommit": "14220b8bd3e86baa852959f17039613191e66656"
+    "upstreamCommit": "14220b8bd3e86baa852959f17039613191e66656",
+    "sha256": "9b017cde7f0564968cc7d2d2d3d044741a991e6662674b3913d5d77f92e9af71"
   },
   {
     "id": "h3-text",
+    "file": "native/video_minimax_h3_t2v.json",
     "category": "video",
     "title": "Generate H3 video and sound from words",
     "input": "A scene prompt",
@@ -149,10 +164,12 @@ export const NATIVE_WORKFLOWS=[
     "requirements": "Use a current compatible ComfyUI. Review per-workflow files, original model terms and hardware fit. Prepare here, then Run in ComfyUI; no models download automatically.",
     "status": "Official native graph · generation not tested here",
     "source": "https://raw.githubusercontent.com/Comfy-Org/workflow_templates/14220b8bd3e86baa852959f17039613191e66656/templates/video_minimax_h3_t2v.json",
-    "upstreamCommit": "14220b8bd3e86baa852959f17039613191e66656"
+    "upstreamCommit": "14220b8bd3e86baa852959f17039613191e66656",
+    "sha256": "8a5eb23b0dd2df9e99b6f7af9684e770f188feca820d241364b729e01dedf3b6"
   },
   {
     "id": "h3-keyframes",
+    "file": "native/video_minimax_h3_i2v.json",
     "category": "video",
     "title": "Connect first and last frames with H3",
     "input": "Starting and optional ending images",
@@ -168,10 +185,12 @@ export const NATIVE_WORKFLOWS=[
     "requirements": "Use a current compatible ComfyUI. Review per-workflow files, original model terms and hardware fit. Prepare here, then Run in ComfyUI; no models download automatically.",
     "status": "Official native graph · generation not tested here",
     "source": "https://raw.githubusercontent.com/Comfy-Org/workflow_templates/14220b8bd3e86baa852959f17039613191e66656/templates/video_minimax_h3_i2v.json",
-    "upstreamCommit": "14220b8bd3e86baa852959f17039613191e66656"
+    "upstreamCommit": "14220b8bd3e86baa852959f17039613191e66656",
+    "sha256": "34ee39544808fd3b0dc8de9df082940d4d41c3771beb80d3988c1ea5531cec0d"
   },
   {
     "id": "h3-references",
+    "file": "native/video_minimax_h3_r2v.json",
     "category": "video",
     "title": "Direct H3 with image, video and audio references",
     "input": "Reference media and a direction prompt",
@@ -187,10 +206,12 @@ export const NATIVE_WORKFLOWS=[
     "requirements": "Use a current compatible ComfyUI. Review per-workflow files, original model terms and hardware fit. Prepare here, then Run in ComfyUI; no models download automatically.",
     "status": "Official native graph · generation not tested here",
     "source": "https://raw.githubusercontent.com/Comfy-Org/workflow_templates/14220b8bd3e86baa852959f17039613191e66656/templates/video_minimax_h3_r2v.json",
-    "upstreamCommit": "14220b8bd3e86baa852959f17039613191e66656"
+    "upstreamCommit": "14220b8bd3e86baa852959f17039613191e66656",
+    "sha256": "afeea99e9fd5a1456df348e0573e289c1243f2f28546fc95c1c963f808d61ddb"
   },
   {
     "id": "h3-timeline",
+    "file": "native/video_minimax_h3_multiframe_reference.json",
     "category": "video",
     "title": "Anchor H3 frames along a timeline",
     "input": "Reference images and guide timing",
@@ -206,10 +227,12 @@ export const NATIVE_WORKFLOWS=[
     "requirements": "Use a current compatible ComfyUI. Review per-workflow files, original model terms and hardware fit. Prepare here, then Run in ComfyUI; no models download automatically.",
     "status": "Official native graph · generation not tested here",
     "source": "https://raw.githubusercontent.com/Comfy-Org/workflow_templates/14220b8bd3e86baa852959f17039613191e66656/templates/video_minimax_h3_multiframe_reference.json",
-    "upstreamCommit": "14220b8bd3e86baa852959f17039613191e66656"
+    "upstreamCommit": "14220b8bd3e86baa852959f17039613191e66656",
+    "sha256": "a0526a9f0d67f3fac3ad48bda26c86aa6871c0322a5034534fdfa39d9637e641"
   },
   {
     "id": "h3-control",
+    "file": "native/video_minimax_h3_fun_controlnet_union.json",
     "category": "video",
     "title": "Guide H3 with pose, edges or depth",
     "input": "A prepared control video",
@@ -225,10 +248,12 @@ export const NATIVE_WORKFLOWS=[
     "requirements": "Use a current compatible ComfyUI. Review per-workflow files, original model terms and hardware fit. Prepare here, then Run in ComfyUI; no models download automatically.",
     "status": "Official native graph · generation not tested here",
     "source": "https://raw.githubusercontent.com/Comfy-Org/workflow_templates/14220b8bd3e86baa852959f17039613191e66656/templates/video_minimax_h3_fun_controlnet_union.json",
-    "upstreamCommit": "14220b8bd3e86baa852959f17039613191e66656"
+    "upstreamCommit": "14220b8bd3e86baa852959f17039613191e66656",
+    "sha256": "8f6c8f1bbc732b9bf88ac574b279dbac2d163818c4b24067e475ef662c8c831e"
   },
   {
     "id": "flux3-create",
+    "file": "native/image_flux3_klein_distilled_t2i.json",
     "category": "image",
     "title": "Create a still with FLUX 3 Klein",
     "input": "A prompt and optional layout boxes",
@@ -244,10 +269,12 @@ export const NATIVE_WORKFLOWS=[
     "requirements": "Use a current compatible ComfyUI. Review per-workflow files, original model terms and hardware fit. Prepare here, then Run in ComfyUI; no models download automatically.",
     "status": "Official native graph · generation not tested here",
     "source": "https://raw.githubusercontent.com/Comfy-Org/workflow_templates/14220b8bd3e86baa852959f17039613191e66656/templates/image_flux3_klein_distilled_t2i.json",
-    "upstreamCommit": "14220b8bd3e86baa852959f17039613191e66656"
+    "upstreamCommit": "14220b8bd3e86baa852959f17039613191e66656",
+    "sha256": "253fa4e783da734acd03b804a8731d0a7a8c564b73961837762800eb5cf85388"
   },
   {
     "id": "flux3-references",
+    "file": "native/image_flux3_klein_distilled_image_edit.json",
     "category": "image",
     "title": "Edit with FLUX references and layout boxes",
     "input": "Reference photographs and an edit prompt",
@@ -263,10 +290,12 @@ export const NATIVE_WORKFLOWS=[
     "requirements": "Use a current compatible ComfyUI. Review per-workflow files, original model terms and hardware fit. Prepare here, then Run in ComfyUI; no models download automatically.",
     "status": "Local reference/layout product edit rendered with direct prompts",
     "source": "https://raw.githubusercontent.com/Comfy-Org/workflow_templates/14220b8bd3e86baa852959f17039613191e66656/templates/image_flux3_klein_distilled_image_edit.json",
-    "upstreamCommit": "14220b8bd3e86baa852959f17039613191e66656"
+    "upstreamCommit": "14220b8bd3e86baa852959f17039613191e66656",
+    "sha256": "75037b9482769ab98f9d00ac304899c48b9b46b9238686eca19ede42c40924cc"
   },
   {
     "id": "ltx-ingredients",
+    "file": "native/LTX-2.5_ICLoRA_Ingredients_Single_Stage_Distilled.json",
     "category": "video",
     "title": "Keep characters, props and places on a reference sheet",
     "input": "A reference sheet and two-part scene prompt",
@@ -282,10 +311,12 @@ export const NATIVE_WORKFLOWS=[
     "requirements": "Use a current compatible ComfyUI. Review per-workflow files, original model terms and hardware fit. Prepare here, then Run in ComfyUI; no models download automatically. Local export uses the int8 diffusion/text weights and direct local prompts; no API key or extra prompt-enhancer model. Each specialized adapter still needs its own render check.",
     "status": "Official native graph · generation not tested here",
     "source": "https://raw.githubusercontent.com/Lightricks/ComfyUI-LTXVideo/220e1d45aa0469f518e982102fca4dca92a61862/example_workflows/2.5/LTX-2.5_ICLoRA_Ingredients_Single_Stage_Distilled.json",
-    "upstreamCommit": "220e1d45aa0469f518e982102fca4dca92a61862"
+    "upstreamCommit": "220e1d45aa0469f518e982102fca4dca92a61862",
+    "sha256": "9884348041cfa3e2425d828e27f6942d06e23ed51f80a614b54826b72a298d30"
   },
   {
     "id": "ltx-tracks",
+    "file": "native/LTX-2.5_ICLoRA_Motion_Track_Distilled.json",
     "category": "video",
     "title": "Draw motion paths for LTX",
     "input": "A starting image and drawn tracks",
@@ -301,10 +332,12 @@ export const NATIVE_WORKFLOWS=[
     "requirements": "Use a current compatible ComfyUI. Review per-workflow files, original model terms and hardware fit. Prepare here, then Run in ComfyUI; no models download automatically. Local export uses the int8 diffusion/text weights and direct local prompts; no API key or extra prompt-enhancer model. Each specialized adapter still needs its own render check.",
     "status": "Official native graph · generation not tested here",
     "source": "https://raw.githubusercontent.com/Lightricks/ComfyUI-LTXVideo/220e1d45aa0469f518e982102fca4dca92a61862/example_workflows/2.5/LTX-2.5_ICLoRA_Motion_Track_Distilled.json",
-    "upstreamCommit": "220e1d45aa0469f518e982102fca4dca92a61862"
+    "upstreamCommit": "220e1d45aa0469f518e982102fca4dca92a61862",
+    "sha256": "820f03d272be48205970498b14c04fa8b4dc461cb2f9836dfbbab5187882127d"
   },
   {
     "id": "ltx-outpaint",
+    "file": "native/LTX-2.5_ICLoRA_Outpaint_Two_Stage_Distilled.json",
     "category": "video",
     "title": "Extend a video beyond its edges",
     "input": "Source video and desired padding",
@@ -320,10 +353,12 @@ export const NATIVE_WORKFLOWS=[
     "requirements": "Use a current compatible ComfyUI. Review per-workflow files, original model terms and hardware fit. Prepare here, then Run in ComfyUI; no models download automatically. Local export uses the int8 diffusion/text weights and direct local prompts; no API key or extra prompt-enhancer model. Each specialized adapter still needs its own render check.",
     "status": "Official native graph · generation not tested here",
     "source": "https://raw.githubusercontent.com/Lightricks/ComfyUI-LTXVideo/220e1d45aa0469f518e982102fca4dca92a61862/example_workflows/2.5/LTX-2.5_ICLoRA_Outpaint_Two_Stage_Distilled.json",
-    "upstreamCommit": "220e1d45aa0469f518e982102fca4dca92a61862"
+    "upstreamCommit": "220e1d45aa0469f518e982102fca4dca92a61862",
+    "sha256": "b5841393ec072e7f4379fa8a89d0382282dacb3d1f930b6656c1fdae4c11c07f"
   },
   {
     "id": "ltx-union",
+    "file": "native/LTX-2.5_ICLoRA_Union_Control_Distilled.json",
     "category": "video",
     "title": "Control LTX with pose, depth or edges",
     "input": "A control clip and scene direction",
@@ -339,10 +374,12 @@ export const NATIVE_WORKFLOWS=[
     "requirements": "Use a current compatible ComfyUI. Review per-workflow files, original model terms and hardware fit. Prepare here, then Run in ComfyUI; no models download automatically. Local export uses the int8 diffusion/text weights and direct local prompts; no API key or extra prompt-enhancer model. Each specialized adapter still needs its own render check.",
     "status": "Official native graph · generation not tested here",
     "source": "https://raw.githubusercontent.com/Lightricks/ComfyUI-LTXVideo/220e1d45aa0469f518e982102fca4dca92a61862/example_workflows/2.5/LTX-2.5_ICLoRA_Union_Control_Distilled.json",
-    "upstreamCommit": "220e1d45aa0469f518e982102fca4dca92a61862"
+    "upstreamCommit": "220e1d45aa0469f518e982102fca4dca92a61862",
+    "sha256": "739ae7e9b87d55b6cf23b8c17dfc0f83b5c15f8e503e04c32a3dacdd9a8f1184"
   },
   {
     "id": "ltx-audio",
+    "file": "native/LTX-2.5_T2A_Single_Stage_Distilled.json",
     "category": "audio",
     "title": "Generate a sound from a description",
     "input": "A sound or ambience prompt",
@@ -358,10 +395,12 @@ export const NATIVE_WORKFLOWS=[
     "requirements": "Use a current compatible ComfyUI. Review per-workflow files, original model terms and hardware fit. Prepare here, then Run in ComfyUI; no models download automatically. Local export uses the int8 diffusion/text weights and direct local prompts; no API key or extra prompt-enhancer model. Each specialized adapter still needs its own render check.",
     "status": "Official native graph · generation not tested here",
     "source": "https://raw.githubusercontent.com/Lightricks/ComfyUI-LTXVideo/220e1d45aa0469f518e982102fca4dca92a61862/example_workflows/2.5/LTX-2.5_T2A_Single_Stage_Distilled.json",
-    "upstreamCommit": "220e1d45aa0469f518e982102fca4dca92a61862"
+    "upstreamCommit": "220e1d45aa0469f518e982102fca4dca92a61862",
+    "sha256": "3fbb5fa88a261eba46b8901a6d0438c1583b4d910f7abf03447e74c437509c88"
   },
   {
     "id": "ltx-native-shot",
+    "file": "native/LTX-2.5_T2V_I2V_Single_Stage_Distilled.json",
     "category": "video",
     "title": "Direct an LTX shot in its native controls",
     "input": "Words or a starting image",
@@ -377,10 +416,12 @@ export const NATIVE_WORKFLOWS=[
     "requirements": "Use a current compatible ComfyUI. Review per-workflow files, original model terms and hardware fit. Prepare here, then Run in ComfyUI; no models download automatically. Local export uses the int8 diffusion/text weights and direct local prompts; no API key or extra prompt-enhancer model. Each specialized adapter still needs its own render check.",
     "status": "Official native graph · generation not tested here",
     "source": "https://raw.githubusercontent.com/Lightricks/ComfyUI-LTXVideo/220e1d45aa0469f518e982102fca4dca92a61862/example_workflows/2.5/LTX-2.5_T2V_I2V_Single_Stage_Distilled.json",
-    "upstreamCommit": "220e1d45aa0469f518e982102fca4dca92a61862"
+    "upstreamCommit": "220e1d45aa0469f518e982102fca4dca92a61862",
+    "sha256": "792995b1a0e6cdcf26e9dfb60f2b6d6e54a08f63aaf73090b295f592169080c1"
   },
   {
     "id": "ltx-adapter-edit",
+    "file": "native/LTX-2.5_V2V_ICLoRA_Single_Stage_Distilled.json",
     "category": "video",
     "title": "Transform footage with an LTX adapter",
     "input": "A source clip and a compatible IC-LoRA",
@@ -396,10 +437,12 @@ export const NATIVE_WORKFLOWS=[
     "requirements": "Use a current compatible ComfyUI. Review per-workflow files, original model terms and hardware fit. Prepare here, then Run in ComfyUI; no models download automatically. Local export uses the int8 diffusion/text weights and direct local prompts; no API key or extra prompt-enhancer model. Each specialized adapter still needs its own render check.",
     "status": "Official native graph · generation not tested here",
     "source": "https://raw.githubusercontent.com/Lightricks/ComfyUI-LTXVideo/220e1d45aa0469f518e982102fca4dca92a61862/example_workflows/2.5/LTX-2.5_V2V_ICLoRA_Single_Stage_Distilled.json",
-    "upstreamCommit": "220e1d45aa0469f518e982102fca4dca92a61862"
+    "upstreamCommit": "220e1d45aa0469f518e982102fca4dca92a61862",
+    "sha256": "7b04426fd7215bdbb2e5b2207f1974d03d61569f5758161849270692255d202a"
   },
   {
     "id": "ltx-refine",
+    "file": "native/LTX-2.5_V2V_TiledFusion_Upscale.json",
     "category": "video",
     "title": "Refine video detail with tiled LTX",
     "input": "An existing clip",
@@ -415,10 +458,12 @@ export const NATIVE_WORKFLOWS=[
     "requirements": "Use a current compatible ComfyUI. Review per-workflow files, original model terms and hardware fit. Prepare here, then Run in ComfyUI; no models download automatically. Local export uses the int8 diffusion/text weights and direct local prompts; no API key or extra prompt-enhancer model. Each specialized adapter still needs its own render check.",
     "status": "Official native graph · generation not tested here",
     "source": "https://raw.githubusercontent.com/Lightricks/ComfyUI-LTXVideo/220e1d45aa0469f518e982102fca4dca92a61862/example_workflows/2.5/LTX-2.5_V2V_TiledFusion_Upscale.json",
-    "upstreamCommit": "220e1d45aa0469f518e982102fca4dca92a61862"
+    "upstreamCommit": "220e1d45aa0469f518e982102fca4dca92a61862",
+    "sha256": "8336c8fe8dde5f2821b8277e555cc24955c3a25bd056768e273484cd7893d7c0"
   },
   {
     "id": "ltx-alpha",
+    "file": "native/LTX-2.5_V2V_ICLoRA_Single_Stage_Distilled.json",
     "category": "video",
     "title": "Extract a video alpha matte",
     "input": "A source clip and a compatible IC-LoRA",
@@ -435,6 +480,7 @@ export const NATIVE_WORKFLOWS=[
     "status": "Prepared adapter variant · generation not tested here",
     "source": "https://raw.githubusercontent.com/Lightricks/ComfyUI-LTXVideo/220e1d45aa0469f518e982102fca4dca92a61862/example_workflows/2.5/LTX-2.5_V2V_ICLoRA_Single_Stage_Distilled.json",
     "upstreamCommit": "220e1d45aa0469f518e982102fca4dca92a61862",
+    "sha256": "7b04426fd7215bdbb2e5b2207f1974d03d61569f5758161849270692255d202a",
     "adapter": {
       "name": "ltx-2.5-22b-ic-lora-alpha-gen-0.9.safetensors",
       "url": "https://huggingface.co/Lightricks/LTX-2.5-22b-IC-LoRA-Alpha-Gen/resolve/4cc554f7f8dd858b50e80f1d37d70ce0103f5c94/ltx-2.5-22b-ic-lora-alpha-gen-0.9.safetensors",
@@ -451,6 +497,7 @@ export const NATIVE_WORKFLOWS=[
   },
   {
     "id": "ltx-clean-plate",
+    "file": "native/LTX-2.5_V2V_ICLoRA_Single_Stage_Distilled.json",
     "category": "video",
     "title": "Remove moving subjects from footage",
     "input": "A source clip and a compatible IC-LoRA",
@@ -467,6 +514,7 @@ export const NATIVE_WORKFLOWS=[
     "status": "Prepared adapter variant · generation not tested here",
     "source": "https://raw.githubusercontent.com/Lightricks/ComfyUI-LTXVideo/220e1d45aa0469f518e982102fca4dca92a61862/example_workflows/2.5/LTX-2.5_V2V_ICLoRA_Single_Stage_Distilled.json",
     "upstreamCommit": "220e1d45aa0469f518e982102fca4dca92a61862",
+    "sha256": "7b04426fd7215bdbb2e5b2207f1974d03d61569f5758161849270692255d202a",
     "adapter": {
       "name": "ltx-2.5-22b-ic-lora-clean-plate-1.0.safetensors",
       "url": "https://huggingface.co/Lightricks/LTX-2.5-22b-IC-LoRA-Clean-Plate/resolve/5cdacad3ee33574ecb11120b873dec320de79b37/ltx-2.5-22b-ic-lora-clean-plate-1.0.safetensors",
@@ -483,6 +531,7 @@ export const NATIVE_WORKFLOWS=[
   },
   {
     "id": "ltx-night",
+    "file": "native/LTX-2.5_V2V_ICLoRA_Single_Stage_Distilled.json",
     "category": "video",
     "title": "Turn a daylight clip into night",
     "input": "A source clip and a compatible IC-LoRA",
@@ -499,6 +548,7 @@ export const NATIVE_WORKFLOWS=[
     "status": "Prepared adapter variant · generation not tested here",
     "source": "https://raw.githubusercontent.com/Lightricks/ComfyUI-LTXVideo/220e1d45aa0469f518e982102fca4dca92a61862/example_workflows/2.5/LTX-2.5_V2V_ICLoRA_Single_Stage_Distilled.json",
     "upstreamCommit": "220e1d45aa0469f518e982102fca4dca92a61862",
+    "sha256": "7b04426fd7215bdbb2e5b2207f1974d03d61569f5758161849270692255d202a",
     "adapter": {
       "name": "ltx-2.5-22b-ic-lora-day-to-night-0.9.safetensors",
       "url": "https://huggingface.co/Lightricks/LTX-2.5-22b-IC-LoRA-Day-To-Night/resolve/16a69fe6c88de9e349246789d0c18803560881f5/ltx-2.5-22b-ic-lora-day-to-night-0.9.safetensors",
@@ -515,6 +565,7 @@ export const NATIVE_WORKFLOWS=[
   },
   {
     "id": "ltx-water",
+    "file": "native/LTX-2.5_V2V_ICLoRA_Single_Stage_Distilled.json",
     "category": "video",
     "title": "Add water effects to footage",
     "input": "A source clip and a compatible IC-LoRA",
@@ -531,6 +582,7 @@ export const NATIVE_WORKFLOWS=[
     "status": "Prepared adapter variant · generation not tested here",
     "source": "https://raw.githubusercontent.com/Lightricks/ComfyUI-LTXVideo/220e1d45aa0469f518e982102fca4dca92a61862/example_workflows/2.5/LTX-2.5_V2V_ICLoRA_Single_Stage_Distilled.json",
     "upstreamCommit": "220e1d45aa0469f518e982102fca4dca92a61862",
+    "sha256": "7b04426fd7215bdbb2e5b2207f1974d03d61569f5758161849270692255d202a",
     "adapter": {
       "name": "ltx-2.5-22b-ic-lora-water-simulation-0.9.safetensors",
       "url": "https://huggingface.co/Lightricks/LTX-2.5-22b-IC-LoRA-Water-Simulation/resolve/7a458d0c206d6f80ee7bae2f46e21e959f6fc42e/ltx-2.5-22b-ic-lora-water-simulation-0.9.safetensors",
@@ -547,6 +599,7 @@ export const NATIVE_WORKFLOWS=[
   },
   {
     "id": "ltx-colorize",
+    "file": "native/LTX-2.5_V2V_ICLoRA_Single_Stage_Distilled.json",
     "category": "video",
     "title": "Colorize a monochrome clip",
     "input": "A source clip and a compatible IC-LoRA",
@@ -563,6 +616,7 @@ export const NATIVE_WORKFLOWS=[
     "status": "Prepared adapter variant · generation not tested here",
     "source": "https://raw.githubusercontent.com/Lightricks/ComfyUI-LTXVideo/220e1d45aa0469f518e982102fca4dca92a61862/example_workflows/2.5/LTX-2.5_V2V_ICLoRA_Single_Stage_Distilled.json",
     "upstreamCommit": "220e1d45aa0469f518e982102fca4dca92a61862",
+    "sha256": "7b04426fd7215bdbb2e5b2207f1974d03d61569f5758161849270692255d202a",
     "adapter": {
       "name": "ltx-2.5-22b-ic-lora-colorization-0.9.safetensors",
       "url": "https://huggingface.co/Lightricks/LTX-2.5-22b-IC-LoRA-Colorization/resolve/bbc638634b7850d1808f0563fe511fbd753114ba/ltx-2.5-22b-ic-lora-colorization-0.9.safetensors",
@@ -579,6 +633,7 @@ export const NATIVE_WORKFLOWS=[
   },
   {
     "id": "ltx-decompress",
+    "file": "native/LTX-2.5_V2V_ICLoRA_Single_Stage_Distilled.json",
     "category": "video",
     "title": "Repair video compression artifacts",
     "input": "A source clip and a compatible IC-LoRA",
@@ -595,6 +650,7 @@ export const NATIVE_WORKFLOWS=[
     "status": "Prepared adapter variant · generation not tested here",
     "source": "https://raw.githubusercontent.com/Lightricks/ComfyUI-LTXVideo/220e1d45aa0469f518e982102fca4dca92a61862/example_workflows/2.5/LTX-2.5_V2V_ICLoRA_Single_Stage_Distilled.json",
     "upstreamCommit": "220e1d45aa0469f518e982102fca4dca92a61862",
+    "sha256": "7b04426fd7215bdbb2e5b2207f1974d03d61569f5758161849270692255d202a",
     "adapter": {
       "name": "ltx-2.5-22b-ic-lora-decompression-0.9.safetensors",
       "url": "https://huggingface.co/Lightricks/LTX-2.5-22b-IC-LoRA-Decompression/resolve/0cdc45deea0118e3e1250f55ac6f0d7ba49fdabb/ltx-2.5-22b-ic-lora-decompression-0.9.safetensors",
@@ -611,6 +667,7 @@ export const NATIVE_WORKFLOWS=[
   },
   {
     "id": "ltx-deblur",
+    "file": "native/LTX-2.5_V2V_ICLoRA_Single_Stage_Distilled.json",
     "category": "video",
     "title": "Sharpen an out-of-focus clip",
     "input": "A source clip and a compatible IC-LoRA",
@@ -627,6 +684,7 @@ export const NATIVE_WORKFLOWS=[
     "status": "Prepared adapter variant · generation not tested here",
     "source": "https://raw.githubusercontent.com/Lightricks/ComfyUI-LTXVideo/220e1d45aa0469f518e982102fca4dca92a61862/example_workflows/2.5/LTX-2.5_V2V_ICLoRA_Single_Stage_Distilled.json",
     "upstreamCommit": "220e1d45aa0469f518e982102fca4dca92a61862",
+    "sha256": "7b04426fd7215bdbb2e5b2207f1974d03d61569f5758161849270692255d202a",
     "adapter": {
       "name": "ltx-2.5-22b-ic-lora-deblur-0.9.safetensors",
       "url": "https://huggingface.co/Lightricks/LTX-2.5-22b-IC-LoRA-Deblur/resolve/c122ce9224a6002bdb44efc55b882c903387dca6/ltx-2.5-22b-ic-lora-deblur-0.9.safetensors",
@@ -643,6 +701,7 @@ export const NATIVE_WORKFLOWS=[
   },
   {
     "id": "ltx-restore",
+    "file": "native/LTX-2.5_V2V_ICLoRA_Single_Stage_Distilled.json",
     "category": "video",
     "title": "Restore a degraded video with LTX",
     "input": "A source clip and a compatible IC-LoRA",
@@ -659,6 +718,7 @@ export const NATIVE_WORKFLOWS=[
     "status": "Prepared adapter variant · generation not tested here",
     "source": "https://raw.githubusercontent.com/Lightricks/ComfyUI-LTXVideo/220e1d45aa0469f518e982102fca4dca92a61862/example_workflows/2.5/LTX-2.5_V2V_ICLoRA_Single_Stage_Distilled.json",
     "upstreamCommit": "220e1d45aa0469f518e982102fca4dca92a61862",
+    "sha256": "7b04426fd7215bdbb2e5b2207f1974d03d61569f5758161849270692255d202a",
     "adapter": {
       "name": "ltx-2.5-22b-ic-lora-restore-1.0.safetensors",
       "url": "https://huggingface.co/Lightricks/LTX-2.5-22b-IC-LoRA-Restore/resolve/79245e197a6cd3251e77d178dc380b0e9f2d6563/ltx-2.5-22b-ic-lora-restore-1.0.safetensors",
@@ -672,5 +732,35 @@ export const NATIVE_WORKFLOWS=[
       "terms": "other"
     },
     "derivation": "Official single-stage V2V graph with task-specific LTX 2.5 adapter at strength 1. Original model cards define the intended conditioning."
+  },
+  {
+    "id": "animated-loops",
+    "file": "native/animate-diff-loops.json",
+    "category": "video",
+    "title": "Generate an animated loop",
+    "input": "One reference still and a motion prompt",
+    "output": "A looping animation through AnimateDiff and VideoHelperSuite",
+    "summary": "The official Animate Diff High Res Loops template. Inspect its three passes, motion adapter, IP-Adapter and output loop controls in native ComfyUI.",
+    "guide": "https://github.com/Comfy-Org/workflow_templates/blob/c067929d7e9cc0f3fd15be348fa1a1d85da15946/templates/template_animate_diff_loops.json",
+    "name": "Generate an animated loop",
+    "task": "Generate an animated loop",
+    "model": "AnimateDiff / SD 1.5 / IP-Adapter",
+    "execution": "local",
+    "nativeEditorRequired": true,
+    "openWeightsReviewed": false,
+    "requirements": "Native upstream template, not generation-tested here. Requires AnimateDiff Evolved, IP-Adapter, VideoHelperSuite, Fill-Nodes and the optional Qwen-VL helper. Required checkpoints/adapters have not all been pinned for bulk download. Install and review them in ComfyUI; no files download automatically from this page. Not included in the locked open-weights profile until reviewed.",
+    "status": "Official graph · manual dependencies · generation not tested",
+    "source": "https://raw.githubusercontent.com/Comfy-Org/workflow_templates/c067929d7e9cc0f3fd15be348fa1a1d85da15946/templates/template_animate_diff_loops.json",
+    "upstreamCommit": "c067929d7e9cc0f3fd15be348fa1a1d85da15946",
+    "sha256": "93cdfadfa1899a660f42c85355dda9327980ffca097f7c869140081e538eda77",
+    "manualDependencies": [
+      "realismByStableYogi_v4LCM.safetensors",
+      "AnimateLCM_sd15_t2v.ckpt",
+      "v2_lora_ZoomIn.ckpt",
+      "ip-adapter_sd15.safetensors",
+      "CLIP-ViT-H-14-laion2B-s32B-b79K.safetensors",
+      "4x-ClearRealityV1.pth",
+      "Optional AILab Qwen-VL caption model"
+    ]
   }
 ];

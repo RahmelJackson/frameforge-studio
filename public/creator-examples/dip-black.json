@@ -1,0 +1,32 @@
+{
+  "recipe": "dip-black",
+  "loopMode": null,
+  "report": {
+    "technicalPass": true,
+    "sha256": "a4731f913395f116c9dd0efa04ecea8a2e0a49e0fa14a3a20e38a828bc59f9e2",
+    "duration": 3.5,
+    "frames": 84,
+    "fps": 24,
+    "size": [
+      640,
+      360
+    ],
+    "audio": true,
+    "recipe": "dip-black",
+    "gif": null,
+    "seam": null,
+    "warnings": [],
+    "checks": [
+      {
+        "name": "Complete video decode",
+        "pass": true
+      },
+      {
+        "name": "Expected frame count",
+        "pass": true
+      }
+    ]
+  },
+  "source": "Original Frameforge observatory motion study; transitions add the original LTX violet-smoke sample.",
+  "execution": "CPU finishing of existing saved footage. No generative VFX is claimed by these examples."
+}

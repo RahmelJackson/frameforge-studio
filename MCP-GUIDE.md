@@ -1,6 +1,6 @@
 # Use Frameforge from your assistant
 
-Frameforge 0.8.13 provides a local STDIO MCP server and a visual MCP Apps panel. It uses the same task catalog, model requirements, graphs and saved productions as your Studio. It does not require Ollama, a paid Cloud key or a second copy of the model weights.
+Frameforge 0.9.0 provides a local STDIO MCP server and a visual MCP Apps panel. It uses the same task catalog, model requirements, graphs and saved productions as your Studio. It does not require Ollama, a paid Cloud key or a second copy of the model weights.
 
 ## Recommended connection
 
@@ -32,7 +32,7 @@ The raw server is **read-only by default**. Add `--allow-writes` only to enable 
 | `studio_project`, `studio_director`, `studio_recipe` | Save film plans, selected clips and recipe stages |
 | `studio_cancel`, `studio_policy` | Cancel a known job or change the Studio execution profile |
 
-There are **11 read-only tools and 11 additional production tools**. A native graph marked **Open in ComfyUI** needs the native editor; the generic run tool does not pretend to execute every imported graph. Model-name checks do not guarantee hardware fit or creative quality.
+There are **12 read-only tools and 12 additional production tools**. Creator adds shared board/cast/story discovery and opt-in saving, story-project handoff, dataset/timeline export and explicit CPU finishing. Its native panel has production controls; the specialized 3D viewport/orbit recorder is in the website or embedded ComfyUI Studio. See [the creative workspace guide](CREATIVE-WORKSPACE.md). A native graph marked **Open in ComfyUI** needs the native editor; the generic run tool does not pretend to execute every imported graph. Model-name checks do not guarantee hardware fit or creative quality.
 
 No tool provides shell execution, automatic model installation, paid submission or creative approval. Production calls can create files and use your GPU. Client permissions still apply, and local assistants share the selected Studio's saved work and engine. This is a personal local integration, not a public multi-user endpoint.
 

@@ -1,0 +1,32 @@
+{
+  "recipe": "noir",
+  "loopMode": null,
+  "report": {
+    "technicalPass": true,
+    "sha256": "8497499a5479ac772988d2d0c9c34fdd6774e3ef8fd7b2977dbd9c1fe84c54c7",
+    "duration": 2,
+    "frames": 48,
+    "fps": 24,
+    "size": [
+      640,
+      360
+    ],
+    "audio": false,
+    "recipe": "noir",
+    "gif": null,
+    "seam": null,
+    "warnings": [],
+    "checks": [
+      {
+        "name": "Complete video decode",
+        "pass": true
+      },
+      {
+        "name": "Expected frame count",
+        "pass": true
+      }
+    ]
+  },
+  "source": "Original Frameforge observatory motion study; transitions add the original LTX violet-smoke sample.",
+  "execution": "CPU finishing of existing saved footage. No generative VFX is claimed by these examples."
+}

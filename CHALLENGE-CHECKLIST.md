@@ -1,6 +1,6 @@
 # Open Source Higgsfield submission
 
-Source of truth: [official Comfy challenge](https://comfy.org/open-source-higgsfield), checked October 24, 2026. The deadline shown there is **October 30, 2026, 9am Pacific / noon Eastern**. Winners are scheduled for November 6. Recheck the page before submitting.
+Source of truth: [official Comfy challenge](https://comfy.org/open-source-higgsfield), checked October 31, 2026. The extended deadline is **November 3, 2026, 9am Pacific / noon Eastern**. Winners are scheduled for November 10. Recheck the page before submitting. The owner reports a submission; this checklist does not independently verify a form receipt.
 
 ## Qualification and deliverables
 
@@ -51,6 +51,6 @@ An end-to-end MCP client recording, reproducible example graph/input packet, cle
 - **Most Innovative:** the demo needs to explain what is novel. Describe the shared guided/MCP/graph/verification loop concretely; do not claim no one has built a similar tool.
 - **Most Viral:** polished onboarding and a small shareable example can support this, but audience response cannot be promised.
 - **Open Weights Only:** demonstrate no partner-node or closed-API generation. The ordinary app retains optional provider handoffs; obtain organizer clarification about a mixed-provider repository plus locked profile. [Exact profile scope](OPEN-WEIGHTS.md).
-- **LTX / FLUX / MiniMax bonuses:** the official page requires the named model to be the core model in the qualifying workflow. The current Wan/Qwen/Z-Image demonstration does not establish those bonuses. Merely adding a download link or partner template is insufficient.
+- **LTX / FLUX / MiniMax bonuses:** the official page requires the named model to be the core model in the qualifying workflow. Frameforge has actual local LTX 2.5, FLUX 3 Image Klein and H3 sample results and graph packages. Show those specific inputs, graphs and outputs in the demo; template listings alone are insufficient. Creative merit and final eligibility are for the judges.
 
 The broad image/video/speech quality goals remain tracked separately in `REMAINING-CHECKLIST.md`. Their unresolved status must not be hidden by successful software tests.

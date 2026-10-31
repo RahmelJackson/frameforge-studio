@@ -1,0 +1,32 @@
+{
+  "recipe": "wipe",
+  "loopMode": null,
+  "report": {
+    "technicalPass": true,
+    "sha256": "fbb9b549b024500f941a03b803879f84b7c4645c44c7f04e8b83386c1febfa32",
+    "duration": 3.5,
+    "frames": 84,
+    "fps": 24,
+    "size": [
+      640,
+      360
+    ],
+    "audio": true,
+    "recipe": "wipe",
+    "gif": null,
+    "seam": null,
+    "warnings": [],
+    "checks": [
+      {
+        "name": "Complete video decode",
+        "pass": true
+      },
+      {
+        "name": "Expected frame count",
+        "pass": true
+      }
+    ]
+  },
+  "source": "Original Frameforge observatory motion study; transitions add the original LTX violet-smoke sample.",
+  "execution": "CPU finishing of existing saved footage. No generative VFX is claimed by these examples."
+}

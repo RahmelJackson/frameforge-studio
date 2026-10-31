@@ -1,0 +1,32 @@
+{
+  "recipe": "warm",
+  "loopMode": null,
+  "report": {
+    "technicalPass": true,
+    "sha256": "bc5e7b4aa40fd0b200babe7e98bbc5065035c509ea3413d7b250510283a4f67d",
+    "duration": 2,
+    "frames": 48,
+    "fps": 24,
+    "size": [
+      640,
+      360
+    ],
+    "audio": false,
+    "recipe": "warm",
+    "gif": null,
+    "seam": null,
+    "warnings": [],
+    "checks": [
+      {
+        "name": "Complete video decode",
+        "pass": true
+      },
+      {
+        "name": "Expected frame count",
+        "pass": true
+      }
+    ]
+  },
+  "source": "Original Frameforge observatory motion study; transitions add the original LTX violet-smoke sample.",
+  "execution": "CPU finishing of existing saved footage. No generative VFX is claimed by these examples."
+}

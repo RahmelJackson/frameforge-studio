@@ -1,0 +1,38 @@
+{
+  "recipe": "loop",
+  "loopMode": "blend",
+  "report": {
+    "technicalPass": true,
+    "sha256": "b62401e2353353d0a5d9005431124655adc268693879254772c7c4b1f4c34cff",
+    "duration": 1.5,
+    "frames": 18,
+    "fps": 12,
+    "size": [
+      480,
+      270
+    ],
+    "audio": false,
+    "recipe": "loop",
+    "gif": "loop.gif",
+    "seam": {
+      "wrapMeanRGBDifference": 3.938284465020576,
+      "medianAdjacentRGBDifference": 1.5031018518518517,
+      "meaning": "Pixel difference at the wrap, not a creative-quality or seamlessness certification."
+    },
+    "warnings": [
+      "The wrap is cross-blended. Check for ghosting on moving subjects."
+    ],
+    "checks": [
+      {
+        "name": "Complete video decode",
+        "pass": true
+      },
+      {
+        "name": "Expected frame count",
+        "pass": true
+      }
+    ]
+  },
+  "source": "Original Frameforge observatory motion study; transitions add the original LTX violet-smoke sample.",
+  "execution": "CPU finishing of existing saved footage. No generative VFX is claimed by these examples."
+}

@@ -2,7 +2,7 @@ import {filmTabURL} from './studio-map.js';
 const uuid=value=>/^[a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}$/i.test(value??'');
 export function storyWithTake(story,shot,take){if(!uuid(shot)||!uuid(take))throw Error('Choose a valid shot and take.');const next=structuredClone(story),frame=next.frames.find(f=>f.id===shot);if(!frame)throw Error('This shot no longer exists. Reopen the saved story.');frame.takeJobId=take;return next;}
 export function projectContextURL(url,project,shot,plan){return filmTabURL(url,{project,shot,plan});}
-export function shotGenerationInput(frame,jobs=[]){const take=jobs.find(j=>j.id===frame.takeJobId),saved=String(frame.prompt??'').trim(),prior=take?.request??{},asset=!frame.imageJobId&&/^[a-f0-9-]{36}\.(png|jpg|webp)$/.test(prior.asset??'')?prior.asset:null;return {prompt:(saved||String(prior.prompt??'').trim()).slice(0,2500),asset,preset:!saved?prior.preset:null,fromTake:!saved&&!!prior.prompt};}
+export function shotGenerationInput(frame,jobs=[]){const take=jobs.find(j=>j.id===frame.takeJobId),saved=String(frame.prompt??'').trim(),prior=take?.request??{},asset=frame.referenceAsset??(!frame.imageJobId&&/^[a-f0-9-]{36}\.(png|jpg|webp)$/.test(prior.asset??'')?prior.asset:null);return {prompt:(saved||String(prior.prompt??'').trim()).slice(0,2500),asset,preset:!saved?prior.preset:null,fromTake:!saved&&!!prior.prompt};}
 export function checkedSelectedTake(job){return job?.video&&job.report?.technicalPass&&job.review?.verdict!=='rejected'&&uuid(job.id)?job.id:null;}
 const esc=v=>String(v??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
 if(typeof document!=='undefined'&&document.body.dataset.workspace==='video'){

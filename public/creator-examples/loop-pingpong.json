@@ -1,0 +1,38 @@
+{
+  "recipe": "loop",
+  "loopMode": "pingpong",
+  "report": {
+    "technicalPass": true,
+    "sha256": "9f938de172a0b3daa46474c75a5a7a6e3a970319ab3f2e19d166e1814f5d0d5c",
+    "duration": 3.8333333333333335,
+    "frames": 46,
+    "fps": 12,
+    "size": [
+      480,
+      270
+    ],
+    "audio": false,
+    "recipe": "loop",
+    "gif": "loop.gif",
+    "seam": {
+      "wrapMeanRGBDifference": 0,
+      "medianAdjacentRGBDifference": 0,
+      "meaning": "Pixel difference at the wrap, not a creative-quality or seamlessness certification."
+    },
+    "warnings": [
+      "The motion reverses at the ends. This is a ping-pong loop, not a newly generated seamless action."
+    ],
+    "checks": [
+      {
+        "name": "Complete video decode",
+        "pass": true
+      },
+      {
+        "name": "Expected frame count",
+        "pass": true
+      }
+    ]
+  },
+  "source": "Original Frameforge observatory motion study; transitions add the original LTX violet-smoke sample.",
+  "execution": "CPU finishing of existing saved footage. No generative VFX is claimed by these examples."
+}

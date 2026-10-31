@@ -1,4 +1,10 @@
 export const QUICK_TOOLS=[
+ {group:'Images',name:'Creative canvas',hint:'Infinite board for images, clips and 3D',symbol:'◇',path:'/creator?tab=canvas'},
+ {group:'Images',name:'Your cast & LoRA dataset',hint:'Reusable references, captions and trainer export',symbol:'◇',path:'/creator?tab=characters'},
+ {group:'Video',name:'Story formats',hint:'Timed fruit drama, explainer or narrative',symbol:'▤',path:'/creator?tab=stories'},
+ {group:'Video',name:'Effects & transitions',hint:'Finish saved clips and compare versions',symbol:'✧',path:'/creator?tab=effects'},
+ {group:'Video',name:'Looping GIF',hint:'Forward-and-back or a blended wrap',symbol:'≋',path:'/creator?tab=effects&recipe=loop'},
+
  {group:'3D',name:'Make a 3D prop',hint:'TRELLIS.2 / Pixal3D textured model',symbol:'⬡',path:'/native-workflows?workflow=prop-3d'},
  {group:'3D',name:'Scene from a still',hint:'MoGe depth and scene mesh',symbol:'⬡',path:'/native-workflows?workflow=scene-depth'},
  {group:'Video',name:'H3 keyframes',hint:'First / last frames in the local graph',symbol:'▷',path:'/native-workflows?workflow=h3-keyframes'},

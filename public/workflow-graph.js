@@ -1,7 +1,7 @@
 // ComfyUI 0.4 workflow editing. Keep unknown metadata for native-editor round trips.
 export function validateGraph(g){
   if(!g||!Array.isArray(g.nodes)||!Array.isArray(g.links)||g.nodes.length>500)throw Error('Import a ComfyUI canvas JSON with at most 500 nodes. API prompts need conversion first.');
-  const ids=new Set();for(const n of g.nodes){if(!Number.isSafeInteger(n.id)||ids.has(n.id)||typeof n.type!=='string')throw Error('Invalid or duplicate node.');ids.add(n.id);if(!Array.isArray(n.pos)||n.pos.length!==2||!n.pos.every(Number.isFinite))throw Error('Invalid node position.');for(const key of ['inputs','outputs','widgets_values'])if(n[key]!==undefined&&!Array.isArray(n[key]))throw Error('Invalid node '+key+'.');}
+  const ids=new Set();for(const n of g.nodes){if(!Number.isSafeInteger(n.id)||ids.has(n.id)||typeof n.type!=='string')throw Error('Invalid or duplicate node.');ids.add(n.id);if(!Array.isArray(n.pos)||n.pos.length!==2||!n.pos.every(Number.isFinite))throw Error('Invalid node position.');for(const key of ['inputs','outputs'])if(n[key]!==undefined&&!Array.isArray(n[key]))throw Error('Invalid node '+key+'.');if(n.widgets_values!==undefined&&!Array.isArray(n.widgets_values)&&(!n.widgets_values||typeof n.widgets_values!=='object'))throw Error('Invalid node widgets_values.');}
   const links=new Set(),targets=new Set();for(const l of g.links){if(!Array.isArray(l)||l.length!==6||links.has(l[0])||!l.slice(0,5).every(v=>Number.isSafeInteger(v)&&v>=0))throw Error('Invalid link.');links.add(l[0]);const key=l[3]+':'+l[4];if(targets.has(key))throw Error('An input has multiple connections.');targets.add(key);const a=g.nodes.find(n=>n.id===l[1]),b=g.nodes.find(n=>n.id===l[3]);if(!a?.outputs?.[l[2]]||!b?.inputs?.[l[4]])throw Error('Link refers to a missing node or socket.');}
   // Detect cycles before exporting a graph that cannot execute.
   const visiting=new Set(),done=new Set();function visit(id){if(visiting.has(id))throw Error('Connections contain a cycle.');if(done.has(id))return;visiting.add(id);for(const l of g.links.filter(l=>l[1]===id))visit(l[3]);visiting.delete(id);done.add(id);}for(const id of ids)visit(id);
@@ -40,3 +40,7 @@ export function canvasToApi(canvas){
  for(const n of canvas.nodes){const names=n.properties?.['frameforge.widget_names'];if(!Array.isArray(names))throw Error('This graph needs the native ComfyUI editor to compile. Prepare it from the current tab first.');const inputs={};for(let i=0;i<names.length;i++){const name=names[i];if(name.endsWith(' control'))continue;if(['__proto__','prototype','constructor'].includes(name))throw Error('Invalid input name.');inputs[name]=n.widgets_values[i];}for(let i=0;i<(n.inputs??[]).length;i++){const link=canvas.links.find(l=>l[3]===n.id&&l[4]===i);if(link)inputs[n.inputs[i].name]=[String(link[1]),link[2]];}graph[String(n.id)]={class_type:n.type,inputs};}
  return graph;
 }
+
+// Some native custom nodes serialize named widget objects, including VideoHelperSuite.
+export const widgetValues=node=>Array.isArray(node.widgets_values)?node.widgets_values:Object.values(node.widgets_values??{});
+export function setWidgetValues(node,values){node.widgets_values=Array.isArray(node.widgets_values)||!node.widgets_values?values:Object.fromEntries(Object.keys(node.widgets_values).map((key,i)=>[key,values[i]]));}

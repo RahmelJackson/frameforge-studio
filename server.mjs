@@ -1,3 +1,4 @@
+import {creatorRoutes} from './lib/creator-routes.mjs';
 import {setupDoctor,engineConnection} from './lib/setup-doctor.mjs';
 import {SetupInstalls,installationId} from './lib/setup-installs.mjs';
 import {configuredModelRoot,resolveSetupPaths} from './lib/workspace-paths.mjs';
@@ -418,7 +419,7 @@ const thumbnails=new Map();let thumbnailGate=Promise.resolve();
 async function imageThumbnail(job,file){try{const [a,b]=await Promise.all([stat(path.join(jobDir(job.id),job.image)),stat(file)]);if(b.mtimeMs>=a.mtimeMs)return;}catch{}if(!thumbnails.has(job.id)){const work=thumbnailGate.catch(()=>{}).then(()=>pythonJson('image-thumbnail.py',[path.join(jobDir(job.id),job.image),file]));thumbnailGate=work;thumbnails.set(job.id,work);work.finally(()=>thumbnails.delete(job.id)).catch(()=>{});}return thumbnails.get(job.id);}
 async function serveFile(req, res, filename, cacheSeconds=0) {
   const size = (await stat(filename)).size;
-  const mime = { '.woff2':'font/woff2','.html':'text/html; charset=utf-8','.js':'text/javascript','.mjs':'text/javascript','.md':'text/markdown; charset=utf-8','.css':'text/css','.png':'image/png','.jpg':'image/jpeg','.webp':'image/webp','.mp4':'video/mp4','.mkv':'video/x-matroska','.webm':'video/webm','.json':'application/json','.svg':'image/svg+xml','.wav':'audio/wav','.flac':'audio/flac','.mp3':'audio/mpeg','.srt':'application/x-subrip; charset=utf-8','.vtt':'text/vtt; charset=utf-8' }[path.extname(filename)] ?? 'application/octet-stream';
+  const mime = { '.glb':'model/gltf-binary','.gif':'image/gif','.zip':'application/zip','.otio':'application/json','.woff2':'font/woff2','.html':'text/html; charset=utf-8','.js':'text/javascript','.mjs':'text/javascript','.md':'text/markdown; charset=utf-8','.css':'text/css','.png':'image/png','.jpg':'image/jpeg','.webp':'image/webp','.mp4':'video/mp4','.mkv':'video/x-matroska','.webm':'video/webm','.json':'application/json','.svg':'image/svg+xml','.wav':'audio/wav','.flac':'audio/flac','.mp3':'audio/mpeg','.srt':'application/x-subrip; charset=utf-8','.vtt':'text/vtt; charset=utf-8' }[path.extname(filename)] ?? 'application/octet-stream';
   const range = req.headers.range?.match(/^bytes=(\d+)-(\d*)$/);
   if (range) {
     const start = Number(range[1]), end = range[2] ? Math.min(Number(range[2]), size-1) : size-1;
@@ -450,6 +451,7 @@ const modelDownloads=await new ModelDownloads({directory:path.join(DATA,'model-d
  return [...new Map(report.models.filter(m=>m.state!=='available').map(m=>[m.destination,m])).values()];
 }}).init();
 const workflowExports=await new WorkflowExports({data:DATA,plans:workflowPlans}).open();
+const handleCreator=await creatorRoutes({data:DATA,root:ROOT,jobs,projects,creativeStore,readJson,readBody,json,serveFile,runPython,resolveVideoSource,saveJob:save,hosted:HOSTED_MODE});
 
 const communityGallery=new CommunityGallery();
 const assistantTools=createAssistantTools({root:ROOT,comfy,policy:executionPolicy,setup:selectedSetup});
@@ -470,7 +472,7 @@ const server = http.createServer(async (req, res) => {
     const url = new URL(req.url, 'http://127.0.0.1');
     const workflowFrame=url.pathname==='/workflows';
     const communityMedia=!executionPolicy.enabled&&['/','/home','/explore'].includes(url.pathname)?' https://image.civitai.com https://blobs-b2.civitai.com':'';
-    res.setHeader('Content-Security-Policy', "default-src 'self'; img-src 'self' blob:"+communityMedia+"; media-src 'self' blob:"+communityMedia+"; script-src 'self'; style-src 'self'; connect-src 'self'; object-src 'none'; frame-ancestors "+(workflowFrame?"'self'":"'none'"));
+    res.setHeader('Content-Security-Policy', "default-src 'self'; img-src 'self' blob:"+communityMedia+"; media-src 'self' blob:"+communityMedia+"; script-src 'self'; style-src 'self'; connect-src 'self'"+(url.pathname==='/creator'?" blob:":"")+"; object-src 'none'; frame-ancestors "+(workflowFrame?"'self'":"'none'"));
     const route = url.pathname;
     if(HOSTED_MODE&&(['/api/setup/connection','/api/setup/detect','/api/storage','/api/assistant/detect','/api/assistant/mcp-config','/api/assistant/tools'].includes(route)||route==='/api/assistant/connection'&&req.method!=='GET'))return json(res,403,{error:'Machine settings are managed by the demo creator. Download Frameforge to connect your own engine and assistant.'});
     if(route.startsWith('/api/quickstart')&&HOSTED_MODE)return json(res,403,{error:'Software setup belongs to your own local installation.'});
@@ -479,6 +481,7 @@ const server = http.createServer(async (req, res) => {
     if(route==='/api/quickstart/check'&&req.method==='GET'){const [media,vision]=await Promise.all([mediaRuntime(config.python),mediaRuntime(visionPython,'cv2,mediapipe,numpy,PIL')]);return json(res,200,{media,vision});}
     if(route==='/api/quickstart/install'&&req.method==='POST')return json(res,202,{installs:await setupInstalls.start(await readJson(req,2000))});
     const openOnly=executionPolicy.enabled||req.headers['x-frameforge-open-weights-only']==='1';
+    if(await handleCreator(req,res,url))return;
     if(route==='/api/execution-policy'&&req.method==='GET')return json(res,200,{...executionPolicy.describe(),...(openOnly?{openWeightsOnly:true,profile:'open-weights-only'}:{})});
     if(route==='/api/execution-policy'&&req.method==='POST'){const input=await readJson(req,2000);if([...jobs.values()].some(j=>['processing','uploading','submitting','submitted','running','verifying'].includes(j.status))||audioStudio.busy())throw Error('Wait for the current media job before changing the profile.');return json(res,200,await executionPolicy.set(input.openWeightsOnly));}
     if(openOnly&&route.startsWith('/api/explore/civitai'))throw policyError('external community APIs are disabled. Browse the reviewed local recipes instead.');
@@ -703,7 +706,7 @@ const server = http.createServer(async (req, res) => {
     if(route==='/api/audio-assets'&&req.method==='POST'){
       const bytes=await readBody(req);if(bytes.toString('ascii',0,4)!=='RIFF'||bytes.toString('ascii',8,12)!=='WAVE')throw new Error('Choose a WAV soundtrack up to 25 MB.');const id=randomUUID(),filename=path.join(DATA,'audio',id+'.wav');await writeFile(filename,bytes);try{const metadata=await pythonJson('inspect-audio.py',[filename]);if(HOSTED_MODE&&metadata.duration>30)throw Error('Use a WAV up to 30 seconds in the shared demo.');const item={id,...metadata};await recordComfyImport(DATA,'audio',item,req.headers['x-frameforge-source']);return json(res,201,item);}catch(error){await unlink(filename);throw error;}
     }
-    if (route === '/api/jobs' && req.method === 'GET') return json(res,200,[...jobs.values()].sort((a,b)=>b.createdAt.localeCompare(a.createdAt)).map(j=>url.searchParams.get('summary')==='1'?{id:j.id,status:j.status,createdAt:j.createdAt,requestId:j.requestId,image:j.image,video:j.video,request:{kind:j.request.kind,tool:j.request.tool,prompt:j.request.prompt,seed:j.request.seed},review:j.review,report:j.report?{technicalPass:j.report.technicalPass}:null}:j));
+    if (route === '/api/jobs' && req.method === 'GET') return json(res,200,[...jobs.values()].sort((a,b)=>b.createdAt.localeCompare(a.createdAt)).map(j=>url.searchParams.get('summary')==='1'?{id:j.id,status:j.status,createdAt:j.createdAt,requestId:j.requestId,image:j.image,video:j.video,request:{kind:j.request.kind,tool:j.request.tool,prompt:j.request.prompt,seed:j.request.seed},review:j.review,report:j.report?{technicalPass:j.report.technicalPass,duration:j.report.duration,audio:j.report.audio}:null}:j));
     const provenanceRead=route.match(/^\/api\/jobs\/([a-f0-9-]{36})\/provenance$/);
     if(provenanceRead&&req.method==='GET'){const job=jobs.get(provenanceRead[1]);if(!job)return json(res,404,{error:'Saved job not found.'});let graph=null,models=await modelRegistry(ROOT);try{graph=JSON.parse(await readFile(path.join(jobDir(job.id),'workflow.json'),'utf8'));}catch{}if(job.planId)try{models=[...(await workflowPlans.read(job.planId)).models,...models];}catch{}return json(res,200,resultProvenance(job,graph,models));}
     const jobRead=route.match(/^\/api\/jobs\/([a-f0-9-]{36})(\/thumbnail)?$/);
@@ -901,7 +904,7 @@ const server = http.createServer(async (req, res) => {
     const movieMatch=route.match(/^\/films\/([a-f0-9-]{36})\/([a-f0-9-]{36})\/(movie\.mp4|report\.json|poster\.jpg|contact-sheet\.jpg|subtitles\.srt)$/);
     if(movieMatch&&req.method==='GET')return await serveFile(req,res,path.join(DATA,'films',movieMatch[1],movieMatch[2],movieMatch[3]));
     if(assetMatch && req.method==='GET') return await serveFile(req,res,path.join(DATA,'assets',assetMatch[1]));
-    const outputMatch=route.match(/^\/outputs\/([a-f0-9-]{36})\/(output\.(mp4|webm|png)|raw\.(png|mp4)|ungraded\.mp4|finish\.json|contact-sheet\.jpg|poster\.jpg|report\.json|workflow\.json|preserved\.mkv|tracking\.json|selection\.json|reframing\.json|extension\.json|outpainting\.json|selection-preview\.jpg|mask\.mp4|segmentation\.json|human-pose\.json|style\.json)$/);
+    const outputMatch=route.match(/^\/outputs\/([a-f0-9-]{36})\/(output\.(mp4|webm|png)|loop\.gif|raw\.(png|mp4)|ungraded\.mp4|finish\.json|contact-sheet\.jpg|poster\.jpg|report\.json|workflow\.json|preserved\.mkv|tracking\.json|selection\.json|reframing\.json|extension\.json|outpainting\.json|selection-preview\.jpg|mask\.mp4|segmentation\.json|human-pose\.json|style\.json)$/);
     if(outputMatch && req.method==='GET') return await serveFile(req,res,path.join(jobDir(outputMatch[1]),outputMatch[2]));
     const publicFiles={'/explore':'explore.html','/explore.js':'explore.js','/explore.css':'explore.css','/explore-recipes.js':'explore-recipes.js','/showcase.js':'showcase.js','/studio-theme.css':'studio-theme.css','/home':'home.html','/create':'index.html','/home.js':'home.js','/home.css':'home.css','/workspace.css':'workspace.css','/workspace.js':'workspace.js','/studio-icons.js':'studio-icons.js','/studio-chrome.js':'studio-chrome.js','/studio-chrome.css':'studio-chrome.css','/setup-doctor.js':'setup-doctor.js','/studio-journeys.js':'studio-journeys.js','/studio-map.js':'studio-map.js','/studio-match.js':'studio-match.js','/checklist':'checklist.html','/checklist.js':'checklist.js','/checklist.css':'checklist.css','/dialogue-form.js':'dialogue-form.js','/dialogue-expressive-form.js':'dialogue-expressive-form.js','/caption-form.js':'caption-form.js','/sounds.js':'sounds.js','/audio':'audio.html','/audio.js':'audio.js','/lip-holds.js':'lip-holds.js','/body-pose.js':'body-pose.js','/audio.css':'audio.css','/continuity':'continuity.html','/continuity.js':'continuity.js','/continuity.css':'continuity.css','/film':'film.html','/film.js':'film.js','/film.css':'film.css','/':'home.html','/video-tools':'video-tools.html','/video-tools.js':'video-tools.js','/video-tools.css':'video-tools.css','/images':'images.html','/images.js':'images.js','/images.css':'images.css','/app.js':'app.js','/library.js':'library.js','/queue.js':'queue.js','/style.css':'style.css','/sample.jpg':'sample.jpg','/text-frame.svg':'text-frame.svg'};
     Object.assign(publicFiles,{'/director':'director.html','/director.js':'director.js','/director.css':'director.css','/view-options.js':'view-options.js','/style-board.js':'style-board.js'});
@@ -918,6 +921,9 @@ const server = http.createServer(async (req, res) => {
     for(const name of ['workbench.js','workbench.css','video-model-routes.js','proof-view.js','result-details.js','canvas-state.js','sam-selection.js','image-canvas.js','tool-picker.js','studio-tools.css','my-work.js','my-work.css','studio-interactions.js'])publicFiles['/'+name]=name;
     Object.assign(publicFiles,{'/advanced':'advanced.html','/advanced.js':'advanced.js','/advanced.css':'advanced.css','/advanced-workspaces.js':'advanced-workspaces.js'});
     Object.assign(publicFiles,{'/native-workflows':'native-workflows.html','/native-workflows.js':'native-workflows.js','/native-workflows.css':'native-workflows.css','/native-catalog.js':'native-catalog.js','/comfy-quick.js':'comfy-quick.js','/comfy-quick.css':'comfy-quick.css'});
+    for(const name of ['creator.html','creator.js','creator.css','creator-model.js','creator-handoffs.js','creator-stories.svg'])publicFiles['/'+name]=name;publicFiles['/creator']='creator.html';
+    for(const recipe of ['warm','noir','dream','dissolve','dip-black','wipe','loop-pingpong','loop-blend'])for(const ext of ['mp4','jpg','json'])publicFiles['/creator-examples/'+recipe+'.'+ext]='creator-examples/'+recipe+'.'+ext;
+    for(const name of ['three.core.js','three.module.js','GLTFLoader.js','OrbitControls.js','BufferGeometryUtils.js','RoomEnvironment.js','LICENSE.txt'])publicFiles['/vendor/three/'+name]='vendor/three/'+name;
     publicFiles['/video-project.js']='video-project.js';publicFiles['/studio-recipes.js']='studio-recipes.js';publicFiles['/workflow-outcomes.js']='workflow-outcomes.js';
     publicFiles['/explore-art/observatory-motion.mp4']='explore-art/observatory-motion.mp4';
     Object.assign(publicFiles,{'/fonts/InterVariable.woff2':'fonts/InterVariable.woff2','/fonts/Inter-LICENSE.txt':'fonts/Inter-LICENSE.txt','/recipes':'creative-recipes.html','/creative-recipes.js':'creative-recipes.js','/creative-recipes.css':'creative-recipes.css','/visual-workspaces.js':'visual-workspaces.js','/visual-workspaces.css':'visual-workspaces.css'});

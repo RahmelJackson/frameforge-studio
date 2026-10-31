@@ -6,3 +6,5 @@
 @media(prefers-reduced-motion:reduce){.studio-chrome-actions *{transition:none!important}}
 @media(max-width:480px){.workspace-topbar .workspace-menu-toggle{width:32px!important;min-width:32px!important;padding:0!important;justify-content:center}.workspace-topbar .workspace-menu-toggle::before{content:none!important}.workspace-topbar .workspace-menu-toggle span{display:none}.workspace-topbar .chrome-engine{width:32px!important;padding:0!important}.workspace-topbar .chrome-engine .chrome-label{display:none}}
 .workspace-top-navigation .workspace-link.current{box-shadow:none!important;color:#d6ff36!important}
+
+.creator-context-links{display:flex;gap:16px;flex-wrap:wrap;padding:8px 0 16px;font-size:13px}.creator-context-links a{color:#b6cba4;text-underline-offset:4px}.creator-context-links a:hover{color:#d7ff37}

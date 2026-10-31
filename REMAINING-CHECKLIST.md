@@ -1,3 +1,43 @@
+# Current priorities · 0.9.0 · October 31, 2026
+
+This is the current checklist. The release sections below preserve earlier acceptance records; their older open items may have been partly superseded. Read this section first.
+
+## Completed in the creative workspace
+
+- [x] Shared pan/zoom canvas for saved images, videos, notes and imported GLBs; bounded uploads, revision checks, saved camera poses and offline 3D viewing.
+- [x] Actual 3D camera-view PNG capture and recorded orbit WebM, reusable as normal media. This is not a multi-object scene editor.
+- [x] Original 15/30/60-second fruit-romance, explainer, narrative and product formats; timed editable beats, cast-reference handoff and repeatable film-project creation. Clips shorter than a beat are rejected for assembly.
+- [x] Three CPU grades, three two-clip transitions with audio, and two silent loop modes with MP4/GIF exports. Eight real outputs fully decoded; original media retained.
+- [x] Reusable character records, caption editing and a training-dataset ZIP with separate held-out images, hashes and a FLUX.1/AI Toolkit starter config. Actual synthetic-fixture packaging passed; no LoRA was trained.
+- [x] Editable OTIO timeline package with source media, trims, cross-dissolve handles, WAV tracks and SRT. Actual ZIP export passed; editor round-trip fidelity remains below.
+- [x] Shared Creator operations in MCP, native panel controls and direct entries in ComfyUI Quick tools. The specialized 3D viewport remains in the browser/embedded Studio.
+- [x] Official Animate Diff High Res Loops graph is discoverable and exportable with its manual dependencies disclosed. It is not marked generation-tested or reviewed for the locked Open weights profile.
+
+See [the creative workspace guide](CREATIVE-WORKSPACE.md) for exact limits and use cases.
+
+## Before judging: highest value
+
+- [x] Reviewed 0.9.0 source, installed plugin, active ComfyUI extension and private gateway code agree. The MCP catalog exposes 12 read-only / 24 total tools. Public checks: 262 passed with local runtimes; clean source: 233 passed and 29 optional runtime checks skipped; private gateway: 10 passed. A client holding an old MCP process must reconnect. Public judge-link availability is separate below.
+- [ ] Run one polished, original-media path from an idea/reference through edit, animation, narration and a finished film. Review the real outputs and record the current version in under two minutes.
+- [ ] Fresh second-machine Windows install, plus native macOS/Linux acceptance. The current Windows bootstrap test does not establish every GPU dependency on another machine.
+- [ ] Recheck the current native panel in actual supported Codex and Claude clients. Earlier client evidence is version-specific.
+- [ ] Judge-demo availability and owner/judge isolation after deployment; retain seven runs per visitor and one render at a time. The former expired Quick Tunnel hostname cannot be restored. A permanent hostname requires a separate hosting/domain decision.
+- [ ] Verify the submitted repository/demo/social links against the final revision and official form. The official deadline is November 3, 2026, 9am PT / noon Eastern; winners are scheduled for November 10. Owner reports prior submission; this repository does not verify the form receipt.
+
+## Larger work that remains
+
+- [ ] Install/integrate an explicit LoRA training runner, queue/status/cancel, compatible-model loading and held-out identity/overfitting evaluation. Dataset export is complete; training is not.
+- [ ] Multi-object 3D scenes, scene lighting, editable motion/camera paths and camera-conditioned AI video handoff. Prop generation/viewing/capture are available.
+- [ ] Resolve manual dependencies and generate an actual AnimateDiff loop. Broader acceptance of ACE-Step, talking-photo, H3-reference and additional LTX adapter graphs still needs missing weights/nodes and visual checks.
+- [ ] Qualify generative transitions and stronger VFX on multiple source clips/seeds. CPU dissolves/grades do not close that quality goal.
+- [ ] Professional-editor OTIO round-trip, richer composited layers, FCPXML, selective remaster and HDR/EXR delivery.
+- [ ] Live intermediate ComfyUI render previews and optional reviewed vision-LLM reference analysis.
+- [ ] Native cross-platform advanced dependency installers; custom published Comfy Cloud App Mode links; authorized account-side Cloud/Civitai generation. No paid runs are authorized for this update.
+- [ ] Organizer interpretation of Open Weights Only for a mixed-provider repository with a locked local profile. A toggle alone does not certify category eligibility.
+- [ ] The parked creative-quality tracks below: identity/continuity, props/style, swaps, storyboard consistency, moodboards, selective edits, relighting, motion transfer, camera/transitions, video extension, longer profiles, upscale/interpolation, reframing, sketch animation, speech expression, lip sync, voice conversion, transcription/dubbing and music/SFX selection. Successful software checks do not close them.
+
+## Historical acceptance records
+
 ## Usability and first-run audit · release 0.8.13
 
 - [x] Unified 32 px navigation controls, bundled SVG icons, Search/Ctrl+K, Open weights mode pill and live engine status. Navigation layout belongs in Settings only.
@@ -144,7 +184,7 @@ Read [the integration release guide](INTEGRATION-UPGRADE.md) for exact recipe ID
 
 ## Suggested workflow coverage
 
-Not every requested workflow is built. **Image-to-3D objects, editable 3D scenes and 3D camera handoffs are missing.** SAM image selection, Canvas masked edits/outpainting and local LTX/FLUX/H3 graph packages are present. See [the complete coverage audit](WORKSPACE-GUIDE.md#suggested-workflows-current-coverage) for available, partial and missing capabilities. The 15 quality goals below remain separate.
+Not every requested workflow is built. TRELLIS.2 prop generation and the 0.9.0 GLB viewer/camera capture are available; editable multi-object scenes and camera-conditioned AI rendering remain open. SAM image selection, Canvas masked edits/outpainting and local LTX/FLUX/H3 graph packages are present. See [the creative workspace guide](CREATIVE-WORKSPACE.md) and [coverage audit](WORKSPACE-GUIDE.md#suggested-workflows-current-coverage). The 15 quality goals below remain separate.
 
 ## Connected workspaces and Image Canvas · 2026-10-27
 
@@ -174,7 +214,7 @@ Use [the workspace guide](WORKSPACE-GUIDE.md) for the complete interaction flow 
 - [x] Compare the official Cinematic Studio, Re-shoot, Openjutsu and visible Hub tasks against actual implementation; save exact missing pipelines in COMFY-HUB-COMPARISON.md.
 - [ ] Native client acceptance of the visual panel in each targeted Codex/Claude product. The local bridge test is not a client certification.
 - [ ] Clean second-machine reproduction of the chosen GPU/Python demo; actual model hash and dependency records.
-- [ ] Record a ≤2-minute demonstration explaining the contribution; register, publish a tagged social link and submit the official form before October 30 at noon Eastern.
+- [ ] Record a ≤2-minute demonstration explaining the contribution; register, publish a tagged social link and verify the submitted links against the extended November 3 deadline at noon Eastern.
 - [ ] Confirm the Open Weights Only interpretation with organizers for this mixed-provider repository plus locked local profile. Eligibility is not guaranteed by the toggle.
 
 See [MCP setup](MCP-GUIDE.md), [profile scope](OPEN-WEIGHTS.md) and [the challenge checklist](CHALLENGE-CHECKLIST.md). The 15 parked creative quality goals below remain open.
