@@ -50,12 +50,19 @@ export async function launchStudio({root=defaultRoot,port,openPage=true}={}){
  throw Error('Studio did not become ready. Check runtime/launcher.stderr.log. No other process was stopped.');
 }
 export async function stopStudio({root=defaultRoot}={}){
- let record;try{record=JSON.parse(await readFile(path.join(root,'runtime/launcher.json'),'utf8'));}catch(error){if(error.code==='ENOENT')return {stopped:false,note:'This launcher has no Studio to stop.'};throw error;}
- const status=await probe(record.port);
+ // Studio may have been started by this launcher (launcher.json) or by the
+ // desktop shortcut script (launched-processes.json). Stop either, but only
+ // when the running process is this installation and is the recorded PID.
+ const read=async file=>{try{return JSON.parse((await readFile(path.join(root,file),'utf8')).replace(/^\uFEFF/,''));}catch(error){if(error.code==='ENOENT')return null;throw error;}};
+ const record=await read('runtime/launcher.json'),config=await read('config.local.json'),shortcut=await read('runtime/launched-processes.json');
+ const port=record?.port??config?.port??4317,status=await probe(port);
+ if(!record&&!shortcut)return {stopped:false,note:'This launcher has no Studio to stop.'};
  if(!status)return {stopped:false,note:'Studio is already stopped.'};
- if(status.installationId!==installationId(root)||status.pid!==record.pid||status.installationId!==record.installationId)throw Error('The running process belongs to a different installation. Nothing was stopped.');
+ const shortcutPids=[shortcut].flat().filter(p=>p&&p.role==='studio').map(p=>p.pid);
+ const ours=status.installationId===installationId(root)&&(record&&status.pid===record.pid&&status.installationId===record.installationId||shortcutPids.includes(status.pid));
+ if(!ours)throw Error('The running process belongs to a different installation. Nothing was stopped.');
  if(!status.canStop)throw Error('A generation or setup job is active. Wait for it to finish before stopping Studio.');
- process.kill(record.pid);return {stopped:true,note:'Frameforge stopped. ComfyUI and models are unchanged.'};
+ process.kill(status.pid);return {stopped:true,note:'Frameforge stopped. ComfyUI and models are unchanged.'};
 }
 if(process.argv[1]&&import.meta.url===pathToFileURL(process.argv[1]).href){
  try{const value=process.argv.includes('--stop')?await stopStudio():await launchStudio({openPage:!process.argv.includes('--no-browser')});console.log(value.url?'Frameforge is ready: '+value.url:value.note);}

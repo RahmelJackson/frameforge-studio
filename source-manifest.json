@@ -1,6 +1,6 @@
 {
   "version": 1,
-  "created": "2026-10-31T22:52:43.028Z",
+  "created": "2026-10-31T22:59:28.193Z",
   "files": [
     {
       "name": ".agents/plugins/marketplace.json",
@@ -1874,8 +1874,8 @@
     },
     {
       "name": "scripts/quickstart.mjs",
-      "bytes": 5692,
-      "sha256": "db4e370470430dd5d2cfe36a830f91f40501d59ba9cf3144cafc18bc3684735b"
+      "bytes": 6301,
+      "sha256": "00f74c1e3a74a04736a595142778db93cfd85f265cf422635583054d054469a8"
     },
     {
       "name": "scripts/quickstart.ps1",
