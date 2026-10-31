@@ -29,6 +29,13 @@ Eight pinned graphs added to Library and the shared Guide/MCP catalog. Each is p
 - [x] FLUX 3 Klein LoRA dataset profile: Characters can export images with imagefolder `metadata.jsonl` captions, a held-out set and train-flux3-klein.sh/.ps1 for the official diffusers `train_dreambooth_lora_flux3_klein.py` (pinned to diffusers 86ef420). FLUX.1/AI Toolkit stays the default.
 - [ ] Run one FLUX 3 Klein training job and load the result in ComfyUI. diffusers notes FLUX 3 LoRA loading is still being added, so ComfyUI compatibility is unverified.
 
+## Director remote (phone) · October 31, 2026
+
+- [x] Opt-in Wi-Fi phone remote on its own port (4318): QR pairing with a random token (hash stored, re-pairing revokes), signed media links, strict CSP, and only Produce actions (create, continue, pause, resume, retry, redo, narration, auto). Studio and ComfyUI stay on 127.0.0.1; nothing is tunneled to the internet.
+- [x] Dependency-free QR encoder (byte mode, level M, versions 1–10), verified by decoding with OpenCV.
+- [ ] Pair a real phone on the user's Wi-Fi (Windows may ask to allow Node.js on private networks).
+- [ ] Optional online access through a restricted gateway that exposes only the remote's actions.
+
 ## 3D scene blocking · October 31, 2026
 
 - [x] Advanced → 3D scene: stand-in buildings, houses, people, cars, trees, walls, box/ball props and imported GLBs; drag to move, R to rotate, size and colour; tag + description per object; 1–8 camera keys with preview; 16:9, 9:16 and 1:1 frames. Scenes save server-side.

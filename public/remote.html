@@ -1,0 +1,18 @@
+<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover"><meta name="theme-color" content="#0e1011"><meta name="apple-mobile-web-app-capable" content="yes"><meta name="apple-mobile-web-app-status-bar-style" content="black-translucent"><title>Frameforge Remote</title><link rel="icon" href="/frameforge.svg"><link rel="stylesheet" href="/remote.css"><script type="module" src="/remote.js"></script></head><body>
+<header class="r-top"><img src="/frameforge.svg" alt="" width="30" height="30"><div><strong>frameforge</strong><small>Director remote</small></div><span id="r-conn" class="r-conn" role="status">Connecting…</span></header>
+<main id="r-main">
+<section id="r-pair" class="r-card" hidden><h1>Pair this phone</h1><p>Open Studio on your computer, go to Video → Produce → Phone remote, and scan the code with this phone’s camera.</p></section>
+<section id="r-home" hidden>
+ <form id="r-new" class="r-card"><h1>New video</h1>
+  <div id="r-formats" class="r-formats" role="radiogroup" aria-label="Format"></div>
+  <label>Your idea<textarea id="r-subject" maxlength="500" rows="3" required placeholder="A shy pear and an adventurous strawberry meet at a floating market"></textarea></label>
+  <label id="r-sources-field" hidden>Sources (one per line)<textarea id="r-sources" maxlength="2500" rows="2"></textarea></label>
+  <div class="r-seg" role="group" aria-label="Length"><button type="button" data-len="15" aria-pressed="true">15 s</button><button type="button" data-len="30" aria-pressed="false">30 s</button><button type="button" data-len="60" aria-pressed="false">60 s</button></div>
+  <div class="r-seg" role="group" aria-label="Shape"><button type="button" data-shape="portrait" aria-pressed="true">Vertical</button><button type="button" data-shape="landscape" aria-pressed="false">Wide</button><button type="button" data-shape="square" aria-pressed="false">Square</button></div>
+  <button class="r-primary" type="submit">Produce on my PC</button>
+  <p class="r-note" id="r-status" role="status">Renders run on your computer’s GPU, one at a time.</p>
+ </form>
+ <section class="r-card"><h2>Productions</h2><div id="r-list" class="r-list"></div></section>
+</section>
+<section id="r-run" hidden></section>
+</main></body></html>

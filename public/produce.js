@@ -1,4 +1,5 @@
 import {TEMPLATES} from '/template-library.js';
+import {qrSvg} from '/qr.js';
 const $=s=>document.querySelector(s),esc=v=>String(v??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
 async function api(url,body){const r=await fetch(url,body===undefined?{}:{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify(body)}),v=await r.json().catch(()=>({}));if(!r.ok)throw Error(v.error??'The request failed.');return v;}
 const LOOKS={'fruit-romance':'bright 3D animated film look, soft studio lighting, expressive faces, clean background','satisfying-loop':'clean, colourful, smooth satisfying motion, soft even lighting'},DEFAULT_LOOK='cinematic photograph, natural light, shallow depth of field';
@@ -66,3 +67,12 @@ async function start(){
  checkReadiness();await refresh();if(params.get('run'))open(params.get('run'));timer=setInterval(refresh,3000);
 }
 start();
+
+// Phone remote: Wi-Fi-only pairing with a QR code. Only Produce actions are reachable from the phone.
+async function phonePanel(enabled){const body=$('#phone-body');try{const state=enabled===undefined?await api('/api/remote-access'):enabled;
+ if(!state.enabled||!state.urls){body.innerHTML=`${state.enabled?'<p class="produce-note">A phone is paired. Pair again to show a new code (the old phone will need to rescan), or stop sharing.</p>':'<ol class="phone-steps"><li>Your phone and this PC must be on the same Wi-Fi.</li><li>Windows may ask to allow Node.js on private networks. Allow it.</li><li>Scan the code with your phone’s camera.</li></ol>'}<div class="produce-actions"><button type="button" class="primary" id="phone-pair">${state.enabled?'Pair a phone again':'Show the pairing code'}</button>${state.enabled?'<button type="button" id="phone-stop">Stop sharing</button>':''}</div>`;}
+ else{const url=state.urls[0];body.innerHTML=`<div class="phone-qr">${qrSvg(url)}</div><p class="produce-note">Can’t scan? Type this full address on your phone: <code>${esc(url)}</code>${state.urls.length>1?` (or use another address of this PC: ${state.urls.slice(1).map(u=>esc(u.replace(/\/remote#.*/,''))).join(', ')})`:''}.</p><p class="produce-note">Anyone who scans this code on your Wi-Fi can start and approve productions. They can’t reach the rest of Studio or ComfyUI.</p><div class="produce-actions"><button type="button" id="phone-stop">Stop sharing</button></div>`;}
+ $('#phone-pair')?.addEventListener('click',async()=>phonePanel(await api('/api/remote-access',{enable:true})));
+ $('#phone-stop')?.addEventListener('click',async()=>phonePanel(await api('/api/remote-access',{enable:false})));
+}catch(error){body.innerHTML='<p class="produce-note">'+esc(error.message)+'</p>';}}
+$('#phone-open').onclick=()=>{$('#phone-dialog').showModal();phonePanel();};

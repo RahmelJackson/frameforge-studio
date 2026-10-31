@@ -1,6 +1,6 @@
 {
   "version": 1,
-  "created": "2026-10-31T22:38:00.344Z",
+  "created": "2026-10-31T22:52:43.028Z",
   "files": [
     {
       "name": ".agents/plugins/marketplace.json",
@@ -301,6 +301,11 @@
       "name": "lib/provider-workflows.mjs",
       "bytes": 17126,
       "sha256": "7a0a3bbc0ebbd45db1f507c854e78d0c2e06e423b18a1da84f944f8c35826ec0"
+    },
+    {
+      "name": "lib/remote-access.mjs",
+      "bytes": 7761,
+      "sha256": "6766cf560a0f2b39579a244a1a710af1482b5997f5496eb324d3eac705a768de"
     },
     {
       "name": "lib/result-provenance.mjs",
@@ -1074,18 +1079,18 @@
     },
     {
       "name": "public/produce.css",
-      "bytes": 11458,
-      "sha256": "e55e54ec6d760e2b799615551262c1bf7164841e20794fca6476845d21fc01d2"
+      "bytes": 12576,
+      "sha256": "9a557132f1faa0b730cbf64abb448c0cffab5da4767b45bc0962f7988604cebb"
     },
     {
       "name": "public/produce.html",
-      "bytes": 3753,
-      "sha256": "1a238e66d8a766d294aaf5e8fca9b8188a680cbd6ecfa9214f16e28624acbaa8"
+      "bytes": 4294,
+      "sha256": "cc4470e08d633cfda262fa6603f37b8982aca479ae3a15090796eeaf8d4ae573"
     },
     {
       "name": "public/produce.js",
-      "bytes": 14031,
-      "sha256": "e5e0eff0c13bd4c62437b5ba5f8a1e2ae65f0be899a7a063290dde36a09af4f0"
+      "bytes": 15931,
+      "sha256": "d07127d7df737eb12476b9c055b8608f67a29d4bed4855d74381dc9558abfa56"
     },
     {
       "name": "public/proof-view.js",
@@ -1103,9 +1108,29 @@
       "sha256": "a8f5cd19e47d63fdf70dc37d04f5e0d59db00a3f6404d3b7e5079db0efc07421"
     },
     {
+      "name": "public/qr.js",
+      "bytes": 5557,
+      "sha256": "4b802a807c0eb33134aea87e375c6b4b382e5fae8e4430884e6532df3db81de2"
+    },
+    {
       "name": "public/queue.js",
       "bytes": 4078,
       "sha256": "b83f57be6cf8e3a48b6534cd535293cfdb7e758138c0c497db077192c0f0b834"
+    },
+    {
+      "name": "public/remote.css",
+      "bytes": 5672,
+      "sha256": "f773974421112af0aaa9bda25b2ed62c4ef1d170d158418787b5ceff4b70645d"
+    },
+    {
+      "name": "public/remote.html",
+      "bytes": 2333,
+      "sha256": "3fc9d68d2dbd490a9e1981f3416d7a0cd852c94549fde2df0486dcf83660d644"
+    },
+    {
+      "name": "public/remote.js",
+      "bytes": 7664,
+      "sha256": "294c12576553992a563ee3f6da023cca4ecb1d37609472d02945d34d7a1e95dc"
     },
     {
       "name": "public/result-details.js",
@@ -1469,13 +1494,13 @@
     },
     {
       "name": "README.md",
-      "bytes": 11244,
-      "sha256": "9a7923a5afab8a1da0eafd281ca076f833db0805cf3355aceb8f0e46ed3c0a2a"
+      "bytes": 11598,
+      "sha256": "2259dc087ca2a9d96a86405fd08dad3c38b65d478c9ace6ae0fd6fd4b9e35dba"
     },
     {
       "name": "REMAINING-CHECKLIST.md",
-      "bytes": 79603,
-      "sha256": "5600de69e63c76f90aaad9a66f7abc53a1799a4de467d8f92b24a4213afaf0e7"
+      "bytes": 80282,
+      "sha256": "61b6b84b24de11c107413188d19430c8a0e69e4c7b8c2ee79b85fb1369706559"
     },
     {
       "name": "REVIEW-FIXES.md",
@@ -2279,8 +2304,8 @@
     },
     {
       "name": "server.mjs",
-      "bytes": 134460,
-      "sha256": "5ae5f03b3dbd91ba03a3ac3037facbf93cc9f335b5dd1e584672462af60209fd"
+      "bytes": 135164,
+      "sha256": "63fe37e64f0a05e0f4bf9204f77bd9d4f04b31e2579c2f8d3a6db3d0b1c10cd9"
     },
     {
       "name": "setup/advanced-models.lock.json",
@@ -2956,6 +2981,11 @@
       "name": "tests/remaining-media.test.mjs",
       "bytes": 2886,
       "sha256": "bf19077ccdc2e9a6832fd6034c42a95795fb2bd4c41c6b8cda87045f98723037"
+    },
+    {
+      "name": "tests/remote-access.test.mjs",
+      "bytes": 4091,
+      "sha256": "b274b573cc09e41a805e7da7ffad5dd85d9f229eb32144ca76ffe6d0687137aa"
     },
     {
       "name": "tests/round10_check.py",

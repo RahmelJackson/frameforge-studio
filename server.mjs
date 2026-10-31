@@ -1,4 +1,6 @@
 import {Productions} from './lib/productions.mjs';
+import {RemoteAccess} from './lib/remote-access.mjs';
+import {STORY_FORMATS} from './lib/creator-catalog.mjs';
 import {SceneStore,layoutPrompt} from './lib/scenes.mjs';
 import {LoraTrainer} from './lib/lora-trainer.mjs';
 import {creatorRoutes} from './lib/creator-routes.mjs';
@@ -459,6 +461,7 @@ const modelDownloads=await new ModelDownloads({directory:path.join(DATA,'model-d
 const workflowExports=await new WorkflowExports({data:DATA,plans:workflowPlans}).open();
 const scenes=await new SceneStore(DATA).open();
 const productions=await new Productions({directory:DATA,tick:!process.env.FRAMEFORGE_NO_PRODUCE_TICK,call:async(method,route,body,timeout=120000)=>{const r=await fetch('http://127.0.0.1:'+server.address().port+route,{method,headers:{'Content-Type':'application/json','x-frameforge-client':'produce'},body:body===undefined?undefined:JSON.stringify(body),signal:AbortSignal.timeout(timeout)});const v=await r.json().catch(()=>({}));if(!r.ok){const e=Error(v.error??('Studio request failed ('+r.status+').'));e.status=r.status;throw e;}return v;}}).open();
+const remoteAccess=await new RemoteAccess({data:DATA,root:ROOT,port:Number(process.env.FRAMEFORGE_REMOTE_PORT??config.remotePort??4318),studioPort:()=>server.address()?.port??PORT,productions,formats:STORY_FORMATS,hosted:HOSTED_MODE}).open();
 const loraTrainer=await new LoraTrainer({root:ROOT,data:DATA,loras:()=>path.join(modelRoot,'loras'),busy:()=>audioStudio.busy()||[...jobs.values()].some(j=>['processing','uploading','submitting','submitted','running','cancelling','verifying'].includes(j.status))}).open();
 const handleCreator=await creatorRoutes({trainer:HOSTED_MODE?null:loraTrainer,data:DATA,root:ROOT,jobs,projects,creativeStore,readJson,readBody,json,serveFile,runPython,resolveVideoSource,saveJob:save,hosted:HOSTED_MODE});
 
@@ -805,6 +808,8 @@ const server = http.createServer(async (req, res) => {
       return json(res,201,await library.addRecipe({name:input.name,request:job.request,evidenceJobId:job.id}));
     }
     if(route==='/api/short-film-breakdown'&&req.method==='POST')return json(res,200,breakDownScript((await readJson(req,100000)).script));
+    if(route==='/api/remote-access'&&req.method==='GET')return json(res,200,remoteAccess.describe());
+    if(route==='/api/remote-access'&&req.method==='POST'){const input=await readJson(req,1000);return json(res,200,input.enable===true?await remoteAccess.enable():await remoteAccess.disable());}
     if(route==='/api/scenes'&&req.method==='GET')return json(res,200,scenes.list);
     if(route==='/api/scenes'&&req.method==='POST')return json(res,201,await scenes.save(await readJson(req,200000)));
     const sceneRoute=route.match(/^\/api\/scenes\/([a-f0-9-]{36})(?:\/(still))?$/);
@@ -938,7 +943,8 @@ const server = http.createServer(async (req, res) => {
     if(outputMatch && req.method==='GET') return await serveFile(req,res,path.join(jobDir(outputMatch[1]),outputMatch[2]));
     const publicFiles={'/explore':'explore.html','/explore.js':'explore.js','/explore.css':'explore.css','/explore-recipes.js':'explore-recipes.js','/showcase.js':'showcase.js','/studio-theme.css':'studio-theme.css','/home':'home.html','/create':'index.html','/home.js':'home.js','/home.css':'home.css','/workspace.css':'workspace.css','/workspace.js':'workspace.js','/studio-icons.js':'studio-icons.js','/studio-chrome.js':'studio-chrome.js','/studio-chrome.css':'studio-chrome.css','/setup-doctor.js':'setup-doctor.js','/studio-journeys.js':'studio-journeys.js','/studio-map.js':'studio-map.js','/studio-match.js':'studio-match.js','/checklist':'checklist.html','/checklist.js':'checklist.js','/checklist.css':'checklist.css','/dialogue-form.js':'dialogue-form.js','/dialogue-expressive-form.js':'dialogue-expressive-form.js','/caption-form.js':'caption-form.js','/sounds.js':'sounds.js','/audio':'audio.html','/audio.js':'audio.js','/lip-holds.js':'lip-holds.js','/body-pose.js':'body-pose.js','/audio.css':'audio.css','/continuity':'continuity.html','/continuity.js':'continuity.js','/continuity.css':'continuity.css','/film':'film.html','/film.js':'film.js','/film.css':'film.css','/':'home.html','/video-tools':'video-tools.html','/video-tools.js':'video-tools.js','/video-tools.css':'video-tools.css','/images':'images.html','/images.js':'images.js','/images.css':'images.css','/app.js':'app.js','/library.js':'library.js','/queue.js':'queue.js','/style.css':'style.css','/sample.jpg':'sample.jpg','/text-frame.svg':'text-frame.svg'};
     Object.assign(publicFiles,{'/director':'director.html','/director.js':'director.js','/director.css':'director.css','/view-options.js':'view-options.js','/style-board.js':'style-board.js'});
-    Object.assign(publicFiles,{'/scene':'scene.html','/scene.js':'scene.js','/scene.css':'scene.css'});
+    Object.assign(publicFiles,{'/qr.js':'qr.js'});
+Object.assign(publicFiles,{'/scene':'scene.html','/scene.js':'scene.js','/scene.css':'scene.css'});
 Object.assign(publicFiles,{'/produce':'produce.html','/produce.js':'produce.js','/produce.css':'produce.css'});
 Object.assign(publicFiles,{'/templates':'templates.html','/templates.js':'templates.js','/templates.css':'templates.css','/template-library.js':'template-library.js'});
 Object.assign(publicFiles,{'/short-film':'short-film.html','/short-film.js':'short-film.js','/short-film.css':'short-film.css','/video-playback.js':'video-playback.js'});
