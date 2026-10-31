@@ -1,12 +1,51 @@
+// Goal pickers at the top of each section. Instead of a wall of tools, each
+// section opens with "What do you want to do?" and a handful of plain-language
+// goals that lead to the exact tool or template, with the full tools below.
 const introductions={
- images:{label:'Images',title:'A first frame. A new direction.',copy:'Start with a prompt or bring a picture. Edit one detail, build a campaign, then carry your favourite frame into Video.',art:'product-preview.jpg',start:'#image-form',steps:['Choose a tool','Bring your idea or image','Review, remix, animate'],ideas:[['/images?view=canvas','Make a precise edit','Paint a region or select a subject.','art-edit.svg'],['/images?tool=select','Select with SAM 3.1','Describe it, click it or draw a box.','art-cutout.svg'],['/images?tool=edit&localWorkflow=flux3-image','Try FLUX 3 locally','Change a detail with an open-weight graph.','art-style.svg']]},
- create:{label:'Video',title:'One shot. Or your whole film.',copy:'Animate a still, direct a camera move or plan connected shots. Start with a short take, compare it, then build your film.',art:'observatory-preview.jpg',start:'#shot-form',steps:['Choose your model','Add a frame and direction','Review the take, build a story'],ideas:[['/create?localWorkflow=ltx-vfx','Make an atmospheric VFX shot','Start with an image and a visible effect.','art-animate.svg'],['/video-tools?tool=segment','Track a subject with SAM','Refine a mask before changing a region.','art-replace.svg'],['/produce','Produce a whole video','One idea to keyframes, clips, voice and a cut.','art-produce.svg']]},
- 'video-tools':{label:'Video · edit & finish',title:'Keep the motion. Shape the moment.',copy:'Bring a clip, guide an edit and carry it into your film. Finish the picture, reuse a motion or make room for another format.',art:'observatory-preview.jpg',start:'#video-tool-form',steps:['Choose an edit','Bring a clip or reference','Compare, save, use in a film'],ideas:[['/recipes?recipe=motion-remix','Remix a saved motion','Reuse a reference with a new subject.','art-motion.svg'],['/video-tools?tool=segment','Select and track a subject','Use SAM 3.1 keep/exclude points.','art-replace.svg'],['/video-tools?tool=reframe','Fit another screen','Reframe a clip for your next format.','art-upscale.svg']]},
- audio:{label:'Audio',title:'Every story deserves a voice.',copy:'Write a line or bring a recording. Create narration, shape a conversation, or turn spoken words into subtitles and a new soundtrack.',art:'portrait-preview.jpg',start:'#audio-form',sound:true,steps:['Choose a voice or recording','Shape words, delivery or timing','Listen, save, use with video'],ideas:[['/audio?tool=speech','Give it a voice','A short script becomes saved narration.','art-talk.svg'],['/audio?tool=transcribe','Make every word visible','A recording becomes editable subtitles.','art-sound.svg'],['/audio?tool=dub','Take it to another language','Review a transcript, translate and dub.','art-drama.svg']]},
- workflows:{label:'Workflow library',title:'Find the right way to make it.',copy:'Start with the result you want. Each workflow explains the inputs, model choices, downloads and ComfyUI graph before you run.',art:'observatory-preview.jpg',start:'#workflow-search',steps:['Find your task','Check its graph and files','Create locally or open a Cloud route'],ideas:[['/images?view=canvas','Change just one detail','Select, edit and see which pixels changed.','art-edit.svg'],['/recipes','Follow a creative recipe','Chain subjects, motions and shot plans.','art-motion.svg'],['/short-film','Make a complete short film','Go from selected takes to a rough cut.','art-produce.svg']]}
+ images:{label:'Images',title:'What do you want to do with images?',copy:'Pick a goal. Each one opens the right tool with the steps explained. Every image tool is still below.',start:'#image-form',goals:[
+  ['/templates?template=create-image','Make a picture from words','Describe it, get a still','art-image.svg'],
+  ['/templates?template=edit-image','Change one thing in a photo','Background, outfit or light','art-edit.svg'],
+  ['/templates?template=restyle-image','Give it a new style','Painting, illustration, film look','art-style.svg'],
+  ['/templates?template=remove-background','Cut out a person or product','Clean transparent edge','art-cutout.svg'],
+  ['/images?view=characters','Keep a character consistent','Save a face, reuse it everywhere','art-drama.svg'],
+  ['/templates?template=photo-to-3d','Turn a photo into a 3D prop','Use it in the 3D scene','art-scene3d.svg']]},
+ create:{label:'Video',title:'What kind of video are you making?',copy:'Pick a goal. Produce makes a whole video from one idea; the others make one shot at a time. Every video tool is still below.',start:'#shot-form',goals:[
+  ['/produce','A whole video from one idea','Shots, voice, captions and a cut','art-produce.svg'],
+  ['/templates?template=animate-image','Bring a still to life','One picture becomes a clip','art-animate.svg'],
+  ['/templates?template=performance-transfer','Move a character with my moves','Your clip drives the motion','art-motion.svg'],
+  ['/scene','Block the shot in 3D first','Stand-ins and a camera move','art-scene3d.svg'],
+  ['/templates?template=talking-photo','Make a photo talk','A portrait plus a voice','art-talk.svg'],
+  ['/templates?template=seamless-loop','Make a seamless loop','For GIFs and backgrounds','art-loop.svg']]},
+ 'video-tools':{label:'Video · edit & finish',title:'What do you want to fix or change?',copy:'Bring a clip and pick a goal. Every edit and finishing tool is still below.',start:'#video-tool-form',goals:[
+  ['/templates?template=upscale-video','Make it sharper and smoother','Upscale and add frames','art-upscale.svg'],
+  ['/templates?template=character-replace','Replace a person','Keep the motion, swap who it is','art-replace.svg'],
+  ['/video-tools?tool=reframe','Fit another screen','16:9 to vertical and back','art-phone.svg'],
+  ['/video-tools?tool=relight','Change the light','Warmer, darker, golden hour','art-style.svg'],
+  ['/video-tools?tool=extend','Make the clip longer','Continue before or after','art-animate.svg'],
+  ['/video-tools?tool=segment','Change just one subject','Track it with SAM, then edit','art-cutout.svg']]},
+ audio:{label:'Audio',title:'What should it sound like?',copy:'Pick a goal. Voices, subtitles and music all run on your own computer. Every audio tool is still below.',start:'#audio-form',goals:[
+  ['/audio?tool=speech','Narrate a script','Type it, pick a voice','art-talk.svg'],
+  ['/audio?tool=transcribe','Subtitles from a recording','Editable, timed captions','art-sound.svg'],
+  ['/audio?tool=dub','Dub into another language','Translate, revoice, keep timing','art-drama.svg'],
+  ['/audio?tool=lipsync','Lip-sync a face to a voice','Mouth follows the words','art-phone.svg'],
+  ['/templates?template=music-bed','Compose a music bed','Background music from a mood','art-music.svg'],
+  ['/templates?template=sound-effects','Add sound effects','Footsteps, rain, whooshes','art-loop.svg']]},
+ workflows:{label:'Library',title:'Looking for something specific?',copy:'Start with the result you want. Each workflow explains its inputs, models, downloads and ComfyUI graph before you run it.',start:'#workflow-search',goals:[
+  ['/templates','Browse templates','Ready-to-run starting points','art-image.svg'],
+  ['/produce','Make a whole video','Produce plans and renders it','art-produce.svg'],
+  ['/recipes','Follow a creative recipe','Chain subjects, motion and shots','art-motion.svg'],
+  ['/short-film','Cut a short film','From selected takes to a rough cut','art-drama.svg'],
+  ['/setup#workflow-models','Get the models I need','Plug-and-play download bundles','art-upscale.svg'],
+  ['/native-workflows','Open a ComfyUI graph','Every graph Studio runs, editable','art-edit.svg']]},
+ advanced:{label:'Advanced',title:'Specialist tools',copy:'For when you want more control. Most people never need these, but they are here when you do.',start:'#advanced-content',goals:[
+  ['/scene','Block a scene in 3D','Tagged stand-ins become the shot','art-scene3d.svg'],
+  ['/advanced?section=3d','3D props and multiview','Geometry and turnarounds','art-cutout.svg'],
+  ['/advanced?section=selection','Precise selections','SAM masks for images and video','art-replace.svg'],
+  ['/creator?tab=characters','Train a character LoRA','FLUX 3 LoRA on your GPU','art-drama.svg']]}
 };
 const esc=v=>String(v).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
 export function workspaceIntro(page,params=new URLSearchParams()){
  const key=page==='library'&&params.get('collection')!=='saved'?'workflows':page,c=introductions[key];if(!c)return '';
- return `<section class="creative-page-title${c.sound?' sound-introduction':''}" aria-label="Creative starting points" data-workspace-intro="${key}"><div class="creative-title-top"><div class="creative-title-copy"><p class="creative-title-kicker">${esc(c.label)} · a place to begin</p><h1>${esc(c.title)}</h1><p>${esc(c.copy)}</p><div class="creative-title-actions"><a href="${c.start}" class="intro-start">Start creating ↓</a><button type="button" data-find-tool>Help me choose a workflow →</button></div></div><div class="creative-title-art" aria-hidden="true"><img src="/explore-art/${c.art}" alt="" fetchpriority="high">${c.sound?'<svg class="intro-wave" viewBox="0 0 320 100" preserveAspectRatio="none">'+Array.from({length:32},(_,i)=>{const h=(Math.sin(i*1.8)+1)*27+12;return '<rect x="'+(i*10)+'" y="'+((100-h)/2)+'" width="6" height="'+h+'" rx="3"/>';}).join('')+'</svg><span class="intro-caption">Your words. Your rhythm.</span>':'<span class="intro-caption">Your idea → your workflow → your result</span>'}</div></div><ol class="creative-first-steps">${c.steps.map((s,i)=>`<li><b>0${i+1}</b>${esc(s)}</li>`).join('')}</ol><div class="creative-ideas" aria-label="Suggested workflows">${c.ideas.map(([href,title,copy,art])=>`<a href="${href}"><img src="/explore-art/${art}" alt="" loading="lazy"><span><strong>${esc(title)}</strong><small>${esc(copy)}</small></span><b aria-hidden="true">→</b></a>`).join('')}</div><button class="creative-intro-toggle" type="button" aria-expanded="true">Hide starting ideas ↑</button></section>`;
+ return `<section class="creative-page-title goal-picker" aria-label="${esc(c.label)}: what do you want to do?" data-workspace-intro="${key}"><div class="goal-picker-head"><div><p class="creative-title-kicker">${esc(c.label)} · start here</p><h1>${esc(c.title)}</h1><p class="goal-picker-copy">${esc(c.copy)}</p></div><div class="goal-picker-actions"><button type="button" data-find-tool>Not sure? Ask the Guide</button><a href="${c.start}" class="intro-start">All tools ↓</a><button class="creative-intro-toggle" type="button" aria-expanded="true">Hide starting ideas ↑</button></div></div><div class="creative-ideas goal-grid" aria-label="Goals">${c.goals.map(([href,title,copy,art])=>`<a href="${href}"><img src="/explore-art/${art}" alt="" loading="lazy"><span><strong>${esc(title)}</strong><small>${esc(copy)}</small></span></a>`).join('')}</div></section>`;
 }
+export const WORKSPACE_GOALS=introductions;

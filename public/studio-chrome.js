@@ -1,3 +1,4 @@
+import './appearance.js';
 import './setting-tips.js';
 export function enginePresentation(status={},online=false){
  if(status.connected)return {state:'ready',label:'Engine ready',href:'/setup#local-install',hint:'ComfyUI is connected. Each workflow checks its own models and nodes. '+(status.mediaAvailable?'Studio media helpers are ready.':'Media uploads also need the optional media helpers.')};

@@ -7,3 +7,8 @@ button.onclick=()=>{paused=!video.paused;motion();};reduced.addEventListener('ch
 $('#home-guide-form').onsubmit=event=>{event.preventDefault();window.dispatchEvent(new CustomEvent('frameforge:open-guide',{detail:{query:$('#home-guide-query').value}}));};
 
 async function agentActivity(){try{const r=await fetch('/api/assistant/agent-status');if(!r.ok)return;const v=await r.json(),el=document.querySelector('#home-agent-activity');if(!el)return;el.hidden=!v.connected;el.textContent='● MCP connection active · your assistant recently contacted the Studio. No render is implied.';}catch{}}agentActivity();setInterval(agentActivity,30000);
+// Studio / Community inspiration switch
+{const main=document.querySelector('main'),tabs=[...document.querySelectorAll('[data-home-tab]')];
+ const show=(tab,scroll)=>{if(!main)return;main.dataset.homeTab=tab;for(const t of tabs){t.dataset.homeTab===tab?t.setAttribute('aria-current','page'):t.removeAttribute('aria-current');}if(scroll)scrollTo({top:0,behavior:'smooth'});};
+ for(const t of tabs)t.addEventListener('click',e=>{e.preventDefault();show(t.dataset.homeTab,true);history.replaceState(null,'',t.dataset.homeTab==='inspiration'?'#inspiration':location.pathname+location.search);});
+ if(location.hash==='#inspiration')show('inspiration',false);}

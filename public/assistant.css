@@ -11,3 +11,9 @@
 @media(max-width:650px){#studio-assistant{width:100%;max-width:100%}.assistant-content,.assistant-top,.assistant-compose,.assistant-footer{padding-left:16px;padding-right:16px}.assistant-compose>div small{font-size:9px}}
 
 .assistant-messages:empty{display:none}.assistant-content>.assistant-messages{padding-top:0;padding-bottom:14px;border-bottom:1px solid #35412d;margin-bottom:18px}
+.assistant-fab{position:fixed;right:20px;bottom:20px;z-index:90;display:flex;align-items:center;gap:8px;padding:11px 16px 11px 13px;border-radius:999px;border:1px solid rgba(214,255,0,.45);background:rgba(20,23,22,.92);color:#f2f4ed;font:600 13px/1 Inter,system-ui,sans-serif;box-shadow:0 10px 30px rgba(0,0,0,.4);backdrop-filter:blur(12px);cursor:pointer}
+.assistant-fab span{color:#d6ff00;font-size:15px}
+.assistant-fab:hover{border-color:#d6ff00;transform:translateY(-1px)}
+.assistant-fab:focus-visible{outline:2px solid #d6ff00;outline-offset:2px}
+body.guide-open .assistant-fab{display:none}
+@media(max-width:640px){.assistant-fab b{display:none}.assistant-fab{padding:13px}}

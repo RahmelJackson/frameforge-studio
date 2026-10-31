@@ -1,6 +1,7 @@
 import * as THREE from './vendor/three/three.module.js';
 import {OrbitControls} from './vendor/three/OrbitControls.js';
 import {GLTFLoader} from './vendor/three/GLTFLoader.js';
+import {SCENE_PRESETS} from './scene-presets.js';
 const $=s=>document.querySelector(s),esc=v=>String(v??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
 async function api(url,body,method){const r=await fetch(url,body===undefined&&!method?{}:{method:method??'POST',headers:{'Content-Type':'application/json'},body:body===undefined?undefined:JSON.stringify(body)}),v=await r.json().catch(()=>({}));if(!r.ok)throw Error(v.error??'The request failed.');return v;}
 
@@ -17,6 +18,7 @@ export const KINDS={
 };
 const SIZES={landscape:[1024,576],portrait:[576,1024],square:[768,768]};
 const uid=()=>Math.random().toString(36).slice(2,10);
+let shotControls,activeKey=0,overViewport=false,lastFrame=0;const held=new Set();
 let scene3d,renderer,editCam,shotCam,controls,ground,grid,helper,raycaster=new THREE.Raycaster(),pointer=new THREE.Vector2();
 let doc=null,selected=null,view='edit',saveTimer=null,dragging=null,playing=null;
 const meshes=new Map(),glbCache=new Map();
@@ -46,7 +48,10 @@ function init(){
  grid=new THREE.GridHelper(200,100,'#8d958f','#a8afaa');grid.position.y=.01;scene3d.add(grid);
  editCam=new THREE.PerspectiveCamera(50,1,.1,800);editCam.position.set(18,14,22);
  shotCam=new THREE.PerspectiveCamera(40,16/9,.1,800);helper=new THREE.CameraHelper(shotCam);scene3d.add(helper);
- controls=new OrbitControls(editCam,canvas);controls.target.set(0,2,0);controls.enableDamping=true;controls.maxPolarAngle=Math.PI*.495;
+ controls=new OrbitControls(editCam,canvas);controls.target.set(0,2,0);controls.enableDamping=true;controls.maxPolarAngle=Math.PI*.495;controls.screenSpacePanning=true;
+ shotControls=new OrbitControls(shotCam,canvas);shotControls.enabled=false;shotControls.enableDamping=true;shotControls.rotateSpeed=.6;shotControls.screenSpacePanning=true;shotControls.addEventListener('change',()=>{if(view==='camera'&&!playing)storeShot(false);});shotControls.addEventListener('end',()=>{if(view==='camera')storeShot(true);});
+ const vp=$('#scene-viewport');vp.addEventListener('pointerenter',()=>overViewport=true);vp.addEventListener('pointerleave',()=>overViewport=false);
+ window.addEventListener('keydown',e=>{if(e.target.closest('input,textarea,select')||!overViewport)return;const k=e.key.toLowerCase();if(['w','a','s','d','q','e','arrowup','arrowdown','arrowleft','arrowright'].includes(k)){held.add(k);e.preventDefault();}else if(k==='shift')held.add(k);});window.addEventListener('keyup',e=>{const k=e.key.toLowerCase();if(held.delete(k)&&view==='camera'&&!held.size)storeShot(true);});window.addEventListener('blur',()=>held.clear());
  new ResizeObserver(resize).observe($('#scene-viewport'));resize();
  canvas.addEventListener('pointerdown',onDown);canvas.addEventListener('pointermove',onMove);window.addEventListener('pointerup',onUp);
  window.addEventListener('keydown',e=>{if(e.target.closest('input,textarea,select')||!selected)return;if(e.key==='Delete'||e.key==='Backspace'){remove(selected.id);e.preventDefault();}if(e.key==='r'||e.key==='R'){selected.rotation=((selected.rotation+(e.shiftKey?-15:15))+540)%360-180;apply(selected);renderInspector();changed();}});
@@ -55,10 +60,18 @@ function init(){
 function resize(){const box=$('#scene-viewport').getBoundingClientRect();renderer.setSize(box.width,box.height,false);editCam.aspect=box.width/box.height;editCam.updateProjectionMatrix();layoutFrame();}
 function layoutFrame(){const frame=$('#scene-frame'),box=$('#scene-viewport').getBoundingClientRect(),[w,h]=SIZES[doc?.aspect??'landscape'],r=Math.min(box.width/w,box.height/h)*.94;frame.style.setProperty('--fw',w*r+'px');frame.style.setProperty('--fh',h*r+'px');frame.hidden=view!=='camera';}
 function cameraAt(t){const keys=doc.camera.keys;if(t<=keys[0].time||keys.length===1)return keys[0];const last=keys.at(-1);if(t>=last.time)return last;const i=keys.findIndex(k=>k.time>t),a=keys[i-1],b=keys[i],u=(t-a.time)/(b.time-a.time),s=u*u*(3-2*u),mix=(p,q)=>p.map((v,j)=>v+(q[j]-v)*s);return {position:mix(a.position,b.position),target:mix(a.target,b.target),fov:a.fov+(b.fov-a.fov)*s};}
+function enterCamera(){const k=doc.camera.keys[activeKey]??doc.camera.keys[0];placeShot(k);shotControls.target.set(...k.target);shotControls.update();}
+function setView(v){view=v;controls.enabled=v==='edit';shotControls.enabled=v==='camera';if(v==='camera')enterCamera();for(const x of document.querySelectorAll('[data-view]'))x.setAttribute('aria-pressed',String(x.dataset.view===v));$('#scene-hint').textContent=v==='camera'?`Looking through the camera · drag to aim · right-drag to slide · scroll to dolly · W A S D to move, Q E down/up · changes save to key ${activeKey+1}`:'Drag empty space to orbit · right-drag to pan · scroll to zoom · W A S D to fly · drag an object to move it · R rotates · Delete removes';const lens=$('#shot-lens');lens.hidden=v!=='camera';syncLens();layoutFrame();renderKeys();}
+const fovToMm=f=>Math.round(12/Math.tan(THREE.MathUtils.degToRad(f)/2)),mmToFov=mm=>Math.round(THREE.MathUtils.radToDeg(2*Math.atan(12/mm))*10)/10;
+function syncLens(){const k=doc?.camera.keys[activeKey];if(!k)return;const mm=fovToMm(k.fov);$('#shot-lens-range').value=String(Math.max(14,Math.min(135,mm)));$('#shot-lens-value').textContent=mm+' mm';}
+let storeTimer=0;function storeShot(save){const k=doc?.camera.keys[activeKey];if(!k)return;k.position=round(shotCam.position);k.target=round(shotControls.target);if(save){clearTimeout(storeTimer);storeTimer=setTimeout(()=>{renderKeys();changed();},150);}}
 function placeShot(k,aspect){shotCam.position.set(...k.position);shotCam.lookAt(new THREE.Vector3(...k.target));shotCam.fov=k.fov;const [w,h]=SIZES[doc.aspect];shotCam.aspect=aspect??w/h;shotCam.updateProjectionMatrix();helper.update();}
+function fly(dt){if(!held.size)return;const cam=view==='camera'?shotCam:editCam,ctl=view==='camera'?shotControls:controls,speed=(held.has('shift')?18:7)*dt,fwd=new THREE.Vector3();cam.getWorldDirection(fwd);fwd.y=0;if(fwd.lengthSq()<1e-6)fwd.set(0,0,-1);fwd.normalize();const right=new THREE.Vector3().crossVectors(fwd,new THREE.Vector3(0,1,0)),move=new THREE.Vector3();
+ if(held.has('w')||held.has('arrowup'))move.add(fwd);if(held.has('s')||held.has('arrowdown'))move.sub(fwd);if(held.has('d')||held.has('arrowright'))move.add(right);if(held.has('a')||held.has('arrowleft'))move.sub(right);if(held.has('e'))move.y+=1;if(held.has('q'))move.y-=1;if(!move.lengthSq())return;move.normalize().multiplyScalar(speed);cam.position.add(move);ctl.target.add(move);if(cam.position.y<.2){const d=.2-cam.position.y;cam.position.y+=d;ctl.target.y+=d;}if(view==='camera')storeShot(false);}
 function frame(time){
- if(playing){const t=(performance.now()-playing.start)/1000;placeShot(cameraAt(t));if(t>playing.end)playing=null;}else if(doc)placeShot(cameraAt(0));
- controls.update();helper.visible=view==='edit';
+ const dt=Math.min(.1,(time-(lastFrame||time))/1000);lastFrame=time;
+ if(playing){const t=(performance.now()-playing.start)/1000;placeShot(cameraAt(t));if(t>playing.end){playing=null;if(view==='camera')enterCamera();}}else if(doc&&view!=='camera')placeShot(doc.camera.keys[activeKey]??cameraAt(0));
+ fly(dt);if(view==='camera'&&!playing)shotControls.update();else controls.update();helper.visible=view==='edit';
  if(view==='camera'){const box=$('#scene-viewport').getBoundingClientRect();shotCam.aspect=box.width/box.height;const [w,h]=SIZES[doc.aspect];const fit=Math.min(box.width/w,box.height/h);const keep=shotCam.fov;const vertical=2*Math.atan(Math.tan(THREE.MathUtils.degToRad(keep)/2)*(box.height/(h*fit*.94)));shotCam.fov=THREE.MathUtils.radToDeg(vertical);shotCam.updateProjectionMatrix();renderer.render(scene3d,shotCam);shotCam.fov=keep;shotCam.updateProjectionMatrix();}
  else renderer.render(scene3d,editCam);
  drawTags();
@@ -73,7 +86,7 @@ function onMove(e){if(!dragging)return;const p=hit(e).ray.intersectPlane(new THR
 function onUp(){if(dragging){if(dragging.moved){renderInspector();changed();}dragging=null;controls.enabled=true;}}
 
 function select(o){selected=o;renderInspector();for(const li of document.querySelectorAll('[data-object]'))li.setAttribute('aria-current',String(li.dataset.object===o?.id));}
-function renderOutliner(){$('#scene-outliner').innerHTML=doc.objects.map(o=>`<li><button type="button" data-object="${o.id}" aria-current="${selected?.id===o.id}"><span aria-hidden="true">${KINDS[o.kind]?.icon??'◆'}</span>${esc(o.tag||KINDS[o.kind]?.label||'Model')}<small>${esc(o.description||'Not tagged yet')}</small></button></li>`).join('')||'<li class="scene-note">Add a building or a person to start.</li>';for(const b of document.querySelectorAll('[data-object]'))b.onclick=()=>select(doc.objects.find(o=>o.id===b.dataset.object));}
+function renderOutliner(){if(doc)$('#scene-empty').hidden=doc.objects.length>0;$('#scene-outliner').innerHTML=doc.objects.map(o=>`<li><button type="button" data-object="${o.id}" aria-current="${selected?.id===o.id}"><span aria-hidden="true">${KINDS[o.kind]?.icon??'◆'}</span>${esc(o.tag||KINDS[o.kind]?.label||'Model')}<small>${esc(o.description||'Not tagged yet')}</small></button></li>`).join('')||'<li class="scene-note">Add a building or a person to start.</li>';for(const b of document.querySelectorAll('[data-object]'))b.onclick=()=>select(doc.objects.find(o=>o.id===b.dataset.object));}
 function renderInspector(){const box=$('#scene-inspector');if(!selected){box.innerHTML='<h2>Select an object</h2><p class="scene-note">Click a stand-in to tag it. The tag and description tell the image model what each grey shape should become.</p>';return;}const o=selected;
  box.innerHTML=`<h2>${esc(KINDS[o.kind]?.label??'Model')}</h2><label>Tag<input data-f="tag" maxlength="40" value="${esc(o.tag)}" placeholder="Mira, Hero car, Bakery"></label><label>What it is<textarea data-f="description" maxlength="160" rows="3" placeholder="a young woman in a yellow raincoat holding an umbrella">${esc(o.description)}</textarea></label><div class="scene-grid3"><label>X<input data-p="0" type="number" step=".1" value="${o.position[0]}"></label><label>Z<input data-p="2" type="number" step=".1" value="${o.position[2]}"></label><label>Turn°<input data-f="rotation" type="number" step="5" value="${o.rotation}"></label></div><div class="scene-grid3"><label>Width<input data-s="0" type="number" step=".1" min=".05" value="${o.scale[0]}"></label><label>Height<input data-s="1" type="number" step=".1" min=".05" value="${o.scale[1]}"></label><label>Depth<input data-s="2" type="number" step=".1" min=".05" value="${o.scale[2]}"></label></div><label class="scene-color">Colour in the layout<input data-f="color" type="color" value="${o.color}"></label><div class="scene-row"><button type="button" id="obj-dup">Duplicate</button><button type="button" id="obj-del">Remove</button></div>`;
  for(const el of box.querySelectorAll('input,textarea'))el.oninput=()=>{if(el.dataset.f){o[el.dataset.f]=el.type==='number'?Number(el.value):el.value;}if(el.dataset.p)o.position[Number(el.dataset.p)]=Number(el.value);if(el.dataset.s)o.scale[Number(el.dataset.s)]=Math.max(.05,Number(el.value)||.05);apply(o);if(['tag','description'].includes(el.dataset.f))renderOutliner();changed();};
@@ -83,29 +96,23 @@ function renderInspector(){const box=$('#scene-inspector');if(!selected){box.inn
 function remove(id){const g=meshes.get(id);scene3d.remove(g);meshes.delete(id);doc.objects=doc.objects.filter(o=>o.id!==id);select(null);renderOutliner();changed();}
 function create(kind,extra={}){const k=KINDS[kind]??KINDS.box,t=controls.target;const o={id:uid(),kind,tag:'',description:'',position:[Math.round(t.x*10)/10,0,Math.round(t.z*10)/10],rotation:0,scale:[...(k.scale)],color:k.color,...extra};doc.objects.push(o);addObject(o);renderOutliner();select(o);changed();return o;}
 
-function renderKeys(){$('#scene-keys').innerHTML=doc.camera.keys.map((k,i)=>`<div class="scene-key"><strong>Key ${i+1}</strong><label>at<input type="number" step=".5" min="0" max="20" data-time="${i}" value="${k.time}" ${i===0?'disabled':''}>s</label><label>lens<input type="number" step="1" min="10" max="100" data-fov="${i}" value="${k.fov}">°</label><button type="button" data-goto="${i}" title="Move the edit view to this key">View</button><button type="button" data-set="${i}" title="Replace this key with the current edit view">Update</button>${i?`<button type="button" data-del="${i}" aria-label="Delete key ${i+1}">✕</button>`:''}</div>`).join('');
+function renderKeys(){$('#scene-keys').innerHTML=doc.camera.keys.map((k,i)=>`<div class="scene-key${i===activeKey?' active':''}"><strong>Key ${i+1}</strong><label>at<input type="number" step=".5" min="0" max="20" data-time="${i}" value="${k.time}" ${i===0?'disabled':''}>s</label><label>lens<input type="number" step="1" min="10" max="100" data-fov="${i}" value="${k.fov}">°</label><button type="button" data-goto="${i}" title="Look through the camera at this key and adjust it">Look</button><button type="button" data-set="${i}" title="Move this key to where the edit view is">Use edit view</button>${i?`<button type="button" data-del="${i}" aria-label="Delete key ${i+1}">✕</button>`:''}</div>`).join('');
  for(const el of document.querySelectorAll('[data-time]'))el.onchange=()=>{doc.camera.keys[Number(el.dataset.time)].time=Math.max(.5,Math.min(20,Number(el.value)||1));doc.camera.keys.sort((a,b)=>a.time-b.time);renderKeys();changed();};
- for(const el of document.querySelectorAll('[data-fov]'))el.onchange=()=>{doc.camera.keys[Number(el.dataset.fov)].fov=Math.max(10,Math.min(100,Number(el.value)||40));changed();};
- for(const b of document.querySelectorAll('[data-goto]'))b.onclick=()=>{const k=doc.camera.keys[Number(b.dataset.goto)];editCam.position.set(...k.position);controls.target.set(...k.target);};
+ for(const el of document.querySelectorAll('[data-fov]'))el.onchange=()=>{doc.camera.keys[Number(el.dataset.fov)].fov=Math.max(10,Math.min(100,Number(el.value)||40));syncLens();if(view==='camera')enterCamera();changed();};
+ for(const b of document.querySelectorAll('[data-goto]'))b.onclick=()=>{activeKey=Number(b.dataset.goto);setView('camera');};
  for(const b of document.querySelectorAll('[data-set]'))b.onclick=()=>{doc.camera.keys[Number(b.dataset.set)]={...doc.camera.keys[Number(b.dataset.set)],...viewKey()};changed();};
- for(const b of document.querySelectorAll('[data-del]'))b.onclick=()=>{doc.camera.keys.splice(Number(b.dataset.del),1);renderKeys();changed();};
+ for(const b of document.querySelectorAll('[data-del]'))b.onclick=()=>{doc.camera.keys.splice(Number(b.dataset.del),1);activeKey=Math.min(activeKey,doc.camera.keys.length-1);renderKeys();changed();};
 }
 const round=v=>v.toArray().map(n=>Math.round(n*100)/100);
-function viewKey(){return {position:round(editCam.position),target:round(controls.target),fov:doc.camera.keys.at(-1)?.fov??40};}
+function viewKey(){return view==='camera'?{position:round(shotCam.position),target:round(shotControls.target),fov:doc.camera.keys[activeKey]?.fov??40}:{position:round(editCam.position),target:round(controls.target),fov:doc.camera.keys.at(-1)?.fov??40};}
 
 function changed(){$('#scene-saved').textContent='Saving…';clearTimeout(saveTimer);saveTimer=setTimeout(save,900);}
 async function save(){try{doc.style=$('#scene-style').value;const saved=await api('/api/scenes',doc);doc.id=saved.id;doc.revision=saved.revision;$('#scene-saved').textContent='Saved';const u=new URL(location.href);u.searchParams.set('scene',doc.id);history.replaceState(null,'',u);refreshList(false);}catch(error){$('#scene-saved').textContent=error.message;}}
 let list=[];async function refreshList(load=true){list=await api('/api/scenes');$('#scene-select').innerHTML=(doc&&!doc.id?'<option value="">Unsaved scene</option>':'')+list.map(s=>`<option value="${s.id}" ${s.id===doc?.id?'selected':''}>${esc(s.name)}</option>`).join('');if(load){const want=new URLSearchParams(location.search).get('scene');const s=list.find(s=>s.id===want)??list[0];open(s?structuredClone(s):blank());}}
 function blank(name='My scene'){return {name,aspect:'landscape',style:'',objects:[],camera:{keys:[{time:0,position:[14,6,18],target:[0,2,0],fov:40}]}};}
-function sample(){const d=blank('Street corner');d.style='rainy evening, warm shop lights, cinematic photograph, 35mm';d.objects=[
- {id:uid(),kind:'building',tag:'Bakery',description:'a narrow three-storey brick bakery with a striped awning and glowing windows',position:[-7,0,-6],rotation:0,scale:[7,10,6],color:'#a08a76'},
- {id:uid(),kind:'building',tag:'Apartments',description:'a tall grey apartment block with fire escapes',position:[6,0,-9],rotation:0,scale:[8,18,7],color:'#8e9894'},
- {id:uid(),kind:'character',tag:'Mira',description:'a young woman in a yellow raincoat holding a clear umbrella, walking',position:[-1,0,2],rotation:20,scale:[1,1,1],color:'#e0c34a'},
- {id:uid(),kind:'character',tag:'Courier',description:'a bike courier in a dark jacket checking his phone',position:[3,0,0],rotation:-40,scale:[1,1,1],color:'#6f7f8f'},
- {id:uid(),kind:'car',tag:'Taxi',description:'a yellow taxi with its headlights on',position:[5,0,6],rotation:90,scale:[1,1,1],color:'#c9a43a'},
- {id:uid(),kind:'tree',tag:'',description:'a young street tree',position:[-4,0,5],rotation:0,scale:[1,1,1],color:'#7f9a72'}];
- d.camera.keys=[{time:0,position:[2.5,1.7,10],target:[0.5,2.2,0],fov:42},{time:4,position:[-0.5,1.6,6.5],target:[-1,1.6,1],fov:36}];open(d);changed();}
-function open(d){doc=d;$('#scene-style').value=d.style??'';for(const b of document.querySelectorAll('[data-aspect]'))b.setAttribute('aria-pressed',String(b.dataset.aspect===d.aspect));rebuild();renderKeys();layoutFrame();refreshListOptions();}
+function preset(id){const p=SCENE_PRESETS.find(p=>p.id===id)??SCENE_PRESETS[0];const d=blank(p.name);d.aspect=p.aspect;d.style=p.style;d.objects=p.objects.map(o=>({...structuredClone(o),id:uid(),color:o.color??KINDS[o.kind]?.color??'#b3a28c'}));d.camera.keys=structuredClone(p.keys);open(d);const t=p.keys[0].target,c=p.keys[0].position;editCam.position.set(c[0]+10,c[1]+8,c[2]+10);controls.target.set(...t);changed();$('#scene-presets').open=false;}
+function presetMarkup(){return SCENE_PRESETS.map(p=>`<button type="button" data-preset="${p.id}"><b>${esc(p.name)}</b><small>${esc(p.hint)}</small></button>`).join('');}
+function open(d){doc=d;activeKey=0;if(view==='camera')setView('edit');$('#scene-style').value=d.style??'';for(const b of document.querySelectorAll('[data-aspect]'))b.setAttribute('aria-pressed',String(b.dataset.aspect===d.aspect));rebuild();renderKeys();layoutFrame();refreshListOptions();$('#scene-empty').hidden=d.objects.length>0;}
 function refreshListOptions(){if(!doc.id&&!$('#scene-select option[value=""]'))$('#scene-select').insertAdjacentHTML('afterbegin','<option value="" selected>Unsaved scene</option>');}
 
 // Layout boxes for tagged objects, in 0–1 image coordinates, from the shot camera at time 0.
@@ -143,12 +150,14 @@ async function poll(){if(!lastStill||lastStill.image)return;const job=await api(
 function wire(){
  $('#scene-palette').innerHTML=Object.entries(KINDS).map(([k,v])=>`<button type="button" data-kind="${k}"><span aria-hidden="true">${v.icon}</span>${v.label}</button>`).join('');
  for(const b of document.querySelectorAll('[data-kind]'))b.onclick=()=>create(b.dataset.kind);
- for(const b of document.querySelectorAll('[data-view]'))b.onclick=()=>{view=b.dataset.view;for(const x of document.querySelectorAll('[data-view]'))x.setAttribute('aria-pressed',String(x===b));layoutFrame();};
+ for(const b of document.querySelectorAll('[data-view]'))b.onclick=()=>setView(b.dataset.view);
+ $('#shot-lens-range').oninput=e=>{const k=doc.camera.keys[activeKey];k.fov=mmToFov(Number(e.target.value));$('#shot-lens-value').textContent=e.target.value+' mm';placeShot(k);};$('#shot-lens-range').onchange=()=>{renderKeys();changed();};
+ $('#scene-preset-list').innerHTML=presetMarkup();$('#scene-empty-list').innerHTML=presetMarkup();for(const b of document.querySelectorAll('[data-preset]'))b.onclick=()=>preset(b.dataset.preset);
  for(const b of document.querySelectorAll('[data-aspect]'))b.onclick=()=>{doc.aspect=b.dataset.aspect;for(const x of document.querySelectorAll('[data-aspect]'))x.setAttribute('aria-pressed',String(x===b));layoutFrame();changed();};
- $('#key-add').onclick=()=>{const last=doc.camera.keys.at(-1);doc.camera.keys.push({time:Math.min(20,last.time+3),...viewKey()});renderKeys();changed();};
- $('#key-play').onclick=()=>{view='camera';for(const x of document.querySelectorAll('[data-view]'))x.setAttribute('aria-pressed',String(x.dataset.view==='camera'));layoutFrame();playing={start:performance.now(),end:doc.camera.keys.at(-1).time+.3};};
+ $('#key-add').onclick=()=>{const last=doc.camera.keys.at(-1);doc.camera.keys.push({time:Math.min(20,last.time+3),...viewKey()});activeKey=doc.camera.keys.length-1;renderKeys();changed();};
+ $('#key-play').onclick=()=>{setView('camera');playing={start:performance.now(),end:doc.camera.keys.at(-1).time+.3};};
  $('#scene-style').oninput=changed;
- $('#scene-new').onclick=()=>{open(blank());};$('#scene-sample').onclick=sample;
+ $('#scene-new').onclick=()=>{open(blank());};
  $('#scene-select').onchange=()=>{const s=list.find(s=>s.id===$('#scene-select').value);if(s)open(structuredClone(s));};
  $('#scene-glb').onchange=async e=>{const file=e.target.files?.[0];if(!file)return;try{if(file.size>80*1024**2)throw Error('Use a GLB under 80 MB.');const gltf=await new GLTFLoader().parseAsync(await file.arrayBuffer(),'');const root=gltf.scene;const b=new THREE.Box3().setFromObject(root),s=b.getSize(new THREE.Vector3()),k=1/Math.max(s.x,s.y,s.z);root.scale.setScalar(k);root.position.set(-(b.min.x+b.max.x)/2*k,-b.min.y*k,-(b.min.z+b.max.z)/2*k);const wrap=new THREE.Group();wrap.add(root);glbCache.set(file.name,wrap);create('glb',{file:file.name.slice(0,160),scale:[2,2,2],tag:file.name.replace(/\.glb$/i,'').slice(0,40)});}catch(error){$('#scene-saved').textContent=error.message;}e.target.value='';};
  $('#render-still').onclick=async()=>{const b=$('#render-still');b.disabled=true;$('#render-status').textContent='Rendering the grey layout and sending it to FLUX 3…';try{lastStill=await renderStill();$('#render-status').textContent='Rendering on your ComfyUI. Tagged objects become layout boxes: '+lastStill.boxes.length+'.';results();poll();}catch(error){$('#render-status').textContent=error.message;}finally{b.disabled=false;}};
