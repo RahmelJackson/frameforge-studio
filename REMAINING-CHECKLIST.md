@@ -29,6 +29,12 @@ Eight pinned graphs added to Library and the shared Guide/MCP catalog. Each is p
 - [x] FLUX 3 Klein LoRA dataset profile: Characters can export images with imagefolder `metadata.jsonl` captions, a held-out set and train-flux3-klein.sh/.ps1 for the official diffusers `train_dreambooth_lora_flux3_klein.py` (pinned to diffusers 86ef420). FLUX.1/AI Toolkit stays the default.
 - [ ] Run one FLUX 3 Klein training job and load the result in ComfyUI. diffusers notes FLUX 3 LoRA loading is still being added, so ComfyUI compatibility is unverified.
 
+## LoRA training on this PC · October 31, 2026
+
+- [x] Creator → Characters → "Train FLUX 3 LoRA here": exports the dataset, runs the official diffusers FLUX 3 Klein script in an isolated runtime/trainer-env (reusing the engine's CUDA Torch, pinned so it's never replaced), shows step progress and the log, cancels cleanly, and copies the finished LoRA into ComfyUI/models/loras. One run at a time; renders and Produce wait while it trains.
+- [x] One-click trainer install (Setup installs profile `trainer`), with checks for CUDA, Hugging Face sign-in and the gated base.
+- [ ] Install the trainer and complete one real training run on the local GPU; then test loading the LoRA in ComfyUI (unverified for FLUX 3).
+
 ## Motion transfer and sound · October 31, 2026
 
 - [x] Wan Animate 2 and Wan Animate 2 distilled (official Comfy templates, native nodes only, Apache-2.0 weights pinned at Comfy-Org/Wan-Animate-2 e7181fe). Reviewed for the open-weights profile.

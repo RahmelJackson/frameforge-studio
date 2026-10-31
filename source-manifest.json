@@ -1,6 +1,6 @@
 {
   "version": 1,
-  "created": "2026-10-31T18:40:58.202Z",
+  "created": "2026-10-31T22:22:11.788Z",
   "files": [
     {
       "name": ".agents/plugins/marketplace.json",
@@ -174,8 +174,8 @@
     },
     {
       "name": "lib/creator-routes.mjs",
-      "bytes": 12312,
-      "sha256": "846875c3c02046900069117f4c5cf21dae21bfb928bcb940715a2ae54b2aa67f"
+      "bytes": 13230,
+      "sha256": "2419234c73c69b3f682dbabdddb8fe4f94e403ce7d374b1f334d720f62cdab6e"
     },
     {
       "name": "lib/creator-store.mjs",
@@ -236,6 +236,11 @@
       "name": "lib/looks.mjs",
       "bytes": 2478,
       "sha256": "b18344668e20ead4c8156f944c1a9b203163a7aa8918a7c288961ae857ed13ff"
+    },
+    {
+      "name": "lib/lora-trainer.mjs",
+      "bytes": 7121,
+      "sha256": "a1069e71b76b7095b372f92d0470612059107fd05f5a983cd604174c7482df2a"
     },
     {
       "name": "lib/ltx-effects.mjs",
@@ -314,8 +319,8 @@
     },
     {
       "name": "lib/setup-installs.mjs",
-      "bytes": 2010,
-      "sha256": "4b433a922f08b0b120ed42f4ca955fdebf9122d8a55df5884dbe64f5366797b4"
+      "bytes": 2118,
+      "sha256": "79a57951b417460bce77818abeeca8cb3bc731e5d258079c3a9936a6a3b4d04a"
     },
     {
       "name": "lib/short-film.mjs",
@@ -339,8 +344,8 @@
     },
     {
       "name": "lib/studio-assistant.mjs",
-      "bytes": 16286,
-      "sha256": "6be2a05f978e8d40832148b87e6367cdd48cf69eb3e23baf0305dbee7c30885c"
+      "bytes": 16380,
+      "sha256": "6439cc07f40553b49468276026b45787803fb7acb81c682f6910f865b590c063"
     },
     {
       "name": "lib/studio-embed.mjs",
@@ -371,6 +376,11 @@
       "name": "lib/tool-requirements.mjs",
       "bytes": 8419,
       "sha256": "1150940da10af634a7f93a39335b73beb733e6fc35076dcf29bcd67470df76e7"
+    },
+    {
+      "name": "lib/trainer-paths.mjs",
+      "bytes": 973,
+      "sha256": "4f66252e731490929d3183063d39cc328f436b6591e3a456dc54ad91edb291f6"
     },
     {
       "name": "lib/video-tools.mjs",
@@ -739,18 +749,18 @@
     },
     {
       "name": "public/creator.css",
-      "bytes": 10815,
-      "sha256": "14987f62b771b6d282038916d6120462889f6ccfe10fb79d1724098782018aeb"
+      "bytes": 11316,
+      "sha256": "95eade4eb4f15754047f514126c3e2eeeb84b02d78bfa5762d9f2cff6d60460d"
     },
     {
       "name": "public/creator.html",
-      "bytes": 8532,
-      "sha256": "c1404ea3135eb3f822b3bb1dcc3ea09911e5764b2bb257dd5f87af109fa3e0ec"
+      "bytes": 9153,
+      "sha256": "74ab430cd53428ddcc9f0e9002edb65b43d0e5f86a52fc6558e5f981caf52e24"
     },
     {
       "name": "public/creator.js",
-      "bytes": 32489,
-      "sha256": "b3afc3d2203742cedefe1a48c1bb12c4c20d52678906ef073c47dd8e111c8a72"
+      "bytes": 35571,
+      "sha256": "d9717b7f3a74d17ecdd67a2be1092f45116227c79e144bc2c0051c7518f57ddb"
     },
     {
       "name": "public/dialogue-expressive-form.js",
@@ -1439,13 +1449,13 @@
     },
     {
       "name": "README.md",
-      "bytes": 10697,
-      "sha256": "71310597decf321e67cec8cbc7379d41ff118e6f847e67a3ce7813717b2ca0f7"
+      "bytes": 10838,
+      "sha256": "0df057b69b5b56e44c989e5fa2d5e882b77ee9135dc66f4c273c2ecba1ed1e47"
     },
     {
       "name": "REMAINING-CHECKLIST.md",
-      "bytes": 77904,
-      "sha256": "a718ec6c2d9885abaf39f39c01aafbd1e4ae05c47d3117cd4cd2f525fdb9af2b"
+      "bytes": 78629,
+      "sha256": "b34459bbaa9ddb91c5088e4060ca2c40e09fe8231b0e523d1c8810152b84b494"
     },
     {
       "name": "REVIEW-FIXES.md",
@@ -1953,6 +1963,11 @@
       "sha256": "c0929d600a903309f88fe8a216dc38ac89c38f336edcba710d8d91e05782666d"
     },
     {
+      "name": "scripts/setup-trainer.mjs",
+      "bytes": 4375,
+      "sha256": "f7d318252d12c3aa5bbadecf84c7202ff35f235d7afcbf7e023f961c55890806"
+    },
+    {
       "name": "scripts/setup-vision.ps1",
       "bytes": 1989,
       "sha256": "33cee0028db5e8addf701f35719459ccf2381a2917a06566ccc585bf3829857a"
@@ -2244,8 +2259,8 @@
     },
     {
       "name": "server.mjs",
-      "bytes": 131624,
-      "sha256": "73a0bfa7769972002e32f7af150296c9b4165195828b70a81af88d87be42f6ce"
+      "bytes": 132153,
+      "sha256": "9f32aa4f3ada9e44ee630e7004083ad047c04035f3790cfd5b671413641066c4"
     },
     {
       "name": "setup/advanced-models.lock.json",
@@ -2806,6 +2821,11 @@
       "name": "tests/light-transfer.test.mjs",
       "bytes": 561,
       "sha256": "0b2a096f182a1b71e924d4350c27927b9fda766aecf1237770ad27823a1d1300"
+    },
+    {
+      "name": "tests/lora-trainer.test.mjs",
+      "bytes": 3916,
+      "sha256": "397f051edfa6192bbf66260bf76911ed8daf457c8ca77f16a19d6ebf2f7170bd"
     },
     {
       "name": "tests/ltx-effects.test.mjs",
@@ -3489,8 +3509,8 @@
     },
     {
       "name": "WORKSPACE-GUIDE.md",
-      "bytes": 23421,
-      "sha256": "b83c3a320a40bd85c7dbfb6667418734ad59f6500d9990e9a68162ea48210213"
+      "bytes": 23507,
+      "sha256": "528a2e2771826002b300a37fc31085e1dee515bf4cf8048c79c524cfdb1a36da"
     }
   ],
   "excluded": [

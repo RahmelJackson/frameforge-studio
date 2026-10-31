@@ -1,4 +1,5 @@
 import {Productions} from './lib/productions.mjs';
+import {LoraTrainer} from './lib/lora-trainer.mjs';
 import {creatorRoutes} from './lib/creator-routes.mjs';
 import {setupDoctor,engineConnection} from './lib/setup-doctor.mjs';
 import {SetupInstalls,installationId} from './lib/setup-installs.mjs';
@@ -329,6 +330,7 @@ async function submitJob(input,retriedFrom=null,workflowOverride=null,createdVia
   if(existing)return {code:200,body:existing};
   const active=()=>audioStudio.busy()||[...jobs.values()].some(x=>['processing','uploading','submitting','submitted','running','cancelling','verifying'].includes(x.status));
   if(active())return {code:409,body:{error:'One local render at a time. Wait for the current shot.'}};
+  if(loraTrainer.running())return {code:409,body:{error:'A LoRA is training on the GPU. Renders resume when it finishes or is cancelled.'}};
   const request=input.kind==='video-tool'?normalizeVideoTool(input):input.kind==='image'?normalizeImage(input):normalizeRequest(input);
   if(!(await mediaRuntime(config.python)).available)throw Error('Install the studio media tools before rendering here: npm run setup:media, then restart the studio. Graph downloads can run in your own ComfyUI without these helpers.');
   let videoSource,lightingProposal,segmentation;
@@ -455,7 +457,8 @@ const modelDownloads=await new ModelDownloads({directory:path.join(DATA,'model-d
 }}).init();
 const workflowExports=await new WorkflowExports({data:DATA,plans:workflowPlans}).open();
 const productions=await new Productions({directory:DATA,tick:!process.env.FRAMEFORGE_NO_PRODUCE_TICK,call:async(method,route,body,timeout=120000)=>{const r=await fetch('http://127.0.0.1:'+server.address().port+route,{method,headers:{'Content-Type':'application/json','x-frameforge-client':'produce'},body:body===undefined?undefined:JSON.stringify(body),signal:AbortSignal.timeout(timeout)});const v=await r.json().catch(()=>({}));if(!r.ok){const e=Error(v.error??('Studio request failed ('+r.status+').'));e.status=r.status;throw e;}return v;}}).open();
-const handleCreator=await creatorRoutes({data:DATA,root:ROOT,jobs,projects,creativeStore,readJson,readBody,json,serveFile,runPython,resolveVideoSource,saveJob:save,hosted:HOSTED_MODE});
+const loraTrainer=await new LoraTrainer({root:ROOT,data:DATA,loras:()=>path.join(modelRoot,'loras'),busy:()=>audioStudio.busy()||[...jobs.values()].some(j=>['processing','uploading','submitting','submitted','running','cancelling','verifying'].includes(j.status))}).open();
+const handleCreator=await creatorRoutes({trainer:HOSTED_MODE?null:loraTrainer,data:DATA,root:ROOT,jobs,projects,creativeStore,readJson,readBody,json,serveFile,runPython,resolveVideoSource,saveJob:save,hosted:HOSTED_MODE});
 
 const communityGallery=new CommunityGallery();
 const assistantTools=createAssistantTools({root:ROOT,comfy,policy:executionPolicy,setup:selectedSetup});
@@ -575,7 +578,7 @@ const server = http.createServer(async (req, res) => {
     if(audioControl&&req.method==='POST'){const result=audioControl[2]==='review'?await audioStudio.review(audioControl[1],await readJson(req)):audioControl[2]==='reverify'?await audioStudio.reverify(audioControl[1]):audioControl[2]==='cancel'?await audioStudio.cancel(audioControl[1]):audioControl[2]==='video-footage'?await audioStudio.videoFootage(audioControl[1]):await audioStudio.audioAsset(audioControl[1],await readAudioTrack(req));return json(res,200,result);}
     const audioOutput=route.match(/^\/audio-jobs\/([a-f0-9-]{36})\/(output\.(wav|mp4)|preserved\.mkv|transcript\.json|subtitles\.(srt|vtt)|report\.json|lipsync\.json|dialogue\.json|caption\.json|neural-speech\.json|separation\.json|voice-[12]\.wav|line-[0-9]{3}\.wav|poster\.jpg|contact-sheet\.jpg)$/);
     if(audioOutput&&req.method==='GET')return await serveFile(req,res,audioStudio.file(audioOutput[1],audioOutput[2]));
-    if(route==='/api/engine-readiness'&&req.method==='GET'){let connected=false,queued=false;try{const q=await comfy.json('/queue');connected=true;queued=!!(q.queue_running?.length||q.queue_pending?.length);}catch{}return json(res,200,{connected,busy:queued||audioStudio.busy()||[...jobs.values()].some(j=>['processing','uploading','submitting','submitted','running','cancelling','verifying'].includes(j.status))});}
+    if(route==='/api/engine-readiness'&&req.method==='GET'){let connected=false,queued=false;try{const q=await comfy.json('/queue');connected=true;queued=!!(q.queue_running?.length||q.queue_pending?.length);}catch{}return json(res,200,{connected,busy:queued||audioStudio.busy()||loraTrainer.running()||[...jobs.values()].some(j=>['processing','uploading','submitting','submitted','running','cancelling','verifying'].includes(j.status))});}
     if (route === '/api/health' && req.method === 'GET') return json(res,200,await health());
     if (route === '/api/catalog' && req.method === 'GET') return json(res,200,{ presets:PRESETS,sizes:SIZES,lengths:LENGTHS,cameraPoses:CAMERA_POSES,looks:LOOKS,images:{tools:IMAGE_TOOLS,sizes:IMAGE_SIZES,camera:STILL_CAMERA,light:IMAGE_LIGHT} });
     if(route==='/api/video-keyframe'&&req.method==='POST'){
