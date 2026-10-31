@@ -1,4 +1,6 @@
 [data-comfy-quick-nav]{display:none}
+.comfy-quick .creator-opening{display:none}.comfy-quick .creator-main{padding-top:0!important}
+.comfy-quick body[data-page=creator] .workspace-page-header{display:none!important}
 .comfy-quick [data-comfy-quick-nav]{display:flex;align-items:center;gap:8px;flex-wrap:wrap;position:sticky;top:0;z-index:90;padding:12px 16px;background:#101911;border-bottom:1px solid #3a4b32;font:13px/1.5 system-ui;color:#bfd2b3}
 .comfy-quick [data-comfy-quick-nav] a{padding:8px 12px;color:#e4ecd9;text-decoration:none;border-radius:20px;min-height:36px;box-sizing:border-box}
 .comfy-quick [data-comfy-quick-nav] a[aria-current]{color:#17220b;background:#d6ff00}
