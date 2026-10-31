@@ -16,3 +16,13 @@ body[data-workspace] .workspace-overview .workspace-tabs>.workspace-tab[aria-cur
 body[data-workspace] .workspace-overview .workspace-tabs>.workspace-tab[aria-current=page] span{font-weight:650}
 body[data-workspace] .workspace-overview .secondary-tabs .workspace-tabs>.workspace-tab{min-height:30px;padding:6px 12px}
 @media(max-width:760px){body[data-workspace] .workspace-overview .workspace-tab-group>.workspace-tabs{flex-wrap:nowrap;overflow-x:auto;border-radius:16px;display:flex}}
+/* Large displays: scale the whole interface like browser zoom so text, controls
+   and pictures keep their proportions instead of floating in empty space. The
+   3D scene keeps 1:1 pixels so pointer picking stays exact. */
+@media (min-width:2100px){body:not([data-page=scene]){zoom:1.2}}
+@media (min-width:2800px){body:not([data-page=scene]){zoom:1.45}}
+@media (min-width:3600px){body:not([data-page=scene]){zoom:1.8}}
+.setting-tip{display:inline-grid;place-items:center;width:16px;height:16px;min-height:0;margin:0 0 0 6px;padding:0;border-radius:50%;border:1px solid currentColor;background:transparent;color:inherit;opacity:.55;font:italic 600 10px/1 Georgia,serif;vertical-align:1px;cursor:help;flex:0 0 auto}
+.setting-tip:hover,.setting-tip:focus-visible,.setting-tip[aria-expanded=true]{opacity:1;color:var(--accent,#d6ff00);outline:none}
+.setting-tip-bubble{position:fixed;z-index:9999;padding:10px 12px;border-radius:12px;background:rgba(24,27,29,.96);color:#f2f4ed;border:1px solid rgba(255,255,255,.12);box-shadow:0 12px 32px rgba(0,0,0,.35);font:13px/1.45 -apple-system,BlinkMacSystemFont,"Segoe UI",Inter,system-ui,sans-serif;pointer-events:none;backdrop-filter:blur(12px)}
+.setting-label-row{display:inline-flex;align-items:center;gap:0;min-width:0}
