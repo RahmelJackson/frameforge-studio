@@ -35,7 +35,7 @@ These are the major tasks visible in [the official directory](https://comfy.org/
 | New still viewpoint | Partial: Qwen trained angle adapter, not a new captured view. |
 | Product mockup / outfit / product scene | Partial: generic image/reference/masked editing; no validated dedicated product/garment suite. |
 | Product photo → video | Alternative: generate/edit still then Wan animation; no matching provider chain verified. |
-| Image/video restoration | Alternative: Real-ESRGAN and finishing; SeedVR2/Topaz/HitPaw recipes absent. |
+| Image/video restoration | Official SeedVR2 3B int8 and Real-ESRGAN video graphs added (October 31), not render-tested here. Topaz/HitPaw are paid partner routes and are not included. |
 | Archival restoration | Missing as a dedicated validated workflow. |
 | Region editing | Alternative: Qwen masked edits and original-pixel preservation. |
 | Still border expansion | Available in Image Canvas, with an actual edge-extension test and outside-mask pixel checks. General seam/scene quality still needs review. |

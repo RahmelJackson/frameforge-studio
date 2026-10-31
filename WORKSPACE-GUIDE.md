@@ -103,7 +103,10 @@ This audit checks the implemented tools and native graph catalog, not just names
 | Short-film planning, timelines, captions, soundtrack import and export | Available | Video → Story / Director / Timeline and Edit & finish. WAV soundtracks work; this does not generate music. |
 | Video object masks and mask-guided edits | Partial | Video → Track a selected object uses keep/exclude points. No video text/box selector, automatic cutout/green-screen export or complete SAM-follow/recolor chain. |
 | Reference motion and whole-character replacement | Partial | VACE motion/reference and pose tools exist. Wan Animate and the exact SCAIL-2 replacement graph are absent; convincing swaps remain open. |
-| Upscaling and smoother playback | Partial | Real-ESRGAN, FILM/RIFE and video finishing exist. SeedVR2 is absent; difficult motion/detail acceptance remains open. |
+| Upscaling and smoother playback | Partial | Real-ESRGAN, FILM/RIFE and video finishing exist. SeedVR2 3B int8 and Real-ESRGAN video graphs are in Library (October 31); neither is render-tested here. Difficult motion/detail acceptance remains open. |
+| Seamless video loops | Available graph, not tested | H3 seamless loop graphs (final, Turbo v2 draft, ControlNet restyle) from the MiniMax H3 Loop pack. Needs its custom nodes plus ComfyUI-Frame-Interpolation. |
+| Style transfer from a reference picture | Available graph, not tested | Qwen Image Edit 2511 with the dx8152 Style Transfer LoRA: picture 1 keeps its content, picture 2 supplies the style. |
+| Layout or playblast to finished shot | Available graph, not tested | LTX 2.5 Layout to Render IC-LoRA, local int8 profile. Needs a layout video and an art-directed first frame. |
 | Local Wan 14B quality alternative | Partial | Fun Camera 14B is present. A separate general high/low 14B image-to-video quality profile is not installed as a supported alternative. |
 | Native FLUX layout boxes and editable image layers | Missing | Canvas boxes currently create edit masks. They do not provide native FLUX layout conditioning or composited/Qwen-Layered editing. |
 | Dedicated background removal and video object removal | Missing as dedicated workflows | Mask-guided editing exists, but a validated cutout/removal pipeline is not available. |

@@ -139,5 +139,40 @@
       "flux2-vae.safetensors",
       "qwen3.5_9b_flux3_prompt_upsampler_w4a8.safetensors"
     ]
+  },
+  {
+    "id": "qwen-style",
+    "sha256": "44cebb56819bd5b4111956e942840d7024647c19e01f14b210f48a465b63a9b8",
+    "modelNames": [
+      "qwen_image_edit_2511_fp8mixed.safetensors",
+      "qwen_2.5_vl_7b_fp8_scaled.safetensors",
+      "qwen_image_vae.safetensors",
+      "style-transfer-1_20.safetensors"
+    ]
+  },
+  {
+    "id": "video-upscale-seedvr2",
+    "sha256": "9fe820b0d44be44ea392d400d47b88260c581b09ef40efe4118a526b2a779d9b",
+    "modelNames": [
+      "seedvr2_3b_int8_convrot.safetensors",
+      "seedvr2_ema_vae_fp16.safetensors"
+    ]
+  },
+  {
+    "id": "video-upscale-esrgan",
+    "sha256": "7e233da38c6f44f04e8d2a480f0a94f5c8b48b95d5a4c5b6030363ebff15f10d",
+    "modelNames": [
+      "RealESRGAN_x4plus.safetensors"
+    ]
+  },
+  {
+    "id": "flux3-base",
+    "sha256": "7698ad574ad7b6557b162cc188443622345bdd6a7a25dabe7cc014cbf3c69418",
+    "modelNames": [
+      "qwen3.5_9b_flux3_prompt_upsampler_w4a8.safetensors",
+      "flux3-image-klein-base-int8-convrot.safetensors",
+      "qwen3vl_4b_int8_convrot.safetensors",
+      "flux2-vae.safetensors"
+    ]
   }
 ]

@@ -14,7 +14,7 @@ test('Every portable graph belongs to one distinct task and local/hosted provide
  assert.ok(all.find(t=>t.id==='animate-image').options.find(v=>v.key==='seedance-draft').label.includes('draft'));
 });
 test('Search finds model names inside their task and strict filtering retains local provider options',()=>{
- assert.deepEqual(outcomeCatalog(WORKFLOWS,providers,{query:'Klein'}).map(t=>t.id),['edit-image','flux3-create','flux3-references']);
+ assert.deepEqual(outcomeCatalog(WORKFLOWS,providers,{query:'Klein'}).map(t=>t.id),['edit-image','flux3-create','flux3-references','flux3-base']);
  const ltx=outcomeCatalog(WORKFLOWS,providers,{query:'LTX'});assert.ok(ltx.some(t=>t.id==='atmosphere-vfx'));assert.ok(ltx.some(t=>t.id==='ltx-ingredients'));assert.ok(ltx.every(t=>t.options.every(v=>/ltx/i.test(v.search+' '+v.label))));
  const local=outcomeCatalog(WORKFLOWS.filter(w=>w.execution==='local'),providers,{openOnly:true});
  assert.ok(local.every(t=>t.options.every(v=>v.execution==='local')));assert.ok(local.some(t=>t.id==='atmosphere-vfx'));assert.ok(local.some(t=>t.id==='animate-image'));assert.ok(!local.some(t=>t.id==='smooth-video'||t.id==='dub'));

@@ -4,7 +4,8 @@ import {guidedAdvice} from '../lib/studio-assistant.mjs';
 import {audioTitle,imageResult} from '../public/workbench.js';
 test('Guide routes new specific tasks without substituting ordinary narration or image generation',()=>{
  for(const [question,id] of [['Change the voice in my recording','voice-conversion'],['Generate an image from my style board','style-board'],['Track an object in video with SAM','track-edit'],['Extract a body pose guide','extract-pose'],['Create multi-speaker dialogue','dialogue']])assert.equal(guidedAdvice(question).steps[0].id,id,question);
- for(const question of ['Make a TRELLIS 3D object','Use Wan Animate','Train a LoRA']){const advice=guidedAdvice(question);assert.match(advice.answer,/not integrated/);assert.deepEqual(advice.steps.map(s=>s.id),['workflows']);}
+ for(const [question,id] of [['Make a TRELLIS 3D object','prop-3d'],['Make a seamless H3 loop','h3-loop'],['Style transfer from a reference picture','qwen-style'],['Restore old video with SeedVR2','video-upscale-seedvr2'],['Turn my playblast into a shot with layout to render','ltx-layout'],['Generate music with ACE-Step','music-ace15']])assert.deepEqual(guidedAdvice(question).steps.map(s=>s.id),[id],question);
+ for(const question of ['Use Wan Animate','Train a LoRA']){const advice=guidedAdvice(question);assert.match(advice.answer,/not integrated/);assert.deepEqual(advice.steps.map(s=>s.id),['workflows']);}
  assert.ok(guidedAdvice('I want to animate a photo with Wan 5B').steps.some(s=>s.id==='image-animate'));
 });
 test('Recent pictures exclude successful SAM masks and audio titles use actual words',()=>{

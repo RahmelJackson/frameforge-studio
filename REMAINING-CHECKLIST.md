@@ -15,6 +15,19 @@ This is the current checklist. The release sections below preserve earlier accep
 
 See [the creative workspace guide](CREATIVE-WORKSPACE.md) for exact limits and use cases.
 
+## Workflow additions · October 31, 2026
+
+Eight pinned graphs added to Library and the shared Guide/MCP catalog. Each is prepared in Studio and run in ComfyUI. None is generation-tested here yet.
+
+- [x] H3 seamless loops from the MiniMax H3 Loop pack (commit 85f968d): 25-step final, Turbo v1.1 draft and Fun ControlNet restyle of an existing loop. Wrapped sampling/decoding and interpolation across the join replace the ping-pong export for this request. Custom nodes are listed as manual dependencies; not in the locked open-weights profile.
+- [x] Match the style of a reference image: official two-image Qwen Image Edit 2511 graph with the dx8152 Style Transfer LoRA at 0.8, 40 steps, CFG 4. Reviewed for the open-weights profile.
+- [x] Video upscale: SeedVR2 3B int8 (conservative, temporal) and Real-ESRGAN (fast, frame by frame), from Comfy's official templates. Reviewed for the open-weights profile.
+- [x] FLUX 3 Klein base text-to-image: the undistilled checkpoint BFL recommends for fine-tuning and LoRA training. Reviewed for the open-weights profile.
+- [x] LTX Layout to Render: the official two-stage graph from the gated Lightricks repo, pinned to revision bd765d5, exported with the local int8 profile and no API text encoder.
+- [x] The Guide routes loop, style transfer, SeedVR2, Layout to Render, 3D and ACE-Step questions to these graphs instead of reporting them as missing.
+- [ ] Render each new graph on the local engine: one loop per profile (check the join and audio), one style transfer, one SeedVR2 and one Real-ESRGAN clip, one FLUX base still and one Layout to Render shot. Record results before marking any as tested.
+- [ ] FLUX 3 base LoRA training profile (AI Toolkit or another trainer). The base checkpoint is now pinned; the current dataset export still targets FLUX.1.
+
 ## Before judging: highest value
 
 - [x] Reviewed 0.9.0 source, installed plugin, active ComfyUI extension and private gateway code agree. The MCP catalog exposes 12 read-only / 24 total tools. Public checks: 262 passed with local runtimes; clean source: 233 passed and 29 optional runtime checks skipped; private gateway: 10 passed. A client holding an old MCP process must reconnect. Public judge-link availability is separate below.

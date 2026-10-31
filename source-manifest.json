@@ -1,6 +1,6 @@
 {
   "version": 1,
-  "created": "2026-10-31T08:56:00.717Z",
+  "created": "2026-10-31T17:28:59.881Z",
   "files": [
     {
       "name": ".agents/plugins/marketplace.json",
@@ -84,8 +84,8 @@
     },
     {
       "name": "COMFY-HUB-COMPARISON.md",
-      "bytes": 6720,
-      "sha256": "4a6ca8eb79b5d467c240e2f4598a95c90d7428c72e294892621c6be6484ee9cd"
+      "bytes": 6800,
+      "sha256": "1c660b3a51d100acc8cca9021086c04b162c624d582670793082c531cef5497d"
     },
     {
       "name": "config.example.json",
@@ -264,8 +264,8 @@
     },
     {
       "name": "lib/native-workflows.mjs",
-      "bytes": 3892,
-      "sha256": "dd351d58fa7a5acc3d20bcab6b7b41ae10454258819280e7370ab95aaf7bbe63"
+      "bytes": 4974,
+      "sha256": "f275bd90d045dd0e34a6f88f95b35a93d8d385ac3c828f0d928f4340b545119b"
     },
     {
       "name": "lib/pose.mjs",
@@ -334,8 +334,8 @@
     },
     {
       "name": "lib/studio-assistant.mjs",
-      "bytes": 12882,
-      "sha256": "b657255b067236ac691f7c73d92b67955ff0b3b8491770cd105814f476ea9b08"
+      "bytes": 14340,
+      "sha256": "c0e8108522cc6bfd5cf1284c6ca89edd2300436df642d54035b168b99e4c23e7"
     },
     {
       "name": "lib/studio-embed.mjs",
@@ -1014,8 +1014,8 @@
     },
     {
       "name": "public/native-catalog.js",
-      "bytes": 50444,
-      "sha256": "ce796752cf179d6b9cff6046849c36e67fecd15349b7c552e000f799697bcc63"
+      "bytes": 64758,
+      "sha256": "29fd5f5baf51ee2aa1393ce08ee80b0dee71efef574116d5b8fe3ad0dc65ff3b"
     },
     {
       "name": "public/native-workflows.css",
@@ -1399,13 +1399,13 @@
     },
     {
       "name": "README.md",
-      "bytes": 9212,
-      "sha256": "c7cbc7b87593e628c31926caf289739c026c51b1c901e722ce3f268f84de9a6a"
+      "bytes": 9603,
+      "sha256": "05544ea69dbc52eb05bb72e699150875ed1e1252e9f3da1d0174dd40ec0ee5d2"
     },
     {
       "name": "REMAINING-CHECKLIST.md",
-      "bytes": 72802,
-      "sha256": "70d972ebf42667b918f02363d87ae912829ce92be11a9a1a33bd0f5a81752afd"
+      "bytes": 74620,
+      "sha256": "531cf507036aeefef23cbb2a4f30d39611a47413c6ece642e207f20acf5dae92"
     },
     {
       "name": "REVIEW-FIXES.md",
@@ -2804,8 +2804,8 @@
     },
     {
       "name": "tests/native-workflows.test.mjs",
-      "bytes": 2157,
-      "sha256": "46f4495de851c5b76cd8c62fcabee1ae794c2f1c18a23557764eb82895c1b871"
+      "bytes": 4820,
+      "sha256": "d50ee6ee40a026dd3850e36afffd31b2aff11195668dbb82018471202c4c2913"
     },
     {
       "name": "tests/onboarding-polish.test.mjs",
@@ -3014,8 +3014,8 @@
     },
     {
       "name": "tests/workbench-discovery.test.mjs",
-      "bytes": 1509,
-      "sha256": "f8a9a49069b7a520b219df064a0c30a9bf43ab2f7d2c6676d2147c0c26e77e37"
+      "bytes": 1896,
+      "sha256": "0f9ee76e87b4b59e3c7424528ce123b1137f50538d20ef3900d0b17c8349e21b"
     },
     {
       "name": "tests/workflow-canvas.test.mjs",
@@ -3034,8 +3034,8 @@
     },
     {
       "name": "tests/workflow-outcomes.test.mjs",
-      "bytes": 3713,
-      "sha256": "a228c4fc7e1321cac553d174348f8bf5cfb50a9f8f32c19a9eab290a795c6d4d"
+      "bytes": 3726,
+      "sha256": "655af811de02b9b1062961c5cd434023c5915b8e35be34bf3a5ac0855216a19a"
     },
     {
       "name": "tests/workflow-plans.test.mjs",
@@ -3059,8 +3059,8 @@
     },
     {
       "name": "THIRD-PARTY-NOTICES.md",
-      "bytes": 4735,
-      "sha256": "8d30ff6aec250038f4ae221e2aaad12d8c08253764034774dc188f7c13784acc"
+      "bytes": 6138,
+      "sha256": "3a6541d1ab46230b762fe44c0a2648b2ec40f2a8e655bda263c39882967ecbe0"
     },
     {
       "name": "workflows/bonus/api_bfl_flux3_i2v.json",
@@ -3214,8 +3214,8 @@
     },
     {
       "name": "workflows/native/catalog.json",
-      "bytes": 146244,
-      "sha256": "3ab3134900e9459b2415c49bae33104b843a14780a22184b163f7cccb6431faa"
+      "bytes": 183073,
+      "sha256": "4afcc60500d5ce8ca2f5a8fe52f16c01c6c9fe0a850338bdc90e76c2e5c1d5f7"
     },
     {
       "name": "workflows/native/image_flux3_klein_distilled_image_edit.json",
@@ -3228,9 +3228,24 @@
       "sha256": "253fa4e783da734acd03b804a8731d0a7a8c564b73961837762800eb5cf85388"
     },
     {
+      "name": "workflows/native/image_flux3_klein_t2i.json",
+      "bytes": 57035,
+      "sha256": "42235cc535b9db5631374b2fc3d40e14a0d2689ae2f46214f6b0bd95b32aa670"
+    },
+    {
+      "name": "workflows/native/image_qwen_image_edit_2511_style_transfer.json",
+      "bytes": 59841,
+      "sha256": "b23103935f437e1fe3184247fa5bafb891a28113d0c63de7449b7cdfb0419111"
+    },
+    {
       "name": "workflows/native/LTX-2.5_ICLoRA_Ingredients_Single_Stage_Distilled.json",
       "bytes": 146063,
       "sha256": "9884348041cfa3e2425d828e27f6942d06e23ed51f80a614b54826b72a298d30"
+    },
+    {
+      "name": "workflows/native/LTX-2.5_ICLoRA_Layout_To_Render_Two_Stage_Distilled.json",
+      "bytes": 185034,
+      "sha256": "1b475b5e7a33b2f8072b92cd09cbaff67db1c66fcdde780f579723b526995a01"
     },
     {
       "name": "workflows/native/LTX-2.5_ICLoRA_Motion_Track_Distilled.json",
@@ -3273,14 +3288,39 @@
       "sha256": "7c8ef302fa1444a3a5650c2dfa09c6927a52b233202431023abb32519f354397"
     },
     {
+      "name": "workflows/native/MiniMax-H3-Loop-Control.json",
+      "bytes": 21046,
+      "sha256": "97b84e01a4237a89230da802298fc4b11ae277bb75e0c9c413c45710c70ec720"
+    },
+    {
+      "name": "workflows/native/MiniMax-H3-Loop-Turbo-v2.json",
+      "bytes": 16803,
+      "sha256": "a7846520e30794e10a7cf07eb89446da522daf934d292febf064a96c70b71dcd"
+    },
+    {
+      "name": "workflows/native/MiniMax-H3-Loop.json",
+      "bytes": 15519,
+      "sha256": "ab86de2f7127e892c06a9cda5593006900b44f4dd511bfc2edeaffa2b5d6ce24"
+    },
+    {
       "name": "workflows/native/open-graphs.json",
-      "bytes": 4862,
-      "sha256": "fffa6ffa5d1cea4ac659149308054d6050f383dfb9a7ec9f5d8c1f89f82ff1fc"
+      "bytes": 5937,
+      "sha256": "ef2f2bc791ceb6bdf0d2db99d18827434f631faaa7a574cd0496c1cfb9357ad9"
     },
     {
       "name": "workflows/native/utility_birefnet_remove_background.json",
       "bytes": 13225,
       "sha256": "a89e7323957cea65a8809e7c6fd6688d336aaa45be48e071867f2e64abd267d6"
+    },
+    {
+      "name": "workflows/native/utility_seedvr2_3b_int8_upscale_video.json",
+      "bytes": 48557,
+      "sha256": "4db5e31ddbbc41522fdf770c1e9a5e65ab7d51772da9f6b0e1dda02d15d8b11a"
+    },
+    {
+      "name": "workflows/native/utility-gan_upscaler.json",
+      "bytes": 7588,
+      "sha256": "7df9fb1b355252bcd548d44b253a8c116004338bb3ec13e5974b000bbc6183d6"
     },
     {
       "name": "workflows/native/video_minimax_h3_fun_controlnet_union.json",
@@ -3379,8 +3419,8 @@
     },
     {
       "name": "WORKSPACE-GUIDE.md",
-      "bytes": 22061,
-      "sha256": "6f45701f571d2b2a4b13baf7e07da853240bc8644775c9d189a698d08c71fd6d"
+      "bytes": 22734,
+      "sha256": "5dd4ca5376d5e695086c0ceb170147f6abebdb7156345e60ad177f541ccf9d07"
     }
   ],
   "excluded": [
