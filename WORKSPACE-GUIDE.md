@@ -114,7 +114,8 @@ This audit checks the implemented tools and native graph catalog, not just names
 | Depth/normal guides and depth-based Re-shoot | Missing | No MoGe/Depth Anything guide pipeline or CrossView Warp scene reconstruction. |
 | Talking photos and singing characters | Missing | Existing lip sync requires footage. No InfiniteTalk/S2V talking-photo or singing pipeline. |
 | Generated Foley, sound effects and music | Missing | No MMAudio/Hunyuan Foley or ACE-Step integration. Imported WAVs and narration are available. |
-| Character/style/product LoRA training | Missing | Existing adapters are used for inference; there is no training interface or reproducible training pipeline. |
+| Character/style/product LoRA training | Partial | Characters exports a captioned dataset with a held-out set for FLUX.1 (AI Toolkit config) or FLUX 3 Klein (diffusers command). Training runs in the separate trainer; FLUX 3 LoRA loading in ComfyUI is unverified. |
+| Templates and short-video formats | Available | Library → Templates: basic workflows with local and Comfy Cloud routes, plus timed plans for explainers with sources, Life as a…, short dramas, What if…, transformations and loops. Plans don't generate media. |
 | Beat-synchronized cuts and guided ad builder | Missing | Manual timeline edits, product images and narrated storyboards are present, without those dedicated builders. |
 | External Cloud App Mode publication and automatic result return | Missing | Current Cloud/Civitai links and workflow exports are handoffs. They do not publish an App Mode application or automatically import provider results. |
 

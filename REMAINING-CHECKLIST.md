@@ -26,7 +26,16 @@ Eight pinned graphs added to Library and the shared Guide/MCP catalog. Each is p
 - [x] LTX Layout to Render: the official two-stage graph from the gated Lightricks repo, pinned to revision bd765d5, exported with the local int8 profile and no API text encoder.
 - [x] The Guide routes loop, style transfer, SeedVR2, Layout to Render, 3D and ACE-Step questions to these graphs instead of reporting them as missing.
 - [ ] Render each new graph on the local engine: one loop per profile (check the join and audio), one style transfer, one SeedVR2 and one Real-ESRGAN clip, one FLUX base still and one Layout to Render shot. Record results before marking any as tested.
-- [ ] FLUX 3 base LoRA training profile (AI Toolkit or another trainer). The base checkpoint is now pinned; the current dataset export still targets FLUX.1.
+- [x] FLUX 3 Klein LoRA dataset profile: Characters can export images with imagefolder `metadata.jsonl` captions, a held-out set and train-flux3-klein.sh/.ps1 for the official diffusers `train_dreambooth_lora_flux3_klein.py` (pinned to diffusers 86ef420). FLUX.1/AI Toolkit stays the default.
+- [ ] Run one FLUX 3 Klein training job and load the result in ComfyUI. diffusers notes FLUX 3 LoRA loading is still being added, so ComfyUI compatibility is unverified.
+
+## Templates and video formats · October 31, 2026
+
+- [x] Library → Templates: 11 basic workflows, 7 video formats and 2 experimental templates. Each states what you provide and what you get, checks local readiness through the setup report, and links to the reviewed local graph and, where one exists, the matching official template on Comfy Cloud (`cloud.comfy.org/?template=`). Tests check that every Cloud template name is pinned in this repo.
+- [x] New story formats: Explainer with sources (sources required and carried into the film script), Life as a… (second-person day in the life), Short drama episode, What if…, Transformation, Satisfying loop and an experimental Single-mic duet. Each lists the graphs it uses and its own steps. Original characters only; no real people, shows or franchises.
+- [x] Performance transfer is listed as experimental, using the existing H3 / LTX pose-control graphs.
+- [ ] Make one finished example per format with original media and review it. Plans don't generate media; nothing here proves visual quality.
+- [ ] Open each Cloud template link in a signed-in Comfy Cloud account. The template names come from the pinned Comfy-Org sources; the live Cloud catalog was not checked here.
 
 ## Before judging: highest value
 

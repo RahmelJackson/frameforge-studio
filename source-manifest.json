@@ -1,6 +1,6 @@
 {
   "version": 1,
-  "created": "2026-10-31T17:28:59.881Z",
+  "created": "2026-10-31T18:03:31.266Z",
   "files": [
     {
       "name": ".agents/plugins/marketplace.json",
@@ -134,8 +134,8 @@
     },
     {
       "name": "lib/character-dataset.mjs",
-      "bytes": 4151,
-      "sha256": "934ca526faf10443f9d13cdbb98fd50091654ee6b7c1b2dfd6cc4b10a4425262"
+      "bytes": 9030,
+      "sha256": "d1c16f96922d52e7d508f509c9dbdc76dfcd06cf8ea603903167ab3e1588a3fe"
     },
     {
       "name": "lib/checklist.mjs",
@@ -169,13 +169,13 @@
     },
     {
       "name": "lib/creator-catalog.mjs",
-      "bytes": 8685,
-      "sha256": "acf9a6648287c026d69b5271e9a0a9655aa45093bfebc3d2ba71ffb3b3a886e3"
+      "bytes": 18606,
+      "sha256": "5b242d938eeb3914880ea4a5bb9b615b0af0a0e615fbe4210f26ba0cf693ec59"
     },
     {
       "name": "lib/creator-routes.mjs",
-      "bytes": 12083,
-      "sha256": "5fb08112b0721b6cb3075cebfae52abe26462395daf604ec7557558ce4cde593"
+      "bytes": 12312,
+      "sha256": "846875c3c02046900069117f4c5cf21dae21bfb928bcb940715a2ae54b2aa67f"
     },
     {
       "name": "lib/creator-store.mjs",
@@ -334,8 +334,8 @@
     },
     {
       "name": "lib/studio-assistant.mjs",
-      "bytes": 14340,
-      "sha256": "c0e8108522cc6bfd5cf1284c6ca89edd2300436df642d54035b168b99e4c23e7"
+      "bytes": 15298,
+      "sha256": "23eb6ec491263e87031c10798ad185ea4164b7a54dee12693863f706573b0f90"
     },
     {
       "name": "lib/studio-embed.mjs",
@@ -414,8 +414,8 @@
     },
     {
       "name": "lib/workspace.mjs",
-      "bytes": 12495,
-      "sha256": "84e062f8310c32b53db782cd7c1050d0d8bcd80a815e38197d4fcbbc93d7953d"
+      "bytes": 12529,
+      "sha256": "f0e4c67c49ca90c9aeb5b94e5d85ae222b0dbcf035554c8bff81cd728742078a"
     },
     {
       "name": "LICENSE",
@@ -469,8 +469,8 @@
     },
     {
       "name": "public/advanced-workspaces.js",
-      "bytes": 5466,
-      "sha256": "c37b7434ecd864d73ca24c01fe458a8f7ee27f80b6a4d32b94d4ca3c42b1b711"
+      "bytes": 5896,
+      "sha256": "b06face5136c67abfc0b1580d7c496d36d911366590ed7e8f9d53997bfcbc920"
     },
     {
       "name": "public/advanced.css",
@@ -739,13 +739,13 @@
     },
     {
       "name": "public/creator.html",
-      "bytes": 8080,
-      "sha256": "ca54c2e504f446e6a1287a9f6554cc59ff1ccb3db6beb85ddf050fbc266eea38"
+      "bytes": 8532,
+      "sha256": "c1404ea3135eb3f822b3bb1dcc3ea09911e5764b2bb257dd5f87af109fa3e0ec"
     },
     {
       "name": "public/creator.js",
-      "bytes": 30823,
-      "sha256": "cbd278c81c2bbef8c5a65f7393e5019df0328db265e93a7a577f5920f3c7df17"
+      "bytes": 32489,
+      "sha256": "b3afc3d2203742cedefe1a48c1bb12c4c20d52678906ef073c47dd8e111c8a72"
     },
     {
       "name": "public/dialogue-expressive-form.js",
@@ -1179,13 +1179,13 @@
     },
     {
       "name": "public/studio-journeys.js",
-      "bytes": 24477,
-      "sha256": "ff004ff5063f30ddc6f99fdb6e72a25af587350163cc3ba66d4ef591c97aaa52"
+      "bytes": 25425,
+      "sha256": "58b9746e336db672f456f585fba7f10c041eadebb09d4713b7df4586a0d024bf"
     },
     {
       "name": "public/studio-map.js",
-      "bytes": 10091,
-      "sha256": "f50b97b6a9f3733d40745df082b91fa3ee1f4003a47a012486e11435dde4f4d6"
+      "bytes": 10226,
+      "sha256": "696f75f2566598a6e01f635d5de87220dc2836dc5bc0779dd111d20983b7dcb0"
     },
     {
       "name": "public/studio-match.js",
@@ -1216,6 +1216,26 @@
       "name": "public/style.css",
       "bytes": 16723,
       "sha256": "f99d95d27fad9a2becb850c4e1792e85a6c7eb97e3f70dfa06423cbe4011551f"
+    },
+    {
+      "name": "public/template-library.js",
+      "bytes": 8228,
+      "sha256": "a0e7dace78679a9e2e61e10b9ec5e1fc95dd7b318b02cf4a6294ec28aa711f14"
+    },
+    {
+      "name": "public/templates.css",
+      "bytes": 8837,
+      "sha256": "bb6193cd280b72a1c0353a70a2f7e7c9121d93843675f1d5e96feb59618de5b2"
+    },
+    {
+      "name": "public/templates.html",
+      "bytes": 1039,
+      "sha256": "cac06546cd368ae74981b8e47361cf2058aed2646bfab210aa36a990989d4d94"
+    },
+    {
+      "name": "public/templates.js",
+      "bytes": 11286,
+      "sha256": "8dc5ab6dc751fd88e24a898e2f840c6127300ff37b4e08f69b420ed7d60325f4"
     },
     {
       "name": "public/text-frame.svg",
@@ -1389,8 +1409,8 @@
     },
     {
       "name": "public/workspace.js",
-      "bytes": 7863,
-      "sha256": "e531612af75bd1392dd92e9fc5a9b62f1856849e030ba6a4badcd8c2e987d14b"
+      "bytes": 7875,
+      "sha256": "31b792a7932ad4b0670e83147f4be178fd80015a7aa4ec8e8cab2229519e84ef"
     },
     {
       "name": "QUICKSTART.md",
@@ -1399,13 +1419,13 @@
     },
     {
       "name": "README.md",
-      "bytes": 9603,
-      "sha256": "05544ea69dbc52eb05bb72e699150875ed1e1252e9f3da1d0174dd40ec0ee5d2"
+      "bytes": 9987,
+      "sha256": "ad296c4eafdec0e5e4da6e0d9a084d115e40d0cc4d35bd59825020c4378672b4"
     },
     {
       "name": "REMAINING-CHECKLIST.md",
-      "bytes": 74620,
-      "sha256": "531cf507036aeefef23cbb2a4f30d39611a47413c6ece642e207f20acf5dae92"
+      "bytes": 76167,
+      "sha256": "89e47f8830d247ecc3f8988f76c2819f6af61466359caea52fff951e569409ba"
     },
     {
       "name": "REVIEW-FIXES.md",
@@ -2204,8 +2224,8 @@
     },
     {
       "name": "server.mjs",
-      "bytes": 129547,
-      "sha256": "8d1188f1be438b497a7584325c05249fc85c950dc6dc75d67fb712b957f6a11f"
+      "bytes": 129717,
+      "sha256": "c82a0e38ac08e5b74502ec732a8931d33ff429b88a01fcbf5ac84456e70cde49"
     },
     {
       "name": "setup/advanced-models.lock.json",
@@ -2609,8 +2629,8 @@
     },
     {
       "name": "tests/creator-workspace.test.mjs",
-      "bytes": 8588,
-      "sha256": "be34c6a601f814ba57871299fb16c760ef9190af2244832a8fc3b894ae0823d8"
+      "bytes": 10122,
+      "sha256": "a0b4e97f4a8eaff13c55d7633a65df9c79f63140e401973db8d3f95e823e933d"
     },
     {
       "name": "tests/dialogue_caption_check.py",
@@ -2983,6 +3003,11 @@
       "sha256": "4bc7f92c73f8c1e159e14657c22d9085b6b7e8f8d563acd270cdc3e1b75e743a"
     },
     {
+      "name": "tests/template-library.test.mjs",
+      "bytes": 2170,
+      "sha256": "38c1373bdc3d2283f26fe9739978b5d037564180ce6b18387f1a5b9e9c780963"
+    },
+    {
       "name": "tests/video_tool_check.py",
       "bytes": 4156,
       "sha256": "ffaf0d78b21dd6ce7f5a78740fe7d89a8110f24834d474bf55f46e6148d50231"
@@ -3014,8 +3039,8 @@
     },
     {
       "name": "tests/workbench-discovery.test.mjs",
-      "bytes": 1896,
-      "sha256": "0f9ee76e87b4b59e3c7424528ce123b1137f50538d20ef3900d0b17c8349e21b"
+      "bytes": 2214,
+      "sha256": "580614a70fc6b60a745fbe422b19b729f4c258b49272700b7bfed7dc433687af"
     },
     {
       "name": "tests/workflow-canvas.test.mjs",
@@ -3059,8 +3084,8 @@
     },
     {
       "name": "THIRD-PARTY-NOTICES.md",
-      "bytes": 6138,
-      "sha256": "3a6541d1ab46230b762fe44c0a2648b2ec40f2a8e655bda263c39882967ecbe0"
+      "bytes": 6571,
+      "sha256": "ecdd98bb710ad1d58aae9c03959aba1aeb4d65859ed597631ccffbdc5dd70e44"
     },
     {
       "name": "workflows/bonus/api_bfl_flux3_i2v.json",
@@ -3419,8 +3444,8 @@
     },
     {
       "name": "WORKSPACE-GUIDE.md",
-      "bytes": 22734,
-      "sha256": "5dd4ca5376d5e695086c0ceb170147f6abebdb7156345e60ad177f541ccf9d07"
+      "bytes": 23105,
+      "sha256": "c01486ed433c2cb0f333f1447194764ba620baf0780e9d01747e07f4c9adcfc3"
     }
   ],
   "excluded": [
