@@ -29,6 +29,14 @@ Eight pinned graphs added to Library and the shared Guide/MCP catalog. Each is p
 - [x] FLUX 3 Klein LoRA dataset profile: Characters can export images with imagefolder `metadata.jsonl` captions, a held-out set and train-flux3-klein.sh/.ps1 for the official diffusers `train_dreambooth_lora_flux3_klein.py` (pinned to diffusers 86ef420). FLUX.1/AI Toolkit stays the default.
 - [ ] Run one FLUX 3 Klein training job and load the result in ComfyUI. diffusers notes FLUX 3 LoRA loading is still being added, so ComfyUI compatibility is unverified.
 
+## Motion transfer and sound · October 31, 2026
+
+- [x] Wan Animate 2 and Wan Animate 2 distilled (official Comfy templates, native nodes only, Apache-2.0 weights pinned at Comfy-Org/Wan-Animate-2 e7181fe). Reviewed for the open-weights profile.
+- [x] SCAIL-2 int8 character replacement with SAM 3.1 (experimental, about 28 GB of files; not in the open-weights profile because SAM keeps Meta's license).
+- [x] Stable Audio 3 Medium sound effects/music from words (Stability AI Community License; not in the open-weights profile).
+- [x] Templates and Guide route motion transfer, character replacement and sound effects to these graphs.
+- [ ] Render each one on the local GPU. Picture-synced Foley from an existing clip still has no open-weights ComfyUI template; the official Mirelo route is a paid API.
+
 ## Produce · October 31, 2026
 
 - [x] Video → Produce: a production plans a format, then renders keyframes (image create, or Qwen Edit from a saved cast), Wan 2.2 5B clips sized to each beat, one Kokoro narration track and per-shot captions, assembles the timeline and exports a draft MP4. One render at a time; review stops after keyframes and clips unless automatic mode is on; single-shot remakes; failures pause with the reason; state survives restarts. Built only on existing Studio routes, so every job keeps its checks and records.

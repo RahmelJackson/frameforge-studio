@@ -174,5 +174,26 @@
       "qwen3vl_4b_int8_convrot.safetensors",
       "flux2-vae.safetensors"
     ]
+  },
+  {
+    "id": "wan-animate",
+    "sha256": "2ca69e0d9f96d31a7f2e8f5d71b25af09f8f12aa019284843deb8c88df792d1d",
+    "modelNames": [
+      "wan_animate_2_int8_convrot.safetensors",
+      "lightx2v_I2V_14B_480p_cfg_step_distill_rank64_bf16.safetensors",
+      "umt5_xxl_fp8_e4m3fn_scaled.safetensors",
+      "clip_vision_h.safetensors",
+      "Wan2_1_VAE_bf16.safetensors"
+    ]
+  },
+  {
+    "id": "wan-animate-fast",
+    "sha256": "78608be637c0111931a9a3c9415a91f4c1f66f19a55af4c554a2ef52489b8043",
+    "modelNames": [
+      "wan_animate_2_distill_int8_convrot.safetensors",
+      "umt5_xxl_fp8_e4m3fn_scaled.safetensors",
+      "clip_vision_h.safetensors",
+      "Wan2_1_VAE_bf16.safetensors"
+    ]
   }
 ]

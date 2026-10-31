@@ -1,6 +1,6 @@
 {
   "version": 1,
-  "created": "2026-10-31T18:34:45.899Z",
+  "created": "2026-10-31T18:40:58.202Z",
   "files": [
     {
       "name": ".agents/plugins/marketplace.json",
@@ -339,8 +339,8 @@
     },
     {
       "name": "lib/studio-assistant.mjs",
-      "bytes": 15298,
-      "sha256": "23eb6ec491263e87031c10798ad185ea4164b7a54dee12693863f706573b0f90"
+      "bytes": 16286,
+      "sha256": "6be2a05f978e8d40832148b87e6367cdd48cf69eb3e23baf0305dbee7c30885c"
     },
     {
       "name": "lib/studio-embed.mjs",
@@ -1019,8 +1019,8 @@
     },
     {
       "name": "public/native-catalog.js",
-      "bytes": 64758,
-      "sha256": "29fd5f5baf51ee2aa1393ce08ee80b0dee71efef574116d5b8fe3ad0dc65ff3b"
+      "bytes": 71278,
+      "sha256": "fbfe9420cb5345874ca08ddd961bdb417d6f9583393b93966aabc47f6c02029a"
     },
     {
       "name": "public/native-workflows.css",
@@ -1239,8 +1239,8 @@
     },
     {
       "name": "public/template-library.js",
-      "bytes": 8228,
-      "sha256": "a0e7dace78679a9e2e61e10b9ec5e1fc95dd7b318b02cf4a6294ec28aa711f14"
+      "bytes": 9545,
+      "sha256": "fe9ad068bbcc11c34d8b0c0b5492ea27b66c4852bf89c4b468436604a5bc1398"
     },
     {
       "name": "public/templates.css",
@@ -1439,13 +1439,13 @@
     },
     {
       "name": "README.md",
-      "bytes": 10403,
-      "sha256": "98b233dcd01fb196a0d365abec6014cdbd347eddec67bf757c8353bfa9caee17"
+      "bytes": 10697,
+      "sha256": "71310597decf321e67cec8cbc7379d41ff118e6f847e67a3ce7813717b2ca0f7"
     },
     {
       "name": "REMAINING-CHECKLIST.md",
-      "bytes": 77091,
-      "sha256": "39dae6bbae3a237d1af03f0a21803435ec0c4b255b226d856ef97f1fdfed809c"
+      "bytes": 77904,
+      "sha256": "a718ec6c2d9885abaf39f39c01aafbd1e4ae05c47d3117cd4cd2f525fdb9af2b"
     },
     {
       "name": "REVIEW-FIXES.md",
@@ -3064,8 +3064,8 @@
     },
     {
       "name": "tests/workbench-discovery.test.mjs",
-      "bytes": 2214,
-      "sha256": "580614a70fc6b60a745fbe422b19b729f4c258b49272700b7bfed7dc433687af"
+      "bytes": 2549,
+      "sha256": "e0f4ba3f9b564106cb79d0a54072ec46285d8b4bd0ad8753eece21be8c066bd0"
     },
     {
       "name": "tests/workflow-canvas.test.mjs",
@@ -3109,8 +3109,8 @@
     },
     {
       "name": "THIRD-PARTY-NOTICES.md",
-      "bytes": 6571,
-      "sha256": "ecdd98bb710ad1d58aae9c03959aba1aeb4d65859ed597631ccffbdc5dd70e44"
+      "bytes": 7032,
+      "sha256": "8950fef5297fc143a85616edf95a7b7a837d0ba1f3bfd8fbe0391c4116f47989"
     },
     {
       "name": "workflows/bonus/api_bfl_flux3_i2v.json",
@@ -3263,9 +3263,14 @@
       "sha256": "aed2778141720491d408dacde096b88250651b5e9554b123b9f686bfbf507c03"
     },
     {
+      "name": "workflows/native/audio_stable_audio_3_medium.json",
+      "bytes": 114925,
+      "sha256": "08a9807262a0cf1ab632743aa7e77599597eb78d863bbd52e6a6f7a2ed6160ce"
+    },
+    {
       "name": "workflows/native/catalog.json",
-      "bytes": 183073,
-      "sha256": "4afcc60500d5ce8ca2f5a8fe52f16c01c6c9fe0a850338bdc90e76c2e5c1d5f7"
+      "bytes": 202590,
+      "sha256": "818dd5da296bac47c61cb2223b633d048b2697d0258028c94201b369627e3adf"
     },
     {
       "name": "workflows/native/image_flux3_klein_distilled_image_edit.json",
@@ -3354,8 +3359,8 @@
     },
     {
       "name": "workflows/native/open-graphs.json",
-      "bytes": 5937,
-      "sha256": "ef2f2bc791ceb6bdf0d2db99d18827434f631faaa7a574cd0496c1cfb9357ad9"
+      "bytes": 6640,
+      "sha256": "86465b5c0e0e0a69eba03ff055266a2efe5391d790fd7816e0e64495203975c1"
     },
     {
       "name": "workflows/native/utility_birefnet_remove_background.json",
@@ -3398,9 +3403,24 @@
       "sha256": "8a5eb23b0dd2df9e99b6f7af9684e770f188feca820d241364b729e01dedf3b6"
     },
     {
+      "name": "workflows/native/video_wan_animate2_distilled.json",
+      "bytes": 214742,
+      "sha256": "e08670cf0a14f4648e97283e4d7c78fe945015d5b11e4550e94b636a1f79324f"
+    },
+    {
+      "name": "workflows/native/video_wan_animate2.json",
+      "bytes": 164665,
+      "sha256": "951fb2140c55ef8011a1ddc60639b0c76a5bd99a77212a7ef587af1b7df74652"
+    },
+    {
       "name": "workflows/native/video_wan2_2_14B_s2v.json",
       "bytes": 175564,
       "sha256": "9b017cde7f0564968cc7d2d2d3d044741a991e6662674b3913d5d77f92e9af71"
+    },
+    {
+      "name": "workflows/native/video_wan21_scail2_character_replacement_int8.json",
+      "bytes": 218217,
+      "sha256": "9336ce2e9bda240848319e1cdc17fdaeed4e49a3ac07b267259410c339ac502d"
     },
     {
       "name": "workflows/node-schemas.json",
@@ -3469,8 +3489,8 @@
     },
     {
       "name": "WORKSPACE-GUIDE.md",
-      "bytes": 23105,
-      "sha256": "c01486ed433c2cb0f333f1447194764ba620baf0780e9d01747e07f4c9adcfc3"
+      "bytes": 23421,
+      "sha256": "b83c3a320a40bd85c7dbfb6667418734ad59f6500d9990e9a68162ea48210213"
     }
   ],
   "excluded": [
