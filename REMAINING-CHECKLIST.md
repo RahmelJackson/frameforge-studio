@@ -29,6 +29,14 @@ Eight pinned graphs added to Library and the shared Guide/MCP catalog. Each is p
 - [x] FLUX 3 Klein LoRA dataset profile: Characters can export images with imagefolder `metadata.jsonl` captions, a held-out set and train-flux3-klein.sh/.ps1 for the official diffusers `train_dreambooth_lora_flux3_klein.py` (pinned to diffusers 86ef420). FLUX.1/AI Toolkit stays the default.
 - [ ] Run one FLUX 3 Klein training job and load the result in ComfyUI. diffusers notes FLUX 3 LoRA loading is still being added, so ComfyUI compatibility is unverified.
 
+## Produce · October 31, 2026
+
+- [x] Video → Produce: a production plans a format, then renders keyframes (image create, or Qwen Edit from a saved cast), Wan 2.2 5B clips sized to each beat, one Kokoro narration track and per-shot captions, assembles the timeline and exports a draft MP4. One render at a time; review stops after keyframes and clips unless automatic mode is on; single-shot remakes; failures pause with the reason; state survives restarts. Built only on existing Studio routes, so every job keeps its checks and records.
+- [x] One "Get everything this needs" download for a production's missing pinned model files (model-download bundles).
+- [x] `studio_produce` MCP tool (25 tools with writes enabled).
+- [ ] Run a complete production on the local GPU and review the rough cut. Narration timing is one track from the start, not per-beat alignment.
+- [ ] Music bed from ACE-Step inside Produce.
+
 ## Templates and video formats · October 31, 2026
 
 - [x] Library → Templates: 11 basic workflows, 7 video formats and 2 experimental templates. Each states what you provide and what you get, checks local readiness through the setup report, and links to the reviewed local graph and, where one exists, the matching official template on Comfy Cloud (`cloud.comfy.org/?template=`). Tests check that every Cloud template name is pinned in this repo.

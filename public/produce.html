@@ -1,0 +1,21 @@
+<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Frameforge | Produce</title><link rel="stylesheet" href="/style.css"><link rel="stylesheet" href="/produce.css"><script type="module" src="/produce.js"></script></head><body><header><span>Video / Produce</span></header><main class="produce-page">
+<section class="produce-hero"><div><p class="produce-kicker">ONE IDEA → A FINISHED VIDEO</p><h1>Produce</h1><p>Pick a format and describe your idea. Studio plans the shots, makes every keyframe and clip on your ComfyUI, records the narration, adds captions and cuts the film, stopping so you can check each stage.</p></div><ol class="produce-pipeline" aria-label="What Produce does"><li><b>Plan</b><span>Timed beats</span></li><li><b>Keyframes</b><span>One still per shot</span></li><li><b>Clips</b><span>Each still animated</span></li><li><b>Sound</b><span>Narration + captions</span></li><li><b>Cut</b><span>Rough cut MP4</span></li></ol></section>
+<div class="produce-layout">
+<section id="produce-composer" class="produce-panel" aria-labelledby="composer-title"><h2 id="composer-title">New production</h2>
+<form id="produce-form">
+<fieldset class="produce-formats"><legend>Format</legend><div id="format-chips" class="format-chips"></div></fieldset>
+<label class="produce-idea">Your idea<textarea id="produce-subject" maxlength="500" required placeholder="A shy pear and an adventurous strawberry meet at a floating market"></textarea></label>
+<label id="produce-sources-field" hidden><span id="produce-sources-label">Sources</span><textarea id="produce-sources" maxlength="2500" placeholder="One per line: a link, a book or an interview"></textarea></label>
+<div class="produce-row"><label>Length<select id="produce-duration"><option value="15" selected>15 seconds</option><option value="30">30 seconds</option><option value="60">60 seconds</option></select></label><label>Shape<select id="produce-aspect"><option value="portrait">Vertical 9:16</option><option value="landscape">Landscape 16:9</option><option value="square">Square 1:1</option></select></label><label>Quality<select id="produce-quality"><option value="draft">Draft · faster</option><option value="standard">Standard</option></select></label></div>
+<label>Look, added to every shot<input id="produce-look" maxlength="300"></label>
+<div class="produce-row"><label>Cast<select id="produce-cast"><option value="">No saved character</option></select></label><label>Narration voice<select id="produce-voice"><option value="af_heart">Heart · US English</option><option value="am_michael">Michael · US English</option><option value="bf_emma">Emma · British English</option><option value="ef_dora">Dora · Spanish</option><option value="em_alex">Alex · Spanish</option></select></label></div>
+<label class="produce-switch"><input id="produce-auto" type="checkbox"><span>Run straight through without stopping for review</span></label>
+<div id="produce-readiness" class="produce-readiness" aria-live="polite"></div>
+<div class="produce-actions"><button class="primary" type="submit" id="produce-start">Produce</button><button type="button" id="produce-sample">Use a sample idea</button></div>
+<p class="produce-note">Runs on your own GPU, one render at a time. 15 seconds is about 5 keyframes and 5 short clips. Nothing paid is used.</p>
+<p id="produce-status" class="produce-status" role="status"></p>
+</form></section>
+<section id="produce-runs" class="produce-panel" aria-labelledby="runs-title"><h2 id="runs-title">Your productions</h2><div id="run-list" class="run-list"></div></section>
+</div>
+<section id="produce-run" class="produce-run" hidden aria-live="polite"></section>
+</main></body></html>

@@ -1,3 +1,4 @@
+import {Productions} from './lib/productions.mjs';
 import {creatorRoutes} from './lib/creator-routes.mjs';
 import {setupDoctor,engineConnection} from './lib/setup-doctor.mjs';
 import {SetupInstalls,installationId} from './lib/setup-installs.mjs';
@@ -446,11 +447,14 @@ async function selectedSetup(selection={}){
  return {...report,setupUrl:'/setup?'+new URLSearchParams(Object.entries(selection).filter(([key])=>['workflow','plan','imageTool','context','tool','input'].includes(key)).map(([key,value])=>[key,key==='input'?JSON.stringify(value):value]))};
 }
 const modelDownloads=await new ModelDownloads({directory:path.join(DATA,'model-downloads'),roots:{models:modelRoot,runtime:path.join(ROOT,'runtime')},resolveModels:async selection=>{
+ // A bundle installs everything one template or production needs in one queued job.
+ if(Array.isArray(selection?.bundle)){if(!selection.bundle.length||selection.bundle.length>8||Object.keys(selection).length!==1)throw Error('Choose 1–8 workflows or tools.');const all=[];for(const item of selection.bundle){if(item?.bundle)throw Error('Bundles cannot be nested.');all.push(...await modelDownloads.resolveModels(item));}return [...new Map(all.map(m=>[m.destination,m])).values()];}
  if(!selection||typeof selection!=='object'||Array.isArray(selection)||Object.keys(selection).some(k=>!['workflow','plan','imageTool','context','tool','input'].includes(k)))throw Error('Choose a catalog workflow or tool.');
  const report=await selectedSetup(selection);if(report.execution!=='local')throw Error('Cloud models are managed by their provider.');
  return [...new Map(report.models.filter(m=>m.state!=='available').map(m=>[m.destination,m])).values()];
 }}).init();
 const workflowExports=await new WorkflowExports({data:DATA,plans:workflowPlans}).open();
+const productions=await new Productions({directory:DATA,tick:!process.env.FRAMEFORGE_NO_PRODUCE_TICK,call:async(method,route,body,timeout=120000)=>{const r=await fetch('http://127.0.0.1:'+server.address().port+route,{method,headers:{'Content-Type':'application/json','x-frameforge-client':'produce'},body:body===undefined?undefined:JSON.stringify(body),signal:AbortSignal.timeout(timeout)});const v=await r.json().catch(()=>({}));if(!r.ok){const e=Error(v.error??('Studio request failed ('+r.status+').'));e.status=r.status;throw e;}return v;}}).open();
 const handleCreator=await creatorRoutes({data:DATA,root:ROOT,jobs,projects,creativeStore,readJson,readBody,json,serveFile,runPython,resolveVideoSource,saveJob:save,hosted:HOSTED_MODE});
 
 const communityGallery=new CommunityGallery();
@@ -796,6 +800,11 @@ const server = http.createServer(async (req, res) => {
       return json(res,201,await library.addRecipe({name:input.name,request:job.request,evidenceJobId:job.id}));
     }
     if(route==='/api/short-film-breakdown'&&req.method==='POST')return json(res,200,breakDownScript((await readJson(req,100000)).script));
+    if(route==='/api/productions'&&req.method==='GET')return json(res,200,productions.list.map(p=>productions.public(p)));
+    if(route==='/api/productions'&&req.method==='POST')return json(res,201,productions.public(await productions.create(await readJson(req,8000))));
+    const productionRoute=route.match(/^\/api\/productions\/([a-f0-9-]{36})(?:\/(action))?$/);
+    if(productionRoute&&req.method==='GET'&&!productionRoute[2])return json(res,200,productions.public(productions.find(productionRoute[1])));
+    if(productionRoute&&req.method==='POST'&&productionRoute[2]==='action')return json(res,200,productions.public(await productions.action(productionRoute[1],await readJson(req,8000))));
     if(route==='/api/short-films'&&req.method==='GET')return json(res,200,projects.list().map(p=>({...p,story:storyPlan(p),workflow:shortFilmStatus(p,jobs)})));
     if(route==='/api/short-films/demo'&&req.method==='POST'){const source=projects.list().find(p=>p.id==='9c6034e5-2465-4576-b1b9-5770a40a974b');if(!source)throw Error('The existing demonstration source is unavailable. Choose saved clips in a new film.');return json(res,201,await projects.createShortDemo(source.id));}
     const storyRoute=route.match(/^\/api\/short-films\/([a-f0-9-]{36})(?:\/(timeline|packet))?$/);
@@ -908,7 +917,8 @@ const server = http.createServer(async (req, res) => {
     if(outputMatch && req.method==='GET') return await serveFile(req,res,path.join(jobDir(outputMatch[1]),outputMatch[2]));
     const publicFiles={'/explore':'explore.html','/explore.js':'explore.js','/explore.css':'explore.css','/explore-recipes.js':'explore-recipes.js','/showcase.js':'showcase.js','/studio-theme.css':'studio-theme.css','/home':'home.html','/create':'index.html','/home.js':'home.js','/home.css':'home.css','/workspace.css':'workspace.css','/workspace.js':'workspace.js','/studio-icons.js':'studio-icons.js','/studio-chrome.js':'studio-chrome.js','/studio-chrome.css':'studio-chrome.css','/setup-doctor.js':'setup-doctor.js','/studio-journeys.js':'studio-journeys.js','/studio-map.js':'studio-map.js','/studio-match.js':'studio-match.js','/checklist':'checklist.html','/checklist.js':'checklist.js','/checklist.css':'checklist.css','/dialogue-form.js':'dialogue-form.js','/dialogue-expressive-form.js':'dialogue-expressive-form.js','/caption-form.js':'caption-form.js','/sounds.js':'sounds.js','/audio':'audio.html','/audio.js':'audio.js','/lip-holds.js':'lip-holds.js','/body-pose.js':'body-pose.js','/audio.css':'audio.css','/continuity':'continuity.html','/continuity.js':'continuity.js','/continuity.css':'continuity.css','/film':'film.html','/film.js':'film.js','/film.css':'film.css','/':'home.html','/video-tools':'video-tools.html','/video-tools.js':'video-tools.js','/video-tools.css':'video-tools.css','/images':'images.html','/images.js':'images.js','/images.css':'images.css','/app.js':'app.js','/library.js':'library.js','/queue.js':'queue.js','/style.css':'style.css','/sample.jpg':'sample.jpg','/text-frame.svg':'text-frame.svg'};
     Object.assign(publicFiles,{'/director':'director.html','/director.js':'director.js','/director.css':'director.css','/view-options.js':'view-options.js','/style-board.js':'style-board.js'});
-    Object.assign(publicFiles,{'/templates':'templates.html','/templates.js':'templates.js','/templates.css':'templates.css','/template-library.js':'template-library.js'});
+    Object.assign(publicFiles,{'/produce':'produce.html','/produce.js':'produce.js','/produce.css':'produce.css'});
+Object.assign(publicFiles,{'/templates':'templates.html','/templates.js':'templates.js','/templates.css':'templates.css','/template-library.js':'template-library.js'});
 Object.assign(publicFiles,{'/short-film':'short-film.html','/short-film.js':'short-film.js','/short-film.css':'short-film.css','/video-playback.js':'video-playback.js'});
     Object.assign(publicFiles,{'/workflows':'workflows.html','/workflows.js':'workflows.js','/workflows.css':'workflows.css','/workflow-graph.js':'workflow-graph.js','/provider-workflows.js':'provider-workflows.js','/provider-workflows.css':'provider-workflows.css'});
     Object.assign(publicFiles,{'/library':'saved-library.html','/saved-library.js':'saved-library.js','/saved-library-page.js':'saved-library-page.js','/saved-library.css':'saved-library.css','/workflow-help.js':'workflow-help.js'});
