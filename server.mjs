@@ -827,6 +827,7 @@ const server = http.createServer(async (req, res) => {
       return json(res,202,{planId:plan.id,job,prompt:layoutPrompt(scene,boxes)});
     }
     if(route==='/api/productions'&&req.method==='GET')return json(res,200,productions.list.map(p=>productions.public(p)));
+    {const remix=route.match(/^\/api\/productions\/([a-f0-9-]{36})\/remix$/);if(remix&&req.method==='POST'){const body=await readJson(req,40000);const value=await productions.remix(remix[1],body);return json(res,value.preview?200:201,value.preview?value:productions.public(value));}}
     if(route==='/api/productions'&&req.method==='POST')return json(res,201,productions.public(await productions.create(await readJson(req,8000))));
     const productionRoute=route.match(/^\/api\/productions\/([a-f0-9-]{36})(?:\/(action))?$/);
     if(productionRoute&&req.method==='GET'&&!productionRoute[2])return json(res,200,productions.public(productions.find(productionRoute[1])));

@@ -1,6 +1,6 @@
 {
   "version": 1,
-  "created": "2026-11-01T00:24:53.410Z",
+  "created": "2026-11-01T00:33:29.614Z",
   "files": [
     {
       "name": ".agents/plugins/marketplace.json",
@@ -279,8 +279,8 @@
     },
     {
       "name": "lib/productions.mjs",
-      "bytes": 13028,
-      "sha256": "a7fe3c2ec9b6993c88089eaee7a3784299e1ef85d8a69c75993edcceec24dc1f"
+      "bytes": 18472,
+      "sha256": "eea054f4578dda0ec06ad94511d533ec8351318692b28937c247526c3c87ced3"
     },
     {
       "name": "lib/projects.mjs",
@@ -364,8 +364,8 @@
     },
     {
       "name": "lib/studio-mcp-tools.mjs",
-      "bytes": 24710,
-      "sha256": "3f895582be39ff889d6ffc76ba7b47043d965701760bef8c73e3e7157c3fe726"
+      "bytes": 25139,
+      "sha256": "4a846cc703f06699c6d1f6e5730089d7496f4bf054c66c25c38555efdaeac8b2"
     },
     {
       "name": "lib/studio-setup.mjs",
@@ -1169,8 +1169,8 @@
     },
     {
       "name": "public/produce.css",
-      "bytes": 12576,
-      "sha256": "9a557132f1faa0b730cbf64abb448c0cffab5da4767b45bc0962f7988604cebb"
+      "bytes": 16103,
+      "sha256": "23c408ada52a520de68b2bba822eb9db55e2864397698a8c56ee0cf602021310"
     },
     {
       "name": "public/produce.html",
@@ -1179,8 +1179,8 @@
     },
     {
       "name": "public/produce.js",
-      "bytes": 15931,
-      "sha256": "d07127d7df737eb12476b9c055b8608f67a29d4bed4855d74381dc9558abfa56"
+      "bytes": 22978,
+      "sha256": "0702482565bc4017049c68f1dd258f01c866adb3f2463278a6ed8bfdc2a02df1"
     },
     {
       "name": "public/proof-view.js",
@@ -2409,8 +2409,8 @@
     },
     {
       "name": "server.mjs",
-      "bytes": 135624,
-      "sha256": "2c36c421b9b54d9f161239384074b5306278ea95ed00e9516f92e1acb33bcc48"
+      "bytes": 135909,
+      "sha256": "fc47ce973f4216d89d22ceeba85f54460ebd8694c33de81cf8a0f44fdb52449a"
     },
     {
       "name": "setup/advanced-models.lock.json",
@@ -3049,8 +3049,8 @@
     },
     {
       "name": "tests/productions.test.mjs",
-      "bytes": 6426,
-      "sha256": "ba94c0ee0c3de6635c49dc66eb245354eaf56fa84b2fc72ac09c86253564064b"
+      "bytes": 9074,
+      "sha256": "a425d422f3ccada1eaedd323179d1aae13bceb8201453d107756febc7745abe4"
     },
     {
       "name": "tests/projects.test.mjs",

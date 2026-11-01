@@ -4,7 +4,7 @@ import {mkdtemp,rm} from 'node:fs/promises';
 import {tmpdir} from 'node:os';
 import path from 'node:path';
 import {randomUUID} from 'node:crypto';
-import {Productions,clipLength} from '../lib/productions.mjs';
+import {Productions,clipLength,remixPlan} from '../lib/productions.mjs';
 import {storyTemplate} from '../lib/creator-catalog.mjs';
 
 // A small fake of the Studio routes a production uses. Jobs finish on the next
@@ -70,5 +70,29 @@ test('A failed render pauses the production with a readable reason until retried
   const original=studio.call;await productions.step();
   assert.match(p.error,/Out of memory/);await productions.step();assert.equal(studio.jobs.size,1,'no new work while stopped');
   await productions.action(p.id,{action:'retry'});assert.equal(p.error,null);assert.equal(p.frames[0].image,null);void original;
+ }finally{await rm(dir,{recursive:true,force:true});}
+});
+
+test('Remix previews affected stages and reuses unchanged keyframes, clips and narration',async()=>{
+ const dir=await mkdtemp(path.join(tmpdir(),'ff-remix-'));try{
+  const studio=fakeStudio(),prods=await new Productions({directory:dir,call:studio.call,tick:false}).open();
+  const src=await prods.create({format:'what-if',duration:15,subject:'a city of glowing canals',name:'Canals'});
+  src.frames.forEach((f,i)=>{f.image={jobId:randomUUID(),done:true,url:'/outputs/a/i'+i+'.png'};f.clip={jobId:randomUUID(),done:true,url:'/outputs/a/c'+i+'.mp4'};f.narration='Line '+i;});src.narrationJob={jobId:randomUUID(),done:true,audio:randomUUID()};src.stage='done';
+  // Nothing changed: everything reused.
+  let plan=remixPlan(src,{});assert.equal(plan.summary.keyframes,0);assert.equal(plan.summary.clips,0);assert.equal(plan.summary.narration,false);
+  // One rewritten shot remakes only that shot.
+  plan=remixPlan(src,{frames:[{id:src.frames[1].id,prompt:'A different second shot'}]});assert.equal(plan.summary.keyframes,1);assert.equal(plan.summary.clips,1);assert.ok(plan.frames[1].image&&!plan.frames[0].image);
+  // Quality remakes clips only; voice remakes narration only; a new look remakes everything.
+  assert.deepEqual([remixPlan(src,{quality:'standard'}).summary.keyframes,remixPlan(src,{quality:'standard'}).summary.clips],[0,src.frames.length]);
+  assert.equal(remixPlan(src,{voice:'bf_emma'}).summary.narration,true);assert.equal(remixPlan(src,{voice:'bf_emma'}).summary.keyframes,0);
+  assert.equal(remixPlan(src,{look:'watercolour storybook'}).summary.keyframes,src.frames.length);
+  assert.throws(()=>remixPlan(src,{frames:[{id:randomUUID(),prompt:'x'}]}),/not in this production/);
+  const preview=await prods.remix(src.id,{preview:true,frames:[{id:src.frames[0].id,prompt:'New opening'}]});assert.equal(preview.preview,true);assert.equal(prods.list.length,1);
+  const r=await prods.remix(src.id,{frames:[{id:src.frames[0].id,prompt:'New opening'}]});
+  assert.equal(prods.list.length,2);assert.equal(r.remixOf.id,src.id);assert.equal(r.stage,'keyframes');
+  assert.equal(r.frames[0].image,null);assert.equal(r.frames[1].image.jobId,src.frames[1].image.jobId);assert.equal(r.frames[1].clip.jobId,src.frames[1].clip.jobId);
+  assert.equal(r.frames[0].prompt,'New opening');assert.equal(r.narrationJob.audio,src.narrationJob.audio);
+  const put=studio.calls.filter(c=>c[0]==='PUT'&&c[1].startsWith('/api/short-films/')).at(-1)[2];assert.equal(put.story.frames[0].imageJobId,null);assert.equal(put.story.frames[1].takeJobId,src.frames[1].clip.jobId);
+  prods.close();
  }finally{await rm(dir,{recursive:true,force:true});}
 });
