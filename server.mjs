@@ -26,6 +26,7 @@ import {explainPlan} from './lib/workflow-explanations.mjs';
 import {WorkflowPlans} from './lib/workflow-plans.mjs';
 import {applyWorkflowSettings} from './lib/workflow-expectations.mjs';
 import {WorkflowExports,writeZip} from './lib/workflow-exports.mjs';
+import {findDesktop,installDesktop} from './lib/comfy-desktop.mjs';
 import {WORKFLOWS,workflowPacket,modelDependencies} from './lib/workflow-catalog.mjs';
 import {imageToolSetup} from './lib/image-tool-setup.mjs';
 import {providerCatalog,providerPacket,providerReadiness,providerRunPackage,providerVerification} from './lib/provider-workflows.mjs';
@@ -525,6 +526,8 @@ const server = http.createServer(async (req, res) => {
      const input=await readJson(req,1000);if(!input||typeof input!=='object'||Object.keys(input).some(k=>k!=='ancestor'))throw Error('Choose the local ComfyUI connection.');
      return json(res,200,await comfyStudioViews.open({base:'http://127.0.0.1:'+listeningPort,ancestor:input.ancestor}));
     }
+    if(route==='/api/comfy-bridge/desktop'&&req.method==='GET'){if(HOSTED_MODE)return json(res,403,{error:'Only on the studio owner’s computer.'});return json(res,200,await findDesktop({source:path.join(ROOT,'assets','comfyui-frameforge')}));}
+    if(route==='/api/comfy-bridge/desktop'&&req.method==='POST'){if(HOSTED_MODE)return json(res,403,{error:'Only on the studio owner’s computer.'});return json(res,200,await installDesktop({source:path.join(ROOT,'assets','comfyui-frameforge')}));}
     if(route==='/browser-extension.zip'&&req.method==='GET'){const directory=path.join(DATA,'bridge-packages');await mkdir(directory,{recursive:true});const file=path.join(directory,randomUUID()+'.zip');await writeZip(['manifest.json','background.js','options.html','options.js','options.css','icon.png','README.md'].map(name=>({name:'frameforge-quick/'+name,path:path.join(ROOT,'browser-extension',name)})),file);res.setHeader('Content-Disposition','attachment; filename="frameforge-quick-extension.zip"');return await serveFile(req,res,file);}
     if(route==='/api/comfy-bridge/download'&&req.method==='GET'){
      const directory=path.join(DATA,'bridge-packages');await mkdir(directory,{recursive:true});const file=path.join(directory,randomUUID()+'.zip');await writeZip(['__init__.py','web/frameforge.js','web/studio.js','web/studio.css','web/quick-tools.js','web/quick-actions.js','web/workflow-transfer.js','README.md'].map(name=>({name:'comfyui-frameforge/'+name,path:path.join(ROOT,'assets/comfyui-frameforge',name)})),file);res.setHeader('Content-Disposition','attachment; filename="comfyui-frameforge.zip"');return await serveFile(req,res,file);

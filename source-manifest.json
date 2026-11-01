@@ -1,6 +1,6 @@
 {
   "version": 1,
-  "created": "2026-11-01T20:07:46.815Z",
+  "created": "2026-11-01T20:23:17.994Z",
   "files": [
     {
       "name": ".agents/plugins/marketplace.json",
@@ -151,6 +151,11 @@
       "name": "lib/cloud-workflow.mjs",
       "bytes": 7859,
       "sha256": "85464c443b551a253391f13469096103a4aec9ac96290b114e12746aaaba39cf"
+    },
+    {
+      "name": "lib/comfy-desktop.mjs",
+      "bytes": 2574,
+      "sha256": "1ebd5b36a82cb2e85a32d27d76109395e62a9cd12e74ce6247a111da11c51086"
     },
     {
       "name": "lib/comfy-studio.mjs",
@@ -1344,18 +1349,18 @@
     },
     {
       "name": "public/setup.css",
-      "bytes": 5887,
-      "sha256": "2f216ec934d93cea40a48c4a17aa8d6d1ced21abed76054d03628e3d557d4892"
+      "bytes": 6150,
+      "sha256": "631bf2feb028eece40659bff72d35ab24a7b933ff80bcd84b21f1bee11873f86"
     },
     {
       "name": "public/setup.html",
-      "bytes": 8264,
-      "sha256": "829e5b9f3de0a29b6dd9e3ec2ee497ddf4c9ce2f08c8860fcbde121fec50a14d"
+      "bytes": 8508,
+      "sha256": "2ad429d8628eb96f48adf6d8371a9da080589de695f0130373a2a3a15b6a02d0"
     },
     {
       "name": "public/setup.js",
-      "bytes": 8071,
-      "sha256": "7992bef6dd9b411f85463ecfabd14949fb9bd33dccd8364942d8ee9220a51178"
+      "bytes": 9224,
+      "sha256": "1d0aa9ad3c5356472d16540ac7f54c8a0ee6e72c979b66e0af4836b50db0ee82"
     },
     {
       "name": "public/short-film.css",
@@ -2464,8 +2469,8 @@
     },
     {
       "name": "server.mjs",
-      "bytes": 140212,
-      "sha256": "02eb9cc8c929fe8a47530fa34f2f3880705ef5359855af51792885169f90a11f"
+      "bytes": 140779,
+      "sha256": "4401123b05687827aa6580c3d2767b8dadf9605649aef72dd6c9a3a655aaf4ab"
     },
     {
       "name": "setup/advanced-models.lock.json",
@@ -2831,6 +2836,11 @@
       "name": "tests/comfy_studio_check.py",
       "bytes": 3041,
       "sha256": "784df3a5a218e9571d667c06c3ddccbc2927ac9e5198c77f492e90df6fbc5c80"
+    },
+    {
+      "name": "tests/comfy-desktop.test.mjs",
+      "bytes": 1595,
+      "sha256": "9ed6a65371ca4cb2674fa853e8ee6b459f0fcc44157b65711df7fa459097970d"
     },
     {
       "name": "tests/comfy-quick-actions.test.mjs",
