@@ -1,6 +1,6 @@
 {
   "version": 1,
-  "created": "2026-11-01T14:58:20.690Z",
+  "created": "2026-11-01T16:25:53.750Z",
   "files": [
     {
       "name": ".agents/plugins/marketplace.json",
@@ -19,8 +19,8 @@
     },
     {
       "name": "assets/comfyui-frameforge/__init__.py",
-      "bytes": 11266,
-      "sha256": "4757f654a08eb2210abaa072e5d2be25d4da777a009fb75972fe9004e56345de"
+      "bytes": 14707,
+      "sha256": "ea084fc9acabaaf19416b60fd59cf297b696479ea1bb583b4b9921878ec61695"
     },
     {
       "name": "assets/comfyui-frameforge/README.md",
@@ -39,18 +39,18 @@
     },
     {
       "name": "assets/comfyui-frameforge/web/quick-tools.js",
-      "bytes": 8408,
-      "sha256": "bbbead13e3f45ae834e023a233ebaf6daefc3dd4d416157800f66213eb49e6dc"
+      "bytes": 10678,
+      "sha256": "c26de4bea3d8a278a20930b278ee7b4196511af8af708ffe340ede627c2555a0"
     },
     {
       "name": "assets/comfyui-frameforge/web/studio.css",
-      "bytes": 7603,
-      "sha256": "00f6a602deed575b3f4103cd77920b18eac553ec44b8ffbba9304c50948c903f"
+      "bytes": 8513,
+      "sha256": "2d4746431c13bcbf852272c530233be05861b333712ccb53316de40809ecc8a7"
     },
     {
       "name": "assets/comfyui-frameforge/web/studio.js",
-      "bytes": 10919,
-      "sha256": "05e81a290be99e01852d41de8d6a04feffa942a902236ce61124b8c075b49bf2"
+      "bytes": 10940,
+      "sha256": "4db4b0f4062277b508fdd8a0784f85d0badb0cfc57db68310c5eb57dc05d785f"
     },
     {
       "name": "assets/comfyui-frameforge/web/workflow-transfer.js",

@@ -3,6 +3,7 @@ import asyncio
 import json
 import re
 import urllib.request
+import urllib.error
 import ipaddress
 import wave
 import uuid
@@ -126,6 +127,72 @@ def send_image(payload):
         raise ValueError('The Studio did not acknowledge the imported media.')
     page = '/audio?tool=transcribe&audio=' if extension == '.wav' else '/video-tools?footage='
     return {'url': base + page + item['id'], 'id': item['id'], 'kind': 'audio' if extension == '.wav' else 'footage'}
+
+
+def studio_get(base, route, limit=8 * 1024 * 1024):
+    """Read-only JSON from the local Studio, without proxies or redirects."""
+    class NoRedirect(urllib.request.HTTPRedirectHandler):
+        def redirect_request(self, req, fp, code, msg, headers, newurl):
+            raise ValueError('The local Studio must answer without a redirect.')
+    request = urllib.request.Request(base + route, headers={'Accept': 'application/json', 'X-Frameforge-Source': 'comfyui'})
+    with urllib.request.build_opener(urllib.request.ProxyHandler({}), NoRedirect()).open(request, timeout=20) as response:
+        data = response.read(limit + 1)
+    if len(data) > limit:
+        raise ValueError('The Studio answer was too large.')
+    return json.loads(data)
+
+
+def list_productions(payload):
+    base = studio_address(payload.get('studio', 'http://127.0.0.1:4317'))
+    shots = lambda p: [{'title': str(f.get('title', ''))[:80], 'image': (f.get('image') or {}).get('jobId') if (f.get('image') or {}).get('done') else None, 'clip': (f.get('clip') or {}).get('jobId') if (f.get('clip') or {}).get('done') and not f.get('stock') else None} for f in p.get('frames', [])[:12]]
+    return {'productions': [{'id': p.get('id'), 'name': str(p.get('name', ''))[:80], 'format': p.get('format'), 'stage': p.get('stage'), 'shots': shots(p)} for p in studio_get(base, '/api/productions')[:10]]}
+
+
+def shot_graph(payload):
+    base = studio_address(payload.get('studio', 'http://127.0.0.1:4317'))
+    job = str(payload.get('job', ''))
+    if not re.fullmatch(r'[a-f0-9-]{36}', job):
+        raise ValueError('Choose a saved shot.')
+    try:
+        value = studio_get(base, '/api/jobs/' + job + '/canvas')
+    except urllib.error.HTTPError as error:
+        raise ValueError('Studio has no saved ComfyUI graph for this shot (HTTP ' + str(error.code) + ').')
+    if not isinstance(value.get('graph'), dict) or not isinstance(value['graph'].get('nodes'), list):
+        raise ValueError('This shot has no ComfyUI graph (it may be stock footage or a Studio tool).')
+    return {'graph': value['graph'], 'name': str(value.get('name', 'Frameforge shot'))[:120]}
+
+
+def local_only(request):
+    if not request.remote or not ipaddress.ip_address(request.remote).is_loopback:
+        return 'Use this bridge on the same computer.'
+    origin = request.headers.get('Origin')
+    if origin and urlsplit(origin).netloc != request.host:
+        return 'Use the ComfyUI page on this server.'
+    if request.content_length is None or request.content_length > 4096:
+        return 'Invalid request.'
+    return None
+
+
+@PromptServer.instance.routes.post('/frameforge/productions')
+async def frameforge_productions(request):
+    problem = local_only(request)
+    if problem:
+        return web.json_response({'error': problem}, status=403)
+    try:
+        return web.json_response(await asyncio.to_thread(list_productions, await request.json()))
+    except Exception as error:
+        return web.json_response({'error': str(error)}, status=400)
+
+
+@PromptServer.instance.routes.post('/frameforge/shot-graph')
+async def frameforge_shot_graph(request):
+    problem = local_only(request)
+    if problem:
+        return web.json_response({'error': problem}, status=403)
+    try:
+        return web.json_response(await asyncio.to_thread(shot_graph, await request.json()))
+    except Exception as error:
+        return web.json_response({'error': str(error)}, status=400)
 
 
 @PromptServer.instance.routes.post('/frameforge/send')
