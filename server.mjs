@@ -844,8 +844,9 @@ const server = http.createServer(async (req, res) => {
     if(route==='/api/productions'&&req.method==='GET')return json(res,200,productions.list.map(p=>productions.public(p)));
     {const remix=route.match(/^\/api\/productions\/([a-f0-9-]{36})\/remix$/);if(remix&&req.method==='POST'){const body=await readJson(req,40000);const value=await productions.remix(remix[1],body);return json(res,value.preview?200:201,value.preview?value:productions.public(value));}}
     // A production queues many GPU jobs internally, so the shared hosted demo shows finished examples instead.
-    if(HOSTED_MODE&&/^\/api\/productions(?:\/[a-f0-9-]{36}\/(?:action|remix))?$/.test(route)&&req.method==='POST')return json(res,403,{error:'Produce renders a whole film (about a dozen GPU jobs), so it runs on your own Frameforge install. In this shared demo, try Images, Video and the 3D scene.'});
+    if(HOSTED_MODE&&/^\/api\/productions(?:\/[a-f0-9-]{36}\/(?:action|remix|next))?$/.test(route)&&req.method==='POST')return json(res,403,{error:'Produce renders a whole film (about a dozen GPU jobs), so it runs on your own Frameforge install. In this shared demo, try Images, Video and the 3D scene.'});
     if(route==='/api/productions'&&req.method==='POST')return json(res,201,productions.public(await productions.create(await readJson(req,8000))));
+    {const next=route.match(/^\/api\/productions\/([a-f0-9-]{36})\/next$/);if(next&&req.method==='POST')return json(res,201,productions.public(await productions.nextEpisode(next[1],await readJson(req,4000))));}
     const productionRoute=route.match(/^\/api\/productions\/([a-f0-9-]{36})(?:\/(action))?$/);
     if(productionRoute&&req.method==='GET'&&!productionRoute[2])return json(res,200,productions.public(productions.find(productionRoute[1])));
     if(productionRoute&&req.method==='POST'&&productionRoute[2]==='action')return json(res,200,productions.public(await productions.action(productionRoute[1],await readJson(req,8000))));

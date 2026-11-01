@@ -50,3 +50,19 @@ test('setup doctor warns about synced, long and non-English install folders',asy
  const r=await setupDoctor({root:process.cwd(),python:'none',comfy:{},checkEngine:async()=>({connected:false}),checkMedia:async()=>({available:false}),checkWriter:async()=>({connected:true,model:'gemma3:4b'})});
  assert.equal(r.checks.find(c=>c.id==='writer').state,'ready');
 });
+test('fruit drama: locked cast in every shot, Part 2 card, next episode keeps the cast',async()=>{
+ const {Productions,shotPrompt,normalizeCast,castLine}=await import('../lib/productions.mjs');const {STORY_FORMATS}=await import('../lib/creator-catalog.mjs');const {stylePrompt,FORMAT_STYLES}=await import('../lib/visual-styles.mjs');
+ assert.ok(STORY_FORMATS.find(f=>f.id==='fruit-drama').series);assert.match(stylePrompt(FORMAT_STYLES['fruit-drama']),/anthropomorphic fruit/);
+ assert.throws(()=>normalizeCast([{name:'A'}]),/name and a description/);
+ const p={format:'fruit-drama',subject:'A wedding',look:'3D',cast:normalizeCast([{name:'Bella',description:'a strawberry woman in a red satin dress'}]),frames:[]};
+ const sp=shotPrompt(p,{prompt:'Context: x. A reveal.'},0,'image');assert.match(sp,/^Cast: Bella, a strawberry woman in a red satin dress\./);assert.match(sp,/PG-13/);
+ const {mkdtemp}=await import('node:fs/promises');const {tmpdir}=await import('node:os');const path=await import('node:path');
+ let created=null;const prod=new Productions({directory:await mkdtemp(path.join(tmpdir(),'ff-ep-')),call:async()=>({}),tick:false});prod.create=async input=>{created=input;return input;};
+ prod.list=[{id:'s1',format:'fruit-drama',subject:'A wedding',name:'Fruit Vows',duration:30,aspect:'portrait',quality:'draft',look:'3D',captionStyle:'word',voice:'am_michael',cast:p.cast,episode:1,frames:[{narration:'And then… the pineapple walked in.'}]}];
+ await prod.nextEpisode('s1');assert.equal(created.episode,2);assert.deepEqual(created.cast,p.cast);assert.equal(created.voice,'am_michael');assert.match(created.subject,/Episode 2: pick up right after: And then… the pineapple walked in\./);assert.equal(created.name,'Fruit Vows · Episode 2');assert.equal(created.seriesOf,'s1');
+});
+test('the writer invents a cast sheet for drama formats and reuses a given one',async()=>{
+ const {writerMessages}=await import('../lib/shot-writer.mjs');
+ assert.match(writerMessages({format:'fruit-drama',subject:'A wedding',look:'3D',frames:[]})[1].content,/invent a cast sheet[\s\S]*telenovela narrator/);
+ const m=writerMessages({format:'fruit-drama',subject:'A wedding',look:'3D',cast:[{name:'Bella',description:'strawberry woman'}],frames:[]})[1].content;assert.match(m,/- Bella: strawberry woman/);assert.doesNotMatch(m,/invent/);
+});

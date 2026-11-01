@@ -138,3 +138,4 @@
 .run-handoff a,.run-handoff button{display:inline-flex;align-items:center;gap:6px;min-height:34px;padding:6px 12px;border-radius:999px;border:1px solid #3a443a;background:#1a1f1b;color:#e9eee4;font:inherit;font-size:13px;text-decoration:none;cursor:pointer}
 .run-handoff a:hover,.run-handoff button:hover{border-color:#d6ff00;color:#fff}
 .frame-nodes{margin-top:6px;font-size:12px;padding:5px 10px;border-radius:999px;border:1px solid #4b5d22;background:#1d2414;color:#e6f5b8;cursor:pointer}.frame-nodes:hover{border-color:#d6ff00}
+.run-cast{display:flex;flex-wrap:wrap;gap:8px;margin-top:10px}.run-cast b{font-size:12px;letter-spacing:.06em;text-transform:uppercase;color:#d6ff00;padding:5px 10px;border:1px solid #4b5d22;border-radius:999px}.run-cast span{font-size:13px;padding:5px 12px;border-radius:999px;background:#1f2614;color:#e6f5b8;border:1px solid #3a4a1c}

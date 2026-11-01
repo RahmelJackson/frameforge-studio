@@ -1,6 +1,6 @@
 {
   "version": 1,
-  "created": "2026-11-01T14:02:58.245Z",
+  "created": "2026-11-01T14:58:20.690Z",
   "files": [
     {
       "name": ".agents/plugins/marketplace.json",
@@ -174,8 +174,8 @@
     },
     {
       "name": "lib/creator-catalog.mjs",
-      "bytes": 19745,
-      "sha256": "910779584487d49f4465b1a1b68786d322d630164f102b84168a3ed0413dcf79"
+      "bytes": 21096,
+      "sha256": "d676836d94658144bf8990962d505cb6c9d219c96c3304f40afd0414d63f4751"
     },
     {
       "name": "lib/creator-routes.mjs",
@@ -289,8 +289,8 @@
     },
     {
       "name": "lib/productions.mjs",
-      "bytes": 30668,
-      "sha256": "a657612b23408d40e2ee271da17a2ea50eb87b72919ac16c2179c55ee18b0e37"
+      "bytes": 32944,
+      "sha256": "d0fdef34061169e4de5dfb901ba332cd193137b4dd188584f1b2e1ea31b65b83"
     },
     {
       "name": "lib/projects.mjs",
@@ -349,8 +349,8 @@
     },
     {
       "name": "lib/shot-writer.mjs",
-      "bytes": 6766,
-      "sha256": "7fd7ee612ac86807dfc28b103a2acff0beaec3ba5ec38b8e20557427acf133db"
+      "bytes": 8055,
+      "sha256": "58034a3dddef89d1a7bc7cb4d484ca056da5de7b7dca161586726877039cfd8c"
     },
     {
       "name": "lib/sounds.mjs",
@@ -384,8 +384,8 @@
     },
     {
       "name": "lib/studio-mcp-tools.mjs",
-      "bytes": 28532,
-      "sha256": "70a2c5db5c273916f96617ef700b79fb1363e18c114b16740a616336f0563f50"
+      "bytes": 28853,
+      "sha256": "7ebdbe430d410d9813d98329814ada545313342da54bac4d91d040d766f30ca4"
     },
     {
       "name": "lib/studio-setup.mjs",
@@ -419,8 +419,8 @@
     },
     {
       "name": "lib/visual-styles.mjs",
-      "bytes": 4360,
-      "sha256": "cbd910804f732023432eb5eb439de8c149e2f24f376db952a830ea22650c14e2"
+      "bytes": 4731,
+      "sha256": "ca47fcec84c0f81e67f5d458699d04b3fc6ac06727f39c8ff3cbbd3c56ec22bc"
     },
     {
       "name": "lib/workflow-catalog.mjs",
@@ -1199,18 +1199,18 @@
     },
     {
       "name": "public/produce.css",
-      "bytes": 17566,
-      "sha256": "2e8e49ea740a58ea380c080a8c7d9d47dbcc7394e161a6b56b5bdc7c7832acab"
+      "bytes": 17903,
+      "sha256": "e1ed42413ed24032e613aa9020cab77b6fe4f6ea229430d66f82fbeb1c3fdd1c"
     },
     {
       "name": "public/produce.html",
-      "bytes": 5155,
-      "sha256": "e6a34cb6071e7f47a522806de7cb8a4a00b6dd7d9ac0791bc7c7cf18553b2a36"
+      "bytes": 5577,
+      "sha256": "b294783c7db7973896f99ee4f18810cf2baf5403596ba6b9de2daae68f5a1974"
     },
     {
       "name": "public/produce.js",
-      "bytes": 27141,
-      "sha256": "88b1a8dc8b51d0c5f6118a1e15a00061026f66c77f855210396e9e3a5f247d9e"
+      "bytes": 28446,
+      "sha256": "26352b5f37873362a7cc69e47511826aa0ce669f221e0d6638f2b1c40c58e7e6"
     },
     {
       "name": "public/proof-view.js",
@@ -1429,8 +1429,8 @@
     },
     {
       "name": "public/template-library.js",
-      "bytes": 10474,
-      "sha256": "1d129a26f3426f6235fc03fdeece8f4e70d583a967d70369022c4648aba6d5fc"
+      "bytes": 10768,
+      "sha256": "61654661a63ede2d3783e9ed0a80d149a55a53bf9f8e7a3f2bf65696fd7b24d6"
     },
     {
       "name": "public/templates.css",
@@ -2444,8 +2444,8 @@
     },
     {
       "name": "server.mjs",
-      "bytes": 139253,
-      "sha256": "085c16102bc1996c6a896c63e7ed36436ddf1a97e8e6a789eb17287e29f5096a"
+      "bytes": 139470,
+      "sha256": "c558246d6975cb8412fbee01e8b60e03bb43d3a04f4518bd15e0bba830d2bec7"
     },
     {
       "name": "setup/advanced-models.lock.json",
@@ -3024,8 +3024,8 @@
     },
     {
       "name": "tests/mcp-scene-templates.test.mjs",
-      "bytes": 5713,
-      "sha256": "8df6f064de210ec0d323050e7b8600d1e919a30245176f1e15e5ede94dd21df7"
+      "bytes": 8051,
+      "sha256": "407e98b1ef34b292e7b818e23b435dfba35b40deb063047353b39a368f76ae34"
     },
     {
       "name": "tests/mcp-studio-ui.test.mjs",
