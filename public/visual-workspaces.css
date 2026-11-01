@@ -43,7 +43,7 @@ body[data-creative-intro] main>.page-heading,body[data-creative-intro] main>.int
 
 .intro-wave{width:84%;height:65%;pointer-events:none}.intro-wave rect{fill:#d9ffb9;transform-origin:center;transform-box:fill-box;animation:voice-breathe 3600ms ease-in-out infinite alternate}.intro-wave rect:nth-child(3n){animation-delay:-1200ms}.intro-wave rect:nth-child(3n + 1){animation-delay:-2400ms}.sound-introduction .creative-title-art img{filter:brightness(.28)!important}@media(prefers-reduced-motion:reduce){.intro-wave rect{animation:none}}
 
-body[data-creative-intro] .workspace-overview .workspace-heading{display:none}body[data-creative-intro] .workspace-overview{padding:10px 0!important;margin-bottom:16px!important;background:none!important;border:0!important}.creative-title-top{scroll-margin-top:85px}.intro-start:focus-visible{outline:2px solid #d6ff00}
+body:is([data-creative-intro],[data-page=produce],[data-page=scene],[data-page=templates]) .workspace-overview .workspace-heading{display:none}body:is([data-creative-intro],[data-page=produce],[data-page=scene],[data-page=templates]) .workspace-overview{padding:10px 0!important;margin-bottom:16px!important;background:none!important;border:0!important}.creative-title-top{scroll-margin-top:85px}.intro-start:focus-visible{outline:2px solid #d6ff00}
 
 @media(prefers-reduced-motion:reduce){main{animation:none!important}}
 

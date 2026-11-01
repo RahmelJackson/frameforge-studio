@@ -1,5 +1,6 @@
 <!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Frameforge | Produce</title><link rel="stylesheet" href="/style.css"><link rel="stylesheet" href="/produce.css"><script type="module" src="/produce.js"></script></head><body><header><span>Video / Produce</span></header><main class="produce-page">
 <section class="produce-hero"><div><p class="produce-kicker">ONE IDEA → A FINISHED VIDEO</p><h1>Produce</h1><p>Pick a format and describe your idea. Studio plans the shots, makes every keyframe and clip on your ComfyUI, records the narration, adds captions and cuts the film, stopping so you can check each stage.</p></div><div class="produce-hero-side"><button type="button" id="phone-open" class="produce-phone"><span aria-hidden="true">▣</span> Phone remote</button><ol class="produce-pipeline" aria-label="What Produce does"><li><b>Plan</b><span>Timed beats</span></li><li><b>Keyframes</b><span>One still per shot</span></li><li><b>Clips</b><span>Each still animated</span></li><li><b>Sound</b><span>Narration + captions</span></li><li><b>Cut</b><span>Rough cut MP4</span></li></ol></div></section><dialog id="phone-dialog" class="phone-dialog" aria-labelledby="phone-title"><form method="dialog"><button class="phone-close" aria-label="Close">×</button></form><h2 id="phone-title">Direct from your phone</h2><p>Start productions, watch shots render, approve or remake them and play the cut from your phone, while everything renders on this PC.</p><div id="phone-body"></div></dialog>
+<section id="produce-run" class="produce-run" hidden aria-live="polite"></section>
 <div class="produce-layout">
 <section id="produce-composer" class="produce-panel" aria-labelledby="composer-title"><h2 id="composer-title">New production</h2>
 <form id="produce-form">
@@ -19,5 +20,4 @@
 </form></section>
 <section id="produce-runs" class="produce-panel" aria-labelledby="runs-title"><h2 id="runs-title">Your productions</h2><div id="run-list" class="run-list"></div></section>
 </div>
-<section id="produce-run" class="produce-run" hidden aria-live="polite"></section>
 </main></body></html>

@@ -1,6 +1,6 @@
 {
   "version": 1,
-  "created": "2026-11-01T08:05:42.575Z",
+  "created": "2026-11-01T09:31:09.098Z",
   "files": [
     {
       "name": ".agents/plugins/marketplace.json",
@@ -784,8 +784,8 @@
     },
     {
       "name": "public/creator.css",
-      "bytes": 11316,
-      "sha256": "95eade4eb4f15754047f514126c3e2eeeb84b02d78bfa5762d9f2cff6d60460d"
+      "bytes": 11354,
+      "sha256": "0a84d87b6b58bfca886fc403ce6baed8bb20c1246e4aa8621cbbe872434964d0"
     },
     {
       "name": "public/creator.html",
@@ -794,8 +794,8 @@
     },
     {
       "name": "public/creator.js",
-      "bytes": 35571,
-      "sha256": "d9717b7f3a74d17ecdd67a2be1092f45116227c79e144bc2c0051c7518f57ddb"
+      "bytes": 35815,
+      "sha256": "b139dae71e440dfbe4bdc088dc4fb556212545d8303d71b45c2add0cfb0278c3"
     },
     {
       "name": "public/dialogue-expressive-form.js",
@@ -1074,8 +1074,8 @@
     },
     {
       "name": "public/images.js",
-      "bytes": 38754,
-      "sha256": "fa8fa28d12565f365904fd27bb57482276f9543f73e5c54597c6814eca9a0234"
+      "bytes": 38894,
+      "sha256": "bc15ef13938b67d7663e369e08638e532938f59dd7d31e305deb5b3df823772c"
     },
     {
       "name": "public/index.html",
@@ -1189,18 +1189,18 @@
     },
     {
       "name": "public/produce.css",
-      "bytes": 16476,
-      "sha256": "32c5c53c4295d84085ab67364efe86835bb7b0d275cc1c6c7843635c0c30bb01"
+      "bytes": 16700,
+      "sha256": "7d295a02956048d068e0ac6f96dd1c795f431455bc3d5798584f1655330cbd4e"
     },
     {
       "name": "public/produce.html",
-      "bytes": 4949,
-      "sha256": "5d7bd305505dbaab8643bc6e3dc42c53abbad3d332aa4f1381c68389eaf3ce2c"
+      "bytes": 4948,
+      "sha256": "084beb5695987b744fc0ea298d260891f18cb06200cbc6e6f23362f12e8f828d"
     },
     {
       "name": "public/produce.js",
-      "bytes": 23868,
-      "sha256": "c5a10963e8df324c3e35bb3e0f653dceaa99e1ba52ae451a614ae895121b3b43"
+      "bytes": 23952,
+      "sha256": "7c891c1613e0e3668b8f486bde7f818e4b6afe88b2e9d817479d4cf1cda34089"
     },
     {
       "name": "public/proof-view.js",
@@ -1299,8 +1299,8 @@
     },
     {
       "name": "public/setting-tips.js",
-      "bytes": 14511,
-      "sha256": "817df00e1507bf97571a9b9f7f556aefb1f0c82bb105e43474a264cc3062c529"
+      "bytes": 14733,
+      "sha256": "2dd5270cf6a0d653fafedaf5551298026f246c8c417243d8b952dc54d2726620"
     },
     {
       "name": "public/setup-doctor.js",
@@ -1419,8 +1419,8 @@
     },
     {
       "name": "public/templates.css",
-      "bytes": 10458,
-      "sha256": "fdd74def5cc09a96452f89ec732fe90cdec4fc8cf411cad90da2a6f0c653c7eb"
+      "bytes": 10520,
+      "sha256": "5090a9dbcf0fa208502bd8bceb8888cf5a46e086cc53aac240a4d3c45740981b"
     },
     {
       "name": "public/templates.html",
@@ -1519,8 +1519,8 @@
     },
     {
       "name": "public/visual-workspaces.css",
-      "bytes": 18685,
-      "sha256": "2522d4ecf185123d3fbfb3716f07722a280c512c744f75c2532d3d211027daad"
+      "bytes": 18815,
+      "sha256": "1f7d7485561b6d5655eb63464889567557743df8df8cffae7332a92a0b42e373"
     },
     {
       "name": "public/visual-workspaces.js",
@@ -1604,8 +1604,8 @@
     },
     {
       "name": "public/workspace.css",
-      "bytes": 31360,
-      "sha256": "f7364d0cb2b35d2f4ff56d2ba5a8564baf2ccffe60ae3f5b1595724417c022ff"
+      "bytes": 31382,
+      "sha256": "caab97143c4d9faac73fb8042fdaddd778fdf51cb55bda48c02ffcccb942182b"
     },
     {
       "name": "public/workspace.js",
@@ -2429,8 +2429,8 @@
     },
     {
       "name": "server.mjs",
-      "bytes": 138233,
-      "sha256": "2e036c07ce6d6ede1ad8562bdeed65a2c90fe3f97168c9d832b327df8fab5283"
+      "bytes": 138369,
+      "sha256": "223328b163c6ac93c9b5a0b12825dd79a2f0567681d9e448277925a7052f0061"
     },
     {
       "name": "setup/advanced-models.lock.json",
@@ -3711,5 +3711,5 @@
   ],
   "license": "MIT for original project code; third-party files retain their own licenses.",
   "destination": "RahmelJackson/frameforge-studio",
-  "publication": "Reviewed source snapshot. See REVIEW-FIXES.md for validation and remaining limits."
+  "publication": "Clean source snapshot for the public repository. See GITHUB-SETUP.md and third-party notices."
 }

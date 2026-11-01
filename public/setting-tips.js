@@ -103,7 +103,7 @@ const GLOSSARY={
  'VRAM':'Your graphics card\u2019s memory. Bigger models and longer clips need more of it.',
  'GPU':'Your graphics card. AI models run far faster on it than on the main processor.'
 };
-const TERM_SKIP='[class*=kicker],[class*=eyebrow],a,button,select,option,textarea,input,script,style,code,pre,kbd,label,summary,h1,.term,.setting-tip,.setting-tip-bubble,.appearance-panel,#studio-assistant,svg,[contenteditable]';
+const TERM_SKIP='[class*=kicker],[class*=eyebrow],a,button,select,option,textarea,input,script,style,code,pre,kbd,label,summary,h1,h2,h3,h4,strong,b,.produce-readiness,.creator-canvas-empty,.scene-tools,.scene-timeline,.term,.setting-tip,.setting-tip-bubble,.appearance-panel,#studio-assistant,svg,[contenteditable]';
 const termKeys=Object.keys(GLOSSARY).sort((a,b)=>b.length-a.length),termRe=new RegExp('\\b('+termKeys.map(k=>k.replace(/[.*+?^${}()|[\]\\]/g,'\\$&')).join('|')+')\\b','i');
 const seenTerms=new Set();
 function markTerms(root=document.querySelector('main')??document.body){if(!root||seenTerms.size>=termKeys.length)return;
@@ -126,6 +126,7 @@ function textOf(label){for(const node of label.childNodes){if(node.nodeType===3&
 function attach(root=document){
  for(const label of root.querySelectorAll('label:not([data-tipped])')){
   label.dataset.tipped='1';
+  if(label.closest('.scene-tools,.scene-timeline,.creator-toolbar,.canvas-stage-bar')&&!label.querySelector('#scene-style'))continue;
   const control=label.querySelector('input,select,textarea')??(label.htmlFor?document.getElementById(label.htmlFor):null);
   if(!control||control.type==='file')continue;
   const text=textOf(label);const tip=byId[control.id]??byLabel[text.toLowerCase().replace(/\s*\(.*\)$/,'')];

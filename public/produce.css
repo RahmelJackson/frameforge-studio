@@ -54,7 +54,7 @@
 .run-row:hover{background:color-mix(in srgb,var(--accent) 6%,transparent)}.run-row[aria-current=true]{background:var(--accent-dim)}
 .run-row img,.run-thumb{width:64px;height:64px;border-radius:12px;object-fit:cover;background:#202426;display:block}
 .run-row strong{display:block;font-size:14px;line-height:1.3;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}.run-row small{color:var(--muted);font-size:12px;display:block;margin-top:3px;overflow:hidden;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical}
-.produce-run{margin-top:28px;border:1px solid var(--line);border-radius:22px;padding:28px;background:var(--soft);animation:pipe-in .35s ease}
+.produce-run{margin:0 0 28px;border:1px solid var(--line);border-radius:22px;padding:28px;background:var(--soft);animation:pipe-in .35s ease}
 .run-head{display:flex;justify-content:space-between;gap:24px;align-items:start;flex-wrap:wrap}
 .run-head h2{font-size:clamp(26px,3vw,40px);letter-spacing:-.04em;margin:8px 0 6px;line-height:1.05}
 .run-subject{color:var(--muted);margin:0;max-width:720px;line-height:1.55}
@@ -74,8 +74,11 @@
 .run-movie video{width:100%;max-height:520px;border-radius:16px;background:#000}
 .run-movie h3{font-size:22px;margin:0 0 8px;letter-spacing:-.02em}.run-movie p{color:var(--muted);margin:0 0 14px;line-height:1.55}
 .run-frames{display:grid;grid-template-columns:repeat(auto-fill,minmax(190px,1fr));gap:14px}
+.run-frames[data-aspect=landscape]{grid-template-columns:repeat(auto-fill,minmax(230px,1fr))}
 .run-frame{border:1px solid var(--line);border-radius:16px;overflow:hidden;background:var(--panel);display:flex;flex-direction:column}
 .frame-media{position:relative;aspect-ratio:9/16;max-height:300px;background:#141718;display:grid}
+.run-frames[data-aspect=landscape] .frame-media{aspect-ratio:16/9}
+.run-frames[data-aspect=square] .frame-media{aspect-ratio:1/1}
 .frame-media :is(img,video){width:100%;height:100%;object-fit:cover;display:block}
 .frame-number{position:absolute;top:8px;left:8px;width:24px;height:24px;border-radius:50%;background:rgba(0,0,0,.6);color:#fff;font-size:12px;display:grid;place-items:center}
 .frame-wait{display:grid;place-items:center;color:var(--muted);font-size:13px}
