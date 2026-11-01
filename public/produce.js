@@ -1,8 +1,13 @@
+import {mountStylePicker,loadStyles} from '/style-picker.js';
+let produceStyle=null;
+const styleReady=mountStylePicker(document.getElementById('produce-style'),{key:'frameforge.style.produce',initial:'none',label:'Visual style for every shot',onChange:(id,s)=>{document.getElementById('produce-look').value=s?.prompt||'';}}).then(p=>produceStyle=p);
+// Each format starts from a strong art direction; picking a style rewrites the look below it.
+async function applyFormatStyle(id){const {styles,formats}=await loadStyles();await styleReady;const sid=formats[id]??'blockbuster',s=styles.find(x=>x.id===sid);produceStyle?.set(sid);const look=document.getElementById('produce-look');if(look&&s)look.value=s.prompt;}
 import {TEMPLATES} from '/template-library.js';
 import {qrSvg} from '/qr.js';
 const $=s=>document.querySelector(s),esc=v=>String(v??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
 async function api(url,body){const r=await fetch(url,body===undefined?{}:{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify(body)}),v=await r.json().catch(()=>({}));if(!r.ok)throw Error(v.error??'The request failed.');return v;}
-const LOOKS={'fruit-romance':'bright 3D animated film look, soft studio lighting, expressive faces, clean background','satisfying-loop':'clean, colourful, smooth satisfying motion, soft even lighting'},DEFAULT_LOOK='cinematic photograph, natural light, shallow depth of field';
+
 const STEP_NAMES=[['keyframes','Keyframes'],['clips','Clips'],['sound','Sound'],['cut','Cut'],['done','Done']];
 let formats=[],format=null,runs=[],current=null,timer=null,draftLines=null;
 const params=new URLSearchParams(location.search);
@@ -21,7 +26,7 @@ async function install(bundle){
  try{await api('/api/model-downloads',{selection:{bundle},acceptTerms:true});status.textContent='Downloading… you can keep working.';const poll=setInterval(async()=>{const d=await api('/api/model-downloads').catch(()=>null);const job=d?.jobs?.[0];if(!job)return;status.textContent=job.status==='complete'?'Downloaded. Restart ComfyUI if it doesn’t see the new files.':job.status==='failed'?'Download stopped: '+(job.error??'see Settings → Models'):'Downloading '+Math.round(100*(job.received??0)/Math.max(1,job.total))+'%…';if(!d.running){clearInterval(poll);readinessCache.clear();checkReadiness();}},2000);}
  catch(error){status.textContent=error.message;}
 }
-function chooseFormat(id){format=formats.find(f=>f.id===id)??formats[0];for(const b of document.querySelectorAll('[data-format]'))b.setAttribute('aria-pressed',String(b.dataset.format===format.id));$('#produce-aspect').value=format.aspect;$('#produce-stock').checked=['explainer','explainer-sources','life-as'].includes(format.id);$('#produce-look').value=LOOKS[format.id]??DEFAULT_LOOK;$('#produce-sources-field').hidden=!format.sources;$('#produce-sources').required=format.sources==='required';$('#produce-sources-label').textContent=format.sources==='required'?'Sources (required)':'Sources (optional)';$('#produce-subject').placeholder=TEMPLATES.find(t=>t.format===format.id)?.sample?.subject??'Describe your idea';}
+function chooseFormat(id){format=formats.find(f=>f.id===id)??formats[0];for(const b of document.querySelectorAll('[data-format]'))b.setAttribute('aria-pressed',String(b.dataset.format===format.id));$('#produce-aspect').value=format.aspect;$('#produce-stock').checked=['explainer','explainer-sources','life-as'].includes(format.id);applyFormatStyle(format.id);$('#produce-sources-field').hidden=!format.sources;$('#produce-sources').required=format.sources==='required';$('#produce-sources-label').textContent=format.sources==='required'?'Sources (required)':'Sources (optional)';$('#produce-subject').placeholder=TEMPLATES.find(t=>t.format===format.id)?.sample?.subject??'Describe your idea';}
 function sample(){const s=TEMPLATES.find(t=>t.format===format.id)?.sample;if(!s)return;$('#produce-subject').value=s.subject;$('#produce-sources').value=s.sources??'';$('#produce-duration').value='15';}
 
 function runRow(p){const thumb=p.movie?.poster??p.frames.find(f=>f.clip?.poster)?.clip.poster??p.frames.find(f=>f.image?.url)?.image.url;return `<button type="button" class="run-row" data-run="${p.id}" aria-current="${current?.id===p.id}">${thumb?`<img src="${thumb}" alt="" loading="lazy">`:'<span class="run-thumb" aria-hidden="true"></span>'}<span><strong>${esc(p.name)}</strong><small>${esc(stageLabel(p))}</small></span></button>`;}

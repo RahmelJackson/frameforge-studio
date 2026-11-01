@@ -1,5 +1,6 @@
 import {Productions} from './lib/productions.mjs';
 import {createShotWriter} from './lib/shot-writer.mjs';
+import {VISUAL_STYLES,FORMAT_STYLES} from './lib/visual-styles.mjs';
 import {searchStock,stockQuery,allowedStockUrl} from './lib/stock-footage.mjs';
 import {RemoteAccess} from './lib/remote-access.mjs';
 import {STORY_FORMATS} from './lib/creator-catalog.mjs';
@@ -593,6 +594,7 @@ const server = http.createServer(async (req, res) => {
     if(audioOutput&&req.method==='GET')return await serveFile(req,res,audioStudio.file(audioOutput[1],audioOutput[2]));
     if(route==='/api/engine-readiness'&&req.method==='GET'){let connected=false,queued=false;try{const q=await comfy.json('/queue');connected=true;queued=!!(q.queue_running?.length||q.queue_pending?.length);}catch{}return json(res,200,{connected,busy:queued||audioStudio.busy()||loraTrainer.running()||[...jobs.values()].some(j=>['processing','uploading','submitting','submitted','running','cancelling','verifying'].includes(j.status))});}
     if (route === '/api/health' && req.method === 'GET') return json(res,200,await health());
+    if (route === '/api/visual-styles' && req.method === 'GET') return json(res,200,{styles:VISUAL_STYLES,formats:FORMAT_STYLES});
     if (route === '/api/catalog' && req.method === 'GET') return json(res,200,{ presets:PRESETS,sizes:SIZES,lengths:LENGTHS,cameraPoses:CAMERA_POSES,looks:LOOKS,images:{tools:IMAGE_TOOLS,sizes:IMAGE_SIZES,camera:STILL_CAMERA,light:IMAGE_LIGHT} });
     if(route==='/api/video-keyframe'&&req.method==='POST'){
       const input=await readJson(req),valid=v=>typeof v==='string'&&/^[a-f0-9-]{36}$/.test(v),time=Number(input.time??0);
@@ -959,7 +961,7 @@ const server = http.createServer(async (req, res) => {
     Object.assign(publicFiles,{'/director':'director.html','/director.js':'director.js','/director.css':'director.css','/view-options.js':'view-options.js','/style-board.js':'style-board.js'});
     Object.assign(publicFiles,{'/qr.js':'qr.js'});
 Object.assign(publicFiles,{'/scene':'scene.html','/scene.js':'scene.js','/scene-presets.js':'scene-presets.js','/scene.css':'scene.css'});
-Object.assign(publicFiles,{'/produce':'produce.html','/produce.js':'produce.js','/produce.css':'produce.css'});
+Object.assign(publicFiles,{'/produce':'produce.html','/produce.js':'produce.js','/produce.css':'produce.css','/style-picker.js':'style-picker.js'});
 Object.assign(publicFiles,{'/templates':'templates.html','/templates.js':'templates.js','/templates.css':'templates.css','/template-library.js':'template-library.js'});
     Object.assign(publicFiles,{'/short-film':'short-film.html','/short-film.js':'short-film.js','/short-film.css':'short-film.css','/video-playback.js':'video-playback.js'});
     Object.assign(publicFiles,{'/workflows':'workflows.html','/workflows.js':'workflows.js','/workflows.css':'workflows.css','/workflow-graph.js':'workflow-graph.js','/provider-workflows.js':'provider-workflows.js','/provider-workflows.css':'provider-workflows.css'});
