@@ -75,3 +75,13 @@
 .template-plan-actions .primary{background:var(--accent);border-color:var(--accent);color:#101112;font-weight:600}
 .template-plan-actions button:disabled{opacity:.6;cursor:progress}
 .template-note a,.template-workflows .state a{color:var(--accent);text-decoration:underline;text-underline-offset:3px}
+.template-finder{display:grid;gap:10px;margin:0 0 18px;padding:18px 20px;border:1px solid var(--line,#2b322e);border-radius:20px;background:radial-gradient(120% 160% at 0% 0%,rgba(214,255,0,.07),transparent 50%),var(--panel,#141817)}
+.finder-title{margin:0;font-weight:650;font-size:15px}
+.finder-row{display:flex;align-items:center;gap:8px;flex-wrap:wrap}
+.finder-row>span{min-width:64px;font-size:12px;color:var(--muted,#9aa4a6);text-transform:uppercase;letter-spacing:.06em}
+.finder-row button{font:inherit;font-size:13px;padding:8px 14px;border-radius:999px;border:1px solid var(--line,#2c3133);background:transparent;color:inherit;cursor:pointer}
+.finder-row button:hover{border-color:var(--accent,#d6ff00)}
+.finder-row button[aria-checked=true]{background:var(--accent,#d6ff00);border-color:var(--accent,#d6ff00);color:#101112;font-weight:650}
+.finder-count{margin:0;font-size:12px;color:var(--muted,#9aa4a6)}
+.finder-count button{font:inherit;color:var(--accent,#d6ff00);background:none;border:0;padding:0;cursor:pointer;text-decoration:underline}
+.finder-empty{color:var(--muted,#9aa4a6);padding:20px 0}

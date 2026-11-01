@@ -5,6 +5,16 @@ async function api(url,body){const r=await fetch(url,body===undefined?{}:{method
 const params=new URLSearchParams(location.search);
 let templates=[],group=TEMPLATE_GROUPS.some(g=>g.id===params.get('group'))?params.get('group'):'all',selected=null;
 const readiness=new Map();
+// Finder: what you have and what you want. Each template is classified from its own "bring" and "get" text.
+const HAVE=[['idea','Just an idea'],['photo','A photo'],['video','A video clip'],['audio','A voice or music']],WANT=[['picture','A picture'],['video','A video'],['sound','Sound'],['3d','A 3D object']];
+let have=params.get('have')??'',want=params.get('want')??'';
+function needs(t){const text=(t.provide??[]).join(' ').toLowerCase(),out=new Set();if(/picture|photo|portrait|still|image|style reference/.test(text))out.add('photo');if(/video|clip|moving|footage/.test(text))out.add('video');if(/voice|recording|music|audio/.test(text))out.add('audio');if(/description|idea|topic|premise|cast|role|prompt|mood|motion|stand-ins|conflict|performers|look/.test(text)||!out.size)out.add('idea');return out;}
+function gives(t){const g=String(t.get??'').toLowerCase(),out=new Set();if(/3d|glb/.test(g))out.add('3d');if(/music|sound|audio|speech/.test(g))out.add('sound');if(/video|clip|plan|film|episode|performing|talking|shot/.test(g)&&!/sound effect or music clip/.test(g))out.add('video');if(/image|still|png|picture|photo/.test(g))out.add('picture');if(!out.size)out.add('picture');return out;}
+function fits(t){return (!have||needs(t).has(have)&&(have==='idea'||true))&&(!want||gives(t).has(want));}
+function renderFinder(){const row=(name,list,value)=>`<div class="finder-row" role="radiogroup" aria-label="${name}"><span>${name}</span>${list.map(([id,label])=>`<button type="button" data-finder="${name==='I have'?'have':'want'}" data-value="${id}" role="radio" aria-checked="${value===id}">${esc(label)}</button>`).join('')}</div>`;
+ const count=templates.filter(fits).length;$('#template-finder').innerHTML=`<p class="finder-title">Find the right template</p>${row('I have',HAVE,have)}${row('I want',WANT,want)}<p class="finder-count" role="status">${have||want?`${count} template${count===1?'':'s'} fit${count===1?'s':''} · <button type="button" data-finder-clear>Show all</button>`:'Pick what you have and what you want, or browse everything below.'}</p>`;
+ for(const b of document.querySelectorAll('[data-finder]'))b.onclick=()=>{if(b.dataset.finder==='have')have=have===b.dataset.value?'':b.dataset.value;else want=want===b.dataset.value?'':b.dataset.value;renderFinder();renderList();sync();};
+ $('[data-finder-clear]')?.addEventListener('click',()=>{have=want='';renderFinder();renderList();sync();});}
 const workflowName=id=>NATIVE_WORKFLOWS.find(w=>w.id===id)?.title??id;
 const art=t=>t.art==='fruit-romance'?'/creator-stories.svg':'/explore-art/'+t.art;
 
@@ -12,11 +22,12 @@ function badges(t){return `<span class="template-badges">${t.workflows?.length?'
 function renderFilter(){$('#template-filter').innerHTML=[{id:'all',title:'All'},...TEMPLATE_GROUPS].map(g=>`<button type="button" data-group="${g.id}" aria-pressed="${group===g.id}">${esc(g.title)}</button>`).join('');for(const b of document.querySelectorAll('[data-group]'))b.onclick=()=>{group=b.dataset.group;sync();renderFilter();renderList();};}
 function renderList(){
  const shown=TEMPLATE_GROUPS.filter(g=>group==='all'||g.id===group);
- $('#template-list').innerHTML=shown.map(g=>`<h2 class="templates-group-title">${esc(g.title)}<small>${esc(g.summary)}</small></h2>${templates.filter(t=>t.group===g.id).map(t=>`<button type="button" class="template-row" data-template="${t.id}" aria-current="${selected?.id===t.id}"><img src="${art(t)}" alt="" loading="lazy"><span><strong>${esc(t.title)}</strong><small>${esc(t.summary)}</small>${badges(t)}</span></button>`).join('')}`).join('');
+ $('#template-list').innerHTML=shown.map(g=>templates.some(t=>t.group===g.id&&fits(t))?`<h2 class="templates-group-title">${esc(g.title)}<small>${esc(g.summary)}</small></h2>${templates.filter(t=>t.group===g.id&&fits(t)).map(t=>`<button type="button" class="template-row" data-template="${t.id}" aria-current="${selected?.id===t.id}"><img src="${art(t)}" alt="" loading="lazy"><span><strong>${esc(t.title)}</strong><small>${esc(t.summary)}</small>${badges(t)}</span></button>`).join('')}`:'').join('');
  for(const b of document.querySelectorAll('[data-template]'))b.onclick=()=>choose(b.dataset.template,true);
- if(!selected||!templates.some(t=>t.id===selected.id&&shown.some(g=>g.id===t.group)))choose(templates.find(t=>shown.some(g=>g.id===t.group))?.id);
+ if(!$('#template-list').children.length)$('#template-list').innerHTML='<p class="finder-empty">Nothing matches that pair yet. For voices, subtitles and dubbing open <a href="/audio">Audio</a>; for anything else, ask the Guide.</p>';
+ if(!selected||!templates.some(t=>t.id===selected.id&&fits(t)&&shown.some(g=>g.id===t.group))){const first=templates.find(t=>fits(t)&&shown.some(g=>g.id===t.group));if(first)choose(first.id);}
 }
-function sync(){const u=new URL(location.href);u.searchParams.set('group',group);if(selected)u.searchParams.set('template',selected.id);history.replaceState(null,'',u);}
+function sync(){const u=new URL(location.href);u.searchParams.set('group',group);for(const [k,v] of [['have',have],['want',want]])v?u.searchParams.set(k,v):u.searchParams.delete(k);if(selected)u.searchParams.set('template',selected.id);history.replaceState(null,'',u);}
 function exchange(t){return `<div class="template-exchange"><div><h3>You provide</h3><ul>${t.provide.map(v=>`<li>${esc(v)}</li>`).join('')}</ul></div><div class="arrow" aria-hidden="true">→</div><div><h3>You get</h3><p>${esc(t.get)}</p></div></div>`;}
 function status(id){const r=readiness.get(id);if(!r)return ['','Checking…'];if(r.error)return ['offline','Couldn’t check'];if(!r.connected)return ['offline','Not checked'];if(r.ready)return ['ready','Ready to run'];const models=(r.models??[]).filter(m=>m.state!=='available').length,nodes=(r.missingNodes??[]).length;return ['missing',[models?models+' model file'+(models>1?'s':''):'',nodes?nodes+' node type'+(nodes>1?'s':''):''].filter(Boolean).join(' + ')+' missing'];}
 function readinessMarkup(t){const ids=t.workflows??[],offline=ids.length&&ids.every(id=>readiness.get(id)&&!readiness.get(id).error&&!readiness.get(id).connected);return `<ul class="template-workflows">${ids.map(id=>{const [state,label]=status(id);return `<li><span class="dot ${state}" aria-hidden="true"></span><span class="name">${esc(workflowName(id))}</span><span class="state">${state==='missing'?`<a href="/setup?workflow=${encodeURIComponent(id)}">${esc(label)}</a>`:esc(label)}</span><a class="open" href="${localUrl(id)}" aria-label="Open ${esc(workflowName(id))}">Open →</a></li>`;}).join('')}</ul>${offline?'<p class="template-note">ComfyUI isn’t connected, so Studio can’t check which files you have yet. <a href="/welcome">Get set up</a></p>':''}`;}
@@ -49,6 +60,6 @@ function bindPlan(t){
 async function start(){
  let formats=[];try{formats=(await api('/api/creator/catalog')).formats;}catch(error){$('#template-detail').innerHTML='<p class="template-note">'+esc(error.message)+'</p>';}
  templates=TEMPLATES.flatMap(t=>{if(!t.format)return [t];const f=formats.find(f=>f.id===t.format);return f?[{...t,title:f.title,summary:f.summary,art:f.art,category:f.category,steps:f.steps,guidance:f.guidance,voice:f.voice,sources:f.sources,aspect:f.aspect,experimental:f.experimental,workflows:f.workflows??[]}]:[];});
- renderFilter();const wanted=templates.find(t=>t.id===params.get('template'));if(wanted&&group!=='all'&&wanted.group!==group)group='all';selected=wanted??null;renderFilter();renderList();if(wanted)choose(wanted.id);
+ renderFilter();const wanted=templates.find(t=>t.id===params.get('template'));if(wanted&&group!=='all'&&wanted.group!==group)group='all';selected=wanted??null;renderFilter();renderFinder();renderList();if(wanted)choose(wanted.id);
 }
 start();

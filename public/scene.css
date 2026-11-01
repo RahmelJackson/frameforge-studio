@@ -77,3 +77,36 @@
 .scene-lens input{width:120px;accent-color:var(--accent,#d6ff00)}
 .scene-lens output{min-width:48px;font-variant-numeric:tabular-nums}
 .scene-key.active{border-color:var(--accent,#d6ff00);box-shadow:inset 0 0 0 1px var(--accent,#d6ff00)}
+.scene-scrub{display:flex;align-items:center;gap:12px;flex-wrap:wrap}
+.scene-scrub #time-play{min-width:96px}
+.scene-track{position:relative;flex:1 1 280px;min-width:200px;padding:10px 0}
+.scene-track input{width:100%;accent-color:var(--accent,#d6ff00);position:relative;z-index:1;margin:0}
+.scene-marks{position:absolute;left:8px;right:8px;top:0;bottom:0;pointer-events:none}
+.scene-marks i{position:absolute;left:var(--t);top:2px;width:8px;height:8px;transform:translateX(-50%) rotate(45deg);background:var(--accent,#d6ff00);border-radius:1px}
+.scene-marks i.obj{transform:translateX(-50%);top:auto;bottom:1px;width:6px;height:6px;border-radius:50%;background:#9aa4a6}
+.scene-marks i.obj.on{background:#fff;width:8px;height:8px}
+#time-value{min-width:48px;font-variant-numeric:tabular-nums;font-weight:600}
+.scene-length{display:flex;align-items:center;gap:6px;font-size:12px}
+.scene-time-help{margin:6px 0 10px}
+.scene-camrow{display:flex;gap:10px;align-items:center;flex-wrap:wrap}
+.scene-track-pick{display:flex;align-items:center;gap:8px;font-size:12px}
+.scene-camrow .scene-keys{display:flex;gap:6px;flex-wrap:wrap;flex:1 1 auto}
+.scene-key button[data-goto]{font-weight:600}
+.scene-motion{display:grid;gap:8px;padding:12px 0;border-top:1px solid var(--line,#2c3133);margin-top:6px}
+.scene-motion h3{margin:0;font-size:12px;letter-spacing:.06em;text-transform:uppercase;color:#9aa4a6}
+.scene-motion ol{list-style:none;margin:0;padding:0;display:grid;gap:4px}
+.scene-motion li{display:flex;align-items:center;gap:8px;font-size:12px}
+.scene-motion li span{flex:1;color:#9aa4a6;font-variant-numeric:tabular-nums}
+.scene-tags span.cam{background:#1d2124;color:var(--accent,#d6ff00);border:1px solid rgba(214,255,0,.6)}
+.scene-tags span.cam.on{background:var(--accent,#d6ff00);color:#101112}
+.scene-outliner i{font-style:normal;color:var(--accent,#d6ff00)}
+/* Compact header so the editor and timeline fit on one screen */
+.scene-intro{padding:4px 0 14px;align-items:center}
+.scene-intro h1{font-size:clamp(24px,2.2vw,32px);margin:4px 0 4px}
+.scene-intro p:not(.scene-kicker){font-size:13px;max-width:760px}
+.scene-kicker{font-size:11px!important}
+@media(min-width:1100px){.scene-app{height:max(640px,calc(100vh - 210px));min-height:0}.scene-side{overflow:auto}.scene-stage{min-height:0}.scene-viewport{min-height:300px}}
+.scene-page .scene-length select,.scene-page .scene-track-pick select{width:auto}
+.scene-scrub{flex-wrap:nowrap}.scene-track{flex:1 1 auto}
+@media(max-width:700px){.scene-scrub{flex-wrap:wrap}}
+.scene-outliner button b{font-weight:inherit;min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}

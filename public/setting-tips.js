@@ -70,6 +70,47 @@ const byLabel={
  frames:'How many frames are generated. Divide by the frame rate for seconds.',
  'negative prompt':'Things you don’t want to see, such as "blurry, extra fingers".'
 };
+// Plain-language definitions for terms people meet across Studio. The first
+// mention on each page gets a dotted underline that explains it on hover/focus.
+const GLOSSARY={
+ 'ComfyUI':'The open-source engine that runs the AI models on your computer. Studio sends it workflows and shows you the results.',
+ 'Comfy Cloud':'ComfyUI running on rented GPUs online, billed by your Comfy plan. Useful when your own computer is too slow.',
+ 'workflow':'A saved recipe of connected steps (load a model, describe the picture, render) that ComfyUI runs from start to finish.',
+ 'graph':'The diagram of a workflow: boxes (nodes) joined by wires. You can open it in ComfyUI and change any step.',
+ 'node':'One box in a workflow graph that does a single job, such as loading a model or saving an image.',
+ 'LoRA':'A small add-on file that teaches a model one new thing, such as a character\u2019s face or an art style, without retraining the whole model.',
+ 'checkpoint':'The main model file that knows how to make images or video. LoRAs and other add-ons plug into it.',
+ 'keyframe':'A key still image for a shot. Studio animates from it, so it decides the look and framing of the clip.',
+ 'seed':'A number that fixes the randomness. The same seed and settings give the same result; a new seed gives a new variation.',
+ 'denoise':'How much the model is allowed to change the input. Low keeps the original; high reimagines it.',
+ 'upscale':'Make an image or video larger while adding believable detail.',
+ 'inpaint':'Repaint only a selected area of an image and keep the rest untouched.',
+ 'outpaint':'Extend a picture beyond its edges, inventing what lies outside the frame.',
+ 'mask':'A black-and-white selection that tells a tool which pixels it may change.',
+ 'SAM':'Segment Anything: a model that selects a person or object from a click, a box or a few words.',
+ 'VAE':'The part of a model that turns its internal picture data into real pixels and back.',
+ 'open weights':'Models whose files you can download and run yourself, so nothing has to leave your computer.',
+ 'open-weight':'Models whose files you can download and run yourself, so nothing has to leave your computer.',
+ 'MCP':'Model Context Protocol: lets assistants like Claude or Codex use Studio\u2019s tools directly, with your permission.',
+ 'FPS':'Frames per second. 24 looks like film; higher is smoother.',
+ 'interpolation':'Creating in-between frames so motion looks smoother or slower.',
+ 'lip-sync':'Moving a face\u2019s mouth so it matches a voice recording.',
+ 'GLB':'A single-file 3D model format. Studio can load GLB props into the 3D scene.',
+ 'multiview':'Several views of the same object from different angles, used to build or check a 3D shape.',
+ 'FLUX 3':'An open image model from Black Forest Labs that Studio uses for creating and editing pictures locally.',
+ 'Wan':'An open video model family used for turning stills into clips and transferring motion.',
+ 'LTX':'An open video model from Lightricks, used here for fast clips and turning 3D layouts into finished shots.',
+ 'VRAM':'Your graphics card\u2019s memory. Bigger models and longer clips need more of it.',
+ 'GPU':'Your graphics card. AI models run far faster on it than on the main processor.'
+};
+const TERM_SKIP='[class*=kicker],[class*=eyebrow],a,button,select,option,textarea,input,script,style,code,pre,kbd,label,summary,h1,.term,.setting-tip,.setting-tip-bubble,.appearance-panel,#studio-assistant,svg,[contenteditable]';
+const termKeys=Object.keys(GLOSSARY).sort((a,b)=>b.length-a.length),termRe=new RegExp('\\b('+termKeys.map(k=>k.replace(/[.*+?^${}()|[\]\\]/g,'\\$&')).join('|')+')\\b','i');
+const seenTerms=new Set();
+function markTerms(root=document.querySelector('main')??document.body){if(!root||seenTerms.size>=termKeys.length)return;
+ const walker=document.createTreeWalker(root,NodeFilter.SHOW_TEXT,{acceptNode:n=>n.parentElement?.closest(TERM_SKIP)||!n.textContent.trim()?NodeFilter.FILTER_REJECT:NodeFilter.FILTER_ACCEPT});
+ const nodes=[];while(walker.nextNode())nodes.push(walker.currentNode);
+ for(const node of nodes){const m=node.textContent.match(termRe);if(!m)continue;const key=termKeys.find(k=>k.toLowerCase()===m[1].toLowerCase())??m[1],canonical=key.toLowerCase();if(seenTerms.has(canonical))continue;if(node.parentElement?.closest('[hidden]'))continue;
+  seenTerms.add(canonical);const after=node.splitText(m.index);after.splitText(m[1].length);const span=document.createElement('span');span.className='term';span.tabIndex=0;span.dataset.tip=GLOSSARY[key];span.setAttribute('aria-describedby','setting-tip-bubble');span.textContent=after.textContent;after.replaceWith(span);}}
 let bubble=null,owner=null;
 function hide(){if(bubble)bubble.hidden=true;owner?.setAttribute('aria-expanded','false');owner=null;}
 function show(button){
@@ -97,14 +138,14 @@ function attach(root=document){
  }
 }
 if(typeof document!=='undefined'){
- document.addEventListener('pointerover',e=>{const b=e.target.closest?.('.setting-tip');if(b)show(b);});
- document.addEventListener('pointerout',e=>{const b=e.target.closest?.('.setting-tip');if(b&&b===owner&&!b.contains(e.relatedTarget))hide();});
- document.addEventListener('focusin',e=>{if(e.target.matches?.('.setting-tip'))show(e.target);});
- document.addEventListener('focusout',e=>{if(e.target.matches?.('.setting-tip'))hide();});
- document.addEventListener('click',e=>{const b=e.target.closest?.('.setting-tip');if(b){e.preventDefault();e.stopPropagation();b===owner&&!bubble.hidden?hide():show(b);}},true);
+ document.addEventListener('pointerover',e=>{const b=e.target.closest?.('.setting-tip,.term');if(b)show(b);});
+ document.addEventListener('pointerout',e=>{const b=e.target.closest?.('.setting-tip,.term');if(b&&b===owner&&!b.contains(e.relatedTarget))hide();});
+ document.addEventListener('focusin',e=>{if(e.target.matches?.('.setting-tip,.term'))show(e.target);});
+ document.addEventListener('focusout',e=>{if(e.target.matches?.('.setting-tip,.term'))hide();});
+ document.addEventListener('click',e=>{const b=e.target.closest?.('.setting-tip,.term');if(b){e.preventDefault();e.stopPropagation();b===owner&&!bubble.hidden?hide():show(b);}},true);
  document.addEventListener('keydown',e=>{if(e.key==='Escape')hide();});
  addEventListener('scroll',hide,true);addEventListener('resize',hide);
- const start=()=>{attach();let t=0;new MutationObserver(()=>{clearTimeout(t);t=setTimeout(attach,120);}).observe(document.body,{childList:true,subtree:true});};
+ const start=()=>{attach();markTerms();let t=0;new MutationObserver(()=>{clearTimeout(t);t=setTimeout(()=>{attach();markTerms();},160);}).observe(document.body,{childList:true,subtree:true});};
  document.readyState==='loading'?document.addEventListener('DOMContentLoaded',start):start();
 }
-export {byId as settingTipsById,byLabel as settingTipsByLabel};
+export {byId as settingTipsById,byLabel as settingTipsByLabel,GLOSSARY};

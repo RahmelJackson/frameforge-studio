@@ -1,6 +1,6 @@
 {
   "version": 1,
-  "created": "2026-10-31T23:40:25.283Z",
+  "created": "2026-11-01T00:14:14.973Z",
   "files": [
     {
       "name": ".agents/plugins/marketplace.json",
@@ -314,8 +314,8 @@
     },
     {
       "name": "lib/scenes.mjs",
-      "bytes": 4265,
-      "sha256": "9cf5bf1655d08a93b15ef0a3d048e8597aa681281a2cb821b21619c4baac4012"
+      "bytes": 5019,
+      "sha256": "cf992667f6136ee488331c367808a6f8d3bd0bdd65f9b46a968eea6620d2aa37"
     },
     {
       "name": "lib/segmentation.mjs",
@@ -519,8 +519,8 @@
     },
     {
       "name": "public/appearance.js",
-      "bytes": 6226,
-      "sha256": "e768dbd38d65f8e5b96eea76ecc1f71e6eb9a607c3040e7b9c62a5c8e27fd303"
+      "bytes": 6675,
+      "sha256": "9f3a502e5c22a0f6982a6acfa51ad0c12584e4e882253023b323f623eaee9f21"
     },
     {
       "name": "public/assistant-connection.js",
@@ -1254,28 +1254,28 @@
     },
     {
       "name": "public/scene-presets.js",
-      "bytes": 6329,
-      "sha256": "999fd36a8e62fc8ff338f86f686e103a44bad356e96bb1c10952dd36feb830e9"
+      "bytes": 6641,
+      "sha256": "2d768d279e6e60e3172c9f59c52a1c01113418f3f199ace51d044eb5878bcf42"
     },
     {
       "name": "public/scene.css",
-      "bytes": 8354,
-      "sha256": "c522288ee4a20cea568638e7ac4aa6305fd49dd9f928da4ccfb3d84a313f32e8"
+      "bytes": 10988,
+      "sha256": "91343f7b0d273071e2292671a55a216fb680e6ec4e73ff3e6ff24c7c6ba4e20f"
     },
     {
       "name": "public/scene.html",
-      "bytes": 4348,
-      "sha256": "f152ed04f573bb44ddb47d50984bda56d74610f39745ee95c67bdaacd51e16ef"
+      "bytes": 5298,
+      "sha256": "1bd153516abeba4fff9971158665b4793be1e26e019ab276419a143e5119e027"
     },
     {
       "name": "public/scene.js",
-      "bytes": 29227,
-      "sha256": "5949792103b162c070196a3b519f5e78e4f17b5c115f45416891b2db4a77e491"
+      "bytes": 44415,
+      "sha256": "98da110f31944887f162450fef832c57502c97fa001f64bb4b85c58c734f23cb"
     },
     {
       "name": "public/setting-tips.js",
-      "bytes": 9749,
-      "sha256": "e97e596865a4e60ffbd2cd68e921cd7363096f3cf69b56e615fd48dd815fe520"
+      "bytes": 14462,
+      "sha256": "4c4d8b2d4014e5f98bb9976315043c686ce9207cc7291df3257f180bf7dfdcea"
     },
     {
       "name": "public/setup-doctor.js",
@@ -1329,8 +1329,8 @@
     },
     {
       "name": "public/studio-chrome.css",
-      "bytes": 14263,
-      "sha256": "3497bba65bd325d77e16f7f87b4a22acf19b9f8f11f04e8765697a6c9c307a11"
+      "bytes": 14769,
+      "sha256": "a792463e798f4fde5f53a587693663e114b9490faf2f119a71fe428bb5b8dba4"
     },
     {
       "name": "public/studio-chrome.js",
@@ -1394,23 +1394,28 @@
     },
     {
       "name": "public/templates.css",
-      "bytes": 8837,
-      "sha256": "bb6193cd280b72a1c0353a70a2f7e7c9121d93843675f1d5e96feb59618de5b2"
+      "bytes": 9949,
+      "sha256": "48b6a18f999d7a66f797497ff6c040d0d92f0727d3cd6cae973a70f8978ef385"
     },
     {
       "name": "public/templates.html",
-      "bytes": 1039,
-      "sha256": "cac06546cd368ae74981b8e47361cf2058aed2646bfab210aa36a990989d4d94"
+      "bytes": 1140,
+      "sha256": "b56b653468c14dda69cdd52916fed7981dfc7a016fa83f4d7547c8c26b859ad8"
     },
     {
       "name": "public/templates.js",
-      "bytes": 11389,
-      "sha256": "b931a3e79c762d6ded4a4e3ed6cff46a22029e2c0d630ac849f95956557789ea"
+      "bytes": 14259,
+      "sha256": "9c58952515738d22052976cfd90afdd45013187d62563dd60cb56763dd34f9c3"
     },
     {
       "name": "public/text-frame.svg",
       "bytes": 337,
       "sha256": "869b9a8e43472edac049fd1bb319504177cb706083d205f6f234085e9fb01275"
+    },
+    {
+      "name": "public/themes.js",
+      "bytes": 4080,
+      "sha256": "5a6457801273b0f3443596737fe4c20f8099275d277e014519692b306c3f4326"
     },
     {
       "name": "public/tool-picker.js",
@@ -2399,8 +2404,8 @@
     },
     {
       "name": "server.mjs",
-      "bytes": 135568,
-      "sha256": "f0e85dff1de45cd03cd8184589d824a365b2beda88e5bde22d5bd3ca4ab7fe9e"
+      "bytes": 135593,
+      "sha256": "2390bbfad956952127c9b4026bc63b92a488922d863730ee114cd26c7885c8bd"
     },
     {
       "name": "setup/advanced-models.lock.json",
@@ -3126,6 +3131,11 @@
       "name": "tests/sam-image.test.mjs",
       "bytes": 3093,
       "sha256": "e289c4d6595e0122c2d72be8252d84499b542ce7534ddd4433185e49088b1177"
+    },
+    {
+      "name": "tests/scene-motion.test.mjs",
+      "bytes": 2192,
+      "sha256": "d873bf0119d7a60f3a96c55efcef5966f832d96ada177c9a02ac68ab83d3d4ee"
     },
     {
       "name": "tests/selection_check.py",

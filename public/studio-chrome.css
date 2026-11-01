@@ -62,3 +62,6 @@ section.goal-picker.ideas-collapsed .goal-picker-head{margin:0;align-items:cente
 section.goal-picker.ideas-collapsed h1{font-size:18px}
 @media(max-width:640px){section.creative-page-title.goal-picker{padding:16px}section.goal-picker .goal-grid{grid-template-columns:1fr 1fr}section.goal-picker .goal-grid img{width:44px;height:44px}}
 body[data-page=advanced] .advanced-hero{min-height:0!important;padding:22px 26px!important}body[data-page=advanced] .advanced-hero h1{font-size:clamp(26px,2.4vw,38px)!important;margin:6px 0 10px!important}
+.appearance-swatch{display:flex;gap:3px;margin-bottom:4px}.appearance-swatch i{width:14px;height:14px;border-radius:50%;border:1px solid rgba(255,255,255,.25)}
+.appearance-panel{max-height:min(640px,calc(100vh - 16px))}
+.term{text-decoration:underline dotted;text-decoration-color:color-mix(in srgb,currentColor 55%,transparent);text-underline-offset:3px;cursor:help;border-radius:3px}.term:hover,.term:focus-visible{text-decoration-color:var(--accent,#d6ff00);outline:none;background:rgba(214,255,0,.08)}
