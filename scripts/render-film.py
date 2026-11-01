@@ -129,6 +129,29 @@ def text_layer(image,layer):
     return image
 
 
+def highlight_layer(image,layer,time):
+    """Karaoke-style caption: the spoken word is boxed in the accent colour, words
+    already spoken are white and upcoming words are dimmed. Large, bold, outlined
+    text in the lower third, the way short-form video captions read on phones."""
+    draw=ImageDraw.Draw(image);font=studio_font(int(layer['fontSize']*1.25));words=layer.get('words') or [{'text':w,'start':layer['start'],'end':layer['end']} for w in layer['text'].split()]
+    space=draw.textlength(' ',font=font);lines=[[]];width=0;limit=image.width*.86
+    for w in words:
+        wl=draw.textlength(w['text'],font=font)
+        if lines[-1] and width+space+wl>limit:lines.append([]);width=0
+        width+=(space if lines[-1] else 0)+wl;lines[-1].append((w,wl))
+    step=round(font.size*1.32);height=len(lines)*step
+    y=image.height*.12 if layer['position']=='top' else (image.height-height)//2 if layer['position']=='center' else image.height*.8-height
+    stroke=max(2,font.size//12)
+    for index,line in enumerate(lines):
+        total=sum(wl for _,wl in line)+space*(len(line)-1);x=(image.width-total)/2;ly=y+index*step
+        for w,wl in line:
+            active=w['start']<=time<w['end'];spoken=time>=w['end']
+            if active:draw.rounded_rectangle((x-6,ly-2,x+wl+6,ly+font.size*1.18),radius=max(6,font.size//5),fill='#d6ff00')
+            draw.text((x,ly),w['text'],font=font,fill='#101112' if active else ('white' if spoken else '#d7dbd3'),stroke_width=0 if active else stroke,stroke_fill='#000000')
+            x+=wl+space
+    return image
+
+
 def render(shots, output, size=(768,432), fps=24, film=None):
     output=Path(output);output.parent.mkdir(parents=True,exist_ok=True);film=film or {'tracks':[],'texts':[],'overlays':[]}
     if 'aspect' in film:size=SIZES[film['aspect']]
@@ -157,7 +180,7 @@ def render(shots, output, size=(768,432), fps=24, film=None):
             for layer,stamp in overlays:
                 if layer['start']<=time<layer['end']:image.paste(stamp,(round(layer['x']*size[0]),round(layer['y']*size[1])),stamp)
             for layer in film.get('texts',[]):
-                if layer['start']<=time<layer['end']:image=text_layer(image,layer)
+                if layer['start']<=time<layer['end']:image=highlight_layer(image,layer,time) if layer.get('style')=='highlight' else text_layer(image,layer)
             yield image
     encoded=encode(layered_images(),output,size,fps,audio)
     if encoded!=total:raise ValueError('Unexpected assembled frame count.')

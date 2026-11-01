@@ -34,3 +34,10 @@ test('Only saved video outputs qualify, not PNG previews or temporary clips',()=
 test('Local connector rejects external or non-HTTP endpoints',()=>{
   assert.throws(()=>new ComfyClient('https://example.com'));assert.throws(()=>new ComfyClient('http://169.254.169.254'));assert.doesNotThrow(()=>new ComfyClient('http://127.0.0.1:8188'));
 });
+
+test('Motion levels add pacing words and anti-static negatives; dynamic eases the speed LoRA',async()=>{
+ const {motionPrompt,motionNegative,speedLoraStrength,wanSteps}=await import('../lib/motion.mjs');
+ assert.equal(motionPrompt('A car drives',null),'A car drives');assert.match(motionPrompt('A car drives','dynamic'),/^A car drives\. Fast, energetic/);
+ assert.match(motionNegative('natural'),/slow motion/);assert.match(motionNegative('natural'),/静止不动的画面/);assert.doesNotMatch(motionNegative('calm'),/slow motion/);
+ assert.equal(speedLoraStrength('dynamic'),.8);assert.equal(speedLoraStrength(null),1);assert.equal(wanSteps('draft'),16);
+});

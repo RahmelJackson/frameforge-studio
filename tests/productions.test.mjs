@@ -4,7 +4,8 @@ import {mkdtemp,rm} from 'node:fs/promises';
 import {tmpdir} from 'node:os';
 import path from 'node:path';
 import {randomUUID} from 'node:crypto';
-import {Productions,clipLength,remixPlan,shotDirection,SHOT_FRAMING} from '../lib/productions.mjs';
+import {Productions,clipLength,remixPlan,shotDirection,SHOT_FRAMING,highlightCaptions} from '../lib/productions.mjs';
+import {normalizeFilm} from '../lib/film.mjs';
 import {storyTemplate} from '../lib/creator-catalog.mjs';
 
 // A small fake of the Studio routes a production uses. Jobs finish on the next
@@ -53,7 +54,7 @@ test('A production renders one job at a time, stops for review, records narratio
   await productions.action(p.id,{action:'continue'});
   for(let i=0;i<10&&p.stage!=='done';i++)await productions.step();
   assert.equal(p.stage,'done',p.error??'');assert.match(p.movie.url,/movie\.mp4$/);
-  const film=studio.project.film;assert.equal(film.texts.length,5);assert.equal(film.tracks.filter(t=>t.label==='Produce narration').length,1);
+  const film=studio.project.film;assert.ok(film.texts.length>=1&&film.texts.every(t=>t.style==='highlight'&&t.words.length));assert.equal(film.texts.flatMap(t=>t.words).length,p.frames.map(f=>f.narration).join(' ').split(/\s+/).filter(Boolean).length);assert.equal(film.tracks.filter(t=>t.label==='Produce narration').length,1);
   // Remaking one shot sends the production back for just that image and clip.
   const before=studio.jobs.size;p=await productions.action(p.id,{action:'redo',frameId:p.frames[2].id,part:'image'});assert.equal(p.stage,'keyframes');assert.equal(p.movie,null);
   for(let i=0;i<10&&p.stage==='keyframes';i++)await productions.step();assert.equal(studio.jobs.size,before+1);
@@ -102,4 +103,45 @@ test('Each shot gets its own framing and explicit, visible camera and subject mo
  const frames=[0,1,2,3,4].map(i=>shotDirection(p,i,'image'));assert.equal(new Set(frames).size,5);assert.ok(frames[0].startsWith(SHOT_FRAMING[0]));
  const clips=[0,1,2,3,4].map(i=>shotDirection(p,i,'clip'));assert.equal(new Set(clips).size,5);assert.ok(clips.every(c=>/clearly visible motion/.test(c)&&!/handheld|whip/.test(c)));
  assert.match(shotDirection(calm,0,'clip'),/slow/);assert.doesNotMatch(shotDirection(p,0,'clip'),/slow/);
+});
+
+test('Motion level flows into clips and a motion change in Remix remakes clips only',()=>{
+ const src={subject:'s',look:'l',aspect:'landscape',quality:'draft',voice:'af_heart',motion:null,castAsset:null,frames:[{id:'a',title:'A',prompt:'p',image:{done:true},clip:{done:true},narration:''}],narrationJob:null};
+ const r=remixPlan(src,{motion:'dynamic'});assert.equal(r.summary.keyframes,0);assert.equal(r.summary.clips,1);assert.ok(r.summary.reasons.includes('new motion'));
+ assert.equal(remixPlan(src,{}).summary.clips,0);assert.throws(()=>remixPlan(src,{motion:'turbo'}),/calm, natural or dynamic/);
+ assert.match(shotDirection({format:'explainer',motion:'dynamic'},0,'clip'),/tracking/);assert.match(shotDirection({format:'small-story',motion:'calm'},0,'clip'),/slow/);
+});
+
+test('Highlight captions time every word across the narration and group short phrases',()=>{
+ const lines=['A red car crosses the desert.','It never stops, not even for the storm.','Then the road ends.'];
+ const caps=highlightCaptions(lines,{duration:9,total:15});const words=caps.flatMap(c=>c.words);
+ assert.equal(words.length,lines.join(' ').split(' ').length);assert.ok(caps.every(c=>c.words.length<=5&&c.style==='highlight'));
+ assert.ok(words.every((w,i)=>i===0||w.start>=words[i-1].start));assert.ok(words.at(-1).end<=9.001);
+ for(let i=1;i<caps.length;i++)assert.ok(caps[i].start>=caps[i-1].start);
+ assert.deepEqual(highlightCaptions(['',' '],{duration:5,total:5}),[]);
+ assert.ok(highlightCaptions(Array.from({length:60},()=>'one two three four five six'),{duration:100,total:120}).length<=22);
+});
+
+test('Stock footage fills explainer shots as trimmed Edit & finish takes, with credits; no result falls back to Wan',async()=>{
+ const dir=await mkdtemp(path.join(tmpdir(),'ff-stock-'));try{
+  const studio=fakeStudio(),base=studio.call;let offered=1;
+  const call=async(method,route,body)=>{if(route.startsWith('/api/stock-footage?')){studio.calls.push([method,route]);return {results:offered-->0?[{id:'commons:1',title:'Ocean waves',url:'https://upload.wikimedia.org/a.webm',duration:12,author:'A. Person',license:'CC BY 4.0',source:'wikimedia',page:'https://commons.wikimedia.org/wiki/File:a.webm'}]:[]};}
+   if(route==='/api/stock-footage/import'){studio.calls.push([method,route,body]);return {id:randomUUID(),duration:12,credit:{}};}return base(method,route,body);};
+  const prods=await new Productions({directory:dir,call,tick:false}).open();
+  const p=await prods.create({format:'what-if',duration:15,subject:'ocean waves at sunset',name:'Waves',stock:true});
+  p.frames.forEach(f=>{f.image={jobId:randomUUID(),done:true,url:'/x.png'};});p.stage='clips';
+  for(const f of p.frames.slice(0,2)){await prods.submit(p,f,'clip');}
+  const posts=studio.calls.filter(c=>c[0]==='POST'&&c[1]==='/api/jobs').map(c=>c[2]);
+  assert.equal(posts[0].kind,'video-tool');assert.equal(posts[0].tool,'finish');assert.ok(posts[0].end<=p.frames[0].targetDuration);
+  assert.equal(posts[1].kind,'video');assert.equal(posts[1].engine,'wan5b');
+  assert.equal(p.credits.length,1);assert.equal(p.frames[0].stock.author,'A. Person');
+  prods.close();
+ }finally{await rm(dir,{recursive:true,force:true});}
+});
+test('Stock search keeps only meaningful words and only downloads from known stock hosts',async()=>{
+ const {stockQuery,allowedStockUrl,searchCommons}=await import('../lib/stock-footage.mjs');
+ assert.equal(stockQuery('Context: why the sky turns red at sunset. Show the scene'),'why sky turns red sunset');
+ assert.ok(allowedStockUrl('https://upload.wikimedia.org/x.webm'));assert.ok(!allowedStockUrl('http://upload.wikimedia.org/x.webm'));assert.ok(!allowedStockUrl('https://evil.example/x.webm'));
+ const fetcher=async()=>({ok:true,json:async()=>({query:{pages:{'1':{pageid:1,index:1,title:'File:Sunset sea.webm',videoinfo:[{url:'https://upload.wikimedia.org/o.webm',mime:'video/webm',size:5e8,width:1920,height:1080,duration:20,descriptionurl:'https://commons.wikimedia.org/wiki/File:Sunset_sea.webm',extmetadata:{Artist:{value:'<a>Jo</a>'},LicenseShortName:{value:'CC BY-SA 4.0'}},derivatives:[{src:'https://upload.wikimedia.org/720.webm',type:'video/webm; codecs="vp9"',width:1280,height:720}]}]}}}})});
+ const r=await searchCommons('sunset sea',{fetcher});assert.equal(r.length,1);assert.equal(r[0].url,'https://upload.wikimedia.org/720.webm');assert.equal(r[0].author,'Jo');assert.equal(r[0].license,'CC BY-SA 4.0');
 });

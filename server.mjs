@@ -1,4 +1,5 @@
 import {Productions} from './lib/productions.mjs';
+import {searchStock,stockQuery,allowedStockUrl} from './lib/stock-footage.mjs';
 import {RemoteAccess} from './lib/remote-access.mjs';
 import {STORY_FORMATS} from './lib/creator-catalog.mjs';
 import {SceneStore,layoutPrompt} from './lib/scenes.mjs';
@@ -169,6 +170,12 @@ async function runPython(script,args,timeout=120000){
     child.once('error',error=>{clearTimeout(timer);reject(error);});child.once('close',code=>{clearTimeout(timer);code===0?resolve():reject(new Error(errors.slice(-1000)||'Export failed.'));});
   });
 }
+async function saveFootage(bytes,displayName='Uploaded footage',extra={}){
+  const ext=bytes.subarray(0,4).equals(Buffer.from([26,69,223,163]))?'webm':bytes.toString('ascii',4,8)==='ftyp'?'mp4':null;if(!ext)throw new Error('Upload MP4/MOV or WebM footage up to 100 MB.');
+  const id=randomUUID(),directory=path.join(DATA,'footage',id),filename='source.'+ext;await mkdir(directory,{recursive:true});await writeFile(path.join(directory,filename),bytes);
+  try{const info=await pythonJson('inspect-video.py',[path.join(directory,filename),'--poster',path.join(directory,'poster.jpg')]);if(HOSTED_MODE&&(info.duration>10||Math.max(...info.size)>1280))throw Error('Use a clip up to 10 seconds and 1280 pixels on its longest side for the shared demo.');const record={id,...info,filename,name:String(displayName).slice(0,100),...extra,createdAt:new Date().toISOString()};await writeFile(path.join(directory,'source.json'),JSON.stringify(record,null,2));return record;}catch(error){await unlink(path.join(directory,filename));throw error;}
+}
+const allowedPage=v=>{try{const u=new URL(v);return u.protocol==='https:'&&['commons.wikimedia.org','www.pexels.com'].includes(u.hostname);}catch{return false;}};
 async function pythonJson(script,args){
   return new Promise((resolve,reject)=>{const child=spawn(config.python,[path.join(ROOT,'scripts',script),...args],{windowsHide:true});let output='',errors='';const timer=setTimeout(()=>{child.kill();reject(new Error('Media inspection exceeded its time budget.'));},60000);child.stdout.on('data',c=>output+=c);child.stderr.on('data',c=>errors+=c);child.once('error',e=>{clearTimeout(timer);reject(e);});child.once('close',code=>{clearTimeout(timer);if(code)return reject(new Error(errors.slice(-700)||'Media inspection failed.'));try{resolve(JSON.parse(output));}catch(e){reject(e);}});});
 }
@@ -709,10 +716,15 @@ const server = http.createServer(async (req, res) => {
       const records=[];for(const id of await readdir(path.join(DATA,'footage')))if(/^[a-f0-9-]{36}$/.test(id)){try{records.push(JSON.parse(await readFile(path.join(DATA,'footage',id,'source.json'),'utf8')));}catch{}}return json(res,200,records);
     }
     if(route==='/api/footage'&&req.method==='POST'){
-      const bytes=await readBody(req,100*1024*1024),ext=bytes.subarray(0,4).equals(Buffer.from([26,69,223,163]))?'webm':bytes.toString('ascii',4,8)==='ftyp'?'mp4':null;if(!ext)throw new Error('Upload MP4/MOV or WebM footage up to 100 MB.');
-      const id=randomUUID(),directory=path.join(DATA,'footage',id),filename='source.'+ext;await mkdir(directory,{recursive:true});await writeFile(path.join(directory,filename),bytes);
-      try{const info=await pythonJson('inspect-video.py',[path.join(directory,filename),'--poster',path.join(directory,'poster.jpg')]);if(HOSTED_MODE&&(info.duration>10||Math.max(...info.size)>1280))throw Error('Use a clip up to 10 seconds and 1280 pixels on its longest side for the shared demo.');let displayName=String(req.headers['x-file-name']??'Uploaded footage');try{displayName=decodeURIComponent(displayName);}catch{}const record={id,...info,filename,name:displayName.slice(0,100),createdAt:new Date().toISOString()};await writeFile(path.join(directory,'source.json'),JSON.stringify(record,null,2));await recordComfyImport(DATA,'video',record,req.headers['x-frameforge-source']);return json(res,201,record);}catch(error){await unlink(path.join(directory,filename));throw error;}
+      const bytes=await readBody(req,100*1024*1024);let displayName=String(req.headers['x-file-name']??'Uploaded footage');try{displayName=decodeURIComponent(displayName);}catch{}
+      const record=await saveFootage(bytes,displayName);await recordComfyImport(DATA,'video',record,req.headers['x-frameforge-source']);return json(res,201,record);
     }
+    // Stock footage: search Wikimedia Commons (and Pexels with a key), import a chosen clip with its licence.
+    if(route==='/api/stock-footage'&&req.method==='GET'){if(HOSTED_MODE||executionPolicy.enabled)return json(res,403,{error:'Stock footage search is off in this mode.'});const query=String(url.searchParams.get('query')??'').slice(0,200),aspect=['portrait','square','landscape'].includes(url.searchParams.get('aspect'))?url.searchParams.get('aspect'):'landscape';return json(res,200,{query:stockQuery(query),results:await searchStock(query,{aspect,pexelsKey:process.env.FRAMEFORGE_PEXELS_KEY||config.pexelsKey||undefined})});}
+    if(route==='/api/stock-footage/import'&&req.method==='POST'){if(HOSTED_MODE||executionPolicy.enabled)return json(res,403,{error:'Stock footage import is off in this mode.'});const input=await readJson(req,8000);if(!allowedStockUrl(input.url))throw Error('Import stock footage from Wikimedia Commons or Pexels only.');
+      const response=await fetch(input.url,{redirect:'follow',headers:{'User-Agent':'Frameforge-Studio/1.0'}});if(!response.ok||!allowedStockUrl(response.url))throw Error('The stock clip could not be downloaded.');const length=Number(response.headers.get('content-length')||0);if(length>100*1024*1024)throw Error('That stock clip is over 100 MB.');const bytes=Buffer.from(await response.arrayBuffer());if(bytes.length>100*1024*1024)throw Error('That stock clip is over 100 MB.');
+      const credit={source:input.source==='pexels'?'pexels':'wikimedia',title:String(input.title??'Stock clip').slice(0,160),author:String(input.author??'Unknown').slice(0,160),license:String(input.license??'See source').slice(0,80),page:allowedPage(input.page)?input.page:null};
+      const record=await saveFootage(bytes,credit.title,{credit});return json(res,201,record);}
     const audioAssetRead=route.match(/^\/api\/audio-assets\/([a-f0-9-]{36})$/);
     if(audioAssetRead&&req.method==='GET'){if(HOSTED_MODE)return json(res,403,{error:'Choose an audio source from your invitation library.'});const id=audioAssetRead[1];return json(res,200,{id,...await pythonJson('inspect-audio.py',[path.join(DATA,'audio',id+'.wav')])});}
     if(route==='/api/audio-assets'&&req.method==='POST'){
@@ -921,7 +933,7 @@ const server = http.createServer(async (req, res) => {
       const body=await readJson(req);
       if(body.requestId===job.requestId)throw new Error('A retry needs its own request ID.');
       if(job.planId&&job.request.providerWorkflow){const {plan,api}=await workflowPlans.compile(job.planId);const result=await submitProviderPlan(plan,api,body.requestId,openOnly);return json(res,result.code,result.body);}
-      const result=await submitJob({...job.request,quality:job.request.kind==='image'?(job.request.quality??'preview'):job.request.steps===12?'draft':'standard',requestId:body.requestId},job.id);
+      const result=await submitJob({...job.request,quality:job.request.kind==='image'?(job.request.quality??'preview'):[12,16].includes(job.request.steps)?'draft':'standard',requestId:body.requestId},job.id);
       return json(res,result.code,result.body);
     }
     const reviewMatch=route.match(/^\/api\/jobs\/([a-f0-9-]{36})\/review$/);
