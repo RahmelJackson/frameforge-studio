@@ -37,7 +37,7 @@ test('Local connector rejects external or non-HTTP endpoints',()=>{
 
 test('Motion levels add pacing words and anti-static negatives; dynamic eases the speed LoRA',async()=>{
  const {motionPrompt,motionNegative,speedLoraStrength,wanSteps}=await import('../lib/motion.mjs');
- assert.equal(motionPrompt('A car drives',null),'A car drives');assert.match(motionPrompt('A car drives','dynamic'),/^A car drives\. Fast, energetic/);
+ assert.equal(motionPrompt('A car drives',null),'A car drives');assert.match(motionPrompt('A car drives','dynamic'),/^A car drives\. Quick, energetic/);
  assert.match(motionNegative('natural'),/slow motion/);assert.match(motionNegative('natural'),/静止不动的画面/);assert.doesNotMatch(motionNegative('calm'),/slow motion/);
- assert.equal(speedLoraStrength('dynamic'),.8);assert.equal(speedLoraStrength(null),1);assert.equal(wanSteps('draft'),16);
+ assert.equal(speedLoraStrength('dynamic'),.8);assert.equal(speedLoraStrength(null),1);assert.equal(wanSteps('draft'),16);assert.equal(wanSteps('draft','dynamic'),20);
 });

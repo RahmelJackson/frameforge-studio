@@ -1,6 +1,6 @@
 {
   "version": 1,
-  "created": "2026-11-01T07:14:04.209Z",
+  "created": "2026-11-01T07:26:40.680Z",
   "files": [
     {
       "name": ".agents/plugins/marketplace.json",
@@ -269,8 +269,8 @@
     },
     {
       "name": "lib/motion.mjs",
-      "bytes": 3003,
-      "sha256": "793f5878177c1c12cd1476d870f1b1e5871e4003fbb0ac7fec5a4f4d353eae2c"
+      "bytes": 3279,
+      "sha256": "315ef8663e3a5894a9504fc41a375c67d932a58328c052b51032a6c32d9b0517"
     },
     {
       "name": "lib/native-ltx-profile.mjs",
@@ -289,8 +289,8 @@
     },
     {
       "name": "lib/productions.mjs",
-      "bytes": 24767,
-      "sha256": "9bc48721a686e1df847dff0baad6c2d34efe558462e43e2364ce63d9ae03e5b3"
+      "bytes": 24816,
+      "sha256": "99a90b9bb046e6c3b14a74b88da92458edc0fc98cd8ab25353eb11fdee838065"
     },
     {
       "name": "lib/projects.mjs",
@@ -439,8 +439,8 @@
     },
     {
       "name": "lib/workflow.mjs",
-      "bytes": 13875,
-      "sha256": "edcfa1764c74bb546da2134577d0397c5297726a6b62c3bed7d77ea85e5ac305"
+      "bytes": 13888,
+      "sha256": "e04ea0f6af8ceeae58ae392404b2c265703ccf527bb59039ed012c9d75e4719a"
     },
     {
       "name": "lib/workspace-art.mjs",
@@ -1079,8 +1079,8 @@
     },
     {
       "name": "public/index.html",
-      "bytes": 16538,
-      "sha256": "b47d578f90da7c345f4acab468a7e2c9b00935d40fdee1b58e4237fddac76008"
+      "bytes": 16552,
+      "sha256": "6f9f3d2b7f89e39dd07de75717bf039bfab8a1f15f9d0bf991b75b9473b041bd"
     },
     {
       "name": "public/library.js",
@@ -1194,8 +1194,8 @@
     },
     {
       "name": "public/produce.html",
-      "bytes": 4935,
-      "sha256": "fdd45678c1d345ec4954a0e79f0b0aa32061ec3522a93fb477153395bfba066c"
+      "bytes": 4949,
+      "sha256": "5d7bd305505dbaab8643bc6e3dc42c53abbad3d332aa4f1381c68389eaf3ce2c"
     },
     {
       "name": "public/produce.js",
@@ -3074,8 +3074,8 @@
     },
     {
       "name": "tests/productions.test.mjs",
-      "bytes": 14909,
-      "sha256": "93054ddaf6580c89634bce977ac445c3e1f731c32e7c12888e4e05491cce9778"
+      "bytes": 15726,
+      "sha256": "a3509356af7102ce117e0dd7540c3065e5dc413f86358e08e832058c56cb2e54"
     },
     {
       "name": "tests/projects.test.mjs",
@@ -3299,8 +3299,8 @@
     },
     {
       "name": "tests/workflow.test.mjs",
-      "bytes": 3646,
-      "sha256": "0dc26942f81ce9a93b9a527409537dfec90d0b51a02f98d95b766e818148eb4e"
+      "bytes": 3692,
+      "sha256": "89ac79cd4c3e8770495445af0649201ea24b2182c65c04840581a94637e6d6c2"
     },
     {
       "name": "tests/workspace-map.test.mjs",

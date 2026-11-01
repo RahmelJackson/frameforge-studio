@@ -152,3 +152,13 @@ test('Shot prompts lead with the idea and keep the cast; fruit stories have no h
  assert.ok(fruit.startsWith('a shy pear and a bold strawberry.'));assert.match(fruit,/No humans/);assert.doesNotMatch(fruit,/Context:/);
  assert.match(shotPrompt({format:'small-story',subject:'a red car',look:'film'},f,1,'clip'),/no extra people/);
 });
+
+test('Remaking a shot uses a fresh seed so the new take differs',async()=>{
+ const dir=await mkdtemp(path.join(tmpdir(),'ff-redo-'));try{
+  const studio=fakeStudio(),prods=await new Productions({directory:dir,call:studio.call,tick:false}).open();
+  const p=await prods.create({format:'what-if',duration:15,subject:'glowing canals',name:'C'});const f=p.frames[0];
+  await prods.submit(p,f,'image');const first=studio.calls.filter(c=>c[1]==='/api/jobs'&&c[0]==='POST').at(-1)[2].seed;
+  await prods.action(p.id,{action:'redo',frameId:f.id,part:'image'});await prods.submit(prods.find(p.id),prods.find(p.id).frames[0],'image');
+  const second=studio.calls.filter(c=>c[1]==='/api/jobs'&&c[0]==='POST').at(-1)[2].seed;assert.notEqual(first,second);prods.close();
+ }finally{await rm(dir,{recursive:true,force:true});}
+});
