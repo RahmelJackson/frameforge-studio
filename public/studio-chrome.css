@@ -81,3 +81,5 @@ body[data-page=advanced] .advanced-hero{min-height:0!important;padding:22px 26px
 .nav-menu-col a:hover,.nav-menu-col a:focus-visible,.nav-menu-col button:hover,.nav-menu-col button:focus-visible{color:var(--accent,#d6ff00);outline:none}
 .nav-menu-col button[data-find-tool]{margin-top:6px;color:var(--accent,#d6ff00)}
 @media(prefers-reduced-motion:reduce){.nav-menu{transition:none;transform:none}}
+/* Top bar: use the width the side bar gave back */
+@media (min-width:901px){body[data-navigation=top] main{max-width:none!important;margin-left:0!important;margin-right:0!important;padding-left:clamp(24px,2.4vw,48px)!important;padding-right:clamp(24px,2.4vw,48px)!important}}

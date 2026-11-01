@@ -1,6 +1,6 @@
 {
   "version": 1,
-  "created": "2026-11-01T06:24:33.911Z",
+  "created": "2026-11-01T06:40:05.799Z",
   "files": [
     {
       "name": ".agents/plugins/marketplace.json",
@@ -284,8 +284,8 @@
     },
     {
       "name": "lib/productions.mjs",
-      "bytes": 18472,
-      "sha256": "eea054f4578dda0ec06ad94511d533ec8351318692b28937c247526c3c87ced3"
+      "bytes": 20189,
+      "sha256": "039294a6700bd9f2dd1e92c9ed9af4fd21479e92e2b3da695d3c7d56e663fc1a"
     },
     {
       "name": "lib/projects.mjs",
@@ -429,8 +429,8 @@
     },
     {
       "name": "lib/workflow.mjs",
-      "bytes": 13482,
-      "sha256": "b5309bb9738bc9c910ae19b87ef5ceebd3765f0bbaaf8c2d979b04380fd00257"
+      "bytes": 13609,
+      "sha256": "ec60fceb499990ae431855713cb884f634a556a218155f677224ed1b91ae7859"
     },
     {
       "name": "lib/workspace-art.mjs",
@@ -1029,18 +1029,18 @@
     },
     {
       "name": "public/home.css",
-      "bytes": 16111,
-      "sha256": "36f0aad7cc7c887b0e08ebc447827db9d90cbf0ad6699a11d91adf7a0ed0662b"
+      "bytes": 17563,
+      "sha256": "cce86902024735c154e93de5d0b5700dae18b33d0152bf39bb63c4257c1057c0"
     },
     {
       "name": "public/home.html",
-      "bytes": 9590,
-      "sha256": "7fcc0c6c52c5f0ecace19b7bac58d6d18570a27db0e1401d60b711b48ff0c880"
+      "bytes": 9928,
+      "sha256": "f1292be784e9da2c1c3d5dae8b503737c71114e50a29af2bc2362706430a6fb9"
     },
     {
       "name": "public/home.js",
-      "bytes": 2498,
-      "sha256": "7b22126698e9c344c9ff77b61f2252fa19a7aa62b6bdb089c4744369cc8a5478"
+      "bytes": 3921,
+      "sha256": "a62f0d35b005cfc47b6b395e385cdc0aa5001fa576eaee0fc680d7155a9744c9"
     },
     {
       "name": "public/image-canvas.js",
@@ -1339,8 +1339,8 @@
     },
     {
       "name": "public/studio-chrome.css",
-      "bytes": 16426,
-      "sha256": "420caa2cbab9d5fef8cb736acbfe09fa4bc848e97c7ebdc4e525c2a96b38a05a"
+      "bytes": 16703,
+      "sha256": "90a5a2d4bb880104059d51cab142bd7c1fb5e86782f028a45ff8e64644e1bc56"
     },
     {
       "name": "public/studio-chrome.js",
@@ -3059,8 +3059,8 @@
     },
     {
       "name": "tests/productions.test.mjs",
-      "bytes": 9074,
-      "sha256": "a425d422f3ccada1eaedd323179d1aae13bceb8201453d107756febc7745abe4"
+      "bytes": 9689,
+      "sha256": "bcd667afa5b8f6505bf8dc9af395122ecb969c9f4aab6ef111bdc4b31c203650"
     },
     {
       "name": "tests/projects.test.mjs",

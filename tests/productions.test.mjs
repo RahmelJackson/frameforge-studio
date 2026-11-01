@@ -4,7 +4,7 @@ import {mkdtemp,rm} from 'node:fs/promises';
 import {tmpdir} from 'node:os';
 import path from 'node:path';
 import {randomUUID} from 'node:crypto';
-import {Productions,clipLength,remixPlan} from '../lib/productions.mjs';
+import {Productions,clipLength,remixPlan,shotDirection,SHOT_FRAMING} from '../lib/productions.mjs';
 import {storyTemplate} from '../lib/creator-catalog.mjs';
 
 // A small fake of the Studio routes a production uses. Jobs finish on the next
@@ -95,4 +95,11 @@ test('Remix previews affected stages and reuses unchanged keyframes, clips and n
   const put=studio.calls.filter(c=>c[0]==='PUT'&&c[1].startsWith('/api/short-films/')).at(-1)[2];assert.equal(put.story.frames[0].imageJobId,null);assert.equal(put.story.frames[1].takeJobId,src.frames[1].clip.jobId);
   prods.close();
  }finally{await rm(dir,{recursive:true,force:true});}
+});
+
+test('Each shot gets its own framing and explicit, visible camera and subject motion',()=>{
+ const p={format:'small-story'},calm={format:'explainer'};
+ const frames=[0,1,2,3,4].map(i=>shotDirection(p,i,'image'));assert.equal(new Set(frames).size,5);assert.ok(frames[0].startsWith(SHOT_FRAMING[0]));
+ const clips=[0,1,2,3,4].map(i=>shotDirection(p,i,'clip'));assert.equal(new Set(clips).size,5);assert.ok(clips.every(c=>/clearly visible motion/.test(c)&&/camera/.test(c)));
+ assert.match(shotDirection(calm,0,'clip'),/slowly/);assert.doesNotMatch(shotDirection(p,0,'clip'),/slowly/);
 });
