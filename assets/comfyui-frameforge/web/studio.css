@@ -6,3 +6,4 @@
 
 /* Keep the desktop launcher compact enough to expose the complete list. */
 .ff-comfy-quick{width:400px;padding:14px}.ff-quick-heading h2{font-size:22px;margin:4px 0}.ff-comfy-quick>p{font-size:12px;margin:4px 0 8px}.ff-quick-tabs button{padding:6px}.ff-comfy-quick [data-tool-list]{gap:2px;margin:8px 0}.ff-comfy-quick [data-path]{padding:3px 4px}.ff-comfy-quick [data-path]>span:first-child{width:30px;height:30px;font-size:20px}.ff-comfy-quick [data-path] small{margin-top:0}.ff-quick-footer{padding-top:10px}
+.ff-quick-selected{display:grid;gap:6px;margin:0 0 14px;padding:10px;border:1px solid #d6ff0055;border-radius:14px;background:#1d2a1a}.ff-quick-selected>small{font-size:10px;letter-spacing:.08em;color:#c9e6a3}

@@ -517,7 +517,7 @@ const server = http.createServer(async (req, res) => {
      return json(res,200,await comfyStudioViews.open({base:'http://127.0.0.1:'+listeningPort,ancestor:input.ancestor}));
     }
     if(route==='/api/comfy-bridge/download'&&req.method==='GET'){
-     const directory=path.join(DATA,'bridge-packages');await mkdir(directory,{recursive:true});const file=path.join(directory,randomUUID()+'.zip');await writeZip(['__init__.py','web/frameforge.js','web/studio.js','web/studio.css','web/quick-tools.js','web/workflow-transfer.js','README.md'].map(name=>({name:'comfyui-frameforge/'+name,path:path.join(ROOT,'assets/comfyui-frameforge',name)})),file);res.setHeader('Content-Disposition','attachment; filename="comfyui-frameforge.zip"');return await serveFile(req,res,file);
+     const directory=path.join(DATA,'bridge-packages');await mkdir(directory,{recursive:true});const file=path.join(directory,randomUUID()+'.zip');await writeZip(['__init__.py','web/frameforge.js','web/studio.js','web/studio.css','web/quick-tools.js','web/quick-actions.js','web/workflow-transfer.js','README.md'].map(name=>({name:'comfyui-frameforge/'+name,path:path.join(ROOT,'assets/comfyui-frameforge',name)})),file);res.setHeader('Content-Disposition','attachment; filename="comfyui-frameforge.zip"');return await serveFile(req,res,file);
     }
     if(route==='/api/model-downloads/storage'&&req.method==='POST'){
      if(HOSTED_MODE)return json(res,403,{error:'Only the GPU owner can change model storage.'});if(modelDownloads.running)throw Error('Wait for the model download to finish before changing storage.');

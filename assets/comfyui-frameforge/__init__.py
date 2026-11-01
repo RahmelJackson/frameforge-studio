@@ -102,11 +102,12 @@ class FrameforgeStudioVideoOutput:
 def send_image(payload):
     base = studio_address(payload.get('studio', 'http://127.0.0.1:4317'))
     ref = payload.get('media', payload.get('image', {}))
-    if not isinstance(ref, dict) or ref.get('type') != 'output' or not re.fullmatch(r'[\w .-]+\.(png|mp4|webm|wav)', ref.get('filename', '')):
+    if not isinstance(ref, dict) or ref.get('type') not in ('output', 'temp') or not re.fullmatch(r'[\w .-]+\.(png|mp4|webm|wav)', ref.get('filename', '')):
         raise ValueError('Choose a saved PNG, MP4, WebM or WAV output from this node.')
     extension = Path(ref['filename']).suffix
     mime, route, limit = {'.png': ('image/png', '/api/assets', 20), '.mp4': ('video/mp4', '/api/footage', 100), '.webm': ('video/webm', '/api/footage', 100), '.wav': ('audio/wav', '/api/audio-assets', 25)}[extension]
-    root = Path(folder_paths.get_output_directory()).resolve()
+    # Saved outputs and preview (temp) images both live inside ComfyUI's own folders.
+    root = Path(folder_paths.get_temp_directory() if ref.get('type') == 'temp' else folder_paths.get_output_directory()).resolve()
     file = (root / ref.get('subfolder', '') / ref['filename']).resolve()
     if not file.is_relative_to(root) or not file.is_file() or file.stat().st_size > limit * 1024 * 1024:
         raise ValueError('Choose a saved output inside this ComfyUI, up to ' + str(limit) + ' MiB.')

@@ -1,7 +1,12 @@
 import {app} from '../../../scripts/app.js';
 import {api} from '../../../scripts/api.js';
 import {createStudioController} from './studio.js';
+import {createQuickActions,actionsFor} from './quick-actions.js';
 const studioView=createStudioController(app,api);
+const quickActions=createQuickActions({app,api,studio:studioView});
+window.frameforgeQuickActions=quickActions;window.frameforgeQuickActionsList=actionsFor;
+// Right-click any node showing an image or video: Frameforge actions open Studio on that exact result.
+app.registerExtension({name:'Frameforge.QuickActions',beforeRegisterNodeDef(nodeType){const original=nodeType.prototype.getExtraMenuOptions;nodeType.prototype.getExtraMenuOptions=function(canvas,options){const r=original?.apply(this,arguments);try{options.push(...quickActions.menuFor(this));}catch{}return r;};}});
 app.registerExtension({name:'Frameforge.StudioBridge',setup(){studioView.register();},nodeCreated(node){
  const kind={FrameforgeStudioOutput:'image',FrameforgeStudioVideoOutput:'video',FrameforgeStudioAudioOutput:'audio'}[node.comfyClass];if(!kind)return;
  node.color='#354632';node.bgcolor='#18231c';node.title='Frameforge · '+kind[0].toUpperCase()+kind.slice(1)+' handoff';

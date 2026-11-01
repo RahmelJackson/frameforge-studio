@@ -1,6 +1,6 @@
 {
   "version": 1,
-  "created": "2026-11-01T00:33:29.614Z",
+  "created": "2026-11-01T06:19:50.316Z",
   "files": [
     {
       "name": ".agents/plugins/marketplace.json",
@@ -19,28 +19,33 @@
     },
     {
       "name": "assets/comfyui-frameforge/__init__.py",
-      "bytes": 11098,
-      "sha256": "d69c8d4ceb96af29ec996a5af4a5c78eaa08491f52c83d678bc96aa563c94865"
+      "bytes": 11266,
+      "sha256": "4757f654a08eb2210abaa072e5d2be25d4da777a009fb75972fe9004e56345de"
     },
     {
       "name": "assets/comfyui-frameforge/README.md",
-      "bytes": 5868,
-      "sha256": "e788f6308de07ae20e9fece13ba4a8829b8107b7bb375ef725df6de1cfafac77"
+      "bytes": 6447,
+      "sha256": "589b6edc661cd4152e3455e5898182e631cb67645d35b51a0f0905625506a16d"
     },
     {
       "name": "assets/comfyui-frameforge/web/frameforge.js",
-      "bytes": 2966,
-      "sha256": "6255009fa691472391f4565585c4836a523fd54fc4f5ee4b5a0bf4911c16dab4"
+      "bytes": 3609,
+      "sha256": "30ca28f95bd23a16b731c01fff14a79a43aa8eddfdbd7c123e729cc0bb9e3c4a"
+    },
+    {
+      "name": "assets/comfyui-frameforge/web/quick-actions.js",
+      "bytes": 3097,
+      "sha256": "5a228f2b8cb8275a4d4ab92eae1de0d86f63fd1d6d37466695f77c8e5511c6d0"
     },
     {
       "name": "assets/comfyui-frameforge/web/quick-tools.js",
-      "bytes": 7047,
-      "sha256": "e9169c66ed0fdaea75fcc17099f4469034b0ebc2fc98a79656556a3534ca03cb"
+      "bytes": 7697,
+      "sha256": "be519444877745bf1d57e596196d80f2597f1fbcac986faa66b4a28e06060ab0"
     },
     {
       "name": "assets/comfyui-frameforge/web/studio.css",
-      "bytes": 7393,
-      "sha256": "8b9656b884a64f68862cf6c0cc20b97e323594feee194af6c92d6e1b4f047efa"
+      "bytes": 7603,
+      "sha256": "00f6a602deed575b3f4103cd77920b18eac553ec44b8ffbba9304c50948c903f"
     },
     {
       "name": "assets/comfyui-frameforge/web/studio.js",
@@ -2409,8 +2414,8 @@
     },
     {
       "name": "server.mjs",
-      "bytes": 135909,
-      "sha256": "fc47ce973f4216d89d22ceeba85f54460ebd8694c33de81cf8a0f44fdb52449a"
+      "bytes": 135932,
+      "sha256": "1e21245e61f6c0c8a0fee4da5f81822ada603b7ae77ea649e949ba873460f498"
     },
     {
       "name": "setup/advanced-models.lock.json",
@@ -2771,6 +2776,11 @@
       "name": "tests/comfy_studio_check.py",
       "bytes": 3041,
       "sha256": "784df3a5a218e9571d667c06c3ddccbc2927ac9e5198c77f492e90df6fbc5c80"
+    },
+    {
+      "name": "tests/comfy-quick-actions.test.mjs",
+      "bytes": 1154,
+      "sha256": "33e3837b399cdcb67c26d519f8625bc121181b824608ad51638cf2f73fcdaa9e"
     },
     {
       "name": "tests/comfy-release.test.mjs",
