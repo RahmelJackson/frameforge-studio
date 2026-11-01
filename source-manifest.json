@@ -1,6 +1,6 @@
 {
   "version": 1,
-  "created": "2026-11-01T12:45:05.038Z",
+  "created": "2026-11-01T12:48:48.980Z",
   "files": [
     {
       "name": ".agents/plugins/marketplace.json",
@@ -349,8 +349,8 @@
     },
     {
       "name": "lib/shot-writer.mjs",
-      "bytes": 5891,
-      "sha256": "b3d53359ee9f386d1ecaf64745e139faf9898e7e1763928a5e17996f4004a1be"
+      "bytes": 6766,
+      "sha256": "7fd7ee612ac86807dfc28b103a2acff0beaec3ba5ec38b8e20557427acf133db"
     },
     {
       "name": "lib/sounds.mjs",
@@ -3209,8 +3209,8 @@
     },
     {
       "name": "tests/shot-writer.test.mjs",
-      "bytes": 4623,
-      "sha256": "698be3cfd777cb2951c85ff2e12abfd2a4fc3163e7b66cc564d8278c1f2f5c7f"
+      "bytes": 5339,
+      "sha256": "679cd2226c94e5e94e63480769e3c9da0995c35517f7aa0dad4c8ddbd1028f20"
     },
     {
       "name": "tests/sounds.test.mjs",

@@ -1,6 +1,7 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
-import {pickWriterModel,parseShots,createShotWriter,writerMessages} from '../lib/shot-writer.mjs';
+import {pickWriterModel,parseShots,createShotWriter,writerMessages,mainSubject,keepSubject} from '../lib/shot-writer.mjs';
+test('every written shot keeps the main subject',()=>{assert.equal(mainSubject('Life as a city pigeon'),'city pigeon');assert.equal(mainSubject('A shy pear meets a strawberry'),'A shy pear meets a strawberry');assert.match(keepSubject('Hands clean a ceramic bowl.','Life as a city pigeon'),/^With the city pigeon clearly in frame/);assert.equal(keepSubject('A pigeon on a rooftop.','Life as a city pigeon'),'A pigeon on a rooftop.');assert.match(writerMessages({subject:'Life as a city pigeon',format:'life-as',look:'film',frames:[]})[1].content,/MAIN SUBJECT \(in every shot\): city pigeon/);});
 import {Productions,shotPrompt} from '../lib/productions.mjs';
 import {mkdtemp} from 'node:fs/promises';
 import {tmpdir} from 'node:os';
@@ -35,7 +36,7 @@ test('asks Ollama on the CPU, unloads it, and returns written shots',async()=>{
  const write=createShotWriter({fetcher,getConnection:()=>({provider:'ollama'})});
  const result=await write({subject:'bees',format:'explainer',look:'film',frames});
  assert.equal(result.model,'gemma3:4b');
- assert.equal(result.shots[1].visual,'Golden honey drips from a comb.');
+ assert.equal(result.shots[1].visual,'With the bees clearly in frame: Golden honey drips from a comb.');assert.match(result.shots[0].visual,/^Close-up of a honeybee/);
  const chat=calls.find(c=>c[0].endsWith('/api/chat'))[1];
  assert.equal(chat.keep_alive,0);assert.equal(chat.options.num_gpu,0);assert.equal(chat.think,undefined);
  assert.match(writerMessages({subject:'bees',format:'explainer',look:'film',frames}).at(-1).content,/exactly 2 shots/);
