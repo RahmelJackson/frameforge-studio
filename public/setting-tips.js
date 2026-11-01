@@ -114,13 +114,13 @@ function markTerms(root=document.querySelector('main')??document.body){if(!root|
 let bubble=null,owner=null;
 function hide(){if(bubble)bubble.hidden=true;owner?.setAttribute('aria-expanded','false');owner=null;}
 function show(button){
- if(!bubble){bubble=document.createElement('div');bubble.className='setting-tip-bubble';bubble.setAttribute('role','tooltip');bubble.id='setting-tip-bubble';document.documentElement.append(bubble);}
+ if(!bubble){bubble=document.createElement('div');bubble.className='setting-tip-bubble';bubble.setAttribute('role','tooltip');bubble.id='setting-tip-bubble';document.body.append(bubble);}
  owner?.setAttribute('aria-expanded','false');owner=button;button.setAttribute('aria-expanded','true');
  bubble.textContent=button.dataset.tip;bubble.hidden=false;
- const r=button.getBoundingClientRect(),w=Math.min(300,innerWidth-24);bubble.style.setProperty('max-width',w+'px');
+ const z=parseFloat(getComputedStyle(document.body).zoom)||1,r=button.getBoundingClientRect(),w=Math.min(300,innerWidth/z-24);bubble.style.setProperty('max-width',w+'px');
  const b=bubble.getBoundingClientRect();let left=Math.min(Math.max(12,r.left+r.width/2-b.width/2),innerWidth-b.width-12);
  let top=r.top-b.height-8;bubble.dataset.side='above';if(top<8){top=r.bottom+8;bubble.dataset.side='below';}
- bubble.style.setProperty('left',left+'px');bubble.style.setProperty('top',top+'px');
+ bubble.style.setProperty('left',left/z+'px');bubble.style.setProperty('top',top/z+'px');
 }
 function textOf(label){for(const node of label.childNodes){if(node.nodeType===3&&node.textContent.trim())return node.textContent.trim();if(node.nodeType===1&&node.matches('span:not(.setting-tip)'))return node.textContent.trim();}return '';}
 function attach(root=document){

@@ -32,9 +32,9 @@ if(typeof document!=='undefined'){
   panel.append(group('Font',FONTS,()=>root.dataset.font||'inter',id=>{write(KEYS.font,id);applyFont(id);}));
   panel.append(group('Text size',SIZES,()=>read(KEYS.size)||'1',id=>{write(KEYS.size,id);applyScale();}));
   const note=h('p','appearance-note','Large screens scale up automatically. Saved on this computer.');panel.append(note);
-  document.documentElement.append(panel);
+  document.body.append(panel);
  }
- function place(button){const r=button.getBoundingClientRect(),p=panel.getBoundingClientRect();let left=r.left,top=r.top-p.height-8;if(top<8){top=r.bottom+8;left=Math.min(r.right-p.width,innerWidth-p.width-12);}panel.style.setProperty('left',Math.max(12,Math.min(left,innerWidth-p.width-12))+'px');panel.style.setProperty('top',Math.max(8,top)+'px');}
+ function place(button){const z=parseFloat(getComputedStyle(document.body).zoom)||1,r=button.getBoundingClientRect(),p=panel.getBoundingClientRect();let left=r.left,top=r.top-p.height-8;if(top<8){top=r.bottom+8;left=Math.min(r.right-p.width,innerWidth-p.width-12);}panel.style.setProperty('left',Math.max(12,Math.min(left,innerWidth-p.width-12))/z+'px');panel.style.setProperty('top',Math.max(8,top)/z+'px');}
  let opener=null;
  function close(){if(!panel||panel.hidden)return;panel.hidden=true;opener?.setAttribute('aria-expanded','false');opener=null;}
  function toggle(button){if(!panel)build();if(!panel.hidden&&opener===button)return close();opener?.setAttribute('aria-expanded','false');opener=button;panel.hidden=false;button.setAttribute('aria-expanded','true');place(button);panel.querySelector('[aria-checked=true]')?.focus();}

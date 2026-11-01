@@ -1,6 +1,6 @@
 {
   "version": 1,
-  "created": "2026-11-01T00:14:14.973Z",
+  "created": "2026-11-01T00:24:53.410Z",
   "files": [
     {
       "name": ".agents/plugins/marketplace.json",
@@ -519,8 +519,8 @@
     },
     {
       "name": "public/appearance.js",
-      "bytes": 6675,
-      "sha256": "9f3a502e5c22a0f6982a6acfa51ad0c12584e4e882253023b323f623eaee9f21"
+      "bytes": 6722,
+      "sha256": "549f4484fc825d7b2306465aed6e25a43a38c798a81da48abfdb72171ff5a099"
     },
     {
       "name": "public/assistant-connection.js",
@@ -1143,6 +1143,11 @@
       "sha256": "ac2f957a7bda68e503dc2d9e75235ce597cfbdd6ad67587f343a58f2042eface"
     },
     {
+      "name": "public/nav-menus.js",
+      "bytes": 6128,
+      "sha256": "a3755a31d5f839d2877feea8d0bdc53302f74ee3ebb65a7c20ca809ae58b30cf"
+    },
+    {
       "name": "public/online-handoff.js",
       "bytes": 4238,
       "sha256": "9566b37332ce6cc66ec0646178d5b55df03cf749d9d06bdf607c40fbbc8ef1cf"
@@ -1274,8 +1279,8 @@
     },
     {
       "name": "public/setting-tips.js",
-      "bytes": 14462,
-      "sha256": "4c4d8b2d4014e5f98bb9976315043c686ce9207cc7291df3257f180bf7dfdcea"
+      "bytes": 14511,
+      "sha256": "817df00e1507bf97571a9b9f7f556aefb1f0c82bb105e43474a264cc3062c529"
     },
     {
       "name": "public/setup-doctor.js",
@@ -1329,13 +1334,13 @@
     },
     {
       "name": "public/studio-chrome.css",
-      "bytes": 14769,
-      "sha256": "a792463e798f4fde5f53a587693663e114b9490faf2f119a71fe428bb5b8dba4"
+      "bytes": 16426,
+      "sha256": "420caa2cbab9d5fef8cb736acbfe09fa4bc848e97c7ebdc4e525c2a96b38a05a"
     },
     {
       "name": "public/studio-chrome.js",
-      "bytes": 1971,
-      "sha256": "b96a0df5cc182b11aa87819d36cc243f27211af8bdfd5bbed2a2350b86634167"
+      "bytes": 1996,
+      "sha256": "2f4fbb9d62de962a38aaa01d4df9e3acec144c9e51f4ce3213e98d1f074ae504"
     },
     {
       "name": "public/studio-icons.js",
@@ -2404,8 +2409,8 @@
     },
     {
       "name": "server.mjs",
-      "bytes": 135593,
-      "sha256": "2390bbfad956952127c9b4026bc63b92a488922d863730ee114cd26c7885c8bd"
+      "bytes": 135624,
+      "sha256": "2c36c421b9b54d9f161239384074b5306278ea95ed00e9516f92e1acb33bcc48"
     },
     {
       "name": "setup/advanced-models.lock.json",

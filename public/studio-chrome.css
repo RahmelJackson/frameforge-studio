@@ -65,3 +65,19 @@ body[data-page=advanced] .advanced-hero{min-height:0!important;padding:22px 26px
 .appearance-swatch{display:flex;gap:3px;margin-bottom:4px}.appearance-swatch i{width:14px;height:14px;border-radius:50%;border:1px solid rgba(255,255,255,.25)}
 .appearance-panel{max-height:min(640px,calc(100vh - 16px))}
 .term{text-decoration:underline dotted;text-decoration-color:color-mix(in srgb,currentColor 55%,transparent);text-underline-offset:3px;cursor:help;border-radius:3px}.term:hover,.term:focus-visible{text-decoration-color:var(--accent,#d6ff00);outline:none;background:rgba(214,255,0,.08)}
+/* Navigation hover menus */
+.nav-menu{position:fixed;z-index:9990;color:#f2f4ed;background:rgba(22,24,25,.97);backdrop-filter:blur(22px) saturate(1.2);opacity:0;transform:translateY(-6px);transition:opacity .18s ease,transform .18s ease}
+.nav-menu.open{opacity:1;transform:none}
+.nav-menu[hidden]{display:none}
+.nav-menu[data-mode=side]{width:min(720px,calc(100vw - 280px));border:1px solid rgba(255,255,255,.08);border-radius:22px;box-shadow:0 30px 80px rgba(0,0,0,.5);transform:translateX(-6px)}
+.nav-menu[data-mode=side].open{transform:none}
+.nav-menu[data-mode=top]{border-bottom:1px solid rgba(255,255,255,.08);box-shadow:0 40px 80px rgba(0,0,0,.45)}
+.nav-menu-inner{display:grid;grid-template-columns:minmax(220px,1.5fr) minmax(150px,1fr) minmax(150px,1fr);gap:28px 44px;padding:28px 32px 30px}
+.nav-menu[data-mode=top] .nav-menu-inner{max-width:1080px;margin:0 auto;padding:34px 32px 40px}
+.nav-menu-col{display:flex;flex-direction:column;align-items:flex-start;gap:9px;min-width:0}
+.nav-menu-col>p{margin:0 0 6px;font-size:12px;color:#8b9396;font-weight:500}
+.nav-menu-col a,.nav-menu-col button{color:#e9ede6;text-decoration:none;font:600 13px/1.3 Inter,system-ui,sans-serif;background:none;border:0;padding:0;cursor:pointer;text-align:left}
+.nav-menu-make a{font-size:22px;font-weight:650;letter-spacing:-.02em;line-height:1.2}
+.nav-menu-col a:hover,.nav-menu-col a:focus-visible,.nav-menu-col button:hover,.nav-menu-col button:focus-visible{color:var(--accent,#d6ff00);outline:none}
+.nav-menu-col button[data-find-tool]{margin-top:6px;color:var(--accent,#d6ff00)}
+@media(prefers-reduced-motion:reduce){.nav-menu{transition:none;transform:none}}
