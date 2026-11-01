@@ -1,6 +1,6 @@
 {
   "version": 1,
-  "created": "2026-11-01T16:25:53.750Z",
+  "created": "2026-11-01T16:50:20.404Z",
   "files": [
     {
       "name": ".agents/plugins/marketplace.json",
@@ -139,8 +139,8 @@
     },
     {
       "name": "lib/character-dataset.mjs",
-      "bytes": 9030,
-      "sha256": "d1c16f96922d52e7d508f509c9dbdc76dfcd06cf8ea603903167ab3e1588a3fe"
+      "bytes": 12429,
+      "sha256": "624de44bd59f20fe8c6bf395517de1eb2d783518cabe25fef2e058d50dccbfab"
     },
     {
       "name": "lib/checklist.mjs",
@@ -174,8 +174,8 @@
     },
     {
       "name": "lib/creator-catalog.mjs",
-      "bytes": 21096,
-      "sha256": "d676836d94658144bf8990962d505cb6c9d219c96c3304f40afd0414d63f4751"
+      "bytes": 21930,
+      "sha256": "65f855b3670015d59e7d9cc309eecb1b6d32f426b9d62a57fc29ccd13a6bcd35"
     },
     {
       "name": "lib/creator-routes.mjs",
@@ -264,8 +264,8 @@
     },
     {
       "name": "lib/model-downloads.mjs",
-      "bytes": 6163,
-      "sha256": "2034540e810614f2ab8573d9a9824791b2f6491d878fee57ddf62d82e1aa08a7"
+      "bytes": 6606,
+      "sha256": "1b438b408589a3784a686e54ecd632a3941e1301b71c1da7babc3779b7a4289e"
     },
     {
       "name": "lib/motion.mjs",
@@ -279,8 +279,8 @@
     },
     {
       "name": "lib/native-workflows.mjs",
-      "bytes": 4974,
-      "sha256": "f275bd90d045dd0e34a6f88f95b35a93d8d385ac3c828f0d928f4340b545119b"
+      "bytes": 5804,
+      "sha256": "d0e04edbdf4015ee64b80f1c257a0f368325db1dadbb425b81a99581aadf55b9"
     },
     {
       "name": "lib/pose.mjs",
@@ -389,8 +389,8 @@
     },
     {
       "name": "lib/studio-setup.mjs",
-      "bytes": 3944,
-      "sha256": "404640be0d969f40d4f1de40d5389073c5392c9b70db8b782462bf8ec66bb5d3"
+      "bytes": 5123,
+      "sha256": "c582907c3a1d626c6ac80cfaf74a9832ed91bef7ef559cf0cceb084c92323da2"
     },
     {
       "name": "lib/style.mjs",
@@ -539,8 +539,8 @@
     },
     {
       "name": "public/app.js",
-      "bytes": 41837,
-      "sha256": "621d72822bbd1cb887265cefcd664bf1eb917d1fde0c982d2075033e5917c308"
+      "bytes": 41943,
+      "sha256": "cd44ef7acdf4d8b1c30f491d396551eb3152b35f349c6f72c367f6ef888075a5"
     },
     {
       "name": "public/appearance.js",
@@ -1054,13 +1054,13 @@
     },
     {
       "name": "public/home.css",
-      "bytes": 16111,
-      "sha256": "36f0aad7cc7c887b0e08ebc447827db9d90cbf0ad6699a11d91adf7a0ed0662b"
+      "bytes": 17992,
+      "sha256": "1d505698dfc6520e56a474fb1676d4b56ee91c9d9e63a79cebad982c6e514c86"
     },
     {
       "name": "public/home.html",
-      "bytes": 9590,
-      "sha256": "6757c128e931d81067637943461adbbd1ad554c4116f3169f402982ff9af5ae4"
+      "bytes": 12546,
+      "sha256": "6eebb8f128ab101e8ac72a32a89e1925c65fa202dbc297184c80b3084feee326"
     },
     {
       "name": "public/home.js",
@@ -1079,8 +1079,8 @@
     },
     {
       "name": "public/images.html",
-      "bytes": 15727,
-      "sha256": "86f9900c24f982e03b376f7bef7833473f89455e3452f33f8e784d70b8bfed36"
+      "bytes": 15732,
+      "sha256": "349b8a1ad5a9eb22f8996afbd5c8fe8b88f4b23f8fb48b63a5f15b6652a01f0a"
     },
     {
       "name": "public/images.js",
@@ -1089,8 +1089,8 @@
     },
     {
       "name": "public/index.html",
-      "bytes": 16580,
-      "sha256": "e9ec29f620f414f484f55dc6db2e278009702a4b35b4ce762f9a67fe710aca6f"
+      "bytes": 16597,
+      "sha256": "e5f25d7fdb7f2911b06d230945bd4a52994e06b81d1203136d0fd1757efc20a7"
     },
     {
       "name": "public/library.js",
@@ -1139,8 +1139,8 @@
     },
     {
       "name": "public/model-downloads.js",
-      "bytes": 11549,
-      "sha256": "77f68d2d4f2a588c2ac39ee8600b085b043b1f950dd164439d154df4353e600e"
+      "bytes": 11796,
+      "sha256": "e185d2a7a883723b137c6885edc27430d802a2b3d9b046bf196ea4d4fe6d77c8"
     },
     {
       "name": "public/my-work.css",
@@ -1154,13 +1154,13 @@
     },
     {
       "name": "public/native-catalog.js",
-      "bytes": 71278,
-      "sha256": "fbfe9420cb5345874ca08ddd961bdb417d6f9583393b93966aabc47f6c02029a"
+      "bytes": 74145,
+      "sha256": "f8adca256f857569e26614340c4ab3e8b2f0a9de10347ce91f15924da9767edf"
     },
     {
       "name": "public/native-workflows.css",
-      "bytes": 1313,
-      "sha256": "98de9bf6ee335c21f8b3eb3508ebbbb5c288281639bd011466c6315cf9945da3"
+      "bytes": 1404,
+      "sha256": "18b365e672a0bfa16430b5b54179a1319004862b0af2b63606698c154eeb3f67"
     },
     {
       "name": "public/native-workflows.html",
@@ -1169,8 +1169,8 @@
     },
     {
       "name": "public/native-workflows.js",
-      "bytes": 7751,
-      "sha256": "ac2f957a7bda68e503dc2d9e75235ce597cfbdd6ad67587f343a58f2042eface"
+      "bytes": 10097,
+      "sha256": "03179d8deb4c718e6ddced0af4f1e1906cdbfa80bec4ed17605c7ecac93ed1d0"
     },
     {
       "name": "public/nav-menus.js",
@@ -1254,8 +1254,8 @@
     },
     {
       "name": "public/result-details.js",
-      "bytes": 2340,
-      "sha256": "d209e9a2dba22e21882245de2462b2c8185cc5308b3f8cc5aa8ed2b073b62885"
+      "bytes": 5017,
+      "sha256": "541a40dd89d31be4111b765eb28fb483175111bb33ee21d9b7084fa0ed8aa7e5"
     },
     {
       "name": "public/sam-selection.js",
@@ -1364,8 +1364,8 @@
     },
     {
       "name": "public/studio-chrome.css",
-      "bytes": 19340,
-      "sha256": "0cd4e483ee38a32bdc5fef00006fbcbdf62e47b80c487506ac767d63af6200fd"
+      "bytes": 20385,
+      "sha256": "bb90373c48e757d46b5f9dd6e537dfd3580ed824031f01b424e6ec27d9ddb18f"
     },
     {
       "name": "public/studio-chrome.js",
@@ -1604,8 +1604,8 @@
     },
     {
       "name": "public/workflows.js",
-      "bytes": 25280,
-      "sha256": "33ce43435922281226133f225eefd05f317acfe74e8c091bf360935bba379fc0"
+      "bytes": 25383,
+      "sha256": "c6ef2e02ba62b9901ae3311e852b80f32b3228bd1aab1e5b0db9c26fa05d8e28"
     },
     {
       "name": "public/workspace-art.css",
@@ -2854,8 +2854,8 @@
     },
     {
       "name": "tests/creator-workspace.test.mjs",
-      "bytes": 10122,
-      "sha256": "a0b4e97f4a8eaff13c55d7633a65df9c79f63140e401973db8d3f95e823e933d"
+      "bytes": 10836,
+      "sha256": "9107c1ede99d633db04f7ba84b24a6e316873eafe80bd13f713bb45d5fbeeae9"
     },
     {
       "name": "tests/dialogue_caption_check.py",
@@ -2946,6 +2946,11 @@
       "name": "tests/followup-experience.test.mjs",
       "bytes": 5854,
       "sha256": "76db8a2414ada6ac5a4ea64d54fbaf2ce13dad54a4ffa4591996c33f96a9e2a9"
+    },
+    {
+      "name": "tests/identity-swap.test.mjs",
+      "bytes": 4199,
+      "sha256": "7e0467cd0b9bcefb8c095f525147aa62669fcf8c4d90af2862d2e05cada1ece3"
     },
     {
       "name": "tests/illumination_check.py",
@@ -3059,8 +3064,8 @@
     },
     {
       "name": "tests/native-workflows.test.mjs",
-      "bytes": 4820,
-      "sha256": "d50ee6ee40a026dd3850e36afffd31b2aff11195668dbb82018471202c4c2913"
+      "bytes": 5069,
+      "sha256": "08ef5881d7590419a2e030bd97b356048d463d5b846bf0b6e0ca4b8430ae9a94"
     },
     {
       "name": "tests/onboarding-polish.test.mjs",
@@ -3304,8 +3309,8 @@
     },
     {
       "name": "tests/workflow-canvas.test.mjs",
-      "bytes": 4027,
-      "sha256": "13fc4ada09d8be03d3f179c073b2892c2171c415a3dd81c1abd89120046a2941"
+      "bytes": 4114,
+      "sha256": "31a4364c73a33c8a959605835bea9284d1295883e36da61a24e00382f7b9e3c9"
     },
     {
       "name": "tests/workflow-expectations.test.mjs",
@@ -3504,8 +3509,8 @@
     },
     {
       "name": "workflows/native/catalog.json",
-      "bytes": 202590,
-      "sha256": "818dd5da296bac47c61cb2223b633d048b2697d0258028c94201b369627e3adf"
+      "bytes": 210068,
+      "sha256": "86e1604f8d4c86b5ac7d5eee68c9afe47e4bc093c5eac76aceb652fd80dfb938"
     },
     {
       "name": "workflows/native/image_flux3_klein_distilled_image_edit.json",
@@ -3596,6 +3601,16 @@
       "name": "workflows/native/open-graphs.json",
       "bytes": 6640,
       "sha256": "86465b5c0e0e0a69eba03ff055266a2efe5391d790fd7816e0e64495203975c1"
+    },
+    {
+      "name": "workflows/native/openjutsu_character_swap.api.json",
+      "bytes": 9294,
+      "sha256": "b08a8bbae6b70cd64e8ee1487e6168233ee13d480c47fa9fd42cf7bc9b3aecb7"
+    },
+    {
+      "name": "workflows/native/OPENJUTSU-NOTICE.txt",
+      "bytes": 2675,
+      "sha256": "99ab61d5190aa2c68f628e089490060145084aa146501cad03da18b758ed0617"
     },
     {
       "name": "workflows/native/utility_birefnet_remove_background.json",

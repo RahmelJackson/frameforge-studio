@@ -1028,5 +1028,31 @@ export const NATIVE_WORKFLOWS=[
     "source": "https://raw.githubusercontent.com/Comfy-Org/workflow_templates/c067929d7e9cc0f3fd15be348fa1a1d85da15946/templates/audio_stable_audio_3_medium.json",
     "upstreamCommit": "c067929d7e9cc0f3fd15be348fa1a1d85da15946",
     "sha256": "08a9807262a0cf1ab632743aa7e77599597eb78d863bbd52e6a6f7a2ed6160ce"
+  },
+  {
+    "id": "identity-swap",
+    "file": "native/openjutsu_character_swap.api.json",
+    "category": "video",
+    "title": "Identity swap · put your character into any clip",
+    "input": "A 5–15 second clip of one continuous shot with a person, and one picture of your character",
+    "output": "The same clip, performance, camera and sound, with your character playing the part",
+    "summary": "Openjutsu: Comfy's character swap built on Akatz Labs' H3 Character Swap and MiniMax H3. SAM 3.1 finds the largest person, the swap LoRA redraws them as the character in your picture over 124-frame windows, and the clip keeps its own audio. One picture is enough, so it works as a consistent identity: reuse the same character picture across every shot.",
+    "guide": "https://github.com/Comfy-Org/comfy-openjutsu/blob/70ec62df0eda7c58697ea3ac2050588513651583/README.md",
+    "name": "Identity swap · put your character into any clip",
+    "task": "Identity swap (Openjutsu)",
+    "model": "MiniMax H3 + H3 Character Swap LoRA + SAM 3.1",
+    "execution": "local",
+    "nativeEditorRequired": true,
+    "openWeightsReviewed": false,
+    "requirements": "Needs ComfyUI 0.41.0 or newer and the h3_character_swap node pack with the Openjutsu patch (steps below). Comfy ran it on a 96 GB GPU; on 24–32 GB start at 480p and 5 seconds. Use one continuous shot that opens on a frame with the person visible. Use footage of yourself or people who agreed, and an original character. MiniMax H3 and the swap LoRA use the MiniMax H3 Community License, whose standard grant excludes some regions (including the US, EU, UK and South Korea): read it before use.",
+    "status": "Openjutsu graph · custom nodes required · generation not tested here",
+    "source": "https://raw.githubusercontent.com/Comfy-Org/comfy-openjutsu/70ec62df0eda7c58697ea3ac2050588513651583/workflows/swap.api.json",
+    "upstreamCommit": "70ec62df0eda7c58697ea3ac2050588513651583",
+    "sha256": "b08a8bbae6b70cd64e8ee1487e6168233ee13d480c47fa9fd42cf7bc9b3aecb7",
+    "derivation": "Frameforge opens Openjutsu's API graph without the optional GPT Image first frame (anchor nodes removed, use_anchor off, Openjutsu's own no-anchor prompt), at 480p and 5 seconds. Every other setting is Akatz's: 8 steps, CFG 1, er_sde, 124-frame windows with 18 frames of history.",
+    "manualDependencies": [
+      "h3_character_swap node pack (GPL-3.0): copy worker_nodes/h3_character_swap from https://github.com/akatz-labs/h3-character-swap-tool at 0670e4fdf95adf2262caa4b81afed2a9c4ae4b7b into ComfyUI/custom_nodes, apply https://github.com/Comfy-Org/comfy-openjutsu/blob/70ec62df0eda7c58697ea3ac2050588513651583/build/h3_character_swap.patch with git apply -p1, install its requirements.txt, then restart ComfyUI",
+      "ComfyUI 0.41.0 or newer (MiniMax H3, SAM 3.1 and Video Slice core nodes)"
+    ]
   }
 ];

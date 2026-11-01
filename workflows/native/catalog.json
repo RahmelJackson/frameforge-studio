@@ -3369,5 +3369,115 @@
         "terms": "apache-2.0"
       }
     ]
+  },
+  {
+    "id": "identity-swap",
+    "file": "native/openjutsu_character_swap.api.json",
+    "category": "video",
+    "title": "Identity swap · put your character into any clip",
+    "input": "A 5–15 second clip of one continuous shot with a person, and one picture of your character",
+    "output": "The same clip, performance, camera and sound, with your character playing the part",
+    "summary": "Openjutsu: Comfy's character swap built on Akatz Labs' H3 Character Swap and MiniMax H3. SAM 3.1 finds the largest person, the swap LoRA redraws them as the character in your picture over 124-frame windows, and the clip keeps its own audio. One picture is enough, so it works as a consistent identity: reuse the same character picture across every shot.",
+    "guide": "https://github.com/Comfy-Org/comfy-openjutsu/blob/70ec62df0eda7c58697ea3ac2050588513651583/README.md",
+    "name": "Identity swap · put your character into any clip",
+    "task": "Identity swap (Openjutsu)",
+    "model": "MiniMax H3 + H3 Character Swap LoRA + SAM 3.1",
+    "execution": "local",
+    "nativeEditorRequired": true,
+    "openWeightsReviewed": false,
+    "requirements": "Needs ComfyUI 0.41.0 or newer and the h3_character_swap node pack with the Openjutsu patch (steps below). Comfy ran it on a 96 GB GPU; on 24–32 GB start at 480p and 5 seconds. Use one continuous shot that opens on a frame with the person visible. Use footage of yourself or people who agreed, and an original character. MiniMax H3 and the swap LoRA use the MiniMax H3 Community License, whose standard grant excludes some regions (including the US, EU, UK and South Korea): read it before use.",
+    "status": "Openjutsu graph · custom nodes required · generation not tested here",
+    "source": "https://raw.githubusercontent.com/Comfy-Org/comfy-openjutsu/70ec62df0eda7c58697ea3ac2050588513651583/workflows/swap.api.json",
+    "upstreamCommit": "70ec62df0eda7c58697ea3ac2050588513651583",
+    "sha256": "b08a8bbae6b70cd64e8ee1487e6168233ee13d480c47fa9fd42cf7bc9b3aecb7",
+    "derivation": "Frameforge opens Openjutsu's API graph without the optional GPT Image first frame (anchor nodes removed, use_anchor off, Openjutsu's own no-anchor prompt), at 480p and 5 seconds. Every other setting is Akatz's: 8 steps, CFG 1, er_sde, 124-frame windows with 18 frames of history.",
+    "models": [
+      {
+        "name": "minimax_h3_ref2va_pruned_int8_convrot.safetensors",
+        "url": "https://huggingface.co/Comfy-Org/MiniMax-H3/resolve/e5eb578a89295337b8ff433a035929ce0279e0b6/diffusion_models/minimax_h3_ref2va_pruned_int8_convrot.safetensors",
+        "directory": "diffusion_models",
+        "destination": "models/diffusion_models/minimax_h3_ref2va_pruned_int8_convrot.safetensors",
+        "repo": "Comfy-Org/MiniMax-H3",
+        "revision": "e5eb578a89295337b8ff433a035929ce0279e0b6",
+        "bytes": 20970379616,
+        "sha256": "9255f52b6677845ad238f20dfaafa94727053694127ab7f255c048f0f9365779",
+        "licenseUrl": "https://huggingface.co/Comfy-Org/MiniMax-H3",
+        "terms": "other"
+      },
+      {
+        "name": "qwen3vl_32b_minimax_h3_nvfp4_awq.safetensors",
+        "url": "https://huggingface.co/Comfy-Org/MiniMax-H3/resolve/e5eb578a89295337b8ff433a035929ce0279e0b6/text_encoders/qwen3vl_32b_minimax_h3_nvfp4_awq.safetensors",
+        "directory": "text_encoders",
+        "destination": "models/text_encoders/qwen3vl_32b_minimax_h3_nvfp4_awq.safetensors",
+        "repo": "Comfy-Org/MiniMax-H3",
+        "revision": "e5eb578a89295337b8ff433a035929ce0279e0b6",
+        "bytes": 15687142551,
+        "sha256": "35a88d51044231fe332301d7a62aa81e3f2cba62febeb446e2c1e3e0ef76f2c6",
+        "licenseUrl": "https://huggingface.co/Comfy-Org/MiniMax-H3",
+        "terms": "other"
+      },
+      {
+        "name": "minimax_h3_video_vae_fp16.safetensors",
+        "url": "https://huggingface.co/Comfy-Org/MiniMax-H3/resolve/912b6e38b2092ec4d2e86d24183e0d59ea059d48/vae/minimax_h3_video_vae_fp16.safetensors",
+        "directory": "vae",
+        "destination": "models/vae/minimax_h3_video_vae_fp16.safetensors",
+        "repo": "Comfy-Org/MiniMax-H3",
+        "revision": "912b6e38b2092ec4d2e86d24183e0d59ea059d48",
+        "bytes": 5207808496,
+        "sha256": "7c1f131492e7eddacaac9069a61b81bdd39de5cc96561e677c5eab1cdce5e522",
+        "licenseUrl": "https://huggingface.co/Comfy-Org/MiniMax-H3",
+        "terms": "other"
+      },
+      {
+        "name": "minimax_h3_audio_vae_fp32.safetensors",
+        "url": "https://huggingface.co/Comfy-Org/MiniMax-H3/resolve/e5eb578a89295337b8ff433a035929ce0279e0b6/vae/minimax_h3_audio_vae_fp32.safetensors",
+        "directory": "vae",
+        "destination": "models/vae/minimax_h3_audio_vae_fp32.safetensors",
+        "repo": "Comfy-Org/MiniMax-H3",
+        "revision": "e5eb578a89295337b8ff433a035929ce0279e0b6",
+        "bytes": 605254808,
+        "sha256": "8e505d95dd1561d47abd43d4238fd40d9bb1ae9e147ed0a4cba778d76ae4db48",
+        "licenseUrl": "https://huggingface.co/Comfy-Org/MiniMax-H3",
+        "terms": "other"
+      },
+      {
+        "name": "sam3.1_multiplex_fp16.safetensors",
+        "url": "https://huggingface.co/Comfy-Org/sam3.1/resolve/7bb8374780a725b4353ed31f3a9395c9742b5621/checkpoints/sam3.1_multiplex_fp16.safetensors",
+        "directory": "checkpoints",
+        "destination": "models/checkpoints/sam3.1_multiplex_fp16.safetensors",
+        "repo": "Comfy-Org/sam3.1",
+        "revision": "7bb8374780a725b4353ed31f3a9395c9742b5621",
+        "bytes": 1745546848,
+        "sha256": "9ba99c92703c2e8b4f47de2d34a539bb8e18923049e238b780d70dbe6368eb03",
+        "licenseUrl": "https://huggingface.co/Comfy-Org/sam3.1",
+        "terms": "other"
+      },
+      {
+        "name": "h3_character_swap_v1.5.safetensors",
+        "url": "https://huggingface.co/akatz-ai/MiniMax-H3-Character-Swap-LoRA/resolve/d06323b7c8e70e97cdab48b78a1e05f786c8cba9/h3_character_swap_v1.5.safetensors",
+        "directory": "loras",
+        "destination": "models/loras/h3_character_swap_v1.5.safetensors",
+        "repo": "akatz-ai/MiniMax-H3-Character-Swap-LoRA",
+        "revision": "d06323b7c8e70e97cdab48b78a1e05f786c8cba9",
+        "licenseUrl": "https://huggingface.co/akatz-ai/MiniMax-H3-Character-Swap-LoRA",
+        "terms": "other",
+        "manual": true
+      },
+      {
+        "name": "minimax_h3_fl2v_turbo_8step_v1.0_768p_comfyui_bf16.safetensors",
+        "url": "https://huggingface.co/lightx2v/Minimax-h3-Turbo/resolve/3ec17a324ced54151364f24f8b5fb6bf7e26414f/minimax_h3_fl2v_turbo_8step_v1.0_768p_comfyui_bf16.safetensors",
+        "directory": "loras",
+        "destination": "models/loras/minimax_h3_fl2v_turbo_8step_v1.0_768p_comfyui_bf16.safetensors",
+        "repo": "lightx2v/Minimax-h3-Turbo",
+        "revision": "3ec17a324ced54151364f24f8b5fb6bf7e26414f",
+        "licenseUrl": "https://huggingface.co/lightx2v/Minimax-h3-Turbo",
+        "terms": "apache-2.0",
+        "manual": true
+      }
+    ],
+    "manualDependencies": [
+      "h3_character_swap node pack (GPL-3.0): copy worker_nodes/h3_character_swap from https://github.com/akatz-labs/h3-character-swap-tool at 0670e4fdf95adf2262caa4b81afed2a9c4ae4b7b into ComfyUI/custom_nodes, apply https://github.com/Comfy-Org/comfy-openjutsu/blob/70ec62df0eda7c58697ea3ac2050588513651583/build/h3_character_swap.patch with git apply -p1, install its requirements.txt, then restart ComfyUI",
+      "ComfyUI 0.41.0 or newer (MiniMax H3, SAM 3.1 and Video Slice core nodes)"
+    ]
   }
 ]
