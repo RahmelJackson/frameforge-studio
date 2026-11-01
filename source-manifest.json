@@ -1,6 +1,6 @@
 {
   "version": 1,
-  "created": "2026-11-01T12:48:48.980Z",
+  "created": "2026-11-01T12:52:18.318Z",
   "files": [
     {
       "name": ".agents/plugins/marketplace.json",
@@ -174,8 +174,8 @@
     },
     {
       "name": "lib/creator-catalog.mjs",
-      "bytes": 18588,
-      "sha256": "e69216a96e1674071a895ba0333fe6b633ee3a25a1197649fbb156bd88481b76"
+      "bytes": 19745,
+      "sha256": "910779584487d49f4465b1a1b68786d322d630164f102b84168a3ed0413dcf79"
     },
     {
       "name": "lib/creator-routes.mjs",
@@ -289,8 +289,8 @@
     },
     {
       "name": "lib/productions.mjs",
-      "bytes": 29481,
-      "sha256": "05b1da31cf55a366535a69b5d06ab43a8c7713344dab896f42c5fcb04c198543"
+      "bytes": 30668,
+      "sha256": "a657612b23408d40e2ee271da17a2ea50eb87b72919ac16c2179c55ee18b0e37"
     },
     {
       "name": "lib/projects.mjs",
@@ -419,8 +419,8 @@
     },
     {
       "name": "lib/visual-styles.mjs",
-      "bytes": 4339,
-      "sha256": "3fd5373069fe73e442dfd92a0e60ce06f600ec02865a84b1f8bcf70f71fbb0c2"
+      "bytes": 4360,
+      "sha256": "cbd910804f732023432eb5eb439de8c149e2f24f376db952a830ea22650c14e2"
     },
     {
       "name": "lib/workflow-catalog.mjs",
@@ -1429,8 +1429,8 @@
     },
     {
       "name": "public/template-library.js",
-      "bytes": 10234,
-      "sha256": "e66c2b3fe4b4ed5e9cb370849f1d44c0e4244c55c0fb75897c0dc22029cffffd"
+      "bytes": 10474,
+      "sha256": "1d129a26f3426f6235fc03fdeece8f4e70d583a967d70369022c4648aba6d5fc"
     },
     {
       "name": "public/templates.css",
@@ -3024,8 +3024,8 @@
     },
     {
       "name": "tests/mcp-scene-templates.test.mjs",
-      "bytes": 3390,
-      "sha256": "e4ed34b3aa283656e7b26990eb64d5943a3522ae2735b1368834c97573a3b49a"
+      "bytes": 4939,
+      "sha256": "893c5ff8b6b07f4d5f8a98a8f255909961833418fbf0ebed7e484eb66c9d7aa1"
     },
     {
       "name": "tests/mcp-studio-ui.test.mjs",

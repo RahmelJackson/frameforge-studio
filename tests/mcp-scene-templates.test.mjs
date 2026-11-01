@@ -31,3 +31,13 @@ test('caption styles: one word at a time and karaoke are valid film text styles'
  for(const style of ['word','karaoke','highlight']){const f=normalizeFilm({texts:[{id:'11111111-2222-4333-8444-555555555555',text:'Every morning',start:0,end:1,style,words:[{text:'Every',start:0,end:.5},{text:'morning',start:.5,end:1}]}]});assert.equal(f.texts[0].style,style);}
  assert.throws(()=>normalizeFilm({texts:[{id:'11111111-2222-4333-8444-555555555555',text:'x',start:0,end:1,style:'wavy'}]}),/caption style/);
 });
+test('continuous dive: each keyframe edits the last and each clip ends on the next keyframe',async()=>{
+ const {Productions}=await import('../lib/productions.mjs');const {mkdtemp}=await import('node:fs/promises');const {tmpdir}=await import('node:os');const path=await import('node:path');
+ const posted=[];const call=async(method,route,body)=>{if(route==='/api/engine-readiness')return {busy:false};if(route.endsWith('/image-asset'))return {name:route.split('/')[3].slice(0,8)+'-0000-4000-8000-000000000000.png'};if(route==='/api/jobs'){posted.push(body);return {id:'aaaaaaaa-bbbb-4ccc-8ddd-'+String(posted.length).padStart(12,'0')};}return {};};
+ const prod=new Productions({directory:await mkdtemp(path.join(tmpdir(),'ff-dive-')),call,tick:false});prod.persist=async()=>{};prod.save=async()=>{};
+ const f=(n,img)=>({id:'f'+n,title:'S'+n,prompt:'Context: reef. Beat '+n,targetDuration:3,image:img?{jobId:'1111111'+n+'-2222-4333-8444-555555555555',done:true}:null,clip:null});
+ const p={id:'p',format:'dive',subject:'A reef',look:'film',aspect:'landscape',quality:'draft',seed:1,frames:[f(1,true),f(2,false)],events:[]};
+ await prod.submit(p,p.frames[1],'image');assert.equal(posted[0].tool,'edit');assert.match(posted[0].asset,/^11111111/);assert.match(posted[0].prompt,/Zoom in much closer/);
+ p.frames[1].image={jobId:'11111112-2222-4333-8444-555555555555',done:true};await prod.submit(p,p.frames[0],'clip');
+ assert.equal(posted[1].engine,'keyframes');assert.match(posted[1].asset,/^11111111/);assert.match(posted[1].endAsset,/^11111112/);
+});
