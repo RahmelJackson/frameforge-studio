@@ -16,6 +16,7 @@ export function nextStepLinks(id,url){
   {label:'Make it a video',hint:'Studio video, this frame first',action:'animate'},
   {label:'Select with SAM 3',hint:'Click or name an object, then edit it',action:'tool:select',badge:'SAM'},
   {label:'Repaint a region',hint:'Mask it and describe the change',action:'tool:inpaint'},
+  {label:'Copy the pose (OpenPose)',hint:'Same pose, new character or scene',action:'tool:identity-pose',badge:'POSE'},
   {label:'Vertical video',hint:'9:16 for Shorts and Reels',action:'animate-vertical'},
   {label:'Animate with LTX 2.5',hint:'Motion and sound in one pass',href:native('ltx-native-shot','image'),badge:'LTX'},
   {label:'Animate with MiniMax H3',hint:'Keyframe video with audio',href:native('h3-keyframes','image'),badge:'H3'},

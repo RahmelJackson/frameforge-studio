@@ -1,6 +1,6 @@
 {
   "version": 1,
-  "created": "2026-11-01T17:50:28.149Z",
+  "created": "2026-11-01T20:07:46.815Z",
   "files": [
     {
       "name": ".agents/plugins/marketplace.json",
@@ -39,18 +39,18 @@
     },
     {
       "name": "assets/comfyui-frameforge/web/quick-tools.js",
-      "bytes": 10678,
-      "sha256": "c26de4bea3d8a278a20930b278ee7b4196511af8af708ffe340ede627c2555a0"
+      "bytes": 11279,
+      "sha256": "f7287a83e908d7281dd6ad2093e763ab512b5c4e519f1309e0caea5a78454ef8"
     },
     {
       "name": "assets/comfyui-frameforge/web/studio.css",
-      "bytes": 8513,
-      "sha256": "2d4746431c13bcbf852272c530233be05861b333712ccb53316de40809ecc8a7"
+      "bytes": 9971,
+      "sha256": "6c6d97e59084f790760734f3b7266cd6ff1607b3374195cf4fbc4e0efcffd4a7"
     },
     {
       "name": "assets/comfyui-frameforge/web/studio.js",
-      "bytes": 10940,
-      "sha256": "4db4b0f4062277b508fdd8a0784f85d0badb0cfc57db68310c5eb57dc05d785f"
+      "bytes": 10959,
+      "sha256": "d8ba147c2efd0fa99bcb18eedb9e23bdd1993594942fb04e7dbbbf65cc703b97"
     },
     {
       "name": "assets/comfyui-frameforge/web/workflow-transfer.js",
@@ -584,8 +584,8 @@
     },
     {
       "name": "public/browser-extension.html",
-      "bytes": 1439,
-      "sha256": "e51f2d911b95217689313718e98e1f2eef1756ac20efc8b8b73500c6e8e57479"
+      "bytes": 1562,
+      "sha256": "ee97aee7d47d29ddbff496f4b7fd58247c5b7b5c8aae3603e7bba6593098c771"
     },
     {
       "name": "public/canvas-state.js",
@@ -1059,8 +1059,8 @@
     },
     {
       "name": "public/grab.css",
-      "bytes": 818,
-      "sha256": "16b4c6b2fc4b60aab958631654da34f14533822ef9493db9c57cb6c898000003"
+      "bytes": 1074,
+      "sha256": "1f2457c892bb4133c50e142cb83051573c447c713563508e30aaff979c1c2846"
     },
     {
       "name": "public/grab.html",
@@ -1274,8 +1274,8 @@
     },
     {
       "name": "public/result-details.js",
-      "bytes": 5918,
-      "sha256": "1ded634579cb827d1aa18e5266575917ea82cdc85f9ab6f9058be6f59ee9397e"
+      "bytes": 6038,
+      "sha256": "128df5a62932096c61e1dc4b6cbd9d7f827c433b4d8a48aaa7bb67f4385f59a3"
     },
     {
       "name": "public/sam-selection.js",
@@ -1324,8 +1324,8 @@
     },
     {
       "name": "public/scene.js",
-      "bytes": 44620,
-      "sha256": "80f883d1031cff2788fe584e65d1e0d989d515027652e0be785aa1152211eddd"
+      "bytes": 45115,
+      "sha256": "2d1b519ceb97d2ad9b415590552fae1a4522ea6ffaeff2ad0e7d6ce94a136929"
     },
     {
       "name": "public/setting-tips.js",
@@ -2796,6 +2796,11 @@
       "name": "tests/batches.test.mjs",
       "bytes": 3068,
       "sha256": "6d80f999ac64627c887762089437d6bfb7f74f910aeb9dee7d559cf087759283"
+    },
+    {
+      "name": "tests/browser-extension.test.mjs",
+      "bytes": 982,
+      "sha256": "28e7d8a5d3488b3eb44841db01e0e8b3b2adb5e3ae53a3973b645e6748740470"
     },
     {
       "name": "tests/camera-full.test.mjs",

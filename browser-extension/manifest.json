@@ -1,8 +1,8 @@
 {
   "manifest_version": 3,
   "name": "Frameforge Quick",
-  "version": "1.0.0",
-  "description": "Right-click any image on the web to remix it, animate it, select parts with SAM 3 or turn it into 3D in your own Frameforge studio.",
+  "version": "1.1.0",
+  "description": "Right-click any image or video on the web to remix, animate, recast, select with SAM 3 or turn into 3D in your own Frameforge studio.",
   "permissions": ["contextMenus", "storage", "scripting"],
   "host_permissions": ["<all_urls>"],
   "background": {"service_worker": "background.js", "type": "module"},

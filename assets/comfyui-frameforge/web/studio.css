@@ -11,3 +11,12 @@
 .ff-quick-productions details{border:1px solid #33402f;border-radius:10px;margin:6px 0;background:#141a15}.ff-quick-productions summary{display:flex;justify-content:space-between;gap:8px;padding:9px 12px;cursor:pointer}.ff-quick-productions summary span{font-size:11px;color:#9fb08f}
 .ff-shot-list{display:grid;gap:6px;padding:0 12px 8px}.ff-shot-list div{display:flex;flex-wrap:wrap;align-items:center;gap:6px;font-size:12px;color:#cfd8c9}.ff-shot-list div span{flex:1 1 100%}
 .ff-quick-productions button{font-size:11px;padding:4px 10px;border-radius:999px;border:1px solid #4b5d22;background:#1d2414;color:#e6f5b8;cursor:pointer}.ff-quick-productions details>button{margin:0 12px 10px}
+.ff-comfy-dock{left:50%!important;transform:translateX(-50%);bottom:22px!important;font-size:13px!important;padding:6px!important;border-color:#d6ff0066!important;box-shadow:0 10px 34px #0008,0 0 0 4px #d6ff0010!important}
+.ff-comfy-dock button[data-tools]{display:grid;grid-template-columns:auto auto;column-gap:9px;align-items:center;text-align:left;padding:7px 16px 7px 8px!important;font-size:14px;line-height:1.1}
+.ff-comfy-dock button[data-tools] small{grid-column:2;font-size:11px;font-weight:500;opacity:.7}
+.ff-dock-mark{grid-row:span 2;display:grid;place-items:center;width:28px;height:28px;border-radius:9px;background:#18210d;color:#d6ff00;font:800 15px/1 system-ui;font-style:normal}
+.ff-dock-tip{position:absolute;bottom:64px;left:50%;transform:translateX(-50%);width:300px;padding:14px 16px;border-radius:14px;background:#d6ff00;color:#18210d;font:13px/1.45 system-ui;box-shadow:0 14px 40px #0009;animation:ffTip 2s ease-in-out infinite}
+.ff-dock-tip::after{content:"";position:absolute;left:50%;bottom:-7px;margin-left:-7px;border:7px solid transparent;border-top-color:#d6ff00;border-bottom:0}
+.ff-dock-tip button{margin-top:8px;padding:6px 12px!important;border-radius:999px!important;background:#18210d!important;color:#d6ff00!important;font-weight:700}
+@keyframes ffTip{0%,100%{transform:translateX(-50%) translateY(0)}50%{transform:translateX(-50%) translateY(-4px)}}
+@media (prefers-reduced-motion:reduce){.ff-dock-tip{animation:none}}
