@@ -1,6 +1,6 @@
 {
   "version": 1,
-  "created": "2026-11-01T06:19:50.316Z",
+  "created": "2026-11-01T06:22:54.853Z",
   "files": [
     {
       "name": ".agents/plugins/marketplace.json",
@@ -1404,8 +1404,8 @@
     },
     {
       "name": "public/templates.css",
-      "bytes": 9949,
-      "sha256": "48b6a18f999d7a66f797497ff6c040d0d92f0727d3cd6cae973a70f8978ef385"
+      "bytes": 10458,
+      "sha256": "fdd74def5cc09a96452f89ec732fe90cdec4fc8cf411cad90da2a6f0c653c7eb"
     },
     {
       "name": "public/templates.html",
@@ -1414,8 +1414,8 @@
     },
     {
       "name": "public/templates.js",
-      "bytes": 14259,
-      "sha256": "9c58952515738d22052976cfd90afdd45013187d62563dd60cb56763dd34f9c3"
+      "bytes": 16026,
+      "sha256": "4b6440ce20f29ad84ef0477b1e0af10090d13f8b5c0d3aacfa2941db98bd1009"
     },
     {
       "name": "public/text-frame.svg",
