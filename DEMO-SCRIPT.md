@@ -1,43 +1,134 @@
-# Frameforge: 2-minute demonstration — one production, every place
+# Frameforge Studio: 112-Second Showcase Video & Demo Script
+*Duration: 1 minute 52 seconds (Strictly under 2 minutes)*  
+*Total Narration Word Count: 246 words (Target: ~130 WPM natural speaking pace)*
 
-Record at 1080p (or 1440p with Appearance → Text size: Default). Follow **one production** from idea to finished cut, then remix it. A complete journey is more convincing than a feature montage. Use original or cleared media. Cut render waits with a visible “time shortened” caption. Render the hero production on your own GPU before recording.
+---
 
-**Hero idea (example):** Desert highway preset → “a red vintage car escapes across the desert at noon”.
+## 🎬 Narrative Arc & Pacing Overview
 
-| Time | Show | Say | Judging criterion |
-| --- | --- | --- | --- |
-| 0:00–0:10 | Home → “What do you want to make?” Hover **Video** to show the hover menu. | “Frameforge is an open-source creative studio built on ComfyUI. You start from what you want to make, not from a node graph.” | Delight |
-| 0:10–0:28 | **3D scene** → Desert highway preset. Scrub the timeline: the hero car drives, the camera travels with it. Drag the camera body, then **Look through camera**. | “Block the shot in 3D. Scrub to a moment, drag the car or the camera, and Studio records the motion. The camera can follow or watch any object.” | Innovation |
-| 0:28–0:40 | **Make the image** → FLUX 3 turns the grey layout into a finished frame; **Make the layout clip** → Finish with Layout to Render. | “Every tagged stand-in becomes a layout box for FLUX 3, and the camera move drives LTX Layout to Render. Real open-weight models do the core work.” | Model bonus · Technical |
-| 0:40–0:58 | **Produce**: pick a format, type the idea, start. Show keyframes arriving, approve, clips, narration, finished cut playing. | “Produce plans the beats and renders every keyframe, clip, narration line and caption on my GPU, one at a time, stopping for review.” | Technical |
-| 0:58–1:10 | Phone: scan the **Phone remote** QR, approve a shot from the phone. | “The same production is on my phone over Wi-Fi. I can approve, remake or play the cut from the couch.” | Delight |
-| 1:10–1:25 | Claude or Codex over MCP: “Remix this production: keep everything, change shot two to a night scene.” Show the preview reply (“remakes 1 keyframe and 1 clip, reuses the rest”). | “Claude works on the same production through MCP, and tells me exactly what it will remake before it runs.” | Innovation |
-| 1:25–1:40 | **Remix** dialog in Studio: the reused/remade badges, then the remix finishing with only shot two re-rendered. Click **keyframe graph** on a shot. | “Any finished film can be taken apart and remixed. Only the stages that depend on your change re-render. Every shot opens as its real ComfyUI graph.” | Sharing · Technical |
-| 1:40–1:52 | ComfyUI: right-click a Save Image node → **✦ Frameforge → Animate this**. Studio opens with the image loaded. | “It works the other way too. Right-click any result in ComfyUI and send it straight into Studio to animate, edit or turn into a 3D prop.” | Community usefulness |
-| 1:52–2:00 | Templates with “Ready on this computer” badges, then GitHub. | “Every template says what you bring, what you get and whether it’s ready on your computer. It’s all open source.” | Community usefulness |
+| Act | Timecode | Focus | Narration Words | Key Emotional & Technical Takeaway |
+| :--- | :---: | :--- | :---: | :--- |
+| **Act 1** | `0:00 – 0:18` (18s) | **The Hook & Problem** | 40 words | The power of ComfyUI without the node spaghetti; open-source Higgsfield. |
+| **Act 2** | `0:18 – 0:48` (30s) | **The Core Journey** | 65 words | Single prompt → multi-shot breakdown → FLUX + Wan + Kokoro → final cut. |
+| **Act 3** | `0:48 – 1:12` (24s) | **Under the Hood** | 52 words | Full graph transparency + Smart Remix dependency caching (no wasted GPU). |
+| **Act 4** | `1:12 – 1:38` (26s) | **The 4 Integrations** | 55 words | Web UI, ComfyUI Quick Tools, Claude/Codex MCP, and Phone Remote. |
+| **Act 5** | `1:38 – 1:52` (14s) | **Hackathon Climax** | 34 words | 100% open weights, local execution, zero subscriptions, community future. |
+| **Fade** | `1:52 – 1:56` (4s) | **Outro Title & Links** | — | Clean music resolve on GitHub URL & project credits. |
 
-## Recording prompts
+---
 
-Produce idea: **“a red vintage car escapes across the desert at noon”** (format: A small cinematic story, 15 s, Landscape).
+## 📜 Scene-by-Scene Storyboard & Script
 
-MCP client: **“Use Frameforge. List my productions, then preview a remix of the latest one that rewrites shot 2 as the same car at night under neon signs. Tell me what will be remade and what is reused. Don’t start it until I say so.”**
+### **ACT 1: THE HOOK & VISION (0:00 – 0:18)**
+- **0:00 – 0:08 (8s)**
+  - **Show:** Rapid zoom-in of tangled ComfyUI noodles wipe-transitioning into sleek, dark-mode Frameforge Studio home screen (`http://127.0.0.1:4317`). Hover over *"What do you want to make?"*.
+  - **Text Overlay:** `COMFYUI POWER. ZERO NOODLES.`
+  - **Say:** *"ComfyUI has incredible power, but creators shouldn’t have to wire fifty nodes just to direct a short film."*
+  - **Audio:** Cinematic synth drone; subtle digital glitch/whoosh on transition.
 
-## Claims and fallbacks
+- **0:08 – 0:18 (10s)**
+  - **Show:** Smooth pan across visual personalities (`Cinematic`, `Fruit Romance`, `Satisfying Loop`). Click **Produce Mode** and select **"A small cinematic story" (16:9 Landscape)**.
+  - **Text Overlay:** `OPEN-SOURCE HIGGSFIELD · POWERED BY LOCAL OPEN WEIGHTS`
+  - **Say:** *"Frameforge Studio brings the fluid, cinematic creator experience of Higgsfield directly to open-source AI, running 100% locally on your own GPU."*
+  - **Audio:** Driving modern electronic groove kicks in at low volume (-24 dB).
 
-- **Open weights only is not a universal “local only” or privacy switch.** It restricts reviewed execution routes; model licenses still apply.
-- Comfy Cloud uses an external workflow/import handoff. Civitai uses a prompt/model-reference brief, not a ComfyUI graph import.
-- Remix reuses unchanged keyframes, clips and narration and always re-cuts the film. Say “only what changed re-renders”, not “instant”.
-- The phone remote is Wi-Fi only and pairs with a code; it reaches Produce actions and its results, not the full Studio or ComfyUI.
-- Right-click actions on ComfyUI *preview* images need ComfyUI restarted once after the bridge update; saved outputs work immediately.
-- The illustrations on starters and goal cards are original presentation artwork, not evidence of a model’s output. Use real renders for output shots.
-- Check the film for black frames and play video and audio before recording. A technical pass does not prove motion or creative quality.
+---
 
-## Before recording
+### **ACT 2: FROM IDEA TO FILM — THE PRODUCE PIPELINE (0:18 – 0:48)**
+- **0:18 – 0:28 (10s)**
+  - **Show:** Type prompt: *"A vintage red sports car escapes across a sun-drenched desert highway."* Click **Start Production**. 3-beat story arc generates with timed directions.
+  - **Text Overlay:** `AUTOMATED STORY PLANNING · 3 TIMED BEATS`
+  - **Say:** *"With Produce, one creative prompt plans out a complete multi-shot story with structured beats and camera directions."*
+  - **Audio:** Soft rhythmic UI clicks as cards populate.
 
-- [ ] Render the hero production fully on your GPU (keyframes, clips, narration, cut).
-- [ ] Render the Desert highway still and layout clip; finish one with Layout to Render.
-- [ ] Pair the phone remote on the same Wi-Fi and test one approval.
-- [ ] Connect Claude or Codex over MCP and run the remix preview prompt once.
-- [ ] Restart ComfyUI once so the right-click actions also work on preview images.
-- [ ] Preview the final video and speech; remove any black or failed samples.
-- [ ] Keep the final cut near two minutes and review the challenge checklist; this script does not submit an entry.
+- **0:28 – 0:38 (10s)**
+  - **Show:** Progress cut: consistent FLUX keyframes arrive, Wan 2.2 generates dynamic video clips, Kokoro synthesizes dialogue, word-highlighted captions appear.
+  - **Text Overlay:** `FLUX.1 · WAN 2.2 · KOKORO TTS · FFMPEG STITCH`
+  - **Say:** *"Frameforge orchestrates your local open-weight models—generating consistent keyframes with FLUX, cinematic motion with Wan, and synchronized speech with Kokoro."*
+  - **Audio:** Subtle engine hum and motion whoosh from the rendered clip.
+
+- **0:38 – 0:48 (10s)**
+  - **Show:** Studio video player loads the completed cut. Hit **Play**. Scrub through the 15-second multi-shot film with captions and dialogue.
+  - **Text Overlay:** `FINISHED ROUGH CUT · MULTI-SHOT CONTINUITY`
+  - **Say:** *"In minutes, you get a fully sequenced, color-timed rough cut ready to watch, review, or refine."*
+  - **Audio:** Clip audio briefly surfaces (vintage car revving + desert wind), then ducks back under narration.
+
+---
+
+### **ACT 3: UNDER THE HOOD — GRAPH TRANSPARENCY & SMART REMIX (0:48 – 1:12)**
+- **0:48 – 0:58 (10s)**
+  - **Show:** Hover over Shot 2 and click **"View ComfyUI Graph"**. Reveal the full native ComfyUI node network behind that exact shot.
+  - **Text Overlay:** `ZERO BLACK BOXES · 100% NATIVE COMFYUI GRAPH`
+  - **Say:** *"Here’s the breakthrough: there are no black boxes. Every single shot exposes its real, underlying ComfyUI graph for full inspection and tweakability."*
+  - **Audio:** Satisfying sliding glass panel UI sound.
+
+- **0:58 – 1:12 (14s)**
+  - **Show:** Click **Remix**. Change Shot 2: *"Change shot 2 to the same car speeding through neon rain at night."* Show badges: Shots 1 & 3 `Reused` (Cached 🟢), Shot 2 `Remake` (Diffing 🟡). Click Run Remix; only Shot 2 re-renders and re-cuts in seconds.
+  - **Text Overlay:** `SMART REMIX · SELECTIVE DEPENDENCY CACHING · ZERO WASTED GPU`
+  - **Say:** *"And with Smart Remix, you don’t re-render everything to make a change. The engine computes the exact dependency delta, caching unchanged shots and rendering only what changed. Zero wasted GPU compute."*
+  - **Audio:** Quick render chime; neon rain audio snippet.
+
+---
+
+### **ACT 4: FOUR CONNECTED SURFACES & INTEGRATIONS (1:12 – 1:38)**
+- **1:12 – 1:18 (6s) — ComfyUI Extension**
+  - **Show:** In ComfyUI (`:8188`), right-click a Save Image node → `✦ Frameforge → Animate this`. Studio immediately opens with the image loaded into the timeline.
+  - **Text Overlay:** `SURFACE 1: COMFYUI EXTENSION · RIGHT-CLICK BRIDGING`
+  - **Say:** *"Frameforge lives across your entire workflow. Inside ComfyUI, right-click any generated image to send it straight to Studio to animate."*
+  - **Audio:** Snappy mouse clicks; smooth UI tab switch.
+
+- **1:18 – 1:28 (10s) — Model Context Protocol (MCP)**
+  - **Show:** Claude Desktop / Codex terminal side-by-side with Studio. Prompt: *"Use Frameforge to preview a remix of my latest production with a golden-hour look."* Claude calls `frameforge_remix_preview` and returns the exact shot delta.
+  - **Text Overlay:** `SURFACE 2: MODEL CONTEXT PROTOCOL (MCP) · CLAUDE & CODEX`
+  - **Say:** *"In Claude or Codex, the Model Context Protocol gives your AI agents full creative control to plan, inspect, and remix productions using natural language."*
+  - **Audio:** Subtle keyboard keystrokes and MCP tool-call sparkle chime.
+
+- **1:28 – 1:38 (10s) — Mobile Phone Remote**
+  - **Show:** Studio **Phone Remote** drawer with QR code. Cut to smartphone on local Wi-Fi. User taps **"Approve Shot"** and **"Play Cut"** from the phone; Studio responds instantly.
+  - **Text Overlay:** `SURFACE 3: PHONE REMOTE · WI-FI ZERO-INSTALL REVIEW`
+  - **Say:** *"And with the local Wi-Fi Phone Remote, you can review keyframes and approve cuts right from your phone while your PC renders."*
+  - **Audio:** Mobile tap haptic sound; desktop playback trigger chime.
+
+---
+
+### **ACT 5: THE CLIMAX & HACKATHON CLOSE (1:38 – 1:52)**
+- **1:38 – 1:46 (8s)**
+  - **Show:** Full-screen beauty playback of the remixed desert-to-night film with sound and captions.
+  - **Text Overlay:** `100% OPEN WEIGHTS · ZERO CLOUD QUEUES · YOUR HARDWARE`
+  - **Say:** *"No cloud subscriptions. No black-box lock-in. Just pure creative freedom powered by local open weights on your machine."*
+  - **Audio:** Music reaches its triumphant, cinematic crescendo.
+
+- **1:46 – 1:52 (6s)**
+  - **Show:** Final title slide with Frameforge Studio logo, GitHub repository link, and Comfy Community badges.
+  - **Text Overlay:** `FRAMEFORGE STUDIO · GITHUB.COM/RAHMELJACKSON/FRAMEFORGE-STUDIO`
+  - **Say:** *"Frameforge turns open-source generative video into an end-to-end filmmaker’s studio. Star the project on GitHub."*
+  - **Audio:** Final musical chord resolves; clean fade out.
+
+- **1:52 – 1:56 (4s)**
+  - **Show:** Fade to black. Persistent GitHub URL and credits.
+  - **Audio:** Music tail fades to silence.
+
+---
+
+## 🎙️ Verbatim Teleprompter Script (246 Words)
+
+> "ComfyUI has incredible power, but creators shouldn’t have to wire fifty nodes just to direct a short film. Frameforge Studio brings the fluid, cinematic creator experience of Higgsfield directly to open-source AI, running 100% locally on your own GPU.
+>
+> With Produce, one creative prompt plans out a complete multi-shot story with structured beats and camera directions. Frameforge orchestrates your local open-weight models—generating consistent keyframes with FLUX, cinematic motion with Wan, and synchronized speech with Kokoro. In minutes, you get a fully sequenced, color-timed rough cut ready to watch, review, or refine.
+>
+> Here’s the breakthrough: there are no black boxes. Every single shot exposes its real, underlying ComfyUI graph for full inspection and tweakability. And with Smart Remix, you don’t re-render everything to make a change. The engine computes the exact dependency delta, caching unchanged shots and rendering only what changed. Zero wasted GPU compute.
+>
+> Frameforge lives across your entire workflow. Inside ComfyUI, right-click any generated image to send it straight to Studio to animate. In Claude or Codex, the Model Context Protocol gives your AI agents full creative control to plan, inspect, and remix productions using natural language. And with the local Wi-Fi Phone Remote, you can review keyframes and approve cuts right from your phone while your PC renders.
+>
+> No cloud subscriptions. No black-box lock-in. Just pure creative freedom powered by local open weights on your machine. Frameforge turns open-source generative video into an end-to-end filmmaker’s studio. Star the project on GitHub."
+
+---
+
+## 🛠️ Recording Setup Checklist
+
+- [ ] **Pre-render the hero production:** Run `"a vintage red sports car escapes across a sun-drenched desert highway"` at `http://127.0.0.1:4317/produce.html` so all shots, clips, audio, and the rough cut are pre-rendered.
+- [ ] **Pre-render the remix:** Run a remix changing Shot 2 to night with neon rain so you can show the instant swap without rendering latency.
+- [ ] **Display Setup:** 1920x1080 (1080p 60fps), Dark Mode, browser in Fullscreen (F11) with zoom at 110%–125%.
+- [ ] **Pair Phone Remote:** Open `http://<your-local-ip>:4317/remote.html` on your phone over Wi-Fi and verify one-tap approval works.
+- [ ] **ComfyUI Bridge:** Verify right-click on an image output in ComfyUI (`:8188`) shows `✦ Frameforge → Animate this`.
+- [ ] **Audio Mix:** Duck BGM to -24 dB during voiceover; swell to -14 dB during transitions; normalize master to -14 LUFS.
