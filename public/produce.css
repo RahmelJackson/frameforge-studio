@@ -132,3 +132,8 @@
 @media(max-width:860px){.rx-grid{grid-template-columns:1fr}.rx-shot{grid-template-columns:84px minmax(0,1fr)}}
 .produce-row{grid-template-columns:repeat(auto-fit,minmax(150px,1fr))}.rx-row{grid-template-columns:repeat(auto-fit,minmax(140px,1fr))}
 .run-credits{margin:12px 0;font-size:13px;color:var(--muted)}.run-credits summary{cursor:pointer;color:var(--text);font-weight:600}.run-credits ul{margin:8px 0 0;padding-left:18px;display:grid;gap:4px}.run-credits a{color:var(--accent)}
+/* Continue this production elsewhere */
+.run-handoff{display:flex;flex-wrap:wrap;align-items:center;gap:8px;margin:4px 0 18px;padding:10px 12px;border:1px solid var(--line,#30373a);border-radius:14px;background:#12171366}
+.run-handoff>span{font-size:11px;letter-spacing:.08em;text-transform:uppercase;color:#9fb08f;margin-right:4px}
+.run-handoff a,.run-handoff button{display:inline-flex;align-items:center;gap:6px;min-height:34px;padding:6px 12px;border-radius:999px;border:1px solid #3a443a;background:#1a1f1b;color:#e9eee4;font:inherit;font-size:13px;text-decoration:none;cursor:pointer}
+.run-handoff a:hover,.run-handoff button:hover{border-color:#d6ff00;color:#fff}

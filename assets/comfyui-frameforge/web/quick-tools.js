@@ -1,7 +1,12 @@
 export const QUICK_TOOLS=[
+ {group:'Start',name:'Produce a whole video',hint:'Idea → keyframes → clips → voice → cut, with review stops',symbol:'▶',path:'/produce'},
+ {group:'Start',name:'My productions',hint:'Continue a production, approve shots, remix',symbol:'▤',path:'/produce#produce-runs'},
+ {group:'Start',name:'Templates',hint:'Ready-to-run starting points, checked against your setup',symbol:'◇',path:'/templates'},
+ {group:'Start',name:'Block a shot in 3D',hint:'Place stand-ins, move a camera, render the layout',symbol:'⬡',path:'/scene'},
+ {group:'Start',name:'Creative recipes',hint:'Chain subjects, motion and shots',symbol:'✦',path:'/recipes'},
  {group:'Images',name:'Creative canvas',hint:'Infinite board for images, clips and 3D',symbol:'◇',path:'/creator?tab=canvas'},
  {group:'Images',name:'Your cast & LoRA dataset',hint:'Reusable references, captions and trainer export',symbol:'◇',path:'/creator?tab=characters'},
- {group:'Video',name:'Story formats',hint:'Timed fruit drama, explainer or narrative',symbol:'▤',path:'/creator?tab=stories'},
+ {group:'Video',name:'Story formats → Produce',hint:'Fruit drama, explainer or narrative, rendered end to end',symbol:'▤',path:'/produce?format=fruit-romance'},
  {group:'Video',name:'Effects & transitions',hint:'Finish saved clips and compare versions',symbol:'✧',path:'/creator?tab=effects'},
  {group:'Video',name:'Looping GIF',hint:'Forward-and-back or a blended wrap',symbol:'≋',path:'/creator?tab=effects&recipe=loop'},
 
@@ -25,13 +30,13 @@ export const QUICK_TOOLS=[
  {group:'Audio',name:'Transcribe & subtitle',hint:'A recording into timed words',symbol:'≡',path:'/audio?tool=transcribe#audio-form'},
  {group:'Audio',name:'Translate & dub',hint:'Review words, translate and replace speech',symbol:'◎',path:'/audio?tool=dub#audio-form'}
 ];
-QUICK_TOOLS.sort((a,b)=>['Video','Images','Audio','3D'].indexOf(a.group)-['Video','Images','Audio','3D'].indexOf(b.group)||(a.name==='Animate an image'?-1:b.name==='Animate an image'?1:0));
+QUICK_TOOLS.sort((a,b)=>['Start','Video','Images','Audio','3D'].indexOf(a.group)-['Start','Video','Images','Audio','3D'].indexOf(b.group)||(a.name==='Animate an image'?-1:b.name==='Animate an image'?1:0));
 export function createQuickTools({app,open,getMode}){
  const dock=document.createElement('div');dock.className='ff-comfy-dock';dock.setAttribute('aria-label','Frameforge quick toolbar');
  dock.innerHTML='<button type="button" data-tools aria-expanded="false" aria-keyshortcuts="Alt+Shift+F" title="Quick tools (Alt+Shift+F)">F↗ Quick tools</button><button type="button" data-export>Export graph ↓</button><button type="button" data-full>Full Studio ↗</button><span role="status" data-dock-status></span>';
  const panel=document.createElement('section');panel.className='ff-comfy-quick';panel.hidden=true;panel.setAttribute('aria-label','Frameforge quick tools');
- panel.innerHTML='<div class="ff-quick-heading"><div><small>FRAMEFORGE / QUICK TOOLS</small><h2>What’s next for your shot?</h2></div><button type="button" data-close aria-label="Close quick tools">×</button></div><p>Choose a tool. Upload, adjust and run in Quick.</p><div class="ff-quick-tabs" role="group" aria-label="Tool category">'+['Video','Images','Audio','3D'].map((name,i)=>'<button type="button" data-category="'+name+'" aria-pressed="'+(!i)+'">'+name+'</button>').join('')+'</div><div data-tool-list></div><div class="ff-quick-footer"><button type="button" data-library>All workflows →</button><button type="button" data-split>Work side by side</button></div>';
- document.body.append(dock,panel);let category='Video',opener;
+ panel.innerHTML='<div class="ff-quick-heading"><div><small>FRAMEFORGE / QUICK TOOLS</small><h2>What’s next for your shot?</h2></div><button type="button" data-close aria-label="Close quick tools">×</button></div><p>Choose a tool. Upload, adjust and run in Quick.</p><div class="ff-quick-tabs" role="group" aria-label="Tool category">'+['Start','Video','Images','Audio','3D'].map((name,i)=>'<button type="button" data-category="'+name+'" aria-pressed="'+(!i)+'">'+name+'</button>').join('')+'</div><div data-tool-list></div><div class="ff-quick-footer"><button type="button" data-library>All workflows →</button><button type="button" data-split>Work side by side</button></div>';
+ document.body.append(dock,panel);let category='Start',opener;
  function close(){panel.hidden=true;dock.querySelector('[data-tools]').setAttribute('aria-expanded','false');opener?.setAttribute('aria-expanded','false');}
  function show(source=dock.querySelector('[data-tools]')){if(!panel.hidden){close();return;}opener=source;panel.hidden=false;panel.classList.toggle('ff-quick-in-studio',getMode()!=='graph');source?.setAttribute('aria-expanded','true');render();panel.querySelector('[data-category]')?.focus();}
  function render(){const picked=window.frameforgeQuickActions?.selected();panel.querySelector('[data-tool-list]').innerHTML=(picked?'<div class="ff-quick-selected"><small>WITH THE SELECTED OUTPUT</small>'+window.frameforgeQuickActionsList(picked.media).map((a,i)=>'<button type="button" data-action="'+i+'"><span aria-hidden="true">✦</span><span><b>'+a.label+'</b><small>'+a.hint+'</small></span><span aria-hidden="true">→</span></button>').join('')+'</div>':'')+QUICK_TOOLS.filter(t=>t.group===category).map(t=>'<button type="button" data-path="'+t.path+'"><span aria-hidden="true">'+t.symbol+'</span><span><b>'+t.name+'</b><small>'+t.hint+'</small></span><span aria-hidden="true">→</span></button>').join('');}

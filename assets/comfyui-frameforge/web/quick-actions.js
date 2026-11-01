@@ -27,6 +27,6 @@ export function createQuickActions({app,api,studio}){
    await studio.open(action.path(key),'quick');}
   catch(error){toast('error','Frameforge',error.message);}finally{busy=false;}
  }
- function menuFor(node){const media=mediaOf(node);if(!media)return [];return [null,{content:'✦ Frameforge',has_submenu:true,submenu:{options:actionsFor(media).map(a=>({content:a.label,callback:()=>run(a,media)}))}}];}
+ function menuFor(node){const media=mediaOf(node);if(!media)return [];return [null,{content:'✦ Send to Frameforge',has_submenu:true,submenu:{options:actionsFor(media).map(a=>({content:a.label,callback:()=>run(a,media)}))}}];}
  return {run,menuFor,selected(){const nodes=Object.values(app.canvas?.selected_nodes??{});for(const n of nodes){const m=mediaOf(n);if(m)return {node:n,media:m};}return null;}};
 }
