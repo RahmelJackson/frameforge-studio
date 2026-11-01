@@ -1,6 +1,6 @@
 {
   "version": 1,
-  "created": "2026-11-01T17:43:02.406Z",
+  "created": "2026-11-01T17:50:28.149Z",
   "files": [
     {
       "name": ".agents/plugins/marketplace.json",
@@ -583,6 +583,11 @@
       "sha256": "483fa7a1dae1b56c4e5cef37e259e22e6fd3e9d2a4ff3b6bf4ec9945f4ce639d"
     },
     {
+      "name": "public/browser-extension.html",
+      "bytes": 1439,
+      "sha256": "e51f2d911b95217689313718e98e1f2eef1756ac20efc8b8b73500c6e8e57479"
+    },
+    {
       "name": "public/canvas-state.js",
       "bytes": 1754,
       "sha256": "1b2cd9dd9ed98146f7afc64c3ecc1b9190d067bf2efe4e42afaf51896f519160"
@@ -1054,13 +1059,13 @@
     },
     {
       "name": "public/grab.css",
-      "bytes": 506,
-      "sha256": "b7111ed36a286fea33d18464bb24ee8afc0e59eeaac6104fdcff26a4e3d30bb2"
+      "bytes": 818,
+      "sha256": "16b4c6b2fc4b60aab958631654da34f14533822ef9493db9c57cb6c898000003"
     },
     {
       "name": "public/grab.html",
-      "bytes": 717,
-      "sha256": "2c78a7c0f1034d0f8a3b3bdd96482c02cae060050ce92b0d4ebacef303cbb77d"
+      "bytes": 663,
+      "sha256": "c0992cf22baeeec3fa08abf9072b500222695865e8a4a6adf32373befceb51b7"
     },
     {
       "name": "public/grab.js",
@@ -1069,13 +1074,13 @@
     },
     {
       "name": "public/home.css",
-      "bytes": 23256,
-      "sha256": "c7c0a8660b1faf0f1b036614d694ed3cea966279ee1b9630e274c0fcefe82eb0"
+      "bytes": 23383,
+      "sha256": "e5bcff48f23921c48963c423cc1d76cba06fe50bca5601290e90def605ab88dc"
     },
     {
       "name": "public/home.html",
-      "bytes": 11566,
-      "sha256": "85427e3433979ed2b9069b029565ecec8c2220dfaa0aaaf4bb1fbbe97a40e7cd"
+      "bytes": 11855,
+      "sha256": "13dba9bf74480199e21548b71b4c21e9607c955e66fa66dfba9d3e7071050cd9"
     },
     {
       "name": "public/home.js",
@@ -1099,8 +1104,8 @@
     },
     {
       "name": "public/images.js",
-      "bytes": 39318,
-      "sha256": "3cac76e6370cc35b049c625ccf62aa9f9d6ad4bf9197e19190cd560692c43cbc"
+      "bytes": 39563,
+      "sha256": "9b22c4c62c33e0dfd57bb0ed98b2693082ad097270d2ad34e90dfc2221597b9b"
     },
     {
       "name": "public/index.html",
@@ -2459,8 +2464,8 @@
     },
     {
       "name": "server.mjs",
-      "bytes": 139534,
-      "sha256": "439c6c89c683623b58c86ba0d8bbf4d66968b045a361baacab3b788d17d4a3f1"
+      "bytes": 140212,
+      "sha256": "02eb9cc8c929fe8a47530fa34f2f3880705ef5359855af51792885169f90a11f"
     },
     {
       "name": "setup/advanced-models.lock.json",

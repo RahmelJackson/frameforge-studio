@@ -83,3 +83,4 @@ main[data-home-tab=inspiration] .home-inspiration{margin-top:0}
 .home-overview{grid-template-columns:1fr!important}
 .home-overview .home-flow{flex-direction:row!important;align-items:center;gap:18px;flex-wrap:wrap}
 .home-overview .home-flow-copy{grid-template-columns:auto auto!important;align-items:center}.home-overview .home-flow-copy h2{grid-column:auto!important;margin:0!important;font-size:17px!important}.home-overview .home-flow-kicker{grid-column:1/-1!important}.home-overview .home-flow-start{grid-column:auto!important;margin:0!important}
+.home-flow-ext{background:transparent!important;color:#d6ff00!important;border:1px solid #d6ff0066;margin-left:8px!important}
