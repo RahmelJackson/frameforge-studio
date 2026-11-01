@@ -151,6 +151,7 @@ test('Shot prompts lead with the idea and keep the cast; fruit stories have no h
  const fruit=shotPrompt({format:'fruit-romance',subject:'a shy pear and a bold strawberry',look:'3D film look'},f,0,'image');
  assert.ok(fruit.startsWith('a shy pear and a bold strawberry.'));assert.match(fruit,/No humans/);assert.doesNotMatch(fruit,/Context:/);
  assert.match(shotPrompt({format:'small-story',subject:'a red car',look:'film'},f,1,'clip'),/no extra people/);
+ assert.match(shotPrompt({format:'explainer',subject:'bees',look:'film'},f,4,'image'),/No written words/);
 });
 
 test('Remaking a shot uses a fresh seed so the new take differs',async()=>{
