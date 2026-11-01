@@ -1,6 +1,6 @@
 {
   "version": 1,
-  "created": "2026-11-01T08:00:52.279Z",
+  "created": "2026-11-01T08:05:42.575Z",
   "files": [
     {
       "name": ".agents/plugins/marketplace.json",
@@ -289,8 +289,8 @@
     },
     {
       "name": "lib/productions.mjs",
-      "bytes": 26053,
-      "sha256": "54b16802f336381456e6df5d9d7ee08ec1944b1d7782d376bd0f21c324cc9cbf"
+      "bytes": 26128,
+      "sha256": "af1fe81bc3d06c513b27e7ec287275b0e5510ace9a97c5053177560c7ef0e15a"
     },
     {
       "name": "lib/projects.mjs",
@@ -354,8 +354,8 @@
     },
     {
       "name": "lib/stock-footage.mjs",
-      "bytes": 5300,
-      "sha256": "d51990ecbb03c1cac2d6ab8e272b6ecc8f91c277d96061ed1987246b3cd4308d"
+      "bytes": 5996,
+      "sha256": "215ac30fc6caed35979fec3e9ce9f839ff90f622842bf50eca83d9630ffcc3cb"
     },
     {
       "name": "lib/story.mjs",
@@ -3074,8 +3074,8 @@
     },
     {
       "name": "tests/productions.test.mjs",
-      "bytes": 16096,
-      "sha256": "ff74acef2f9949e930aa565e62dfc19386fbbe7223dd3804236a34bce96c558c"
+      "bytes": 16294,
+      "sha256": "5025a3cb0cb8dca243a0d06a147dbeb86d46e4186f60716ac2fb589bbcaaf34a"
     },
     {
       "name": "tests/projects.test.mjs",

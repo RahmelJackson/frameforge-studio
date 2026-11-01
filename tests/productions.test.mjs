@@ -139,8 +139,9 @@ test('Stock footage fills explainer shots as trimmed Edit & finish takes, with c
  }finally{await rm(dir,{recursive:true,force:true});}
 });
 test('Stock search keeps only meaningful words and only downloads from known stock hosts',async()=>{
- const {stockQuery,allowedStockUrl,searchCommons}=await import('../lib/stock-footage.mjs');
- assert.equal(stockQuery('Context: why the sky turns red at sunset. Show the scene'),'why sky turns red sunset');
+ const {stockQuery,stockQueries,allowedStockUrl,searchCommons}=await import('../lib/stock-footage.mjs');
+ assert.equal(stockQuery('Context: why the sky turns red at sunset. Show the scene'),'sky red sunset');
+ assert.deepEqual(stockQueries('How honeybees turn flower nectar into honey. Open with the question'),['honeybees flower nectar honey','honeybees flower nectar','honeybees flower','honeybees']);
  assert.ok(allowedStockUrl('https://upload.wikimedia.org/x.webm'));assert.ok(!allowedStockUrl('http://upload.wikimedia.org/x.webm'));assert.ok(!allowedStockUrl('https://evil.example/x.webm'));
  const fetcher=async()=>({ok:true,json:async()=>({query:{pages:{'1':{pageid:1,index:1,title:'File:Sunset sea.webm',videoinfo:[{url:'https://upload.wikimedia.org/o.webm',mime:'video/webm',size:5e8,width:1920,height:1080,duration:20,descriptionurl:'https://commons.wikimedia.org/wiki/File:Sunset_sea.webm',extmetadata:{Artist:{value:'<a>Jo</a>'},LicenseShortName:{value:'CC BY-SA 4.0'}},derivatives:[{src:'https://upload.wikimedia.org/720.webm',type:'video/webm; codecs="vp9"',width:1280,height:720}]}]}}}})});
  const r=await searchCommons('sunset sea',{fetcher});assert.equal(r.length,1);assert.equal(r[0].url,'https://upload.wikimedia.org/720.webm');assert.equal(r[0].author,'Jo');assert.equal(r[0].license,'CC BY-SA 4.0');
