@@ -1,6 +1,6 @@
 {
   "version": 1,
-  "created": "2026-11-01T12:52:18.318Z",
+  "created": "2026-11-01T13:58:53.012Z",
   "files": [
     {
       "name": ".agents/plugins/marketplace.json",
@@ -2444,8 +2444,8 @@
     },
     {
       "name": "server.mjs",
-      "bytes": 138840,
-      "sha256": "45ee475719df1e70a2d09813ae98e66d75964958b5d6996caa6fb8800430abc1"
+      "bytes": 139253,
+      "sha256": "085c16102bc1996c6a896c63e7ed36436ddf1a97e8e6a789eb17287e29f5096a"
     },
     {
       "name": "setup/advanced-models.lock.json",
