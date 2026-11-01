@@ -1,4 +1,5 @@
 import {Productions} from './lib/productions.mjs';
+import {createShotWriter} from './lib/shot-writer.mjs';
 import {searchStock,stockQuery,allowedStockUrl} from './lib/stock-footage.mjs';
 import {RemoteAccess} from './lib/remote-access.mjs';
 import {STORY_FORMATS} from './lib/creator-catalog.mjs';
@@ -467,7 +468,7 @@ const modelDownloads=await new ModelDownloads({directory:path.join(DATA,'model-d
 }}).init();
 const workflowExports=await new WorkflowExports({data:DATA,plans:workflowPlans}).open();
 const scenes=await new SceneStore(DATA).open();
-const productions=await new Productions({directory:DATA,tick:!process.env.FRAMEFORGE_NO_PRODUCE_TICK,call:async(method,route,body,timeout=120000)=>{const r=await fetch('http://127.0.0.1:'+server.address().port+route,{method,headers:{'Content-Type':'application/json','x-frameforge-client':'produce'},body:body===undefined?undefined:JSON.stringify(body),signal:AbortSignal.timeout(timeout)});const v=await r.json().catch(()=>({}));if(!r.ok){const e=Error(v.error??('Studio request failed ('+r.status+').'));e.status=r.status;throw e;}return v;}}).open();
+const productions=await new Productions({directory:DATA,writer:createShotWriter({getConnection:()=>{try{return assistantConnection.value;}catch{return {};}},preferred:()=>process.env.FRAMEFORGE_WRITER_MODEL||config.writerModel||''}),tick:!process.env.FRAMEFORGE_NO_PRODUCE_TICK,call:async(method,route,body,timeout=120000)=>{const r=await fetch('http://127.0.0.1:'+server.address().port+route,{method,headers:{'Content-Type':'application/json','x-frameforge-client':'produce'},body:body===undefined?undefined:JSON.stringify(body),signal:AbortSignal.timeout(timeout)});const v=await r.json().catch(()=>({}));if(!r.ok){const e=Error(v.error??('Studio request failed ('+r.status+').'));e.status=r.status;throw e;}return v;}}).open();
 const remoteAccess=await new RemoteAccess({data:DATA,root:ROOT,port:Number(process.env.FRAMEFORGE_REMOTE_PORT??config.remotePort??4318),studioPort:()=>server.address()?.port??PORT,productions,formats:STORY_FORMATS,hosted:HOSTED_MODE}).open();
 const loraTrainer=await new LoraTrainer({root:ROOT,data:DATA,loras:()=>path.join(modelRoot,'loras'),busy:()=>audioStudio.busy()||[...jobs.values()].some(j=>['processing','uploading','submitting','submitted','running','cancelling','verifying'].includes(j.status))}).open();
 const handleCreator=await creatorRoutes({trainer:HOSTED_MODE?null:loraTrainer,data:DATA,root:ROOT,jobs,projects,creativeStore,readJson,readBody,json,serveFile,runPython,resolveVideoSource,saveJob:save,hosted:HOSTED_MODE});

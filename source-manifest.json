@@ -1,6 +1,6 @@
 {
   "version": 1,
-  "created": "2026-11-01T09:31:09.098Z",
+  "created": "2026-11-01T11:29:36.008Z",
   "files": [
     {
       "name": ".agents/plugins/marketplace.json",
@@ -289,8 +289,8 @@
     },
     {
       "name": "lib/productions.mjs",
-      "bytes": 26128,
-      "sha256": "af1fe81bc3d06c513b27e7ec287275b0e5510ace9a97c5053177560c7ef0e15a"
+      "bytes": 27364,
+      "sha256": "f32176e51d50ceb1bce229c0bfaa7fac1bffcab566cc719b547700d9617646f8"
     },
     {
       "name": "lib/projects.mjs",
@@ -346,6 +346,11 @@
       "name": "lib/short-film.mjs",
       "bytes": 5584,
       "sha256": "6a8b05746e17865a82b8f625336b04c8c32111f913e84fa326019965e2d3c1ba"
+    },
+    {
+      "name": "lib/shot-writer.mjs",
+      "bytes": 5891,
+      "sha256": "b3d53359ee9f386d1ecaf64745e139faf9898e7e1763928a5e17996f4004a1be"
     },
     {
       "name": "lib/sounds.mjs",
@@ -1199,8 +1204,8 @@
     },
     {
       "name": "public/produce.js",
-      "bytes": 23952,
-      "sha256": "7c891c1613e0e3668b8f486bde7f818e4b6afe88b2e9d817479d4cf1cda34089"
+      "bytes": 23963,
+      "sha256": "257610aa142b0ca107a189d48dbe7a1d77c9cd1925264eae812709f932a52259"
     },
     {
       "name": "public/proof-view.js",
@@ -2429,8 +2434,8 @@
     },
     {
       "name": "server.mjs",
-      "bytes": 138369,
-      "sha256": "223328b163c6ac93c9b5a0b12825dd79a2f0567681d9e448277925a7052f0061"
+      "bytes": 138602,
+      "sha256": "40e8dd7aacb1090ea7d547f774b5acb29169aa05a287a36b7373ff89761331f3"
     },
     {
       "name": "setup/advanced-models.lock.json",
@@ -3186,6 +3191,11 @@
       "name": "tests/short-film.test.mjs",
       "bytes": 5816,
       "sha256": "2328c1b0e489cee69677f25cbf0bbeaa71a309c1b0d241faae9ddaed364a2f0d"
+    },
+    {
+      "name": "tests/shot-writer.test.mjs",
+      "bytes": 4623,
+      "sha256": "698be3cfd777cb2951c85ff2e12abfd2a4fc3163e7b66cc564d8278c1f2f5c7f"
     },
     {
       "name": "tests/sounds.test.mjs",
