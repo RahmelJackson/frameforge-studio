@@ -1,6 +1,6 @@
 {
   "version": 1,
-  "created": "2026-11-01T06:22:54.853Z",
+  "created": "2026-11-01T06:24:33.911Z",
   "files": [
     {
       "name": ".agents/plugins/marketplace.json",
@@ -104,8 +104,8 @@
     },
     {
       "name": "DEMO-SCRIPT.md",
-      "bytes": 5240,
-      "sha256": "c54898414addc114d4e40dfcf510e4312b413afa5fadf5a3a9fc8a1d6266932a"
+      "bytes": 5285,
+      "sha256": "6b7ca3b216ae33bf1aeeb76f82ad9622c35405fbe8f92d55342fa0251ec82cae"
     },
     {
       "name": "GITHUB-SETUP.md",
