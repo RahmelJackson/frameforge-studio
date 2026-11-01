@@ -1,6 +1,6 @@
 {
   "version": 1,
-  "created": "2026-11-01T17:33:14.485Z",
+  "created": "2026-11-01T17:43:02.406Z",
   "files": [
     {
       "name": ".agents/plugins/marketplace.json",
@@ -1174,8 +1174,8 @@
     },
     {
       "name": "public/native-workflows.css",
-      "bytes": 1986,
-      "sha256": "b74643a0dcfa0230db0357fa04ce106493fd0816a380fa245a58ab02c6e39d02"
+      "bytes": 2310,
+      "sha256": "5530a0453dbe432c7f0274726ca8514bf30cd4e7909d2448fa9a62bfdc50c316"
     },
     {
       "name": "public/native-workflows.html",
@@ -1184,8 +1184,8 @@
     },
     {
       "name": "public/native-workflows.js",
-      "bytes": 11108,
-      "sha256": "f6b924efaa054860448f7401e50412f68ae2fbc00401366acfe295dda98400d2"
+      "bytes": 11976,
+      "sha256": "757cbafad298f4c9de45c68471567e478c428b4954c143a04fa2a8827e629b4f"
     },
     {
       "name": "public/nav-menus.js",
