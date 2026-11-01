@@ -1,6 +1,6 @@
 {
   "version": 1,
-  "created": "2026-11-01T17:07:22.662Z",
+  "created": "2026-11-01T17:17:32.390Z",
   "files": [
     {
       "name": ".agents/plugins/marketplace.json",
@@ -1054,13 +1054,13 @@
     },
     {
       "name": "public/home.css",
-      "bytes": 17992,
-      "sha256": "1d505698dfc6520e56a474fb1676d4b56ee91c9d9e63a79cebad982c6e514c86"
+      "bytes": 21716,
+      "sha256": "82a11d35594aaed2d4c8589fa83ffbc92e8404cbe9f67552338c8d72ef6772b8"
     },
     {
       "name": "public/home.html",
-      "bytes": 12287,
-      "sha256": "db6df2b0d8c98ffbe724119936739c2aa63446e07b7aa9a3e2be224713a5e454"
+      "bytes": 12320,
+      "sha256": "76283be828ab7e391dd0cc313a3459f52035997cc12d4cc337c97c4b74f27d64"
     },
     {
       "name": "public/home.js",
