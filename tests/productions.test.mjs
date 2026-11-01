@@ -4,7 +4,7 @@ import {mkdtemp,rm} from 'node:fs/promises';
 import {tmpdir} from 'node:os';
 import path from 'node:path';
 import {randomUUID} from 'node:crypto';
-import {Productions,clipLength,remixPlan,shotDirection,SHOT_FRAMING,highlightCaptions} from '../lib/productions.mjs';
+import {Productions,clipLength,remixPlan,shotDirection,shotPrompt,SHOT_FRAMING,highlightCaptions} from '../lib/productions.mjs';
 import {normalizeFilm} from '../lib/film.mjs';
 import {storyTemplate} from '../lib/creator-catalog.mjs';
 
@@ -144,4 +144,11 @@ test('Stock search keeps only meaningful words and only downloads from known sto
  assert.ok(allowedStockUrl('https://upload.wikimedia.org/x.webm'));assert.ok(!allowedStockUrl('http://upload.wikimedia.org/x.webm'));assert.ok(!allowedStockUrl('https://evil.example/x.webm'));
  const fetcher=async()=>({ok:true,json:async()=>({query:{pages:{'1':{pageid:1,index:1,title:'File:Sunset sea.webm',videoinfo:[{url:'https://upload.wikimedia.org/o.webm',mime:'video/webm',size:5e8,width:1920,height:1080,duration:20,descriptionurl:'https://commons.wikimedia.org/wiki/File:Sunset_sea.webm',extmetadata:{Artist:{value:'<a>Jo</a>'},LicenseShortName:{value:'CC BY-SA 4.0'}},derivatives:[{src:'https://upload.wikimedia.org/720.webm',type:'video/webm; codecs="vp9"',width:1280,height:720}]}]}}}})});
  const r=await searchCommons('sunset sea',{fetcher});assert.equal(r.length,1);assert.equal(r[0].url,'https://upload.wikimedia.org/720.webm');assert.equal(r[0].author,'Jo');assert.equal(r[0].license,'CC BY-SA 4.0');
+});
+
+test('Shot prompts lead with the idea and keep the cast; fruit stories have no humans',()=>{
+ const f={prompt:'Context: x. One character takes a small, brave step.'};
+ const fruit=shotPrompt({format:'fruit-romance',subject:'a shy pear and a bold strawberry',look:'3D film look'},f,0,'image');
+ assert.ok(fruit.startsWith('a shy pear and a bold strawberry.'));assert.match(fruit,/No humans/);assert.doesNotMatch(fruit,/Context:/);
+ assert.match(shotPrompt({format:'small-story',subject:'a red car',look:'film'},f,1,'clip'),/no extra people/);
 });
