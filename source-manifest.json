@@ -1,6 +1,6 @@
 {
   "version": 1,
-  "created": "2026-11-01T12:28:39.448Z",
+  "created": "2026-11-01T12:45:05.038Z",
   "files": [
     {
       "name": ".agents/plugins/marketplace.json",
@@ -214,8 +214,8 @@
     },
     {
       "name": "lib/film.mjs",
-      "bytes": 4425,
-      "sha256": "8524272107f9cf14c75d23ff1db0332735b6683ab50e081e0c115a7b5dffe2ac"
+      "bytes": 4436,
+      "sha256": "25c61366630f3a27b28a424db995d7c69e9c78328458a40d13ac2dc558be0a53"
     },
     {
       "name": "lib/image-library.mjs",
@@ -289,8 +289,8 @@
     },
     {
       "name": "lib/productions.mjs",
-      "bytes": 29225,
-      "sha256": "c46162fc5dcc02b38b5f4c939f803e3b4416690912036c6d85393d4922c9cb22"
+      "bytes": 29481,
+      "sha256": "05b1da31cf55a366535a69b5d06ab43a8c7713344dab896f42c5fcb04c198543"
     },
     {
       "name": "lib/projects.mjs",
@@ -1199,18 +1199,18 @@
     },
     {
       "name": "public/produce.css",
-      "bytes": 17372,
-      "sha256": "48d6fd2283ccbbef196b046b3e1a23964d8f87be52d22564822466b6b31c7440"
+      "bytes": 17566,
+      "sha256": "2e8e49ea740a58ea380c080a8c7d9d47dbcc7394e161a6b56b5bdc7c7832acab"
     },
     {
       "name": "public/produce.html",
-      "bytes": 4978,
-      "sha256": "fb42950b66e74329af31dd7650fa3a03ec2500b5bc93beb91067c907ce0ae4c9"
+      "bytes": 5155,
+      "sha256": "e6a34cb6071e7f47a522806de7cb8a4a00b6dd7d9ac0791bc7c7cf18553b2a36"
     },
     {
       "name": "public/produce.js",
-      "bytes": 25708,
-      "sha256": "1a248ce766671f41ce8a23d59ca309a5b5a261258c6ccffd86281f6b2bc70430"
+      "bytes": 27141,
+      "sha256": "88b1a8dc8b51d0c5f6118a1e15a00061026f66c77f855210396e9e3a5f247d9e"
     },
     {
       "name": "public/proof-view.js",
@@ -2029,8 +2029,8 @@
     },
     {
       "name": "scripts/render-film.py",
-      "bytes": 14033,
-      "sha256": "ec0430713bedd8b2276d9a6aa46041b7453181dcd338a7e2bffeb1303ed0dcdc"
+      "bytes": 15601,
+      "sha256": "dd4c21f36ed88f9d72b80d02329483825a11551f392e0f8704f3dbaebef0ba1f"
     },
     {
       "name": "scripts/round12_models.py",
@@ -3024,8 +3024,8 @@
     },
     {
       "name": "tests/mcp-scene-templates.test.mjs",
-      "bytes": 2676,
-      "sha256": "67e13814e1bc6f42bb7e5397ef8af5974cd0bf4b30b57a22091abb8640e3eedc"
+      "bytes": 3390,
+      "sha256": "e4ed34b3aa283656e7b26990eb64d5943a3522ae2735b1368834c97573a3b49a"
     },
     {
       "name": "tests/mcp-studio-ui.test.mjs",

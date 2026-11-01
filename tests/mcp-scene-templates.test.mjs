@@ -25,3 +25,9 @@ test('productions carry one-click handoff links for every place they continue',a
  const tools=createMCPTools({base,allowWrites:true,fetcher:async()=>Response.json({...p,handoff:h})});
  const got=await tools.call('studio_produce',{operation:'get',id});assert.equal(got.open.phone,base+'/produce?run='+id+'#phone');assert.equal(got.open.assistant,undefined);
 });
+test('caption styles: one word at a time and karaoke are valid film text styles',async()=>{
+ const {normalizeFilm}=await import('../lib/film.mjs');const {CAPTION_STYLES}=await import('../lib/productions.mjs');
+ assert.deepEqual(CAPTION_STYLES,['highlight','word','karaoke','box','none']);
+ for(const style of ['word','karaoke','highlight']){const f=normalizeFilm({texts:[{id:'11111111-2222-4333-8444-555555555555',text:'Every morning',start:0,end:1,style,words:[{text:'Every',start:0,end:.5},{text:'morning',start:.5,end:1}]}]});assert.equal(f.texts[0].style,style);}
+ assert.throws(()=>normalizeFilm({texts:[{id:'11111111-2222-4333-8444-555555555555',text:'x',start:0,end:1,style:'wavy'}]}),/caption style/);
+});

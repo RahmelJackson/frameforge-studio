@@ -129,7 +129,7 @@ def text_layer(image,layer):
     return image
 
 
-def highlight_layer(image,layer,time):
+def highlight_layer(image,layer,time,style='highlight'):
     """Karaoke-style caption: the spoken word is boxed in the accent colour, words
     already spoken are white and upcoming words are dimmed. Large, bold, outlined
     text in the lower third, the way short-form video captions read on phones."""
@@ -146,9 +146,31 @@ def highlight_layer(image,layer,time):
         total=sum(wl for _,wl in line)+space*(len(line)-1);x=(image.width-total)/2;ly=y+index*step
         for w,wl in line:
             active=w['start']<=time<w['end'];spoken=time>=w['end']
-            if active:draw.rounded_rectangle((x-6,ly-2,x+wl+6,ly+font.size*1.18),radius=max(6,font.size//5),fill='#d6ff00')
-            draw.text((x,ly),w['text'],font=font,fill='#101112' if active else ('white' if spoken else '#d7dbd3'),stroke_width=0 if active else stroke,stroke_fill='#000000')
+            if style=='karaoke':
+                # Karaoke: no box; words fill with the accent colour as they are spoken.
+                draw.text((x,ly),w['text'],font=font,fill='#d6ff00' if active or spoken else 'white',stroke_width=stroke,stroke_fill='#000000')
+            else:
+                if active:draw.rounded_rectangle((x-6,ly-2,x+wl+6,ly+font.size*1.18),radius=max(6,font.size//5),fill='#d6ff00')
+                draw.text((x,ly),w['text'],font=font,fill='#101112' if active else ('white' if spoken else '#d7dbd3'),stroke_width=0 if active else stroke,stroke_fill='#000000')
             x+=wl+space
+    return image
+
+
+def word_layer(image,layer,time):
+    """One word at a time: the spoken word alone, large and centred, popping in as it starts.
+    Longer words are picked out in the accent colour."""
+    words=layer.get('words') or [{'text':w,'start':layer['start'],'end':layer['end']} for w in layer['text'].split()]
+    current=None
+    for w in words:
+        if w['start']<=time:current=w
+    if current is None:return image
+    draw=ImageDraw.Draw(image);pop=min(1,.82+(time-current['start'])/.12*.18)
+    base=int(layer['fontSize']*(2.4 if image.height>image.width else 2.0)*pop);font=studio_font(base);text=current['text'].upper()
+    while draw.textlength(text,font=font)>image.width*.9 and base>12:base-=2;font=studio_font(base)
+    tw=draw.textlength(text,font=font);x=(image.width-tw)/2
+    y=image.height*.12 if layer['position']=='top' else image.height*.62-font.size/2 if layer['position']!='center' else (image.height-font.size)/2
+    accent=len(current['text'].strip('.,!?;:'))>=6
+    draw.text((x,y),text,font=font,fill='#d6ff00' if accent else 'white',stroke_width=max(3,font.size//9),stroke_fill='#000000')
     return image
 
 
@@ -180,7 +202,7 @@ def render(shots, output, size=(768,432), fps=24, film=None):
             for layer,stamp in overlays:
                 if layer['start']<=time<layer['end']:image.paste(stamp,(round(layer['x']*size[0]),round(layer['y']*size[1])),stamp)
             for layer in film.get('texts',[]):
-                if layer['start']<=time<layer['end']:image=highlight_layer(image,layer,time) if layer.get('style')=='highlight' else text_layer(image,layer)
+                if layer['start']<=time<layer['end']:image=(word_layer(image,layer,time) if layer.get('style')=='word' else highlight_layer(image,layer,time,layer.get('style'))) if layer.get('style') in ('highlight','karaoke','word') else text_layer(image,layer)
             yield image
     encoded=encode(layered_images(),output,size,fps,audio)
     if encoded!=total:raise ValueError('Unexpected assembled frame count.')
