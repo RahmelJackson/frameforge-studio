@@ -1,6 +1,6 @@
 {
   "version": 1,
-  "created": "2026-11-01T12:23:58.399Z",
+  "created": "2026-11-01T12:28:39.448Z",
   "files": [
     {
       "name": ".agents/plugins/marketplace.json",
@@ -289,8 +289,8 @@
     },
     {
       "name": "lib/productions.mjs",
-      "bytes": 29069,
-      "sha256": "1120ae5f181c337cb3f7c1669bad7ed4c13a56392d0810a44085bd77a5aedbf6"
+      "bytes": 29225,
+      "sha256": "c46162fc5dcc02b38b5f4c939f803e3b4416690912036c6d85393d4922c9cb22"
     },
     {
       "name": "lib/projects.mjs",
@@ -3024,8 +3024,8 @@
     },
     {
       "name": "tests/mcp-scene-templates.test.mjs",
-      "bytes": 2462,
-      "sha256": "e4456a1a93edfd0e7c400149d8abe1f44833d9b35023a58c7ed613a041a0bd43"
+      "bytes": 2676,
+      "sha256": "67e13814e1bc6f42bb7e5397ef8af5974cd0bf4b30b57a22091abb8640e3eedc"
     },
     {
       "name": "tests/mcp-studio-ui.test.mjs",

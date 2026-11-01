@@ -3,7 +3,8 @@ import assert from 'node:assert/strict';
 import {createMCPTools} from '../lib/studio-mcp-tools.mjs';
 import {normalizeScene,sceneFromPreset} from '../lib/scenes.mjs';
 import {SCENE_PRESETS} from '../public/scene-presets.js';
-import {handoff} from '../lib/productions.mjs';
+import {handoff,footageCredits} from '../lib/productions.mjs';
+test('stock credits name each author once',()=>{assert.equal(footageCredits([{author:'A',license:'CC BY'},{author:'B',license:'CC0'},{author:'A',license:'CC BY'}]),'Footage: A (CC BY); B (CC0)');});
 
 const base='http://127.0.0.1:4317',id='11111111-2222-4333-8444-555555555555';
 test('every 3D preset becomes a valid scene, with its tracked camera kept',()=>{
