@@ -1,6 +1,6 @@
 {
   "version": 1,
-  "created": "2026-11-01T17:17:32.390Z",
+  "created": "2026-11-01T17:27:48.301Z",
   "files": [
     {
       "name": ".agents/plugins/marketplace.json",
@@ -314,8 +314,8 @@
     },
     {
       "name": "lib/remote-access.mjs",
-      "bytes": 7761,
-      "sha256": "6766cf560a0f2b39579a244a1a710af1482b5997f5496eb324d3eac705a768de"
+      "bytes": 8082,
+      "sha256": "b25102fb3376c8e58fe006072963d432ac5c506d1bf0b6f902ecff1d3ceab691"
     },
     {
       "name": "lib/result-provenance.mjs",
@@ -1053,14 +1053,29 @@
       "sha256": "693b77d4f32ee9b8bfc995589b5fad5e99adf2832738661f5402f9978429a8e3"
     },
     {
+      "name": "public/grab.css",
+      "bytes": 506,
+      "sha256": "b7111ed36a286fea33d18464bb24ee8afc0e59eeaac6104fdcff26a4e3d30bb2"
+    },
+    {
+      "name": "public/grab.html",
+      "bytes": 717,
+      "sha256": "2c78a7c0f1034d0f8a3b3bdd96482c02cae060050ce92b0d4ebacef303cbb77d"
+    },
+    {
+      "name": "public/grab.js",
+      "bytes": 136,
+      "sha256": "545ab1d01d0de391641cb29a2ae3d5c1af326d490ae58b0a9c2bdd914b584756"
+    },
+    {
       "name": "public/home.css",
-      "bytes": 21716,
-      "sha256": "82a11d35594aaed2d4c8589fa83ffbc92e8404cbe9f67552338c8d72ef6772b8"
+      "bytes": 23256,
+      "sha256": "c7c0a8660b1faf0f1b036614d694ed3cea966279ee1b9630e274c0fcefe82eb0"
     },
     {
       "name": "public/home.html",
-      "bytes": 12320,
-      "sha256": "76283be828ab7e391dd0cc313a3459f52035997cc12d4cc337c97c4b74f27d64"
+      "bytes": 11566,
+      "sha256": "e38943c16c42d8206164b24998f01b5e32825a4aefdc20ea6c2f20953e77b89b"
     },
     {
       "name": "public/home.js",
@@ -1084,8 +1099,8 @@
     },
     {
       "name": "public/images.js",
-      "bytes": 39309,
-      "sha256": "427b84c996b55bc5a839b928ceeded235fd5b077a6fdeced1b7931ae11dcb090"
+      "bytes": 39318,
+      "sha256": "3cac76e6370cc35b049c625ccf62aa9f9d6ad4bf9197e19190cd560692c43cbc"
     },
     {
       "name": "public/index.html",
@@ -1199,8 +1214,8 @@
     },
     {
       "name": "public/produce.css",
-      "bytes": 17903,
-      "sha256": "e1ed42413ed24032e613aa9020cab77b6fe4f6ea229430d66f82fbeb1c3fdd1c"
+      "bytes": 18075,
+      "sha256": "39f6f292859919f83b7ce66945e56e2ec9514d0083c9db79b4572acf5920f981"
     },
     {
       "name": "public/produce.html",
@@ -1209,8 +1224,8 @@
     },
     {
       "name": "public/produce.js",
-      "bytes": 28446,
-      "sha256": "26352b5f37873362a7cc69e47511826aa0ce669f221e0d6638f2b1c40c58e7e6"
+      "bytes": 28854,
+      "sha256": "37d18b444d969ce89f0e2f0f62d217f37a5ac965f8df32304c6fa8072e3d52be"
     },
     {
       "name": "public/proof-view.js",
@@ -1254,8 +1269,8 @@
     },
     {
       "name": "public/result-details.js",
-      "bytes": 5474,
-      "sha256": "09202002141bdf478eb609bf8a3cdf67c5efecce04f1690bdafa9fc1cf741800"
+      "bytes": 5918,
+      "sha256": "1ded634579cb827d1aa18e5266575917ea82cdc85f9ab6f9058be6f59ee9397e"
     },
     {
       "name": "public/sam-selection.js",
@@ -2444,8 +2459,8 @@
     },
     {
       "name": "server.mjs",
-      "bytes": 139470,
-      "sha256": "c558246d6975cb8412fbee01e8b60e03bb43d3a04f4518bd15e0bba830d2bec7"
+      "bytes": 139534,
+      "sha256": "439c6c89c683623b58c86ba0d8bbf4d66968b045a361baacab3b788d17d4a3f1"
     },
     {
       "name": "setup/advanced-models.lock.json",
@@ -3054,8 +3069,8 @@
     },
     {
       "name": "tests/merged-workspaces.test.mjs",
-      "bytes": 6193,
-      "sha256": "239f39d4e60d7e6d95b4a913096180e91116caa7021b8ace9e93c4ab29524e6f"
+      "bytes": 6169,
+      "sha256": "af5a19a35bd6248b4ce9d3749d6e11a0cb3720516aae89257207669ac3b1b16a"
     },
     {
       "name": "tests/model-storage-choice.test.mjs",
@@ -3109,8 +3124,8 @@
     },
     {
       "name": "tests/provider-workflows.test.mjs",
-      "bytes": 14664,
-      "sha256": "bff5f3374ef1f64551b7ea96f79cdf1f62ae0e6594099b5dcfaa368af8f0e283"
+      "bytes": 14614,
+      "sha256": "df5460d642ab8952f20960d280266443c689d6ac272663026b1cba2a5bfdf765"
     },
     {
       "name": "tests/quickstart.test.mjs",

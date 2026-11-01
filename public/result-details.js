@@ -9,10 +9,13 @@ export function nextStepLinks(id,url){
   {label:'Make it vertical',hint:'LTX outpaints to 9:16',href:native('ltx-outpaint','video'),badge:'LTX'},
   {label:'Swap in your character',hint:'Openjutsu identity swap',href:native('identity-swap','video'),badge:'ID'},
   {label:'Swap · lighter GPU',hint:'SCAIL-2 int8 character replace',href:native('character-replace','video'),badge:'ID'},
+  {label:'Track a subject with SAM 3',hint:'Mask one thing across the clip',href:'/video-tools?tool=segment&job='+id,badge:'SAM'},
   {label:'Upscale',hint:'SeedVR2 detail pass',href:native('video-upscale-seedvr2','video')},
   {label:'Cut, dub & caption',hint:'Video tools',href:'/video-tools?job='+id}
  ]:[
   {label:'Make it a video',hint:'Studio video, this frame first',action:'animate'},
+  {label:'Select with SAM 3',hint:'Click or name an object, then edit it',action:'tool:select',badge:'SAM'},
+  {label:'Repaint a region',hint:'Mask it and describe the change',action:'tool:inpaint'},
   {label:'Vertical video',hint:'9:16 for Shorts and Reels',action:'animate-vertical'},
   {label:'Animate with LTX 2.5',hint:'Motion and sound in one pass',href:native('ltx-native-shot','image'),badge:'LTX'},
   {label:'Animate with MiniMax H3',hint:'Keyframe video with audio',href:native('h3-keyframes','image'),badge:'H3'},
@@ -26,7 +29,7 @@ export function nextStepLinks(id,url){
 function nextSteps(id,url){
  const nav=document.createElement('nav');nav.className='next-steps';nav.setAttribute('aria-label','Keep going');
  nav.innerHTML='<strong>Keep going</strong><div>'+nextStepLinks(id,url).map(s=>(s.href?'<a href="'+esc(s.href)+'"':'<button type="button" data-next="'+s.action+'"')+' title="'+esc(s.hint)+'">'+(s.badge?'<i>'+esc(s.badge)+'</i>':'')+esc(s.label)+'<small>'+esc(s.hint)+'</small>'+(s.href?'</a>':'</button>')).join('')+'</div>';
- nav.onclick=async e=>{const b=e.target.closest('[data-next]');if(!b)return;b.disabled=true;try{const r=await fetch('/api/jobs/'+id+'/image-asset',{method:'POST',headers:{'Content-Type':'application/json'},body:'{}'}),v=await r.json();if(!r.ok)throw Error(v.error??'Could not prepare the image.');location.href='/?image='+encodeURIComponent(v.name)+(b.dataset.next==='animate-vertical'?'&aspect=portrait':'');}catch(err){b.disabled=false;b.querySelector('small').textContent=err.message;}};
+ nav.onclick=async e=>{const b=e.target.closest('[data-next]');if(!b)return;b.disabled=true;try{const r=await fetch('/api/jobs/'+id+'/image-asset',{method:'POST',headers:{'Content-Type':'application/json'},body:'{}'}),v=await r.json();if(!r.ok)throw Error(v.error??'Could not prepare the image.');location.href=b.dataset.next.startsWith('tool:')?'/images?source='+encodeURIComponent(v.name)+'&tool='+b.dataset.next.slice(5):'/?image='+encodeURIComponent(v.name)+(b.dataset.next==='animate-vertical'?'&aspect=portrait':'');}catch(err){b.disabled=false;b.querySelector('small').textContent=err.message;}};
  return nav;
 }
 if(typeof document!=='undefined'){

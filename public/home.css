@@ -71,3 +71,15 @@ main[data-home-tab=inspiration] .home-inspiration{margin-top:0}
 .home-overview .home-flow-steps li::before,.home-overview .home-flow-steps::before,.home-overview .home-flow-steps::after{display:none!important;content:none!important}
 .home-overview .home-flow-steps{margin:0}.home-overview .home-flow-icon{margin:0!important;box-shadow:none!important}
 .home-overview .home-flow h2{margin-bottom:10px!important}.home-overview .home-flow-kicker{margin:0}
+/* Engines take the right column beside the banner, larger. */
+.home-opening>.home-engines{margin:0;padding:22px;border-radius:22px;border:1px solid #d6ff0026;background:radial-gradient(120% 70% at 100% 0,#d6ff0014,transparent 60%),#141817;display:flex;flex-direction:column;gap:12px}
+.home-opening .home-engines-head{margin:0}.home-opening .home-engines-head h2{font-size:24px!important;line-height:1.12;margin:6px 0 0!important}.home-opening .home-engines-head p:last-child,.home-opening .engine>p:not(.engine-tag),.home-opening .engine h3,.home-opening .engine-foot,.home-opening .engine a small{display:none}
+.home-opening .home-engines-grid{display:grid;grid-template-columns:1fr;gap:10px;flex:1}
+.home-opening .engine{padding:14px 16px;border-radius:16px;grid-row:auto}
+.home-opening .engine-tag{font-size:11.5px;margin-bottom:10px}
+.home-opening .engine ul{display:flex;flex-wrap:wrap;gap:6px;margin:0}
+.home-opening .engine a{padding:7px 12px;border-radius:999px;font-size:13.5px;font-weight:600}
+.home-opening .engine-ltx{flex:1.4}
+.home-overview{grid-template-columns:1fr!important}
+.home-overview .home-flow{flex-direction:row!important;align-items:center;gap:18px;flex-wrap:wrap}
+.home-overview .home-flow-copy{grid-template-columns:auto auto!important;align-items:center}.home-overview .home-flow-copy h2{grid-column:auto!important;margin:0!important;font-size:17px!important}.home-overview .home-flow-kicker{grid-column:1/-1!important}.home-overview .home-flow-start{grid-column:auto!important;margin:0!important}

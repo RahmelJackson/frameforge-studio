@@ -1,0 +1,12 @@
+{
+  "manifest_version": 3,
+  "name": "Frameforge Quick",
+  "version": "1.0.0",
+  "description": "Right-click any image on the web to remix it, animate it, select parts with SAM 3 or turn it into 3D in your own Frameforge studio.",
+  "permissions": ["contextMenus", "storage", "scripting"],
+  "host_permissions": ["<all_urls>"],
+  "background": {"service_worker": "background.js", "type": "module"},
+  "options_page": "options.html",
+  "action": {"default_title": "Frameforge Quick", "default_popup": "options.html"},
+  "icons": {"128": "icon.png"}
+}
