@@ -244,9 +244,11 @@ async function renderClip(){
  await save();const total=duration(),size=SIZES[doc.aspect],moves=doc.camera.keys.length>1||doc.objects.some(o=>o.motion?.length)||tracked();
  if(!moves)throw Error('Nothing moves yet. Add a second camera key or give an object motion.');
  if(playing)togglePlay();const canvas=renderer.domElement;const prev=new THREE.Vector2();renderer.getSize(prev);const ratio=renderer.getPixelRatio();renderer.setAnimationLoop(null);renderer.setPixelRatio(1);renderer.setSize(...size,false);hideHelpers();
- const stream=canvas.captureStream(24),type=['video/webm;codecs=vp9','video/webm;codecs=vp8','video/webm'].find(t=>MediaRecorder.isTypeSupported(t));const rec=new MediaRecorder(stream,{mimeType:type,videoBitsPerSecond:8e6}),chunks=[];rec.ondataavailable=e=>chunks.push(e.data);
+ // Frames are pushed on a timer (not requestAnimationFrame), so recording also works in a
+ // background or hidden window where animation frames pause.
+ const stream=canvas.captureStream(0),track=stream.getVideoTracks()[0],type=['video/webm;codecs=vp9','video/webm;codecs=vp8','video/webm'].find(t=>MediaRecorder.isTypeSupported(t));const rec=new MediaRecorder(stream,{mimeType:type,videoBitsPerSecond:8e6}),chunks=[];rec.ondataavailable=e=>chunks.push(e.data);
  const done=new Promise(r=>rec.onstop=r);rec.start();const start=performance.now(),keep=time;
- await new Promise(resolve=>{const step=()=>{const t=Math.min((performance.now()-start)/1000,total);time=t;applyAll();placeShot(cameraAt(t),size[0]/size[1]);renderer.render(scene3d,shotCam);if((performance.now()-start)/1000<total+.1)requestAnimationFrame(step);else resolve();};step();});
+ await new Promise(resolve=>{const step=()=>{const t=Math.min((performance.now()-start)/1000,total);time=t;applyAll();placeShot(cameraAt(t),size[0]/size[1]);renderer.render(scene3d,shotCam);track.requestFrame?.();if((performance.now()-start)/1000<total+.1)setTimeout(step,1000/30);else resolve();};step();});
  rec.stop();await done;time=keep;applyAll();grid.visible=true;renderer.setPixelRatio(ratio);renderer.setSize(prev.x,prev.y,false);renderer.setAnimationLoop(frame);
  const blob=new Blob(chunks,{type:'video/webm'});const footage=await fetch('/api/footage',{method:'POST',body:blob,headers:{'Content-Type':'video/webm','X-File-Name':encodeURIComponent(doc.name+' layout.webm')}}).then(async r=>{const v=await r.json();if(!r.ok)throw Error(v.error);return v;});
  return {footage,url:'/footage/'+footage.id+'/source.webm',duration:total};
