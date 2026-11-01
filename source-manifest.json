@@ -1,6 +1,6 @@
 {
   "version": 1,
-  "created": "2026-11-01T13:58:53.012Z",
+  "created": "2026-11-01T14:02:58.245Z",
   "files": [
     {
       "name": ".agents/plugins/marketplace.json",
@@ -334,8 +334,8 @@
     },
     {
       "name": "lib/setup-doctor.mjs",
-      "bytes": 3763,
-      "sha256": "577e5d4a06cea1f8b7f466932d84f9b6efcb08d6ccfad32303d475bcd1ac4aba"
+      "bytes": 5577,
+      "sha256": "0bf8fe3ac33d0778e59540f86b5ac7d69e9dc28fa0c286433f829590aeb808da"
     },
     {
       "name": "lib/setup-installs.mjs",
@@ -384,8 +384,8 @@
     },
     {
       "name": "lib/studio-mcp-tools.mjs",
-      "bytes": 28094,
-      "sha256": "7cedc332894c2252ae5d9b1813ef681611c726ffbd51d4d67ce28b7a4869b127"
+      "bytes": 28532,
+      "sha256": "70a2c5db5c273916f96617ef700b79fb1363e18c114b16740a616336f0563f50"
     },
     {
       "name": "lib/studio-setup.mjs",
@@ -3024,8 +3024,8 @@
     },
     {
       "name": "tests/mcp-scene-templates.test.mjs",
-      "bytes": 4939,
-      "sha256": "893c5ff8b6b07f4d5f8a98a8f255909961833418fbf0ebed7e484eb66c9d7aa1"
+      "bytes": 5713,
+      "sha256": "8df6f064de210ec0d323050e7b8600d1e919a30245176f1e15e5ede94dd21df7"
     },
     {
       "name": "tests/mcp-studio-ui.test.mjs",

@@ -41,3 +41,12 @@ test('continuous dive: each keyframe edits the last and each clip ends on the ne
  p.frames[1].image={jobId:'11111112-2222-4333-8444-555555555555',done:true};await prod.submit(p,p.frames[0],'clip');
  assert.equal(posted[1].engine,'keyframes');assert.match(posted[1].asset,/^11111111/);assert.match(posted[1].endAsset,/^11111112/);
 });
+test('setup doctor warns about synced, long and non-English install folders',async()=>{
+ const {folderWarnings,setupDoctor}=await import('../lib/setup-doctor.mjs');
+ assert.equal(folderWarnings('C:\\Frameforge','win32').length,0);
+ assert.match(folderWarnings('C:\\Users\\me\\OneDrive\\Frameforge','win32')[0],/synced/);
+ assert.match(folderWarnings('C:\\'+'a'.repeat(120),'win32')[0],/very long/);
+ assert.match(folderWarnings('C:\\Users\\José\\Frameforge','win32').join(' '),/non-English/);
+ const r=await setupDoctor({root:process.cwd(),python:'none',comfy:{},checkEngine:async()=>({connected:false}),checkMedia:async()=>({available:false}),checkWriter:async()=>({connected:true,model:'gemma3:4b'})});
+ assert.equal(r.checks.find(c=>c.id==='writer').state,'ready');
+});
