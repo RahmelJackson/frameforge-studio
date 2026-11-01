@@ -4,7 +4,7 @@ import {mkdtemp,rm} from 'node:fs/promises';
 import {tmpdir} from 'node:os';
 import path from 'node:path';
 import {randomUUID} from 'node:crypto';
-import {Productions,visualBeat,clipLength,remixPlan,shotDirection,shotPrompt,SHOT_FRAMING,highlightCaptions} from '../lib/productions.mjs';
+import {Productions,shortError,visualBeat,clipLength,remixPlan,shotDirection,shotPrompt,SHOT_FRAMING,highlightCaptions} from '../lib/productions.mjs';
 import {normalizeFilm} from '../lib/film.mjs';
 import {storyTemplate} from '../lib/creator-catalog.mjs';
 
@@ -153,6 +153,7 @@ test('Shot prompts lead with the idea and keep the cast; fruit stories have no h
  assert.ok(fruit.startsWith('a shy pear and a bold strawberry.'));assert.match(fruit,/No humans/);assert.doesNotMatch(fruit,/Context:/);
  assert.match(shotPrompt({format:'small-story',subject:'a red car',look:'film'},f,1,'clip'),/no extra people/);
  assert.match(shotPrompt({format:'explainer',subject:'bees',look:'film'},f,4,'image'),/No written words/);
+ assert.equal(shortError('Traceback\n  File "v.py", line 2\n    x()\n    ^^^\nValueError: Footage is limited to 60 seconds.\n'),'Footage is limited to 60 seconds.');
  assert.doesNotMatch(visualBeat('Finish with one practical action and the original question answered.'),/question/i);
  assert.match(visualBeat('Open with the question your audience has about how bees make honey.'),/curious about how bees make honey/);
 });
