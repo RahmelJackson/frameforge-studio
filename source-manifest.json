@@ -1,6 +1,6 @@
 {
   "version": 1,
-  "created": "2026-11-01T06:40:05.799Z",
+  "created": "2026-11-01T06:44:42.003Z",
   "files": [
     {
       "name": ".agents/plugins/marketplace.json",
@@ -284,8 +284,8 @@
     },
     {
       "name": "lib/productions.mjs",
-      "bytes": 20189,
-      "sha256": "039294a6700bd9f2dd1e92c9ed9af4fd21479e92e2b3da695d3c7d56e663fc1a"
+      "bytes": 20246,
+      "sha256": "f41c42f1b9c50b83921baa150c4c838e67eab98febae9ecc7e5a3560fdf0f3a4"
     },
     {
       "name": "lib/projects.mjs",
@@ -429,8 +429,8 @@
     },
     {
       "name": "lib/workflow.mjs",
-      "bytes": 13609,
-      "sha256": "ec60fceb499990ae431855713cb884f634a556a218155f677224ed1b91ae7859"
+      "bytes": 13696,
+      "sha256": "c92c636be05c6482d6a43583de5fe8ba69e35ffd465f36e624bc673827a8e81b"
     },
     {
       "name": "lib/workspace-art.mjs",
@@ -3059,8 +3059,8 @@
     },
     {
       "name": "tests/productions.test.mjs",
-      "bytes": 9689,
-      "sha256": "bcd667afa5b8f6505bf8dc9af395122ecb969c9f4aab6ef111bdc4b31c203650"
+      "bytes": 9693,
+      "sha256": "63362df04a78b4695e4437e62a8da6135db85f97f4be922705d63bda8dfb7920"
     },
     {
       "name": "tests/projects.test.mjs",

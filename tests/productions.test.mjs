@@ -100,6 +100,6 @@ test('Remix previews affected stages and reuses unchanged keyframes, clips and n
 test('Each shot gets its own framing and explicit, visible camera and subject motion',()=>{
  const p={format:'small-story'},calm={format:'explainer'};
  const frames=[0,1,2,3,4].map(i=>shotDirection(p,i,'image'));assert.equal(new Set(frames).size,5);assert.ok(frames[0].startsWith(SHOT_FRAMING[0]));
- const clips=[0,1,2,3,4].map(i=>shotDirection(p,i,'clip'));assert.equal(new Set(clips).size,5);assert.ok(clips.every(c=>/clearly visible motion/.test(c)&&/camera/.test(c)));
- assert.match(shotDirection(calm,0,'clip'),/slowly/);assert.doesNotMatch(shotDirection(p,0,'clip'),/slowly/);
+ const clips=[0,1,2,3,4].map(i=>shotDirection(p,i,'clip'));assert.equal(new Set(clips).size,5);assert.ok(clips.every(c=>/clearly visible motion/.test(c)&&!/handheld|whip/.test(c)));
+ assert.match(shotDirection(calm,0,'clip'),/slow/);assert.doesNotMatch(shotDirection(p,0,'clip'),/slow/);
 });
