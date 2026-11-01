@@ -105,3 +105,30 @@ body[data-page=advanced] .advanced-hero{min-height:0!important;padding:22px 26px
 .style-chip-swatch{display:flex;width:100%;height:26px;border-radius:8px;overflow:hidden;margin-bottom:4px}.style-chip-swatch i{flex:1}
 .style-chip b{font-size:12.5px;font-weight:600;line-height:1.2}.style-chip small{font-size:10.5px;color:#9aa69a;line-height:1.3}
 .next-steps{margin:14px 0 4px;display:grid;gap:8px}.next-steps>strong{font-size:12px;letter-spacing:.08em;text-transform:uppercase;color:var(--muted,#9aa69a)}.next-steps>div{display:grid;grid-template-columns:repeat(auto-fill,minmax(170px,1fr));gap:8px}.next-steps a,.next-steps button{display:grid;grid-template-columns:auto 1fr;align-items:center;column-gap:8px;text-align:left;padding:10px 12px;border-radius:14px;border:1px solid #ffffff1f;background:#ffffff0a;color:inherit;font:600 13.5px/1.25 inherit;text-decoration:none;cursor:pointer;transition:background .15s,border-color .15s,transform .15s}.next-steps a:hover,.next-steps button:hover{background:#ffffff14;border-color:#d6ff0066;transform:translateY(-1px)}.next-steps small{grid-column:1/-1;font-weight:500;font-size:12px;color:var(--muted,#9aa69a);margin-top:2px}.next-steps i{font:700 10.5px/1 ui-monospace,monospace;font-style:normal;letter-spacing:.06em;padding:4px 6px;border-radius:6px;background:#d6ff00;color:#11160a}.next-steps button:disabled{opacity:.6;cursor:progress}
+.nav-menu[data-mode=top]{width:max-content;max-width:min(760px,calc(100vw - 16px));border:1px solid rgba(255,255,255,.09);border-radius:20px}
+.nav-menu[data-mode=top] .nav-menu-inner{max-width:none;margin:0;padding:22px 26px 24px;gap:18px 34px}
+.nav-menu[data-mode=top] .nav-menu-make a{font-size:17px}
+/* Motion: pages settle in, cards lift. Off for people who prefer reduced motion. */
+@keyframes ff-rise{from{opacity:0;transform:translateY(14px)}to{opacity:1;transform:none}}
+@keyframes ff-glow{0%,100%{box-shadow:0 0 0 0 #d6ff0000}50%{box-shadow:0 0 0 6px #d6ff0014}}
+@media (prefers-reduced-motion:no-preference){
+main>section,main>div>section,.workspace-stage>*,.stage-top,.next-steps a,.next-steps button,.engine,.library-card,.template-card{animation:ff-rise .55s cubic-bezier(.2,.7,.2,1) both}
+main>section:nth-of-type(2),.next-steps a:nth-child(2),.next-steps button:nth-child(2){animation-delay:.06s}
+main>section:nth-of-type(3),.next-steps a:nth-child(3){animation-delay:.12s}
+.next-steps a:nth-child(4){animation-delay:.18s}.next-steps a:nth-child(5){animation-delay:.24s}.next-steps a:nth-child(6){animation-delay:.3s}
+.next-steps>div>:first-child{animation:ff-rise .55s both,ff-glow 2.4s 1s ease-in-out 2}
+.library-card,.template-card,.engine a{transition:transform .2s ease,border-color .2s ease,box-shadow .2s ease}
+.library-card:hover,.template-card:hover{transform:translateY(-3px);box-shadow:0 18px 40px #0007}
+}
+.studio-path{list-style:none;margin:6px 0 18px;padding:0;display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:0;position:relative;counter-reset:s}
+.studio-path::before{content:"";position:absolute;left:4%;right:4%;top:50%;height:2px;background:linear-gradient(90deg,#d6ff00,#d6ff0033 60%,#ffffff14);transform:translateY(-50%);z-index:0}
+.studio-path li{position:relative;z-index:1;padding:0 5px}
+.studio-path a{display:flex;align-items:center;gap:10px;padding:11px 12px;border-radius:16px;background:#141917;border:1px solid #ffffff14;color:inherit;text-decoration:none;height:100%;transition:border-color .2s,transform .2s,background .2s}
+.studio-path a:hover{border-color:#d6ff0080;transform:translateY(-2px)}
+.studio-path li[aria-current] a{background:linear-gradient(140deg,#1d2810,#141917);border-color:#d6ff00}
+.studio-path i{flex:none;display:grid;place-items:center;min-width:34px;height:34px;border-radius:11px;font:700 11px/1 ui-monospace,monospace;font-style:normal;background:#ffffff10;color:#d6ff00}
+.studio-path li[aria-current] i{background:#d6ff00;color:#11160a}
+.studio-path b{display:block;font-size:13px;line-height:1.2}.studio-path small{display:block;font-size:11.5px;color:#9aa69a;margin-top:2px}
+@media (prefers-reduced-motion:no-preference){.studio-path li{animation:ff-rise .5s both}.studio-path li:nth-child(2){animation-delay:.07s}.studio-path li:nth-child(3){animation-delay:.14s}.studio-path li:nth-child(4){animation-delay:.21s}.studio-path li:nth-child(5){animation-delay:.28s}.studio-path::before{background-size:200% 100%;animation:ff-flow 6s linear infinite}}
+@keyframes ff-flow{from{background-position:0 0}to{background-position:-200% 0}}
+@media (max-width:1100px){.studio-path{grid-template-columns:1fr 1fr}.studio-path::before{display:none}.studio-path li{padding:4px}}

@@ -8,6 +8,7 @@ export function nextStepLinks(id,url){
   {label:'Remix with LTX 2.5',hint:'Restyle the same motion',href:native('ltx-adapter-edit','video'),badge:'LTX'},
   {label:'Make it vertical',hint:'LTX outpaints to 9:16',href:native('ltx-outpaint','video'),badge:'LTX'},
   {label:'Swap in your character',hint:'Openjutsu identity swap',href:native('identity-swap','video'),badge:'ID'},
+  {label:'Swap · lighter GPU',hint:'SCAIL-2 int8 character replace',href:native('character-replace','video'),badge:'ID'},
   {label:'Upscale',hint:'SeedVR2 detail pass',href:native('video-upscale-seedvr2','video')},
   {label:'Cut, dub & caption',hint:'Video tools',href:'/video-tools?job='+id}
  ]:[
@@ -16,7 +17,10 @@ export function nextStepLinks(id,url){
   {label:'Animate with LTX 2.5',hint:'Motion and sound in one pass',href:native('ltx-native-shot','image'),badge:'LTX'},
   {label:'Animate with MiniMax H3',hint:'Keyframe video with audio',href:native('h3-keyframes','image'),badge:'H3'},
   {label:'Edit with FLUX 3',hint:'Change it with references',href:native('flux3-references','image'),badge:'F3'},
-  {label:'Use as a locked identity',hint:'Put this character in any clip',href:native('identity-swap','image'),badge:'ID'}
+  {label:'Use as a locked identity',hint:'Put this character in any clip',href:native('identity-swap','image'),badge:'ID'},
+  {label:'Animate with your motion',hint:'Wan Animate · lighter on VRAM',href:native('wan-animate-fast','image'),badge:'ID'},
+  {label:'Make it a 3D model',hint:'TRELLIS.2 textured GLB',href:native('prop-3d','image'),badge:'3D'},
+  {label:'Scene to 3D geometry',hint:'MoGe depth mesh',href:native('scene-depth','image'),badge:'3D'}
  ];
 }
 function nextSteps(id,url){

@@ -1,6 +1,6 @@
 {
   "version": 1,
-  "created": "2026-11-01T16:50:20.404Z",
+  "created": "2026-11-01T17:07:22.662Z",
   "files": [
     {
       "name": ".agents/plugins/marketplace.json",
@@ -1059,8 +1059,8 @@
     },
     {
       "name": "public/home.html",
-      "bytes": 12546,
-      "sha256": "6eebb8f128ab101e8ac72a32a89e1925c65fa202dbc297184c80b3084feee326"
+      "bytes": 12287,
+      "sha256": "db6df2b0d8c98ffbe724119936739c2aa63446e07b7aa9a3e2be224713a5e454"
     },
     {
       "name": "public/home.js",
@@ -1159,8 +1159,8 @@
     },
     {
       "name": "public/native-workflows.css",
-      "bytes": 1404,
-      "sha256": "18b365e672a0bfa16430b5b54179a1319004862b0af2b63606698c154eeb3f67"
+      "bytes": 1986,
+      "sha256": "b74643a0dcfa0230db0357fa04ce106493fd0816a380fa245a58ab02c6e39d02"
     },
     {
       "name": "public/native-workflows.html",
@@ -1169,13 +1169,13 @@
     },
     {
       "name": "public/native-workflows.js",
-      "bytes": 10097,
-      "sha256": "03179d8deb4c718e6ddced0af4f1e1906cdbfa80bec4ed17605c7ecac93ed1d0"
+      "bytes": 11108,
+      "sha256": "f6b924efaa054860448f7401e50412f68ae2fbc00401366acfe295dda98400d2"
     },
     {
       "name": "public/nav-menus.js",
-      "bytes": 6128,
-      "sha256": "a3755a31d5f839d2877feea8d0bdc53302f74ee3ebb65a7c20ca809ae58b30cf"
+      "bytes": 6193,
+      "sha256": "0d7e90a8060f7ee6f7640b7cd781d1551326f6467bbccea6937b2297c955bbf2"
     },
     {
       "name": "public/online-handoff.js",
@@ -1254,8 +1254,8 @@
     },
     {
       "name": "public/result-details.js",
-      "bytes": 5017,
-      "sha256": "541a40dd89d31be4111b765eb28fb483175111bb33ee21d9b7084fa0ed8aa7e5"
+      "bytes": 5474,
+      "sha256": "09202002141bdf478eb609bf8a3cdf67c5efecce04f1690bdafa9fc1cf741800"
     },
     {
       "name": "public/sam-selection.js",
@@ -1364,8 +1364,8 @@
     },
     {
       "name": "public/studio-chrome.css",
-      "bytes": 20385,
-      "sha256": "bb90373c48e757d46b5f9dd6e537dfd3580ed824031f01b424e6ec27d9ddb18f"
+      "bytes": 23636,
+      "sha256": "0d629196f7cd81c96762de182f6e391f9d1d68bbbf55486c12d781305dfbb5bc"
     },
     {
       "name": "public/studio-chrome.js",
@@ -1614,8 +1614,8 @@
     },
     {
       "name": "public/workspace-intros.js",
-      "bytes": 6282,
-      "sha256": "a578416f858e3451f0ecd7c950e1cee99f0a20d94280dbddbfa9c55be21bea82"
+      "bytes": 7169,
+      "sha256": "e21b0d8b6da25970f46bec6d8ad99d0486d84a3f11e152ff307904be838ddaf2"
     },
     {
       "name": "public/workspace.css",
