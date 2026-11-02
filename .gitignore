@@ -21,3 +21,6 @@ models/
 .env.*
 !.env.example
 scripts/judge-demo/
+
+# Generated showcase video
+showcase-video.mp4
